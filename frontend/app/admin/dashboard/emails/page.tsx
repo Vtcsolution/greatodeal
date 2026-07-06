@@ -36,7 +36,12 @@ export default function EmailsPage() {
     if (!selected || !replyText.trim()) return;
     setSending(true);
     try {
-      await contactApi.reply({ id: selected._id, reply: replyText });
+      await contactApi.reply({
+        contactId: selected._id,
+        to: selected.email,
+        subject: `Re: Your inquiry about ${selected.services} — Greatodeal`,
+        message: replyText,
+      });
       setContacts(prev => prev.map(c => c._id === selected._id ? { ...c, status: 'replied' } : c));
       setSelected(prev => prev ? { ...prev, status: 'replied' } : null);
       setReplyText('');

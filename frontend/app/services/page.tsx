@@ -2,12 +2,12 @@ import type { Metadata } from 'next';
 import ServicesClient from '@/components/pages/ServicesClient';
 
 export const metadata: Metadata = {
-  title: 'IT Services | Web, Mobile, AI, SaaS & Enterprise Software Development',
-  description: 'Explore Greatodeal\'s comprehensive IT services: web development, mobile apps, AI automation, SaaS platforms, custom software, API development, UI/UX design, cloud & DevOps.',
-  keywords: ['IT services Pakistan', 'web development services', 'mobile app development', 'AI automation services', 'SaaS development', 'custom software development', 'enterprise software services'],
+  title: 'IT Services in Lahore Pakistan | AI, Web, Mobile & Enterprise Software | Greatodeal',
+  description: 'Greatodeal offers complete IT services in Lahore, Pakistan: AI automation, web development, mobile apps, SaaS platforms, ERP/CRM, API development, UI/UX & DevOps. 9+ years expertise.',
+  keywords: ['IT services Pakistan', 'IT services Lahore', 'IT company Lahore Pakistan', 'software services Pakistan', 'AI automation services Pakistan', 'web development services Lahore', 'mobile app services Pakistan', 'SaaS development Pakistan', 'enterprise software services', 'Greatodeal services'],
   openGraph: {
-    title: 'IT Services | Greatodeal — AI, Web, Mobile & Enterprise Solutions',
-    description: 'Complete IT services from web development to AI automation. Serving global clients with 9+ years expertise.',
+    title: 'IT Services in Lahore Pakistan | AI, Web, Mobile & Enterprise Software | Greatodeal',
+    description: 'Complete IT services in Lahore, Pakistan — AI automation, web development, mobile apps, SaaS, ERP & DevOps. 9+ years, 200+ projects worldwide.',
     url: 'https://greatodeal.com/services',
   },
   twitter: { card: 'summary', title: 'IT Services | Greatodeal', images: ['https://greatodeal.com/images/logo.png'] },

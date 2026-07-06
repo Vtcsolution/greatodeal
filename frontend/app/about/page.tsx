@@ -2,12 +2,12 @@ import type { Metadata } from 'next';
 import AboutClient from '@/components/pages/AboutClient';
 
 export const metadata: Metadata = {
-  title: 'About Greatodeal | Leading AI & Software Development Company Pakistan',
-  description: 'Learn about Greatodeal — a premier AI and software development company founded in 2016 in Lahore, Pakistan. 120+ engineers, 9+ years of expertise, serving global clients across 20+ industries.',
-  keywords: ['about Greatodeal', 'software company Pakistan', 'AI development company', 'IT company Lahore', 'software development team', 'technology company Pakistan', 'Dedicated Developers', 'Remote Development Team', 'Offshore Development Services', 'CTO as a Service', 'Technology Partner', 'Innovation Consulting'],
+  title: 'About Greatodeal | Software House in Lahore, Pakistan Since 2016',
+  description: 'Greatodeal is a software house in Lahore, Pakistan founded in 2016. 120+ engineers, 9+ years expertise in AI automation, web development, mobile apps & enterprise software. Serving global clients.',
+  keywords: ['about Greatodeal', 'software house Lahore', 'software company Pakistan', 'IT company Lahore', 'AI development company Pakistan', 'technology company Pakistan', 'offshore development Pakistan', 'dedicated developers Pakistan', 'software house since 2016'],
   openGraph: {
-    title: 'About Greatodeal | Leading AI & Software Development Company',
-    description: '9+ years of excellence in AI, web, mobile, and enterprise software development. 120+ engineers serving global clients.',
+    title: 'About Greatodeal | Software House in Lahore, Pakistan Since 2016',
+    description: 'Greatodeal — software house in Lahore, Pakistan since 2016. 120+ engineers, AI automation, web development, mobile apps & enterprise software for global clients.',
     url: 'https://greatodeal.com/about',
     images: [{ url: 'https://greatodeal.com/images/logo.png', width: 512, height: 512, alt: 'About Greatodeal' }],
   },

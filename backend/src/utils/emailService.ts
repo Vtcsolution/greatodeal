@@ -1,14 +1,31 @@
 import nodemailer from 'nodemailer';
 
+const isDev = process.env.NODE_ENV !== 'production';
+const port = Number(process.env.EMAIL_PORT) || 587;
+
 const transporter = nodemailer.createTransport({
   host: process.env.EMAIL_HOST,
-  port: Number(process.env.EMAIL_PORT) || 587,
-  secure: false,
+  port,
+  secure: port === 465,
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
   },
+  tls: {
+    rejectUnauthorized: false,
+  },
 });
+
+async function sendMail(options: nodemailer.SendMailOptions) {
+  if (isDev) {
+    console.log('\n📧 [DEV] Email not sent — logged instead:');
+    console.log('  To:', options.to);
+    console.log('  Subject:', options.subject);
+    console.log('  Body:', typeof options.html === 'string' ? options.html.replace(/<[^>]+>/g, '') : options.text);
+    return;
+  }
+  await transporter.sendMail(options);
+}
 
 export const sendContactEmail = async (data: {
   fullName: string;
@@ -18,7 +35,7 @@ export const sendContactEmail = async (data: {
   services: string;
   message: string;
 }): Promise<void> => {
-  await transporter.sendMail({
+  await sendMail({
     from: `"Greatodeal Website" <${process.env.EMAIL_USER}>`,
     to: process.env.EMAIL_USER,
     subject: `New Contact: ${data.fullName} — ${data.services}`,
@@ -40,7 +57,7 @@ export const sendContactEmail = async (data: {
 };
 
 export const sendReplyEmail = async (to: string, subject: string, htmlContent: string): Promise<void> => {
-  await transporter.sendMail({
+  await sendMail({
     from: `"Greatodeal Team" <${process.env.EMAIL_USER}>`,
     to,
     subject,
@@ -49,7 +66,7 @@ export const sendReplyEmail = async (to: string, subject: string, htmlContent: s
 };
 
 export const sendPartnershipEmail = async (data: Record<string, unknown>): Promise<void> => {
-  await transporter.sendMail({
+  await sendMail({
     from: `"Greatodeal Website" <${process.env.EMAIL_USER}>`,
     to: process.env.EMAIL_USER,
     subject: `New Partnership Application — ${data.company}`,

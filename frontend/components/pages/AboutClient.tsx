@@ -125,31 +125,6 @@ export default function AboutClient() {
         </div>
       </section>
 
-      {/* ═══ FOUNDERS ═══ */}
-      <section className="py-20">
-        <div className="container max-w-7xl">
-          <RevealOnScroll className="text-center mb-14">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Founders & Coordinators</h2>
-            <p className="text-gray-400 max-w-2xl mx-auto">Meet the leadership of <span className="text-[#6EE7B7]">Greatodeal</span> driving innovation across AI SaaS, enterprise systems, and global tech solutions.</p>
-          </RevealOnScroll>
-          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            {[
-              { name: 'Umar Farooq', role: 'CEO & Global Founder', img: '/images/umar_image.png', desc: 'Umar Farooq is the Founder & CEO of Greatodeal. Based in Pakistan, he leads global strategy, AI innovation, marketing, and cross-boundary business relations, delivering impactful innovation worldwide.' },
-              { name: 'Zia Rana', role: 'Co-Founder & Chief Technology Officer (CTO)', img: '/images/CEO_ZIA.png', desc: 'Zia Rana is Co-Founder and CTO of Greatodeal. An AI & Automation specialist, he leads innovation in SaaS platforms and enterprise software, ensuring each client solution drives real business systems during digital transformation.' },
-            ].map((person, i) => (
-              <motion.div key={i} className="group bg-[#111827] rounded-2xl border border-gray-700/50 overflow-hidden hover:border-[#6EE7B7]/30 transition-all duration-500" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.15, duration: 0.6, ease }}>
-                <div className="h-72 overflow-hidden"><img src={person.img} alt={person.name} className="w-full h-full object-cover object-top group-hover:scale-[1.03] transition-transform duration-700" /></div>
-                <div className="p-6">
-                  <h3 className="text-lg font-bold text-[#6EE7B7]">{person.name}</h3>
-                  <div className="text-xs text-[#6EE7B7] mb-3 font-medium">{person.role}</div>
-                  <p className="text-sm text-gray-400 leading-relaxed">{person.desc}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* ═══ OUR SERVICES ═══ */}
       <section className="py-20 bg-[#111827]/50">
         <div className="container max-w-7xl">

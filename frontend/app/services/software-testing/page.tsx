@@ -20,6 +20,15 @@ export const metadata: Metadata = {
   },
 };
 
+const breadcrumb = { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: 'Home', item: 'https://greatodeal.com' }, { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://greatodeal.com/services' }, { '@type': 'ListItem', position: 3, name: 'Software Testing & QA', item: 'https://greatodeal.com/services/software-testing' }] };
+const serviceSchema = { '@context': 'https://schema.org', '@type': 'Service', name: 'Software Testing & QA Services', provider: { '@id': 'https://greatodeal.com/#organization' }, serviceType: 'Software Testing', description: 'Comprehensive software testing & QA: manual, automated, performance, security & regression testing. Expert QA company in Pakistan.', areaServed: 'Worldwide', url: 'https://greatodeal.com/services/software-testing', offers: { '@type': 'Offer', availability: 'https://schema.org/InStock', priceCurrency: 'USD' } };
+
 export default function Page() {
-  return <Content />;
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }} />
+      <Content />
+    </>
+  );
 }

@@ -303,7 +303,7 @@ export default function PrivacyClient() {
                 <div className="grid sm:grid-cols-2 gap-4 text-sm">
                   <div><div className="text-[#555] text-[10px] uppercase tracking-wider mb-1">Privacy Email</div><a href="mailto:privacy@greatodeal.com" className="text-[#6EE7B7] hover:underline">privacy@greatodeal.com</a></div>
                   <div><div className="text-[#555] text-[10px] uppercase tracking-wider mb-1">General Email</div><a href="mailto:sales@greatodeal.com" className="text-[#6EE7B7] hover:underline">sales@greatodeal.com</a></div>
-                  <div><div className="text-[#555] text-[10px] uppercase tracking-wider mb-1">Pakistan Office</div><span className="text-[#bbb]">Shadman 2, Gulberg, Lahore</span></div>
+                  <div><div className="text-[#555] text-[10px] uppercase tracking-wider mb-1">Pakistan Office</div><span className="text-[#bbb]">16 Jail Rd, Shadman 2, Lahore</span></div>
                 </div>
               </div>
             </RevealOnScroll>

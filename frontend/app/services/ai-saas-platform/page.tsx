@@ -2,12 +2,12 @@ import type { Metadata } from 'next';
 import Content from './content';
 
 export const metadata: Metadata = {
-  title: 'AI SaaS Platform Development | Build & Launch Your SaaS | Greatodeal',
-  description: 'Expert AI-powered SaaS platform development. We build scalable, multi-tenant SaaS applications with AI features, subscription billing, analytics, and enterprise-grade architecture. Greatodeal, Lahore Pakistan.',
-  keywords: ['AI SaaS development', 'SaaS platform development', 'multi-tenant SaaS', 'AI-powered SaaS', 'subscription billing', 'SaaS architecture', 'cloud SaaS', 'SaaS MVP development', 'scalable SaaS applications', 'SaaS company Pakistan', 'Greatodeal'],
+  title: 'SaaS Development Company in Pakistan | AI SaaS Platform Development | Greatodeal',
+  description: 'Top SaaS development company in Pakistan. We build AI-powered SaaS platforms — multi-tenant, subscription billing, enterprise-grade architecture. Based in Lahore, serving global clients.',
+  keywords: ['SaaS development company Pakistan', 'SaaS development Lahore', 'AI SaaS platform development', 'SaaS platform company Pakistan', 'multi-tenant SaaS Pakistan', 'SaaS MVP development', 'SaaS startup Pakistan', 'AI SaaS company', 'build SaaS Pakistan', 'Greatodeal SaaS'],
   openGraph: {
-    title: 'AI SaaS Platform Development | Build & Launch Your SaaS | Greatodeal',
-    description: 'Expert AI-powered SaaS platform development. We build scalable, multi-tenant SaaS applications with AI features, subscription billing, and enterprise-grade architecture.',
+    title: 'SaaS Development Company in Pakistan | AI SaaS Platform Development | Greatodeal',
+    description: 'Top SaaS development company in Pakistan — AI-powered SaaS platforms, multi-tenant architecture, subscription billing. Based in Lahore, serving global clients.',
     url: 'https://greatodeal.com/services/ai-saas-platform',
     images: [{ url: 'https://greatodeal.com/images/logo.png', width: 512, height: 512, alt: 'Greatodeal AI SaaS Platform Development' }],
   },
@@ -20,6 +20,15 @@ export const metadata: Metadata = {
   },
 };
 
+const breadcrumb = { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: 'Home', item: 'https://greatodeal.com' }, { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://greatodeal.com/services' }, { '@type': 'ListItem', position: 3, name: 'AI SaaS Platform Development', item: 'https://greatodeal.com/services/ai-saas-platform' }] };
+const serviceSchema = { '@context': 'https://schema.org', '@type': 'Service', name: 'AI SaaS Platform Development', provider: { '@id': 'https://greatodeal.com/#organization' }, serviceType: 'SaaS Development', description: 'Build AI-powered SaaS platforms with multi-tenant architecture, subscription billing & enterprise-grade features. SaaS development company in Pakistan.', areaServed: 'Worldwide', url: 'https://greatodeal.com/services/ai-saas-platform', offers: { '@type': 'Offer', availability: 'https://schema.org/InStock', priceCurrency: 'USD' } };
+
 export default function Page() {
-  return <Content />;
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }} />
+      <Content />
+    </>
+  );
 }

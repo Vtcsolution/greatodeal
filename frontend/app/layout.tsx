@@ -6,29 +6,18 @@ import LayoutWrapper from '@/components/LayoutWrapper';
 export const metadata: Metadata = {
   metadataBase: new URL('https://greatodeal.com'),
   title: {
-    default: 'Greatodeal AI, Automation & Web Development Solutions',
+    default: 'Greatodeal | AI Automation & Software Development Company in Pakistan',
     template: '%s | Greatodeal',
   },
-  description: 'Greatodeal delivers cutting-edge AI automation, web development, mobile apps, ERP systems, and SaaS platforms. Expert IT solutions from Pakistan — serving clients globally with 9+ years experience.',
+  description: 'Greatodeal is a software house in Lahore, Pakistan. Expert AI automation, web development, mobile apps, ERP & SaaS platforms. 9+ years, 120+ engineers, serving global clients.',
   keywords: [
-    'AI automation', 'web development', 'mobile app development', 'ERP software', 'SaaS platform',
-    'IT solutions Pakistan', 'software company Pakistan', 'custom software development', 'Greatodeal',
-    'machine learning', 'cloud solutions', 'digital transformation', 'enterprise software',
-    'API development', 'UI UX design', 'software testing', 'IT consulting',
-    'AI SaaS platform', 'agentic AI', 'software development company', 'best software house Pakistan',
-    'Lahore software company', 'web app development', 'React development company',
-    'Next.js development', 'Flutter app development', 'Node.js development',
-    'LLM development', 'RAG pipeline', 'AI chatbot', 'autonomous AI agents',
-    'psychics platform', 'AI astrology', 'NLP development', 'prompt engineering',
-    'RPA automation', 'business automation', 'Python AI', 'OpenAI integration',
-    'LangChain', 'MERN stack', 'full stack development', 'e-commerce development',
-    'AI Agents', 'AI Agent Development', 'AI Automation Agency', 'Generative AI',
-    'ChatGPT Development', 'Claude AI Development', 'Conversational AI',
-    'AI Voice Agents', 'AI Call Center Automation', 'AI Customer Support',
-    'AI Sales Automation', 'AI Marketing Automation', 'AI Lead Generation',
-    'Digital Transformation', 'Enterprise Automation', 'Intelligent Automation',
-    'Startup MVP Development', 'CTO as a Service', 'Dedicated Developers',
-    'Offshore Development Services', 'Technology Partner', 'Smart Business Solutions',
+    'software house Lahore', 'software house Pakistan', 'software house in Lahore Pakistan',
+    'AI automation company Pakistan', 'AI automation company Lahore',
+    'web development company Pakistan', 'web development company Lahore',
+    'mobile app development Pakistan', 'custom software development Lahore',
+    'IT company Pakistan', 'IT company Lahore', 'Greatodeal',
+    'AI development company Pakistan', 'machine learning company Pakistan',
+    'SaaS development Pakistan', 'ERP development Lahore',
   ],
   authors: [{ name: 'Greatodeal', url: 'https://greatodeal.com' }],
   creator: 'Greatodeal',
@@ -49,10 +38,10 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: '/icon.png', type: 'image/png' },
+      { url: '/favicon.jpg', type: 'image/jpeg' },
     ],
     apple: [
-      { url: '/images/logo.png', sizes: '180x180', type: 'image/png' },
+      { url: '/favicon.jpg', sizes: '180x180', type: 'image/jpeg' },
     ],
   },
   manifest: '/manifest.json',
@@ -154,8 +143,6 @@ const organizationSchema = {
     'https://www.linkedin.com/company/greatodeal',
     'https://www.instagram.com/greatodeal',
     'https://www.youtube.com/@GreatodealAI',
-    'https://clutch.co/profile/greatodeal',
-    'https://github.com/Ranazia943',
   ],
   knowsAbout: [
     'Artificial Intelligence', 'Machine Learning', 'Web Development', 'Mobile App Development',
@@ -171,8 +158,8 @@ const organizationSchema = {
   award: ['Top Software Development Company - Clutch'],
   aggregateRating: {
     '@type': 'AggregateRating',
-    ratingValue: '4.9',
-    reviewCount: '50',
+    ratingValue: '5.0',
+    reviewCount: '6',
     bestRating: '5',
     worstRating: '1',
   },
@@ -240,7 +227,7 @@ const localBusinessSchema = {
   priceRange: '$$',
   address: {
     '@type': 'PostalAddress',
-    streetAddress: '16 Jail Rd, Shadman II, Shadman 2, Shadman',
+    streetAddress: '16 Jail Rd, Shadman 2',
     addressLocality: 'Lahore',
     addressRegion: 'Punjab',
     postalCode: '54000',
@@ -361,8 +348,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="me" href="https://www.linkedin.com/company/greatodeal" />
         <link rel="me" href="https://www.instagram.com/greatodeal" />
         <link rel="me" href="https://www.youtube.com/@GreatodealAI" />
-        <link rel="me" href="https://clutch.co/profile/greatodeal" />
-        <link rel="me" href="https://github.com/Ranazia943" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
       </head>

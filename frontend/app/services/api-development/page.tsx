@@ -20,6 +20,15 @@ export const metadata: Metadata = {
   },
 };
 
+const breadcrumb = { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: 'Home', item: 'https://greatodeal.com' }, { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://greatodeal.com/services' }, { '@type': 'ListItem', position: 3, name: 'API Development', item: 'https://greatodeal.com/services/api-development' }] };
+const serviceSchema = { '@context': 'https://schema.org', '@type': 'Service', name: 'API Development & Integration', provider: { '@id': 'https://greatodeal.com/#organization' }, serviceType: 'API Development', description: 'REST & GraphQL API development, third-party integrations, payment gateways & microservices. Expert API development company in Pakistan.', areaServed: 'Worldwide', url: 'https://greatodeal.com/services/api-development', offers: { '@type': 'Offer', availability: 'https://schema.org/InStock', priceCurrency: 'USD' } };
+
 export default function Page() {
-  return <Content />;
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }} />
+      <Content />
+    </>
+  );
 }

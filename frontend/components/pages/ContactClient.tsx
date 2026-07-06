@@ -37,7 +37,7 @@ const serviceOptions = [
 const contactInfo = [
   { icon: Mail, label: 'Email', value: 'sales@greatodeal.com', href: 'mailto:sales@greatodeal.com' },
   { icon: Phone, label: 'Pakistan', value: '+92 301 1060841', href: 'tel:+923011060841' },
-  { icon: MapPin, label: 'HQ Address', value: 'Shadman 2, Gulberg, Lahore, Pakistan', href: '#' },
+  { icon: MapPin, label: 'HQ Address', value: '16 Jail Rd, Shadman 2, Lahore, Pakistan', href: '#' },
 ];
 
 export default function ContactClient() {

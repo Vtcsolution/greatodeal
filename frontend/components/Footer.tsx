@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Facebook, Linkedin, Instagram, Youtube, MapPin, Mail, Github, Star } from 'lucide-react';
+import { Facebook, Linkedin, Instagram, Youtube, MapPin, Mail } from 'lucide-react';
 
 const footerLinks = {
   company: [
@@ -21,12 +21,10 @@ const footerLinks = {
 };
 
 const socials = [
-  { Icon: Facebook, href: 'https://www.facebook.com/greatodealofficial', label: 'Facebook' },
+  { Icon: Facebook, href: 'https://www.facebook.com/greatodealofficial/', label: 'Facebook' },
+  { Icon: Instagram, href: 'https://www.instagram.com/greatodeal/', label: 'Instagram' },
   { Icon: Linkedin, href: 'https://www.linkedin.com/company/greatodeal', label: 'LinkedIn' },
-  { Icon: Instagram, href: 'https://www.instagram.com/greatodeal', label: 'Instagram' },
   { Icon: Youtube, href: 'https://www.youtube.com/@GreatodealAI', label: 'YouTube' },
-  { Icon: Github, href: 'https://github.com/Ranazia943', label: 'GitHub' },
-  { Icon: Star, href: 'https://clutch.co/profile/greatodeal', label: 'Clutch' },
 ];
 
 export default function Footer() {
@@ -91,14 +89,10 @@ export default function Footer() {
               </a>
             </div>
             <div className="p-4 bg-white/[0.02] rounded-xl" itemProp="address" itemScope itemType="https://schema.org/PostalAddress">
-              <div className="flex items-center gap-2 text-[#6EE7B7] font-medium text-base mb-2">
-                <span className="w-1.5 h-1.5 bg-[#6EE7B7] rounded-full" />
-                PK Development Center
-              </div>
               <div className="flex items-start gap-2">
                 <MapPin className="w-5 h-5 text-white/40 flex-shrink-0 mt-0.5" />
                 <div className="text-base text-white/80">
-                  <span itemProp="streetAddress">Ziafare Tower Shadman 2, Gulberg</span><br />
+                  <span itemProp="streetAddress">16 Jail Rd, Shadman 2</span><br />
                   <span itemProp="addressLocality">Lahore</span>, <span itemProp="addressCountry">Pakistan</span>
                 </div>
               </div>
