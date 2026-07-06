@@ -114,9 +114,6 @@ function TypingText({ words }: { words: string[] }) {
 }
 
 function SplitText({ text, delay = 0 }: { text: string; delay?: number }) {
-  if (typeof window !== 'undefined' && window.innerWidth < 768) {
-    return <motion.span initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay }}>{text}</motion.span>;
-  }
   return (<span>{text.split(' ').map((word, i) => (<span key={i} className="inline-block overflow-hidden"><motion.span className="inline-block" initial={{ y: '100%', opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.6, delay: delay + i * 0.04, ease: [0.33, 1, 0.68, 1] }}>{word}&nbsp;</motion.span></span>))}</span>);
 }
 
