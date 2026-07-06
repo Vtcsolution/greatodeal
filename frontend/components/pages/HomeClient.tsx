@@ -152,7 +152,7 @@ export default function HomeClient() {
       <section className="relative min-h-screen flex items-center overflow-hidden">
         <div className="absolute inset-0 z-0">
           {isDesktop && (
-            <video autoPlay loop muted playsInline preload="none" className="w-full h-full object-cover opacity-[0.15]">
+            <video autoPlay loop muted playsInline preload="none" aria-hidden="true" className="w-full h-full object-cover opacity-[0.15]">
               <source src="/images/video_home.webm" type="video/webm" />
             </video>
           )}
@@ -314,7 +314,7 @@ export default function HomeClient() {
                 </div>
               </motion.div>
             </AnimatePresence>
-            <div className="flex justify-center gap-2.5 mt-6">{testimonials.map((_, i) => (<button key={i} onClick={() => setActiveTestimonial(i)} className={`w-3 h-3 rounded-full transition-all duration-500 ${i === activeTestimonial ? 'bg-[#6EE7B7] scale-110' : 'bg-white/15 hover:bg-white/25'}`} />))}</div>
+            <div className="flex justify-center gap-2.5 mt-6">{testimonials.map((_, i) => (<button key={i} onClick={() => setActiveTestimonial(i)} aria-label={`View testimonial ${i + 1}`} className={`w-3 h-3 rounded-full transition-all duration-500 ${i === activeTestimonial ? 'bg-[#6EE7B7] scale-110' : 'bg-white/15 hover:bg-white/25'}`} />))}</div>
           </div>
         </div>
       </section>
@@ -336,7 +336,7 @@ export default function HomeClient() {
               <div className="bg-white/[0.02] p-2 sm:p-3 rounded-2xl border border-white/[0.06] hover:border-[#6EE7B7]/20 transition-all duration-700 overflow-hidden relative">
                 <div className="aspect-video rounded-xl overflow-hidden relative bg-black">
                   {isDesktop ? (
-                    <video ref={videoRef} className="w-full h-full object-cover" loop muted playsInline autoPlay preload="none">
+                    <video ref={videoRef} className="w-full h-full object-cover" loop muted playsInline autoPlay preload="none" aria-hidden="true">
                       <source src="/images/video_home.webm" type="video/webm" />
                     </video>
                   ) : (

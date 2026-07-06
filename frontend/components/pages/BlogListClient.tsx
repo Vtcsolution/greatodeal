@@ -62,7 +62,7 @@ export default function BlogListClient() {
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#555]" />
             <input type="search" placeholder="Search articles..." value={searchTerm} onChange={e => setSearchTerm(e.target.value)}
               className="w-full pl-12 pr-12 py-4 bg-white/[0.03] border border-white/[0.06] rounded-2xl text-[#E5E7EB] placeholder-[#555] focus:ring-2 focus:ring-[#6EE7B7]/40 focus:border-transparent outline-none text-[15px] transition-all duration-500" />
-            {searchTerm && <button onClick={() => setSearchTerm('')} className="absolute right-4 top-1/2 -translate-y-1/2 text-[#555] hover:text-white"><X className="w-4 h-4" /></button>}
+            {searchTerm && <button onClick={() => setSearchTerm('')} aria-label="Clear search" className="absolute right-4 top-1/2 -translate-y-1/2 text-[#555] hover:text-white"><X className="w-4 h-4" /></button>}
           </motion.div>
         </div>
       </section>

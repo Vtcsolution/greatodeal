@@ -87,7 +87,7 @@ export default function ServicePageTemplate({ data }: { data: ServicePageData })
               <motion.div className="hidden lg:block" initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8, delay: 0.5, ease }}>
                 <div className="rounded-xl overflow-hidden shadow-2xl h-[400px] sm:h-[450px]">
                   {data.heroVideo ? (
-                    <video autoPlay loop muted playsInline className="w-full h-full object-cover"><source src={data.heroVideo} type="video/mp4" /></video>
+                    <video autoPlay loop muted playsInline aria-hidden="true" className="w-full h-full object-cover"><source src={data.heroVideo} type="video/mp4" /></video>
                   ) : (
                     <img src={data.heroImage} alt={data.title} className="w-full h-full object-cover" />
                   )}

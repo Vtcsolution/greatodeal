@@ -242,7 +242,7 @@ export default function BlogDetailClient({ id }: { id: string }) {
                         <div className="text-sm text-white/40">{new Date(comment.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</div>
                       </div>
                     </div>
-                    <button onClick={() => handleLike(comment._id)} className="flex items-center gap-2 text-base text-white/40 hover:text-[#6EE7B7] transition-colors duration-500">
+                    <button onClick={() => handleLike(comment._id)} aria-label="Like this comment" className="flex items-center gap-2 text-base text-white/40 hover:text-[#6EE7B7] transition-colors duration-500">
                       <Heart className="w-5 h-5" />{comment.likes}
                     </button>
                   </div>

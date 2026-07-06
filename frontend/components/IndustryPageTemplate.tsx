@@ -62,7 +62,7 @@ export default function IndustryPageTemplate({ data }: { data: IndustryPageData 
             <motion.div className="hidden lg:block" initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8, delay: 0.5, ease }}>
               {data.heroVideo ? (
                 <div className="relative w-full h-[400px] sm:h-[500px] rounded-2xl overflow-hidden shadow-2xl shadow-black/30">
-                  <video autoPlay loop muted playsInline className="w-full h-full object-cover">
+                  <video autoPlay loop muted playsInline aria-hidden="true" className="w-full h-full object-cover">
                     <source src={data.heroVideo} type="video/mp4" />
                   </video>
                 </div>

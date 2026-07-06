@@ -169,7 +169,7 @@ export default function ContactClient() {
                                 <div className="p-3 border-b border-white/[0.06] flex items-center gap-2">
                                   <Search className="w-5 h-5 text-white/40" />
                                   <input type="text" placeholder="Search country..." value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="bg-transparent text-base w-full outline-none text-white" autoFocus />
-                                  {searchTerm && <button onClick={() => setSearchTerm('')}><X className="w-5 h-5 text-white/40" /></button>}
+                                  {searchTerm && <button onClick={() => setSearchTerm('')} aria-label="Clear search"><X className="w-5 h-5 text-white/40" /></button>}
                                 </div>
                                 <div className="max-h-56 overflow-y-auto">
                                   {filteredCountries.map((c, i) => (
