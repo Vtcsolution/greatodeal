@@ -172,7 +172,7 @@ export default function AIChatBot({ isOpen, onClose }: AIChatBotProps) {
                 placeholder="Ask about IT solutions, AI, web development..."
                 className="w-full pr-12 pl-4 py-3 bg-[#111] border border-white/[0.08] rounded-xl text-white placeholder-white/30 focus:ring-2 focus:ring-[#6EE7B7]/30 focus:border-[#6EE7B7]/30 outline-none transition-all text-sm"
               />
-              <button onClick={sendMessage} disabled={!input.trim()} className="absolute right-2 top-1/2 -translate-y-1/2 p-2 text-[#6EE7B7] hover:text-[#5CD7A5] disabled:text-white/20 disabled:cursor-not-allowed transition-colors">
+              <button onClick={sendMessage} disabled={!input.trim()} aria-label="Send message" className="absolute right-2 top-1/2 -translate-y-1/2 p-2 text-[#6EE7B7] hover:text-[#5CD7A5] disabled:text-white/20 disabled:cursor-not-allowed transition-colors">
                 <Send className="w-5 h-5" />
               </button>
             </div>

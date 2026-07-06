@@ -4,7 +4,10 @@ const nextConfig = {
     remotePatterns: [
       { protocol: 'http', hostname: 'localhost', port: '5001', pathname: '/uploads/**' },
       { protocol: 'https', hostname: 'greatodeal.com', pathname: '/**' },
+      { protocol: 'https', hostname: 'api.greatodeal.com', pathname: '/uploads/**' },
     ],
+    formats: ['image/avif', 'image/webp'],
+    minimumCacheTTL: 86400,
   },
   async rewrites() {
     return [

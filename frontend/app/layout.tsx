@@ -348,8 +348,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="me" href="https://www.linkedin.com/company/greatodeal" />
         <link rel="me" href="https://www.instagram.com/greatodeal" />
         <link rel="me" href="https://www.youtube.com/@GreatodealAI" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://www.googletagmanager.com" />
+        <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
       </head>
       <body className="min-h-screen bg-[#090909] text-[#E5E7EB]" suppressHydrationWarning>
         <LayoutWrapper>{children}</LayoutWrapper>
