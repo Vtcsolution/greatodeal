@@ -88,6 +88,12 @@ export default function Footer() {
                 sales@greatodeal.com
               </a>
             </div>
+            <div className="flex items-center gap-3 p-3 bg-white/[0.03] rounded-xl">
+              <Mail className="w-5 h-5 text-white/40 flex-shrink-0" />
+              <a href="mailto:hello@greatodeal.com" className="text-white/70 hover:text-[#6EE7B7] transition-colors text-base">
+                hello@greatodeal.com
+              </a>
+            </div>
             <div className="p-4 bg-white/[0.02] rounded-xl" itemProp="address" itemScope itemType="https://schema.org/PostalAddress">
               <div className="flex items-start gap-2">
                 <MapPin className="w-5 h-5 text-white/40 flex-shrink-0 mt-0.5" />
