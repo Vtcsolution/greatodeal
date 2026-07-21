@@ -51,7 +51,13 @@ server.on('error', (err: NodeJS.ErrnoException) => {
   }
 });
 
-process.on('uncaughtException', (err) => { console.error('Uncaught:', err.message); });
-process.on('unhandledRejection', (err) => { console.error('Unhandled:', err); });
+process.on('uncaughtException', (err) => {
+  console.error('Uncaught exception, shutting down:', err);
+  process.exit(1);
+});
+process.on('unhandledRejection', (err) => {
+  console.error('Unhandled rejection, shutting down:', err);
+  process.exit(1);
+});
 
 export default app;
