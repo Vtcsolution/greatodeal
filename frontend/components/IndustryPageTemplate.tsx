@@ -52,10 +52,10 @@ export default function IndustryPageTemplate({ data }: { data: IndustryPageData 
               </motion.p>
               <motion.div className="flex flex-col sm:flex-row gap-4" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.8, ease }}>
                 <Link href="/contact" className="btn-primary group">
-                  Get Free Consultation <ArrowRight className="w-5 h-5 group-hover:translate-x-1.5 transition-transform duration-500" />
+                  Request a Demo <ArrowRight className="w-5 h-5 group-hover:translate-x-1.5 transition-transform duration-500" />
                 </Link>
-                <Link href="/services" className="px-8 py-4 border border-white/[0.08] text-[#E5E7EB] rounded-xl font-bold text-[15px] hover:border-[#6EE7B7]/30 hover:bg-[#6EE7B7]/[0.03] transition-all duration-700 flex items-center justify-center gap-2">
-                  Our Services
+                <Link href="/industries" className="px-8 py-4 border border-white/[0.08] text-[#E5E7EB] rounded-xl font-bold text-[15px] hover:border-[#6EE7B7]/30 hover:bg-[#6EE7B7]/[0.03] transition-all duration-700 flex items-center justify-center gap-2">
+                  All Industries
                 </Link>
               </motion.div>
             </div>
@@ -184,7 +184,7 @@ export default function IndustryPageTemplate({ data }: { data: IndustryPageData 
             <p className="text-[17px] text-[#777] mb-12 max-w-xl mx-auto leading-[1.7]">Join leading {data.title.toLowerCase()} companies that trust Greatodeal for their technology needs.</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/contact" className="btn-primary group">
-                Get Free Consultation <ArrowRight className="w-5 h-5 group-hover:translate-x-1.5 transition-transform duration-500" />
+                Request a Demo <ArrowRight className="w-5 h-5 group-hover:translate-x-1.5 transition-transform duration-500" />
               </Link>
               <Link href="/partnership" className="px-10 py-4 border border-white/[0.08] text-white rounded-xl font-bold text-[15px] hover:border-[#6EE7B7]/30 hover:bg-[#6EE7B7]/[0.03] transition-all duration-700 flex items-center justify-center gap-2">
                 Become a Partner

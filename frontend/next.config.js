@@ -32,6 +32,21 @@ const nextConfig = {
       },
     ];
   },
+  async redirects() {
+    return [
+      { source: '/services/:path*', destination: '/', permanent: true },
+      { source: '/how-we-work', destination: '/about', permanent: true },
+      { source: '/estimate', destination: '/contact', permanent: true },
+      { source: '/industries/banking', destination: '/industries/fintech', permanent: true },
+      { source: '/industries/investment', destination: '/industries/fintech', permanent: true },
+      { source: '/industries/oil-gas', destination: '/industries/green-tech', permanent: true },
+      { source: '/industries/construction', destination: '/industries/real-estate', permanent: true },
+      { source: '/industries/public-sector', destination: '/industries/government', permanent: true },
+      { source: '/industries/education', destination: '/industries', permanent: true },
+      { source: '/industries/ecommerce', destination: '/industries', permanent: true },
+      { source: '/industries/supply-chain', destination: '/industries', permanent: true },
+    ];
+  },
   reactStrictMode: false,
   swcMinify: true,
   compiler: {

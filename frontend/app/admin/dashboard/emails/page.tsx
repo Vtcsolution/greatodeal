@@ -39,7 +39,7 @@ export default function EmailsPage() {
       await contactApi.reply({
         contactId: selected._id,
         to: selected.email,
-        subject: `Re: Your inquiry about ${selected.services} — Greatodeal`,
+        subject: `Re: Your inquiry about ${selected.services} | Greatodeal`,
         message: replyText,
       });
       setContacts(prev => prev.map(c => c._id === selected._id ? { ...c, status: 'replied' } : c));

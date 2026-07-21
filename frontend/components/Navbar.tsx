@@ -20,38 +20,19 @@ const navItems: NavItem[] = [
   {
     name: 'Company',
     dropdown: [
-      { name: 'How We Work', path: '/how-we-work' },
       { name: 'Privacy Policy', path: '/privacy-policy' },
       { name: 'Contact Us', path: '/contact' },
-    ],
-  },
-  {
-    name: 'Services',
-    path: '/services',
-    dropdown: [
-      { name: 'Website Development', path: '/services/web-apps' },
-      { name: 'Mobile Application', path: '/services/mobile-apps' },
-      { name: 'Custom Software', path: '/services/custom-software' },
-      { name: 'Infrastructure Services', path: '/services/it-infrastructure' },
-      { name: 'Machine Learning & AI', path: '/services/machine-learning-ai' },
-      { name: 'UI/UX Design', path: '/services/ui-ux-design' },
-      { name: 'API Development & Integration', path: '/services/api-development' },
-      { name: 'AI SaaS Platform', path: '/services/ai-saas-platform' },
-      { name: 'Software Testing', path: '/services/software-testing' },
     ],
   },
   {
     name: 'Industries',
     path: '/industries',
     dropdown: [
-      { name: 'Banking & Fintech', path: '/industries/banking' },
-      { name: 'Education', path: '/industries/education' },
-      { name: 'Investment', path: '/industries/investment' },
-      { name: 'Oil & Gas', path: '/industries/oil-gas' },
-      { name: 'Public Sector', path: '/industries/public-sector' },
-      { name: 'Supply Chain & Logistics', path: '/industries/supply-chain' },
-      { name: 'Construction', path: '/industries/construction' },
-      { name: 'E-Commerce', path: '/industries/ecommerce' },
+      { name: 'Government', path: '/industries/government' },
+      { name: 'Healthcare', path: '/industries/healthcare' },
+      { name: 'Fintech', path: '/industries/fintech' },
+      { name: 'Green Tech', path: '/industries/green-tech' },
+      { name: 'Real Estate', path: '/industries/real-estate' },
     ],
   },
   { name: 'Insights', path: '/blog' },
@@ -112,13 +93,12 @@ export default function Navbar() {
   };
 
   const getDropdownWidth = (name: string) => {
-    if (name === 'Services') return 'w-[560px]';
     if (name === 'Industries') return 'w-[480px]';
     return 'w-[280px]';
   };
 
   const getDropdownCols = (name: string) => {
-    if (name === 'Services' || name === 'Industries') return 'grid-cols-2';
+    if (name === 'Industries') return 'grid-cols-2';
     return 'grid-cols-1';
   };
 

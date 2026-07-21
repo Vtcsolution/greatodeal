@@ -38,7 +38,7 @@ export const sendContactEmail = async (data: {
   await sendMail({
     from: `"Greatodeal Website" <${process.env.EMAIL_USER}>`,
     to: process.env.EMAIL_USER,
-    subject: `New Contact: ${data.fullName} — ${data.services}`,
+    subject: `New Contact: ${data.fullName} (${data.services})`,
     html: `
       <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;background:#f9f9f9;padding:20px;border-radius:8px">
         <h2 style="color:#6EE7B7;border-bottom:2px solid #6EE7B7;padding-bottom:10px">New Contact Form Submission</h2>
@@ -69,7 +69,7 @@ export const sendPartnershipEmail = async (data: Record<string, unknown>): Promi
   await sendMail({
     from: `"Greatodeal Website" <${process.env.EMAIL_USER}>`,
     to: process.env.EMAIL_USER,
-    subject: `New Partnership Application — ${data.company}`,
+    subject: `New Partnership Application: ${data.company}`,
     html: `
       <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;background:#f9f9f9;padding:20px;border-radius:8px">
         <h2 style="color:#6EE7B7">New Partnership Application</h2>

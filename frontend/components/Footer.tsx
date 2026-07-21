@@ -7,16 +7,15 @@ const footerLinks = {
   company: [
     { name: 'About Us', path: '/about' },
     { name: 'Contact', path: '/contact' },
-    { name: 'How We Work', path: '/how-we-work' },
     { name: 'Blogs', path: '/blog' },
     { name: 'Privacy Policy', path: '/privacy-policy' },
   ],
-  services: [
-    { name: 'Machine Learning & AI Automation', path: '/services/machine-learning-ai' },
-    { name: 'AI & Automation (SaaS)', path: '/services/ai-saas-platform' },
-    { name: 'AI Mobile App', path: '/services/mobile-apps' },
-    { name: 'AI Custom Software', path: '/services/custom-software' },
-    { name: 'AI SaaS Platform', path: '/services/ai-saas-platform' },
+  industries: [
+    { name: 'Government', path: '/industries/government' },
+    { name: 'Healthcare', path: '/industries/healthcare' },
+    { name: 'Fintech', path: '/industries/fintech' },
+    { name: 'Green Tech', path: '/industries/green-tech' },
+    { name: 'Real Estate', path: '/industries/real-estate' },
   ],
 };
 
@@ -38,7 +37,7 @@ export default function Footer() {
               <Image src="/images/logo.png" alt="Greatodeal Logo" width={140} height={50} className="h-10 sm:h-12 w-auto object-contain" />
             </Link>
             <p className="text-white/70 text-base leading-relaxed" itemProp="description">
-              Empowering businesses with innovative software solutions and digital transformation services.{' '}
+              AI SaaS and agentic automation for government, healthcare, and other regulated industries.{' '}
               <span className="text-[#6EE7B7]">greatodeal.com</span>
             </p>
             <div className="flex space-x-2">
@@ -65,11 +64,11 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Services */}
+          {/* Industries */}
           <div className="space-y-5">
-            <h3 className="text-lg font-bold text-white">AI Services</h3>
+            <h3 className="text-lg font-bold text-white">Industries</h3>
             <ul className="space-y-3">
-              {footerLinks.services.map(({ name, path }, i) => (
+              {footerLinks.industries.map(({ name, path }, i) => (
                 <li key={i}>
                   <Link href={path} className="text-white/70 hover:text-[#6EE7B7] transition-colors duration-300 text-base">
                     {name}

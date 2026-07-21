@@ -30,10 +30,10 @@ export default function AdminDashboardPage() {
   }, []);
 
   const statCards = [
-    { icon: FileText, label: 'Total Blogs', value: stats.blogs ?? '—', color: 'text-blue-400', bg: 'bg-blue-500/10 border-blue-500/20' },
-    { icon: MessageSquare, label: 'AI Chats', value: stats.chats ?? '—', color: 'text-purple-400', bg: 'bg-purple-500/10 border-purple-500/20' },
-    { icon: Mail, label: 'Contact Forms', value: stats.contacts ?? '—', color: 'text-emerald-400', bg: 'bg-emerald-500/10 border-emerald-500/20' },
-    { icon: Eye, label: 'Partnerships', value: stats.partnerships ?? '—', color: 'text-amber-400', bg: 'bg-amber-500/10 border-amber-500/20' },
+    { icon: FileText, label: 'Total Blogs', value: stats.blogs ?? 'N/A', color: 'text-blue-400', bg: 'bg-blue-500/10 border-blue-500/20' },
+    { icon: MessageSquare, label: 'AI Chats', value: stats.chats ?? 'N/A', color: 'text-purple-400', bg: 'bg-purple-500/10 border-purple-500/20' },
+    { icon: Mail, label: 'Contact Forms', value: stats.contacts ?? 'N/A', color: 'text-emerald-400', bg: 'bg-emerald-500/10 border-emerald-500/20' },
+    { icon: Eye, label: 'Partnerships', value: stats.partnerships ?? 'N/A', color: 'text-amber-400', bg: 'bg-amber-500/10 border-amber-500/20' },
   ];
 
   if (loading) return (

@@ -2,73 +2,41 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
-import { motion, useInView, AnimatePresence } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
 import {
-  Code, Database, CheckCircle, ArrowRight, ChevronDown, ChevronRight,
-  Zap, Cpu, Cloud, Briefcase, ShoppingCart, Banknote, GraduationCap, Activity,
-  Factory, Package, Building2, Globe, Lightbulb, Shield, Users, Rocket, Award,
-  Clock, Bot, Sparkles, TrendingUp, Star, MessageSquare, Layers, Play,
+  Database, CheckCircle, ArrowRight,
+  Zap, Cpu, Shield, Users, Rocket, Lightbulb, Clock, Globe,
+  TrendingUp, Layers, Play, Landmark, Activity, Banknote, Leaf, Home,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 
 const ease = [0.25, 0.1, 0.25, 1] as const;
-const smoothSpring = { type: 'spring' as const, stiffness: 100, damping: 30 };
+const mockupLabels = ['workflow.agent', 'access_log.audit', 'dashboard.gov', 'pipeline.sync'];
 
 /* ═══ DATA ═══ */
 
-const services = [
-  { icon: Code, title: 'Enterprise Software & App Development', accent: '#6EE7B7', description: 'At Greatodeal, we specialize in game-changing enterprise software and cross-platform mobile apps tailored to your business needs. Our focus is on scalability, security, and innovation using the latest technologies.', features: ['Custom web applications with React, Angular, or Vue.js', 'Cross-platform mobile apps using Flutter and React Native', 'AI-powered SaaS & cloud platforms designed for scalability', 'Enterprise-grade on AWS, Azure, and Google Cloud'] },
-  { icon: Zap, title: 'Website & App Automation with AI', accent: '#A78BFA', description: 'Streamline workflows with intelligent automation — from AI chatbots and content personalization to predictive analytics and business process optimization.', features: ['Smart chatbots & virtual assistants', 'Business process automation', 'AI-driven analytics & insights', 'CI/CD pipeline automation'] },
-  { icon: Cpu, title: 'AI & Agentic Automation Solutions', accent: '#60A5FA', description: 'Autonomous AI agents that optimize operations, deliver insights, and enable intelligent decision-making at scale across your organization.', features: ['AI agents for autonomous tasks', 'ML/DL models & forecasting', 'NLP, sentiment & voice AI', 'Ethical AI & explainability'] },
-  { icon: Database, title: 'API Development, Integration & Cloud Solutions', accent: '#FB923C', description: 'Seamless connectivity with secure APIs, scalable cloud infrastructure, and modern SaaS integrations for your business.', features: ['Blockchain & Web3 integration for real-world applications', 'Third-party API integrations (Salesforce, SAP, etc.)', 'High-performance, scalable cloud architecture on AWS, Azure, and Google Cloud', 'Agile development with CI/CD & GitOps practices'] },
-  { icon: Cloud, title: 'Cloud & DevOps Engineering', accent: '#22D3EE', description: 'Modern DevOps practices and cloud engineering for agility, reliability, and faster innovation across your infrastructure.', features: ['Kubernetes & Docker', 'Infrastructure as Code', 'Agile development with CI/CD & GitOps practices', 'Serverless architecture'] },
-  { icon: Briefcase, title: 'IT Consulting & Digital Transformation', accent: '#F472B6', description: 'Strategic consulting to reimagine digital strategies, optimize operations, and drive measurable growth for your business.', features: ['Technology roadmapping', 'Digital transformation', 'Data strategy & governance', 'Agile/DevOps coaching'] },
+const whatWeBuild = [
+  { icon: Cpu, title: 'Agentic AI Platforms', accent: '#6EE7B7', description: 'Autonomous agents that execute multi-step operational workflows inside the guardrails your industry requires, not generic chatbots.', features: ['Multi-step task automation with human-in-the-loop review', 'Explainable, evidence-backed AI decisions', 'Integration with existing case-management & records systems', 'Continuous monitoring and rollback controls'] },
+  { icon: Shield, title: 'Compliance-Grade Infrastructure', accent: '#60A5FA', description: 'Security, audit logging, and access control built into the architecture from the start, engineered to satisfy regulatory review, not just pass a demo.', features: ['Immutable audit trails on every automated action', 'Zero-trust access control & encryption at rest and in transit', 'Compliance reporting mapped to your regulatory framework', 'HIPAA / PCI DSS / FOIA-aligned data handling'] },
+  { icon: Database, title: 'Industry-Specific SaaS', accent: '#A78BFA', description: 'Purpose-built platforms for government, healthcare, fintech, green tech, and real estate operations, not a generic template stretched to fit.', features: ['Multi-tenant, API-first architecture', 'Interoperability with legacy systems (HL7/FHIR, SCADA, core banking)', 'Role-based access for regulated user hierarchies', 'Built for audit, not just uptime'] },
+  { icon: Layers, title: 'Secure Integration & Data Pipelines', accent: '#FB923C', description: 'API and data infrastructure that keeps sensitive records compliant end-to-end, connecting the systems your institution already depends on.', features: ['Secure API development & third-party integration', 'Consent-aware data sharing between systems', 'Cloud-native, scalable infrastructure on AWS, Azure, GCP', 'CI/CD with security review gates'] },
 ];
 
-const industries: Array<{ name: string; icon: LucideIcon; color: string }> = [
-  { name: 'E-Commerce', icon: ShoppingCart, color: 'text-emerald-400' },
-  { name: 'Fintech & Banking', icon: Banknote, color: 'text-blue-400' },
-  { name: 'Insurance', icon: Shield, color: 'text-indigo-400' },
-  { name: 'Healthcare', icon: Activity, color: 'text-rose-400' },
-  { name: 'Computing & IT Industry 4.0', icon: Cpu, color: 'text-cyan-400' },
-  { name: 'Automotive & Logistics', icon: Package, color: 'text-yellow-400' },
-  { name: 'Aviation', icon: Globe, color: 'text-sky-400' },
-  { name: 'Real Estate & Construction', icon: Building2, color: 'text-amber-400' },
-  { name: 'Travel & Tourism', icon: Globe, color: 'text-teal-400' },
-  { name: 'Telecommunications', icon: Zap, color: 'text-violet-400' },
-  { name: 'Energy & Utilities', icon: Lightbulb, color: 'text-orange-400' },
-  { name: 'SaaS Platforms', icon: Cloud, color: 'text-blue-300' },
-  { name: 'AI & Automation', icon: Bot, color: 'text-green-400' },
-  { name: 'Startups & SMEs', icon: Rocket, color: 'text-rose-300' },
-  { name: 'Education', icon: GraduationCap, color: 'text-violet-400' },
-  { name: 'Manufacturing', icon: Factory, color: 'text-orange-400' },
-  { name: 'Government', icon: Building2, color: 'text-teal-400' },
-  { name: 'Public Sector & Non-Profit', icon: Users, color: 'text-pink-400' },
-];
-
-const solutions = [
-  'ERP Systems', 'CRM Platforms', 'HR Software', 'Financial Management Solutions',
-  'Project Management Tools', 'Document Management Systems', 'Asset Management', 'Fleet Management',
-  'Custom Software Development', 'Web Application Development', 'Mobile App Development', 'AI & Automation Solutions',
-  'SaaS Platforms', 'Startup MVP Development', 'Cloud Solutions & Integration', 'Business Intelligence & Data Analytics',
-  'Enterprise Software Development', 'API Development & Integration',
-];
-
-const testimonials = [
-  { text: 'Greatodeal team developed a highly intuitive e-commerce platform for us. Their solution enhanced our customer experience and improved our internal operations significantly.', author: 'Muhammad Naveed', position: 'Founder, E-Shop Global', rating: 5, img: '/images/naveed_marketing.png' },
-  { text: 'Greatodeal exceeded our expectations. They delivered robust software solutions with strategic guidance that optimized our workflows. The team is collaborative, professional, and extremely reliable.', author: 'Tim Bakker', position: 'CEO, Tech Innovators Inc.', rating: 5, img: '/images/Tim bakker.png' },
-  { text: 'Partnering with Greatodeal allowed us to streamline complex processes with AI and automation. Their attention to detail and deep technical expertise have made a tangible impact on our business.', author: 'Sarah Johnson', position: 'CTO, FinSecure', rating: 5, img: '' },
-  { text: 'From SaaS platforms to mobile apps, their expertise in AI and automation has consistently delivered innovative and scalable solutions. A true game-changer for our business.', author: 'Haseeb', position: 'Product Manager, AI Dynamics', rating: 5, img: '' },
+const industries: Array<{ name: string; icon: LucideIcon; color: string; desc: string; path: string }> = [
+  { name: 'Government', icon: Landmark, color: 'text-emerald-300', desc: 'Citizen services automation with audit-ready, explainable AI decisions.', path: '/industries/government' },
+  { name: 'Healthcare', icon: Activity, color: 'text-rose-400', desc: 'HIPAA-compliant clinical and operational AI for providers and payers.', path: '/industries/healthcare' },
+  { name: 'Fintech', icon: Banknote, color: 'text-blue-400', desc: 'KYC/AML automation and auditable transaction infrastructure.', path: '/industries/fintech' },
+  { name: 'Green Tech', icon: Leaf, color: 'text-lime-400', desc: 'Smart grid monitoring and automated emissions compliance reporting.', path: '/industries/green-tech' },
+  { name: 'Real Estate', icon: Home, color: 'text-cyan-400', desc: 'Automated disclosure compliance and auditable transaction data.', path: '/industries/real-estate' },
 ];
 
 const whyUs: Array<{ icon: LucideIcon; title: string; description: string }> = [
+  { icon: Shield, title: 'Compliance by Design', description: 'Audit trails, access control, and regulatory alignment are built into the architecture from day one, not retrofitted after a review flags them.' },
   { icon: Lightbulb, title: 'Client-First Approach', description: 'We place client satisfaction at the heart of everything we do, ensuring transparent communication, timely delivery, and measurable results.' },
-  { icon: Zap, title: 'Future-Ready Tech', description: 'We leverage cutting-edge technologies like AI, SaaS, blockchain, and automation to build solutions that grow with your business.' },
+  { icon: Zap, title: 'Agentic, Not Generic', description: 'We build autonomous agents that execute real operational workflows within your guardrails, not chatbots wrapped around a generic model.' },
   { icon: Users, title: 'Trusted Partnerships', description: 'We build long-term partnerships, offering ongoing support and maintenance so your systems remain secure, reliable, and up to date.' },
-  { icon: Shield, title: 'Tailored Solutions', description: 'Every business is unique. Our websites, apps, and software are custom-built to match your exact goals and industry requirements.' },
-  { icon: Clock, title: 'Security & Reliability', description: 'We follow strict development standards and best practices to ensure your data is always safe and your solutions are always reliable.' },
-  { icon: Rocket, title: 'Proven Track Record', description: 'With a high client retention rate and successful projects across industries, we deliver excellence that businesses can count on.' },
+  { icon: Clock, title: 'Security & Reliability', description: 'We follow strict development standards and best practices to ensure your data is always safe and your systems are always reliable.' },
+  { icon: Rocket, title: 'Proven Track Record', description: 'With a high client retention rate and successful projects across regulated industries, we deliver results institutions can stand behind.' },
 ];
 
 const techCategories = [
@@ -87,7 +55,7 @@ function RevealText({ children, className = '', delay = 0 }: { children: React.R
 }
 
 function AnimatedCounter({ target, suffix = '' }: { target: number; suffix?: string }) {
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(target);
   const ref = useRef<HTMLSpanElement>(null);
   const inView = useInView(ref, { once: true });
   useEffect(() => {
@@ -117,22 +85,88 @@ function SplitText({ text, delay = 0 }: { text: string; delay?: number }) {
   return (<span>{text.split(' ').map((word, i) => (<span key={i} className="inline-block overflow-hidden"><motion.span className="inline-block" initial={{ y: '100%', opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.6, delay: delay + i * 0.04, ease: [0.33, 1, 0.68, 1] }}>{word}&nbsp;</motion.span></span>))}</span>);
 }
 
+function FeatureVisual({ index, accent }: { index: number; accent: string }) {
+  if (index === 0) {
+    const steps = ['Case intake received', 'Compliance check (automated)', 'Agent recommendation drafted', 'Human review & approval'];
+    return (
+      <div className="p-6 sm:p-7 space-y-4">
+        {steps.map((step, i) => (
+          <div key={i} className="flex items-center gap-3">
+            <div className="w-7 h-7 rounded-full flex items-center justify-center shrink-0" style={{ backgroundColor: accent + '20', color: accent }}>
+              {i < 2 ? <CheckCircle className="w-4 h-4" /> : <div className="w-2 h-2 rounded-full" style={{ background: accent }} />}
+            </div>
+            <span className={`text-sm ${i < 2 ? 'text-white/70' : 'text-white/40'}`}>{step}</span>
+          </div>
+        ))}
+      </div>
+    );
+  }
+  if (index === 1) {
+    const rows = [{ u: 'agent.svc', a: 'Read case #4471' }, { u: 'reviewer.k', a: 'Approved decision' }, { u: 'system', a: 'Audit entry written' }];
+    return (
+      <div className="p-6 sm:p-7 space-y-3">
+        <div className="flex items-center justify-between mb-1">
+          <span className="text-xs text-white/40 uppercase tracking-wider">Access Log</span>
+          <span className="px-2.5 py-1 rounded-full text-[11px] font-semibold" style={{ backgroundColor: accent + '15', color: accent }}>Zero-Trust</span>
+        </div>
+        {rows.map((row, i) => (
+          <div key={i} className="flex items-center justify-between gap-3 px-3 py-2.5 rounded-lg bg-[#090909] border border-white/[0.05]">
+            <span className="text-xs text-white/60 font-mono">{row.u}</span>
+            <span className="text-xs text-white/40 flex-1 text-right">{row.a}</span>
+            <CheckCircle className="w-3.5 h-3.5 shrink-0" style={{ color: accent }} />
+          </div>
+        ))}
+      </div>
+    );
+  }
+  if (index === 2) {
+    const bars = [40, 65, 45, 80, 55, 90, 70];
+    return (
+      <div className="p-6 sm:p-7">
+        <div className="grid grid-cols-2 gap-3 mb-5">
+          <div className="p-4 rounded-xl bg-[#090909] border border-white/[0.06]">
+            <div className="text-2xl font-bold text-white">1,204</div>
+            <div className="text-xs text-white/40 mt-1">Cases Processed</div>
+          </div>
+          <div className="p-4 rounded-xl bg-[#090909] border border-white/[0.06]">
+            <div className="text-2xl font-bold" style={{ color: accent }}>100%</div>
+            <div className="text-xs text-white/40 mt-1">Audit Coverage</div>
+          </div>
+        </div>
+        <div className="flex items-end gap-1.5 h-16">
+          {bars.map((h, i) => (<div key={i} className="flex-1 rounded-t-sm" style={{ height: `${h}%`, backgroundColor: accent + '40' }} />))}
+        </div>
+      </div>
+    );
+  }
+  const satellites: Array<{ Icon: LucideIcon; pos: string }> = [
+    { Icon: Landmark, pos: 'top-0 left-6' },
+    { Icon: Activity, pos: 'top-0 right-6' },
+    { Icon: Banknote, pos: 'bottom-0 left-1/2 -translate-x-1/2' },
+  ];
+  return (
+    <div className="p-8">
+      <div className="relative h-40 flex items-center justify-center">
+        <div className="w-16 h-16 rounded-2xl flex items-center justify-center z-10" style={{ backgroundColor: accent + '15', border: `1px solid ${accent}40` }}>
+          <Layers className="w-7 h-7" style={{ color: accent }} />
+        </div>
+        {satellites.map(({ Icon, pos }, i) => (
+          <div key={i} className={`absolute ${pos} w-11 h-11 rounded-xl bg-[#090909] border border-white/[0.08] flex items-center justify-center`}><Icon className="w-5 h-5 text-white/50" /></div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 /* ═══ HOME ═══ */
 
 export default function HomeClient() {
-  const [activeService, setActiveService] = useState(0);
-  const [activeTestimonial, setActiveTestimonial] = useState(0);
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     setIsDesktop(window.innerWidth >= 768);
-  }, []);
-
-  useEffect(() => {
-    const interval = setInterval(() => setActiveTestimonial(p => (p + 1) % testimonials.length), 5500);
-    return () => clearInterval(interval);
   }, []);
 
   const handlePlayVideo = () => {
@@ -161,17 +195,17 @@ export default function HomeClient() {
             <div className="space-y-8">
               <div className="space-y-5">
                 <h1 className="text-3xl sm:text-5xl lg:text-[3.5rem] font-bold leading-[1.1] tracking-tight text-white">
-                  <SplitText text="We Build Custom Software &" delay={0.4} />
-                  <br /><TypingText words={['SaaS Solutions', 'AI Automation', 'Mobile Apps', 'Cloud Systems', 'Enterprise Software']} />
+                  <SplitText text="AI Systems &" delay={0.4} />
+                  <br /><TypingText words={['Agentic Automation', 'Compliance-Grade Infrastructure', 'Audit-Ready AI', 'Secure Automation']} />
                 </h1>
                 <motion.p className="text-base sm:text-lg text-white/80 max-w-lg leading-[1.8]" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.8, ease }}>
-                  Your trusted technology partner in the digital age. We build solutions for today and tomorrow, ensuring your business stays ahead of the curve and achieves lasting success.
+                  We build AI SaaS and agentic automation for government, healthcare, and other regulated industries, with compliance, security, and auditability engineered in from day one, not bolted on after a breach.
                 </motion.p>
               </div>
 
               <motion.div className="flex flex-col sm:flex-row gap-4" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 1, ease }}>
                 <Link href="/contact" className="btn-primary group">
-                  Get a cost estimate <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-500" />
+                  Request a Demo <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-500" />
                 </Link>
               </motion.div>
 
@@ -191,12 +225,12 @@ export default function HomeClient() {
               <div className="relative bg-[#0D0D0D]/80 backdrop-blur-xl rounded-2xl border border-white/[0.08] overflow-hidden shadow-2xl shadow-black/40">
                 <div className="flex items-center gap-2 px-5 py-3.5 border-b border-white/[0.06] bg-[#0A0A0A]/80">
                   <div className="flex gap-1.5"><div className="w-2.5 h-2.5 rounded-full bg-[#FF5F57]" /><div className="w-2.5 h-2.5 rounded-full bg-[#FEBC2E]" /><div className="w-2.5 h-2.5 rounded-full bg-[#28C840]" /></div>
-                  <span className="text-white/30 text-sm ml-3 font-mono">greatodeal_solution.ts</span>
+                  <span className="text-white/30 text-sm ml-3 font-mono">greatodeal_agent.ts</span>
                 </div>
                 <div className="p-7 font-mono text-sm leading-[2] space-y-0.5">
-                  <motion.div className="text-white/40" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.8 }}>{'// Empowering businesses with technology'}</motion.div>
-                  <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1 }}><span className="text-[#C084FC]">const</span> <span className="text-[#7DD3FC]">innovate</span> = <span className="text-[#C084FC]">function</span> <span className="text-[#FCD34D]">{'() {'}</span></motion.div>
-                  <motion.div className="pl-5" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.2 }}><span className="text-white/80">return</span> <span className="text-[#F97316]">&quot;AI. Cloud. Security. Innovation.&quot;</span><span className="text-white/40">;</span></motion.div>
+                  <motion.div className="text-white/40" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.8 }}>{'// Compliance-grade AI, audited by default'}</motion.div>
+                  <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1 }}><span className="text-[#C084FC]">const</span> <span className="text-[#7DD3FC]">agent</span> = <span className="text-[#C084FC]">function</span> <span className="text-[#FCD34D]">{'() {'}</span></motion.div>
+                  <motion.div className="pl-5" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.2 }}><span className="text-white/80">return</span> <span className="text-[#F97316]">&quot;Audited. Explainable. Secure.&quot;</span><span className="text-white/40">;</span></motion.div>
                   <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.4 }}><span className="text-[#FCD34D]">{'}'}</span></motion.div>
                 </div>
               </div>
@@ -207,50 +241,68 @@ export default function HomeClient() {
               <motion.div className="absolute -right-8 bottom-[30%] px-4 py-3 bg-[#0D0D0D]/90 border border-white/[0.08] rounded-xl shadow-xl backdrop-blur-md" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0, y: [0, 8, 0] }} transition={{ opacity: { delay: 1.8, duration: 0.6 }, y: { delay: 2.5, duration: 5, repeat: Infinity, ease: 'easeInOut' } }}>
                 <div className="flex items-center gap-3"><div className="w-9 h-9 rounded-lg bg-[#3B82F6]/10 flex items-center justify-center"><Globe className="w-4 h-4 text-[#3B82F6]" /></div><div><div className="text-sm font-bold text-white">15+ Countries</div><div className="text-xs text-white/40">Global Reach</div></div></div>
               </motion.div>
+              <motion.div className="absolute -right-6 -top-8 px-4 py-2.5 bg-[#0D0D0D]/90 border border-white/[0.08] rounded-xl shadow-xl backdrop-blur-md max-w-[220px]" initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 2.1, duration: 0.6 }}>
+                <div className="flex items-center gap-2.5">
+                  <div className="w-8 h-8 rounded-lg bg-[#6EE7B7]/10 flex items-center justify-center shrink-0"><Cpu className="w-4 h-4 text-[#6EE7B7]" /></div>
+                  <span className="text-xs text-white/70 leading-tight">Verify KYC, Case #4471</span>
+                </div>
+              </motion.div>
+              <motion.div className="absolute -left-6 -bottom-6 px-4 py-2.5 bg-[#0D0D0D]/90 border border-white/[0.08] rounded-xl shadow-xl backdrop-blur-md" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 2.3, duration: 0.6 }}>
+                <div className="flex items-center gap-2.5">
+                  <CheckCircle className="w-4 h-4 text-[#6EE7B7]" />
+                  <span className="text-xs font-semibold text-white">Audit trail logged</span>
+                </div>
+              </motion.div>
             </motion.div>
           </div>
         </motion.div>
       </section>
 
-      {/* ═══ SERVICES ═══ */}
+      {/* ═══ WHAT WE BUILD ═══ */}
       <section className="py-20 sm:py-28 bg-[#090909]">
         <div className="container max-w-7xl px-4 sm:px-6">
-          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4 mb-14 sm:mb-20">
-            <RevealText>
-              <h2 className="text-3xl sm:text-4xl lg:text-[2.75rem] font-bold tracking-tight text-white">Services We Offer</h2>
-            </RevealText>
-            <RevealText delay={0.2}>
-              <p className="text-white/80 max-w-md lg:text-right text-base leading-relaxed">Reduce your IT costs and achieve your business goals with our efficient and affordable software solutions.</p>
-            </RevealText>
-          </div>
-          <div className="grid lg:grid-cols-[1fr_1.2fr] gap-6 sm:gap-8">
-            <div className="space-y-2">
-              {services.map((service, i) => {
-                const SIcon = service.icon; const isActive = activeService === i;
-                return (
-                  <motion.div key={i} onClick={() => setActiveService(i)} className={`group relative p-4 sm:p-5 rounded-2xl cursor-pointer transition-all duration-700 ${isActive ? 'bg-white/[0.04] shadow-lg' : 'hover:bg-white/[0.02]'}`} layout>
-                    {isActive && <motion.div className="absolute inset-0 rounded-2xl border border-white/[0.08]" layoutId="activeServiceBorder" transition={{ ...smoothSpring, duration: 0.5 }} />}
-                    <div className="relative flex items-center gap-4">
-                      <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center shrink-0 transition-all duration-700" style={{ backgroundColor: isActive ? service.accent + '15' : 'rgba(255,255,255,0.04)', color: isActive ? service.accent : 'rgba(255,255,255,0.4)' }}><SIcon className="w-5 h-5 sm:w-6 sm:h-6" /></div>
-                      <h3 className={`font-semibold text-base transition-colors duration-500 ${isActive ? 'text-white' : 'text-white/80 group-hover:text-white/80'}`}>{service.title}</h3>
-                      <ChevronDown className={`w-5 h-5 text-white/30 transition-transform duration-500 ml-auto lg:hidden ${isActive ? 'rotate-180' : ''}`} />
-                      <ChevronRight className={`w-5 h-5 hidden lg:block ml-auto transition-all duration-500 ${isActive ? 'text-[#6EE7B7] translate-x-1' : 'text-white/20'}`} />
+          <RevealText className="text-center max-w-2xl mx-auto mb-16 sm:mb-24">
+            <h2 className="text-3xl sm:text-4xl lg:text-[2.75rem] font-bold tracking-tight text-white mb-4">What We Build</h2>
+            <p className="text-white/80 text-base sm:text-lg leading-relaxed">Product capabilities, not a service-line menu, built for institutions that answer to regulators and auditors.</p>
+          </RevealText>
+
+          <div className="space-y-20 sm:space-y-28">
+            {whatWeBuild.map((item, i) => {
+              const Icon = item.icon;
+              const reverse = i % 2 === 1;
+              return (
+                <div key={i} className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+                  <RevealText className={reverse ? 'lg:order-2' : ''}>
+                    <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-6" style={{ backgroundColor: item.accent + '15' }}>
+                      <Icon className="w-6 h-6" style={{ color: item.accent }} />
                     </div>
-                    <AnimatePresence>{isActive && (<motion.div className="lg:hidden mt-5 pt-5 border-t border-white/[0.06]" initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.4, ease }}><p className="text-base text-white/80 mb-4 leading-relaxed">{service.description}</p><div className="grid gap-3">{service.features.map((f, fi) => (<div key={fi} className="flex items-start gap-2.5"><CheckCircle className="w-5 h-5 shrink-0 mt-0.5" style={{ color: service.accent }} /><span className="text-base text-white/80">{f}</span></div>))}</div></motion.div>)}</AnimatePresence>
+                    <h3 className="text-2xl sm:text-3xl font-bold text-white mb-4 tracking-tight">{item.title}</h3>
+                    <p className="text-white/80 text-base sm:text-lg leading-relaxed mb-6">{item.description}</p>
+                    <div className="space-y-3 mb-8">
+                      {item.features.map((f, fi) => (
+                        <div key={fi} className="flex items-start gap-2.5">
+                          <CheckCircle className="w-5 h-5 shrink-0 mt-0.5" style={{ color: item.accent }} />
+                          <span className="text-sm sm:text-base text-white/70">{f}</span>
+                        </div>
+                      ))}
+                    </div>
+                    <Link href="/contact" className="inline-flex items-center gap-2 font-semibold text-base group hover:gap-3 transition-all duration-500" style={{ color: item.accent }}>
+                      Request a Demo <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-500" />
+                    </Link>
+                  </RevealText>
+                  <motion.div className={`relative ${reverse ? 'lg:order-1' : ''}`} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7, ease }}>
+                    <div className="absolute -inset-6 rounded-[2rem] blur-[70px] opacity-40" style={{ background: `linear-gradient(135deg, ${item.accent}30, transparent)` }} />
+                    <div className="relative bg-[#0D0D0D]/80 backdrop-blur-xl rounded-2xl border border-white/[0.08] overflow-hidden shadow-2xl shadow-black/40">
+                      <div className="flex items-center gap-2 px-5 py-3.5 border-b border-white/[0.06] bg-[#0A0A0A]/80">
+                        <div className="flex gap-1.5"><div className="w-2.5 h-2.5 rounded-full bg-[#FF5F57]" /><div className="w-2.5 h-2.5 rounded-full bg-[#FEBC2E]" /><div className="w-2.5 h-2.5 rounded-full bg-[#28C840]" /></div>
+                        <span className="text-white/30 text-sm ml-3 font-mono">{mockupLabels[i]}</span>
+                      </div>
+                      <FeatureVisual index={i} accent={item.accent} />
+                    </div>
                   </motion.div>
-                );
-              })}
-            </div>
-            <div className="hidden lg:block">
-              <AnimatePresence mode="wait">
-                <motion.div key={activeService} className="h-full bg-white/[0.02] rounded-2xl border border-white/[0.06] p-9 flex flex-col" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.4, ease }}>
-                  <motion.div className="w-14 h-14 rounded-xl flex items-center justify-center mb-7" style={{ backgroundColor: services[activeService].accent + '15' }} initial={{ scale: 0.8 }} animate={{ scale: 1 }}>{React.createElement(services[activeService].icon, { className: 'w-7 h-7', style: { color: services[activeService].accent } })}</motion.div>
-                  <p className="text-white/80 leading-relaxed mb-8 text-base">{services[activeService].description}</p>
-                  <div className="grid grid-cols-2 gap-3 mb-8 flex-1">{services[activeService].features.map((f, fi) => (<motion.div key={fi} className="flex items-start gap-2.5 p-4 rounded-xl bg-[#090909] border border-white/[0.06]" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: fi * 0.08, duration: 0.4 }}><CheckCircle className="w-5 h-5 mt-0.5 shrink-0" style={{ color: services[activeService].accent }} /><span className="text-sm text-white/80">{f}</span></motion.div>))}</div>
-                  <Link href="/contact" className="inline-flex items-center gap-2 font-semibold text-base group hover:gap-3 transition-all duration-500" style={{ color: services[activeService].accent }}>Discuss This Service <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-500" /></Link>
-                </motion.div>
-              </AnimatePresence>
-            </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -260,58 +312,20 @@ export default function HomeClient() {
         <div className="container max-w-7xl px-4 sm:px-6">
           <RevealText className="text-center mb-12 sm:mb-16">
             <h2 className="text-3xl sm:text-4xl font-bold mb-5 tracking-tight text-white">Industries We Serve</h2>
-            <p className="text-white/80 max-w-2xl mx-auto text-base sm:text-lg leading-relaxed">Industry-specific IT solutions tailored to your sector&apos;s unique challenges and opportunities. We have a proven track record of success across a diverse range of industries.</p>
+            <p className="text-white/80 max-w-2xl mx-auto text-base sm:text-lg leading-relaxed">We focus on institutions where compliance, audit, and security aren&apos;t optional.</p>
           </RevealText>
-          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-3 sm:gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 sm:gap-5">
             {industries.map((ind, i) => {
               const IIcon = ind.icon;
-              return (<div key={i} className="group bg-white/[0.03] p-4 sm:p-5 rounded-2xl border border-white/[0.05] text-center hover:border-[#6EE7B7]/20 transition-all duration-500 cursor-default"><div className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-white/[0.04] flex items-center justify-center mx-auto mb-3 group-hover:bg-[#6EE7B7]/[0.06] transition-all duration-500"><IIcon className={`w-6 h-6 ${ind.color}`} /></div><div className="text-xs sm:text-sm font-medium text-white/80 group-hover:text-white transition-colors duration-500 leading-tight">{ind.name}</div></div>);
+              return (
+                <Link key={i} href={ind.path} className="group bg-white/[0.03] p-5 sm:p-6 rounded-2xl border border-white/[0.05] hover:border-[#6EE7B7]/20 transition-all duration-500 block">
+                  <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-white/[0.04] flex items-center justify-center mb-4 group-hover:bg-[#6EE7B7]/[0.06] transition-all duration-500"><IIcon className={`w-6 h-6 ${ind.color}`} /></div>
+                  <div className="text-base font-semibold text-white/90 group-hover:text-white transition-colors duration-500 mb-1.5">{ind.name}</div>
+                  <p className="text-sm text-white/60 leading-relaxed mb-3">{ind.desc}</p>
+                  <div className="flex items-center gap-1.5 text-sm font-semibold text-[#6EE7B7] group-hover:gap-2.5 transition-all duration-500">Learn more <ArrowRight className="w-4 h-4" /></div>
+                </Link>
+              );
             })}
-          </div>
-        </div>
-      </section>
-
-      {/* ═══ SOLUTIONS WE DELIVER ═══ */}
-      <section className="py-16 sm:py-20 bg-[#090909] border-t border-white/[0.04]">
-        <div className="container max-w-7xl px-4 sm:px-6">
-          <RevealText className="text-center mb-10 sm:mb-14">
-            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-white">Solutions We Deliver</h2>
-          </RevealText>
-          <div className="flex flex-wrap justify-center gap-3 sm:gap-4">
-            {solutions.map((sol, i) => (
-              <span key={i} className="px-5 sm:px-6 py-3 sm:py-3.5 bg-white/[0.03] border border-white/[0.06] rounded-xl text-sm sm:text-base text-white/80 font-medium hover:border-[#6EE7B7]/30 hover:text-[#6EE7B7] transition-all duration-500 cursor-default">{sol}</span>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ═══ TESTIMONIALS ═══ */}
-      <section className="py-20 sm:py-28 bg-[#060606] border-y border-white/[0.04]">
-        <div className="container max-w-7xl px-4 sm:px-6">
-          <RevealText className="text-center mb-12 sm:mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold mb-4 tracking-tight text-white">Greatodeal in the Eyes of Clients</h2>
-          </RevealText>
-          <div className="max-w-3xl mx-auto">
-            <AnimatePresence mode="wait">
-              <motion.div key={activeTestimonial} className="bg-white/[0.03] p-6 sm:p-10 rounded-2xl border border-white/[0.06]" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.5, ease }}>
-                <div className="text-center mb-6">
-                  <span className="text-xl sm:text-2xl font-bold text-[#6EE7B7]">{testimonials[activeTestimonial].position.split(', ').pop()}</span>
-                </div>
-                <blockquote className="text-white/80 leading-[1.8] mb-8 text-base sm:text-lg text-center">&ldquo;{testimonials[activeTestimonial].text}&rdquo;</blockquote>
-                <div className="flex items-center justify-center gap-4">
-                  {testimonials[activeTestimonial].img ? (
-                    <Image src={testimonials[activeTestimonial].img} alt={testimonials[activeTestimonial].author} width={48} height={48} className="w-12 h-12 rounded-full object-cover shrink-0" />
-                  ) : (
-                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#6EE7B7] to-[#3B82F6] flex items-center justify-center text-white text-lg font-bold shrink-0">{testimonials[activeTestimonial].author[0]}</div>
-                  )}
-                  <div>
-                    <div className="font-semibold text-white text-base">{testimonials[activeTestimonial].author}</div>
-                    <div className="text-sm text-white/40">{testimonials[activeTestimonial].position}</div>
-                  </div>
-                </div>
-              </motion.div>
-            </AnimatePresence>
-            <div className="flex justify-center gap-2.5 mt-6">{testimonials.map((_, i) => (<button key={i} onClick={() => setActiveTestimonial(i)} aria-label={`View testimonial ${i + 1}`} className={`w-3 h-3 rounded-full transition-all duration-500 ${i === activeTestimonial ? 'bg-[#6EE7B7] scale-110' : 'bg-white/15 hover:bg-white/25'}`} />))}</div>
           </div>
         </div>
       </section>
@@ -350,12 +364,12 @@ export default function HomeClient() {
 
             {/* Text */}
             <RevealText delay={0.2}>
-              <h3 className="text-2xl sm:text-3xl font-bold mb-5 tracking-tight text-white">Your Strategic Technology Partner</h3>
+              <h3 className="text-2xl sm:text-3xl font-bold mb-5 tracking-tight text-white">AI Infrastructure for Institutions That Can&apos;t Afford to Get It Wrong</h3>
               <p className="text-white/80 leading-[1.8] text-base sm:text-lg mb-6">
-                <span className="text-xl sm:text-2xl font-semibold text-[#6EE7B7]">Greatodeal</span> is more than just a service provider — we&apos;re your long-term technology partner. Our mission is to deliver scalable websites, mobile apps, SaaS platforms, and AI-driven automation tools that not only meet but exceed your expectations. With a proven track record of client satisfaction, we combine innovation, reliability, and dedicated support to help your business grow faster and stronger.
+                <span className="text-xl sm:text-2xl font-semibold text-[#6EE7B7]">Greatodeal</span> builds AI SaaS and agentic automation for government, healthcare, and other regulated sectors, where a broken audit trail or an unexplainable AI decision is a compliance failure, not just a bug. We combine technical depth with a compliance-first engineering process, so every system we ship is ready for the scrutiny it will face.
               </p>
               <div className="flex flex-wrap gap-2.5">
-                {['AI & Automation', 'SaaS Platforms', 'Custom Software', 'Mobile Apps', 'Cloud & DevOps'].map(tag => (
+                {['Agentic Automation', 'Compliance-Grade Infrastructure', 'Audit-Ready AI', 'Secure Integrations', 'Cloud & DevOps'].map(tag => (
                   <span key={tag} className="px-4 py-2 bg-white/[0.04] border border-white/[0.08] rounded-full text-sm text-white/80 hover:text-[#6EE7B7] hover:border-[#6EE7B7]/20 transition-all duration-500 cursor-default">{tag}</span>
                 ))}
               </div>
@@ -402,9 +416,9 @@ export default function HomeClient() {
         <div className="container max-w-7xl px-4 sm:px-6 relative z-10">
           <motion.div className="text-center max-w-3xl mx-auto" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8, ease }}>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 leading-[1.15] tracking-tight text-white">Partner with Greatodeal for Your Next Project</h2>
-            <p className="text-base sm:text-lg text-white/80 mb-10 sm:mb-12 max-w-xl mx-auto leading-[1.8]">We specialize in <strong className="text-white/80">enterprise software, AI-driven automation and cloud solutions</strong>. Whether you&apos;re looking to modernize existing systems or launch an innovative digital product, our expert team delivers scalable, secure, and future-ready solutions.</p>
+            <p className="text-base sm:text-lg text-white/80 mb-10 sm:mb-12 max-w-xl mx-auto leading-[1.8]">We specialize in <strong className="text-white/80">agentic AI, compliance-grade infrastructure, and secure cloud systems</strong>. Whether you&apos;re modernizing legacy systems or launching a new platform, our team builds for the audit you&apos;ll face, not just the demo.</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/contact" className="btn-primary group">Schedule a Consultation <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-500" /></Link>
+              <Link href="/contact" className="btn-primary group">Request a Demo <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-500" /></Link>
             </div>
           </motion.div>
         </div>

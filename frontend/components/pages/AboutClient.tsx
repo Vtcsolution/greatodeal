@@ -4,15 +4,15 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { ArrowRight, Users, Clock, DollarSign, Star, Shield, Zap, Settings, Award, CheckCircle, Target } from 'lucide-react';
+import { ArrowRight, Building2, Clock, DollarSign, Star, Shield, Zap, Settings, Award, CheckCircle, Target } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { RevealOnScroll, AnimatedCounter } from '@/components/ui/Animations';
 
 const ease = [0.25, 0.1, 0.25, 1] as const;
 
 const stats = [
-  { icon: Clock, target: 9, suffix: '+', label: 'years in business' },
-  { icon: Users, target: 120, suffix: '+', label: 'engineers & developers' },
+  { icon: Shield, target: 100, suffix: '%', label: 'audit-trail coverage' },
+  { icon: Building2, target: 5, suffix: '', label: 'regulated industries served' },
   { icon: Star, target: 100, suffix: '%', label: 'client satisfaction rate' },
   { icon: DollarSign, target: 60, suffix: '%+', label: 'cost saved' },
 ];
@@ -24,13 +24,16 @@ const principles = [
 ];
 
 const servicesList = [
-  'Custom Software Development', 'Web Application Development', 'Mobile App Development',
-  'Desktop Application Development', 'Enterprise Software & ERP Solutions', 'SaaS Platform Development',
-  'MVP Development for Startups', 'AI & Automation Solutions', 'Machine Learning Model Development',
-  'Chatbots & Virtual Assistants', 'Data Analytics & Business Intelligence', 'API Development & Integration',
-  'Cloud Solutions & Deployment', 'UI/UX Design', 'IT Consulting & Digital Strategy',
-  'Process Automation & Workflow Optimization', 'IoT & Smart Device Integration', 'Blockchain Solutions',
-  'AR/VR Applications',
+  'Agentic AI Platforms', 'Compliance-Grade Infrastructure', 'Industry-Specific SaaS',
+  'Explainable AI Decision Support', 'Secure API & Data Integration', 'Zero-Trust Security Architecture',
+  'Audit & Compliance Reporting Automation', 'Cloud & DevOps Engineering', 'Legacy System Modernization',
+];
+
+const processSteps = [
+  { number: '01', icon: Target, title: 'Discovery & Compliance Mapping', desc: 'We map your regulatory requirements and operational workflow before writing a line of code, so compliance is a design input, not a retrofit.' },
+  { number: '02', icon: Shield, title: 'Compliance-First Architecture', desc: 'Audit logging, access control, and encryption are built into the system architecture from the outset, not layered on before launch.' },
+  { number: '03', icon: Award, title: 'Agile Build & Continuous Review', desc: 'Development runs in agile sprints with security and compliance review gates at every milestone, not just at the end.' },
+  { number: '04', icon: CheckCircle, title: 'Audit-Ready Launch & Support', desc: 'We deliver with documentation and audit trails ready for regulatory review, plus ongoing monitoring and support post-launch.' },
 ];
 
 const pricingModels: Array<{ title: string; icon: LucideIcon; desc: string; perfect: string }> = [
@@ -63,11 +66,11 @@ export default function AboutClient() {
         <div className="container max-w-7xl relative z-10">
           <div className="text-center mb-16">
             <motion.h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight mb-8" initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.3, ease }}>
-              <span className="text-[#6EE7B7]">Your Technology Partner</span>
-              <br />for Growth
+              <span className="text-[#6EE7B7]">AI Infrastructure</span>
+              <br />for Institutions That Can&apos;t Afford to Get It Wrong
             </motion.h1>
             <motion.p className="text-gray-400 max-w-3xl mx-auto leading-relaxed" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.5, ease }}>
-              Greatodeal, founded in 2016, is a leading IT and AI automation company specializing in websites, apps, software, ERP systems, and AI SaaS platforms. We provide comprehensive IT solutions and software development services, focusing on scalable, secure, and innovative technologies to drive digital transformation. Clients value our commitment to quality, cost-effectiveness, and collaborative approach, which delivers exceptional results that drive business success.
+              Founded in 2016, Greatodeal builds AI SaaS and agentic automation for government, healthcare, and other regulated industries. Our team of 120+ engineers designs every system around the compliance, audit, and security requirements our clients are held to, not as an afterthought but as the starting point of the architecture.
             </motion.p>
           </div>
 
@@ -96,9 +99,9 @@ export default function AboutClient() {
                 <br />Driven by Innovation & Client Success
               </h2>
               <div className="space-y-5 text-gray-400 leading-relaxed">
-                <p>Since <span className="text-[#6EE7B7] font-semibold">2016</span>, Greatodeal has been on a mission to deliver technology that transforms businesses. What began as a vision to make cutting-edge software more accessible has grown into a global agency specializing in <span className="text-white">enterprise software, AI automation and cloud solutions</span>.</p>
-                <p>Our approach is simple yet powerful: combine technical excellence with a deep commitment to <span className="text-white font-medium">client satisfaction</span>. Every project we deliver is tailored to help organizations achieve growth, efficiency, and long-term scalability.</p>
-                <p>Today, Greatodeal partners with startups, enterprises, and global brands. By aligning innovation with business goals, we ensure our clients not only adopt the latest technologies but also gain a strategic advantage in their industries.</p>
+                <p>Since <span className="text-[#6EE7B7] font-semibold">2016</span>, Greatodeal has built technology for organizations where failure isn&apos;t an inconvenience. It&apos;s a compliance incident. What began as a software team has grown into a company focused specifically on <span className="text-white">AI infrastructure for regulated industries</span>.</p>
+                <p>Our approach is simple: every system starts with the question of how it will be audited, not just how it will function. Every project we deliver is built to hold up under regulatory review, not just a product demo.</p>
+                <p>Today, Greatodeal partners with government agencies, healthcare providers, and financial institutions. By treating compliance as a design constraint rather than a checklist, we help our clients adopt AI without taking on risk they can&apos;t justify.</p>
               </div>
             </RevealOnScroll>
             <motion.div initial={{ opacity: 0, x: 40 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.8, delay: 0.2, ease }}>
@@ -118,19 +121,44 @@ export default function AboutClient() {
             <RevealOnScroll direction="right" className="order-1 lg:order-2">
               <h2 className="text-3xl md:text-4xl font-bold mb-8">Our Mission</h2>
               <div className="space-y-5 text-gray-400 leading-relaxed">
-                <p>At Greatodeal, we believe in the power of technology to transform businesses and communities. Our priority is achieving your project goals, meeting your budget, and exceeding expectations. <span className="text-[#6EE7B7]">Your success means we succeed.</span></p>
-                <p>We&apos;re not just a vendor; we&apos;re your long-term partner in success. We actively collaborate with you to deliver exceptional software and digital experiences that drive growth and efficiency. Our expertise in IT and AI automation includes developing custom software, mobile apps, enterprise software, ERP systems, and AI-powered SaaS platforms to streamline operations and enable intelligent decision-making.</p>
+                <p>We build AI infrastructure for institutions that can&apos;t afford to get it wrong. That means every system we ship is designed around <span className="text-[#6EE7B7]">auditability, explainability, and security</span> from the first architecture decision, not features added after a compliance review flags a gap.</p>
+                <p>We&apos;re not a generalist vendor; we&apos;re a long-term technology partner to organizations operating under regulatory scrutiny. Our work spans agentic AI platforms, compliance-grade infrastructure, and industry-specific SaaS for government, healthcare, fintech, green tech, and real estate, built so our clients can adopt AI with confidence, not exposure.</p>
               </div>
             </RevealOnScroll>
           </div>
         </div>
       </section>
 
-      {/* ═══ OUR SERVICES ═══ */}
+      {/* ═══ HOW WE WORK ═══ */}
+      <section className="py-20">
+        <div className="container max-w-7xl">
+          <RevealOnScroll className="text-center mb-14">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">How We Work</h2>
+            <p className="text-gray-400 max-w-2xl mx-auto">A compliance-first process, from discovery to audit-ready launch.</p>
+          </RevealOnScroll>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {processSteps.map((step, i) => {
+              const StepIcon = step.icon;
+              return (
+                <motion.div key={i} className="p-6 rounded-2xl bg-[#111827] border border-gray-700/50 hover:border-[#6EE7B7]/30 transition-all duration-500" initial={{ opacity: 0, y: 25 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08, duration: 0.6 }}>
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="w-10 h-10 rounded-lg bg-[#6EE7B7]/10 border border-[#6EE7B7]/20 flex items-center justify-center"><StepIcon className="w-5 h-5 text-[#6EE7B7]" /></div>
+                    <span className="text-sm font-bold text-[#6EE7B7]">{step.number}</span>
+                  </div>
+                  <h3 className="font-bold text-white mb-2">{step.title}</h3>
+                  <p className="text-sm text-gray-400 leading-relaxed">{step.desc}</p>
+                </motion.div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ WHAT WE BUILD ═══ */}
       <section className="py-20 bg-[#111827]/50">
         <div className="container max-w-7xl">
           <RevealOnScroll className="text-center mb-14">
-            <h2 className="text-3xl md:text-4xl font-bold">Our Services</h2>
+            <h2 className="text-3xl md:text-4xl font-bold">What We Build</h2>
           </RevealOnScroll>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 max-w-5xl mx-auto">
             {servicesList.map((s, i) => (
