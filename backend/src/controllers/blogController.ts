@@ -14,7 +14,8 @@ export const createBlog = async (req: Request, res: Response): Promise<void> => 
     const blog = await Blog.create(blogData);
     res.status(201).json({ success: true, data: blog });
   } catch (error) {
-    res.status(500).json({ success: false, message: 'Error creating blog', error });
+    console.error('createBlog error:', error);
+    res.status(500).json({ success: false, message: error instanceof Error ? error.message : 'Error creating blog' });
   }
 };
 
@@ -32,7 +33,8 @@ export const getBlogs = async (req: Request, res: Response): Promise<void> => {
     ]);
     res.json({ success: true, data: blogs, total, page: Number(page), limit: Number(limit) });
   } catch (error) {
-    res.status(500).json({ success: false, message: 'Error fetching blogs', error });
+    console.error('getBlogs error:', error);
+    res.status(500).json({ success: false, message: error instanceof Error ? error.message : 'Error fetching blogs' });
   }
 };
 
@@ -42,7 +44,19 @@ export const getBlogById = async (req: Request, res: Response): Promise<void> =>
     if (!blog) { res.status(404).json({ success: false, message: 'Blog not found' }); return; }
     res.json({ success: true, data: blog });
   } catch (error) {
-    res.status(500).json({ success: false, message: 'Error fetching blog', error });
+    console.error('getBlogById error:', error);
+    res.status(500).json({ success: false, message: error instanceof Error ? error.message : 'Error fetching blog' });
+  }
+};
+
+export const getBlogByIdAdmin = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const blog = await Blog.findById(req.params.id);
+    if (!blog) { res.status(404).json({ success: false, message: 'Blog not found' }); return; }
+    res.json({ success: true, data: blog });
+  } catch (error) {
+    console.error('getBlogByIdAdmin error:', error);
+    res.status(500).json({ success: false, message: error instanceof Error ? error.message : 'Error fetching blog' });
   }
 };
 
@@ -56,7 +70,8 @@ export const updateBlog = async (req: Request, res: Response): Promise<void> => 
     if (!blog) { res.status(404).json({ success: false, message: 'Blog not found' }); return; }
     res.json({ success: true, data: blog });
   } catch (error) {
-    res.status(500).json({ success: false, message: 'Error updating blog', error });
+    console.error('updateBlog error:', error);
+    res.status(500).json({ success: false, message: error instanceof Error ? error.message : 'Error updating blog' });
   }
 };
 
@@ -66,7 +81,8 @@ export const deleteBlog = async (req: Request, res: Response): Promise<void> => 
     if (!blog) { res.status(404).json({ success: false, message: 'Blog not found' }); return; }
     res.json({ success: true, message: 'Blog deleted successfully' });
   } catch (error) {
-    res.status(500).json({ success: false, message: 'Error deleting blog', error });
+    console.error('deleteBlog error:', error);
+    res.status(500).json({ success: false, message: error instanceof Error ? error.message : 'Error deleting blog' });
   }
 };
 

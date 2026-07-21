@@ -18,6 +18,7 @@ api.interceptors.request.use((config) => {
 export const blogApi = {
   getAll: (params?: Record<string, unknown>) => api.get('/blogs', { params }),
   getById: (id: string) => api.get(`/blogs/${id}`),
+  getByIdAdmin: (id: string) => api.get(`/blogs/admin/${id}`),
   getCategories: () => api.get('/blogs/categories/all'),
   create: (data: FormData) => api.post('/blogs', data, { headers: { 'Content-Type': 'multipart/form-data' } }),
   update: (id: string, data: FormData) => api.put(`/blogs/${id}`, data, { headers: { 'Content-Type': 'multipart/form-data' } }),

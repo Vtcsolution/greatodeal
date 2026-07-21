@@ -28,7 +28,7 @@ export default function EditBlogPage() {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    blogApi.getById(id)
+    blogApi.getByIdAdmin(id)
       .then(res => {
         const blog = res.data.data;
         setForm({
