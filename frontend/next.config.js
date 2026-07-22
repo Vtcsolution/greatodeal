@@ -59,6 +59,14 @@ const nextConfig = {
       { source: '/focus-areas/ecommerce', destination: '/industries', permanent: true },
       { source: '/focus-areas/logistics', destination: '/industries', permanent: true },
       { source: '/focus-areas/:path*', destination: '/industries', permanent: true },
+
+      // Legacy app-style pages (dashboard/opportunities tool) with no current equivalent
+      { source: '/pipeline', destination: '/', permanent: true },
+      { source: '/dashboard', destination: '/', permanent: true },
+      { source: '/rfp-analyzer', destination: '/', permanent: true },
+      { source: '/opportunities', destination: '/', permanent: true },
+      { source: '/go-no-go', destination: '/', permanent: true },
+      { source: '/alerts', destination: '/', permanent: true },
     ];
   },
   reactStrictMode: false,
