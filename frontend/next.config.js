@@ -67,6 +67,7 @@ const nextConfig = {
       { source: '/opportunities', destination: '/', permanent: true },
       { source: '/go-no-go', destination: '/', permanent: true },
       { source: '/alerts', destination: '/', permanent: true },
+      { source: '/questions', destination: '/', permanent: true },
     ];
   },
   reactStrictMode: false,
