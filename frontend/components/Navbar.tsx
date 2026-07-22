@@ -18,13 +18,6 @@ interface NavItem {
 const navItems: NavItem[] = [
   { name: 'About', path: '/about' },
   {
-    name: 'Company',
-    dropdown: [
-      { name: 'Privacy Policy', path: '/privacy-policy' },
-      { name: 'Contact Us', path: '/contact' },
-    ],
-  },
-  {
     name: 'Industries',
     path: '/industries',
     dropdown: [
