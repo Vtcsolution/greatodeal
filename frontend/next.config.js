@@ -45,6 +45,20 @@ const nextConfig = {
       { source: '/industries/education', destination: '/industries', permanent: true },
       { source: '/industries/ecommerce', destination: '/industries', permanent: true },
       { source: '/industries/supply-chain', destination: '/industries', permanent: true },
+
+      // Legacy pre-rebuild URL scheme (/solutions/*, /focus-areas/*, /howwork, /blogs)
+      { source: '/howwork', destination: '/about', permanent: true },
+      { source: '/blogs', destination: '/blog', permanent: true },
+      { source: '/solutions/:path*', destination: '/', permanent: true },
+      { source: '/focus-areas/banking', destination: '/industries/fintech', permanent: true },
+      { source: '/focus-areas/investment', destination: '/industries/fintech', permanent: true },
+      { source: '/focus-areas/oil-gas', destination: '/industries/green-tech', permanent: true },
+      { source: '/focus-areas/construction', destination: '/industries/real-estate', permanent: true },
+      { source: '/focus-areas/public-sector', destination: '/industries/government', permanent: true },
+      { source: '/focus-areas/education', destination: '/industries', permanent: true },
+      { source: '/focus-areas/ecommerce', destination: '/industries', permanent: true },
+      { source: '/focus-areas/logistics', destination: '/industries', permanent: true },
+      { source: '/focus-areas/:path*', destination: '/industries', permanent: true },
     ];
   },
   reactStrictMode: false,
