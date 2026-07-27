@@ -284,7 +284,7 @@ export default function PrivacyClient() {
               </div>
               <div className="p-5 bg-[#6EE7B7]/[0.04] rounded-2xl border border-[#6EE7B7]/[0.1]">
                 <h3 className="font-semibold text-[#6EE7B7] mb-2">Exercising Your Rights</h3>
-                <p className="text-sm text-[#888]">To exercise any of your privacy rights, please contact us at <a href="mailto:privacy@greatodeal.com" className="text-[#6EE7B7] hover:underline">privacy@greatodeal.com</a>. We will respond to your request within 30 days.</p>
+                <p className="text-sm text-[#888]">To exercise any of your privacy rights, please contact us at <a href="mailto:sales@greatodeal.com" className="text-[#6EE7B7] hover:underline">sales@greatodeal.com</a>. We will respond to your request within 30 days.</p>
                 <p className="text-xs text-[#666] mt-2">We may need to verify your identity before processing certain requests.</p>
               </div>
             </RevealOnScroll>
@@ -301,8 +301,8 @@ export default function PrivacyClient() {
               <div className="p-6 rounded-2xl bg-[#6EE7B7]/[0.03] border border-[#6EE7B7]/[0.1]">
                 <div className="text-[#6EE7B7] font-bold text-lg mb-4">Greatodeal</div>
                 <div className="grid sm:grid-cols-2 gap-4 text-sm">
-                  <div><div className="text-[#555] text-[10px] uppercase tracking-wider mb-1">Privacy Email</div><a href="mailto:privacy@greatodeal.com" className="text-[#6EE7B7] hover:underline">privacy@greatodeal.com</a></div>
                   <div><div className="text-[#555] text-[10px] uppercase tracking-wider mb-1">General Email</div><a href="mailto:sales@greatodeal.com" className="text-[#6EE7B7] hover:underline">sales@greatodeal.com</a></div>
+                  <div><div className="text-[#555] text-[10px] uppercase tracking-wider mb-1">Support Email</div><a href="mailto:hello@greatodeal.com" className="text-[#6EE7B7] hover:underline">hello@greatodeal.com</a></div>
                   <div><div className="text-[#555] text-[10px] uppercase tracking-wider mb-1">Pakistan Office</div><span className="text-[#bbb]">16 Jail Rd, Shadman 2, Lahore</span></div>
                 </div>
               </div>

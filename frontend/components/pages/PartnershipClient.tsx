@@ -35,7 +35,7 @@ export default function PartnershipClient() {
     if (!form.ndaAgreed) { setError('Please agree to the NDA to continue.'); return; }
     setSubmitting(true); setError('');
     try { await partnershipApi.submit(form as unknown as Record<string, unknown>); setSubmitted(true); }
-    catch { setError('Submission failed. Please try again or email partnerships@greatodeal.com'); }
+    catch { setError('Submission failed. Please try again or email sales@greatodeal.com'); }
     finally { setSubmitting(false); }
   };
 

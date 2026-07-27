@@ -126,7 +126,7 @@ const organizationSchema = {
     },
     {
       '@type': 'ContactPoint',
-      email: 'info@greatodeal.com',
+      email: 'hello@greatodeal.com',
       contactType: 'customer service',
       availableLanguage: ['English', 'Urdu'],
     },

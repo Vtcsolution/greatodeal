@@ -32,8 +32,7 @@ const serviceOptions = [
 
 const contactInfo = [
   { icon: Mail, label: 'Sales', value: 'sales@greatodeal.com', href: 'mailto:sales@greatodeal.com' },
-  { icon: Mail, label: 'General Info', value: 'info@greatodeal.com', href: 'mailto:info@greatodeal.com' },
-  { icon: Mail, label: 'Support', value: 'support@greatodeal.com', href: 'mailto:support@greatodeal.com' },
+  { icon: Mail, label: 'General & Support', value: 'hello@greatodeal.com', href: 'mailto:hello@greatodeal.com' },
   { icon: Phone, label: 'Pakistan', value: '+92 301 1060841', href: 'tel:+923011060841' },
   { icon: MapPin, label: 'HQ Address', value: '16 Jail Rd, Shadman 2, Lahore, Pakistan', href: '#' },
 ];
