@@ -201,9 +201,9 @@ export default function HomeClient() {
               </motion.div>
 
               <motion.div className="grid grid-cols-4 gap-4 pt-8 border-t border-white/[0.08]" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 1.3 }}>
-                {[{ target: 9, suffix: '+', label: 'Years' }, { target: 120, suffix: '+', label: 'Engineers' }, { target: 200, suffix: '+', label: 'Projects' }, { target: 98, suffix: '%', label: 'Satisfaction' }].map(s => (
+                {[{ target: 6, suffix: '+', label: 'Years' }, { text: 'Dedicated', label: 'Team' }, { target: 200, suffix: '+', label: 'Projects' }, { target: 98, suffix: '%', label: 'Satisfaction' }].map(s => (
                   <div key={s.label} className="text-center">
-                    <div className="text-2xl sm:text-4xl font-bold text-white tracking-tight"><AnimatedCounter target={s.target} suffix={s.suffix} /></div>
+                    <div className="text-2xl sm:text-4xl font-bold text-white tracking-tight">{s.text ? s.text : <AnimatedCounter target={s.target as number} suffix={s.suffix as string} />}</div>
                     <div className="text-xs sm:text-sm text-white/80 mt-1.5 uppercase tracking-[0.12em] font-medium">{s.label}</div>
                   </div>
                 ))}

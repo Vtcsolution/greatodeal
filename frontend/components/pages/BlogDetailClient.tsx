@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import { motion, useScroll, useSpring } from 'framer-motion';
-import { Clock, Eye, ArrowLeft, Heart, Send, FileText, ArrowRight, ArrowUpRight, BookOpen, Link2, Check, List } from 'lucide-react';
+import { Clock, Eye, ArrowLeft, Heart, Send, FileText, ArrowRight, ArrowUpRight, BookOpen, Link2, Check, List, RefreshCw } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { blogApi, commentApi, getImageUrl } from '@/lib/api';
@@ -165,6 +165,9 @@ export default function BlogDetailClient({ id }: { id: string }) {
                 <span className="flex items-center gap-1.5"><Clock className="w-4 h-4" />{blog.readTime}</span>
                 <span className="flex items-center gap-1.5"><Eye className="w-4 h-4" />{blog.views} views</span>
                 <span>{new Date(blog.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+                {blog.updatedAt && (
+                  <span className="flex items-center gap-1.5 text-white/40"><RefreshCw className="w-3.5 h-3.5" />Last updated: {new Date(blog.updatedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+                )}
               </div>
             </div>
             <div className="flex items-center gap-2">
@@ -269,6 +272,9 @@ export default function BlogDetailClient({ id }: { id: string }) {
                     <div className="flex items-center gap-3 text-base text-white/50"><BookOpen className="w-5 h-5" />{blog.readTime} read</div>
                     <div className="flex items-center gap-3 text-base text-white/50"><Eye className="w-5 h-5" />{blog.views} views</div>
                     <div className="flex items-center gap-3 text-base text-white/50"><Clock className="w-5 h-5" />{new Date(blog.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</div>
+                    {blog.updatedAt && (
+                      <div className="flex items-center gap-3 text-base text-white/50"><RefreshCw className="w-5 h-5" />Updated {new Date(blog.updatedAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</div>
+                    )}
                   </div>
 
                   <Link href="/contact" className="btn-primary w-full mt-6">

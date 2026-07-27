@@ -239,7 +239,7 @@ export default function ContactClient() {
               <div className="bg-white/[0.02] p-6 sm:p-7 rounded-2xl border border-white/[0.06]">
                 <h3 className="text-xl font-bold mb-5 tracking-tight">Why Contact Us?</h3>
                 <div className="space-y-3.5">
-                  {['Personalized product demo', 'Response within 24 hours', 'NDA signing available', 'Dedicated project manager', 'Compliance & security walkthrough', '9+ years proven expertise'].map((item, i) => (
+                  {['Personalized product demo', 'Response within 24 hours', 'NDA signing available', 'Dedicated project manager', 'Compliance & security walkthrough', 'Focused, hands-on team'].map((item, i) => (
                     <div key={i} className="flex items-center gap-3">
                       <CheckCircle className="w-5 h-5 text-[#6EE7B7] shrink-0" />
                       <p className="text-base text-white/70">{item}</p>

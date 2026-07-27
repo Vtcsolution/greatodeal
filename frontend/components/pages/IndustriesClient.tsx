@@ -146,7 +146,7 @@ export default function IndustriesClient() {
         <div className="container max-w-7xl px-4 sm:px-6 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
           {[
             { target: 5, suffix: '', label: 'Focus Industries' },
-            { target: 9, suffix: '+', label: 'Years in Operation' },
+            { target: 6, suffix: '+', label: 'Years in Operation' },
             { target: 100, suffix: '%', label: 'Audit-Trail Coverage' },
             { target: 98, suffix: '%', label: 'Client Satisfaction' },
           ].map((s, i) => (

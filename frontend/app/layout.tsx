@@ -6,7 +6,7 @@ import LayoutWrapper from '@/components/LayoutWrapper';
 export const metadata: Metadata = {
   metadataBase: new URL('https://greatodeal.com'),
   title: 'Greatodeal | AI SaaS & Agentic Automation for Regulated Industries',
-  description: 'Greatodeal builds AI SaaS and agentic automation for regulated industries: government, healthcare, fintech, green tech, and real estate. 9+ years, 120+ engineers, compliance built in.',
+  description: 'Greatodeal builds AI SaaS and agentic automation for regulated industries: government, healthcare, fintech, green tech, and real estate. Founded 2020, compliance built in.',
   keywords: [
     'AI SaaS for regulated industries', 'agentic automation company', 'compliance-grade AI infrastructure',
     'government AI automation', 'healthcare AI HIPAA compliant', 'fintech AI compliance',
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
     url: 'https://greatodeal.com',
     siteName: 'Greatodeal',
     title: 'Greatodeal | AI SaaS & Agentic Automation for Regulated Industries',
-    description: 'AI SaaS and agentic automation for government, healthcare, fintech, green tech, and real estate, serving clients globally since 2016.',
+    description: 'AI SaaS and agentic automation for government, healthcare, fintech, green tech, and real estate, serving clients globally since 2020.',
     images: [
       {
         url: 'https://greatodeal.com/images/logo.png',
@@ -58,7 +58,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Greatodeal | AI SaaS & Agentic Automation',
-    description: 'AI SaaS and agentic automation for regulated industries. 9+ years, 200+ projects, 15+ countries.',
+    description: 'AI SaaS and agentic automation for regulated industries. Founded 2020, 200+ projects, 7 countries served.',
     images: ['https://greatodeal.com/images/logo.png'],
     creator: '@greatodeal',
     site: '@greatodeal',
@@ -102,9 +102,9 @@ const organizationSchema = {
   },
   image: 'https://greatodeal.com/images/logo.png',
   description: 'AI SaaS and agentic automation for regulated industries: government, healthcare, fintech, green tech, and real estate. Serving 200+ global clients.',
-  foundingDate: '2016',
+  foundingDate: '2020',
   foundingLocation: { '@type': 'Place', name: 'Lahore, Pakistan' },
-  numberOfEmployees: { '@type': 'QuantitativeValue', minValue: 100, maxValue: 150 },
+  numberOfEmployees: { '@type': 'QuantitativeValue', minValue: 2, maxValue: 10 },
   address: [
     {
       '@type': 'PostalAddress',
@@ -241,7 +241,7 @@ const videoSchema = {
       '@type': 'VideoObject',
       position: 2,
       name: 'Toxic Clients & Productivity - Software Development Reality',
-      description: 'Real talk about client management in software development. Greatodeal shares experiences from 9+ years of building AI and web solutions.',
+      description: 'Real talk about client management in software development. Greatodeal shares experiences from building AI and web solutions since 2020.',
       thumbnailUrl: 'https://i.ytimg.com/vi/Lbi4vw7_5xo/hqdefault.jpg',
       uploadDate: '2025-01-01',
       contentUrl: 'https://youtube.com/shorts/Lbi4vw7_5xo',
