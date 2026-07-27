@@ -54,19 +54,6 @@ function RevealText({ children, className = '', delay = 0 }: { children: React.R
   return <motion.div ref={ref} className={className} initial={{ opacity: 0, y: 24 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7, delay, ease: [0.33, 1, 0.68, 1] }}>{children}</motion.div>;
 }
 
-function AnimatedCounter({ target, suffix = '' }: { target: number; suffix?: string }) {
-  const [count, setCount] = useState(target);
-  const ref = useRef<HTMLSpanElement>(null);
-  const inView = useInView(ref, { once: true });
-  useEffect(() => {
-    if (!inView) return;
-    const duration = 2200; const start = performance.now();
-    const tick = (now: number) => { const p = Math.min((now - start) / duration, 1); setCount(Math.round((1 - Math.pow(1 - p, 4)) * target)); if (p < 1) requestAnimationFrame(tick); };
-    requestAnimationFrame(tick);
-  }, [inView, target]);
-  return <span ref={ref}>{count}{suffix}</span>;
-}
-
 function SplitText({ text, delay = 0, className = '' }: { text: string; delay?: number; className?: string }) {
   return (<span className={className}>{text.split(' ').map((word, i) => (<span key={i} className="inline-block overflow-hidden"><motion.span className="inline-block" initial={{ y: '100%', opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.6, delay: delay + i * 0.04, ease: [0.33, 1, 0.68, 1] }}>{word}&nbsp;</motion.span></span>))}</span>);
 }
@@ -198,15 +185,6 @@ export default function HomeClient() {
                 <Link href="/contact" className="btn-primary group">
                   Request a Demo <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-500" />
                 </Link>
-              </motion.div>
-
-              <motion.div className="grid grid-cols-3 gap-4 pt-8 border-t border-white/[0.08]" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 1.3 }}>
-                {[{ target: 6, suffix: '+', label: 'Years' }, { text: '2-10', label: 'Team Members' }, { target: 5, suffix: '', label: 'Focus Industries' }].map(s => (
-                  <div key={s.label} className="text-center">
-                    <div className="text-2xl sm:text-4xl font-bold text-white tracking-tight">{s.text ? s.text : <AnimatedCounter target={s.target as number} suffix={s.suffix as string} />}</div>
-                    <div className="text-xs sm:text-sm text-white/80 mt-1.5 uppercase tracking-[0.12em] font-medium">{s.label}</div>
-                  </div>
-                ))}
               </motion.div>
             </div>
 
