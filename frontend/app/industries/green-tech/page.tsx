@@ -26,10 +26,38 @@ const serviceSchema = {
   url: 'https://greatodeal.com/industries/green-tech',
 };
 
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'What does Greatodeal build for green tech and energy operators?',
+      acceptedAnswer: { '@type': 'Answer', text: 'We build AI-driven monitoring and automation for energy operators, including smart grid integration, predictive maintenance, and automated emissions and HSE compliance reporting.' },
+    },
+    {
+      '@type': 'Question',
+      name: 'Can Greatodeal integrate with existing SCADA or field infrastructure?',
+      acceptedAnswer: { '@type': 'Answer', text: 'Yes. We layer cloud-connected monitoring on top of existing SCADA and field systems rather than requiring a rip-and-replace.' },
+    },
+    {
+      '@type': 'Question',
+      name: 'Does Greatodeal automate emissions and regulatory reporting?',
+      acceptedAnswer: { '@type': 'Answer', text: 'Yes. We generate emissions and energy-usage reports automatically from live sensor data, with an audit trail mapped to the relevant regulatory framework.' },
+    },
+    {
+      '@type': 'Question',
+      name: 'Can Greatodeal help reduce equipment downtime?',
+      acceptedAnswer: { '@type': 'Answer', text: 'Yes. Our predictive maintenance models flag equipment anomalies before failure, reducing unplanned downtime and safety incidents.' },
+    },
+  ],
+};
+
 export default function Page() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <Content />
     </>
   );

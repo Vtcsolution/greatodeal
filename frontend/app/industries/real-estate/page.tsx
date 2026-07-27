@@ -26,10 +26,38 @@ const serviceSchema = {
   url: 'https://greatodeal.com/industries/real-estate',
 };
 
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'What does Greatodeal build for real estate and PropTech companies?',
+      acceptedAnswer: { '@type': 'Answer', text: 'We build platforms for automated disclosure compliance, unified property data, portfolio reporting, and transaction fraud detection.' },
+    },
+    {
+      '@type': 'Question',
+      name: 'Can Greatodeal automate real estate disclosure requirements?',
+      acceptedAnswer: { '@type': 'Answer', text: 'Yes. We build transaction workflows that generate and log required disclosures automatically, reducing manual review and legal exposure.' },
+    },
+    {
+      '@type': 'Question',
+      name: 'Does Greatodeal offer fraud detection for property transactions?',
+      acceptedAnswer: { '@type': 'Answer', text: 'Yes. We use AI-based anomaly detection on high-value transactions and wire transfers to flag fraud risk before funds move.' },
+    },
+    {
+      '@type': 'Question',
+      name: 'Can Greatodeal integrate with existing property management systems?',
+      acceptedAnswer: { '@type': 'Answer', text: 'Yes. We build an integration layer connecting listings, title, escrow, and financing data into a single auditable record per property, on top of the systems you already use.' },
+    },
+  ],
+};
+
 export default function Page() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <Content />
     </>
   );
