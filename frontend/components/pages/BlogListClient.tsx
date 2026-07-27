@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Clock, Eye, TrendingUp, Star, FileText, ArrowRight, ArrowUpRight, Sparkles, X, RotateCcw, Layers } from 'lucide-react';
@@ -61,14 +61,21 @@ function BlogCard({ blog, index }: { blog: Blog; index: number }) {
   );
 }
 
-export default function BlogListClient() {
-  const [blogs, setBlogs] = useState<Blog[]>([]);
-  const [loading, setLoading] = useState(true);
+export default function BlogListClient({ initialBlogs = [] }: { initialBlogs?: Blog[] }) {
+  const [blogs, setBlogs] = useState<Blog[]>(initialBlogs);
+  const [loading, setLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [activeCategory, setActiveCategory] = useState('All');
   const [filter, setFilter] = useState<'all' | 'featured' | 'trending'>('all');
+  const isFirstRun = useRef(true);
 
   useEffect(() => {
+    // The server already fetched the default (All / all) list for the initial HTML.
+    // Skip the redundant client fetch on mount so real content isn't briefly replaced by the skeleton.
+    if (isFirstRun.current) {
+      isFirstRun.current = false;
+      if (activeCategory === 'All' && filter === 'all' && initialBlogs.length > 0) return;
+    }
     const params: Record<string, unknown> = { limit: 50 };
     if (activeCategory !== 'All') params.category = activeCategory;
     if (filter === 'featured') params.featured = true;
@@ -78,7 +85,7 @@ export default function BlogListClient() {
       .then(res => { if (res.data.success) setBlogs(res.data.data || []); })
       .catch(() => setBlogs([]))
       .finally(() => setLoading(false));
-  }, [activeCategory, filter]);
+  }, [activeCategory, filter, initialBlogs]);
 
   const filtered = blogs.filter(b =>
     b.title.toLowerCase().includes(searchTerm.toLowerCase()) ||

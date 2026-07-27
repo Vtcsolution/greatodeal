@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import BlogListClient from '@/components/pages/BlogListClient';
+import type { Blog } from '@/types';
 
 export const metadata: Metadata = {
   title: 'Blog & Insights | AI, Software Development, Technology Trends | Greatodeal',
@@ -20,6 +21,17 @@ export const metadata: Metadata = {
   },
 };
 
-export default function Page() {
-  return <BlogListClient />;
+async function getInitialBlogs(): Promise<Blog[]> {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001'}/api/blogs?limit=50`, { next: { revalidate: 300 } });
+    const data = await res.json();
+    return data.success ? data.data || [] : [];
+  } catch {
+    return [];
+  }
+}
+
+export default async function Page() {
+  const initialBlogs = await getInitialBlogs();
+  return <BlogListClient initialBlogs={initialBlogs} />;
 }
