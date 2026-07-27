@@ -39,7 +39,7 @@ CORE SERVICES:
 15. IT Infrastructure Services
 16. IT Consulting & Digital Transformation
 
-FOCUS INDUSTRIES: Government and Healthcare (primary focus), with Fintech, Green Tech, and Real Estate as secondary focus areas. All five are regulated industries where compliance, audit, and security are core requirements. Alongside this focus, Greatodeal also builds full-stack web and mobile development, custom software, and generative/agentic AI solutions for clients more broadly.
+FOCUS INDUSTRIES: Government and Healthcare (primary focus), with Fintech, Green Tech, Real Estate, and AI Automation as secondary focus areas. Compliance, audit, and security are core requirements across all six. Alongside this focus, Greatodeal also builds full-stack web and mobile development, custom software, and generative/agentic AI solutions for clients more broadly.
 
 TECH STACK: React, Next.js, Vue.js, Node.js, Python, Java, .NET, PHP, Flutter, React Native, MongoDB, PostgreSQL, AWS, Azure, Docker, Kubernetes
 

@@ -12,6 +12,7 @@ const staticRoutes: MetadataRoute.Sitemap = [
   { url: `${BASE_URL}/industries/fintech`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
   { url: `${BASE_URL}/industries/green-tech`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
   { url: `${BASE_URL}/industries/real-estate`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
+  { url: `${BASE_URL}/industries/ai-automation`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
   { url: `${BASE_URL}/blog`, lastModified: new Date(), changeFrequency: 'daily', priority: 0.9 },
   { url: `${BASE_URL}/privacy-policy`, lastModified: new Date(), changeFrequency: 'yearly', priority: 0.3 },
 ];

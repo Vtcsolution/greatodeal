@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { ArrowRight, CheckCircle, Sparkles, AlertTriangle, Layers, Code, Landmark, Activity, Banknote, Leaf, Home, ArrowUpRight } from 'lucide-react';
+import { ArrowRight, CheckCircle, Sparkles, AlertTriangle, Layers, Code, Landmark, Activity, Banknote, Leaf, Home, Bot, ArrowUpRight } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { RevealOnScroll, SectionBadge, StaggerContainer, StaggerItem } from '@/components/ui/Animations';
 
@@ -15,6 +15,7 @@ const allIndustries: Array<{ name: string; icon: LucideIcon; color: string; path
   { name: 'Fintech', icon: Banknote, color: 'text-blue-400', path: '/industries/fintech' },
   { name: 'Green Tech', icon: Leaf, color: 'text-lime-400', path: '/industries/green-tech' },
   { name: 'Real Estate', icon: Home, color: 'text-cyan-400', path: '/industries/real-estate' },
+  { name: 'AI Automation', icon: Bot, color: 'text-violet-400', path: '/industries/ai-automation' },
 ];
 
 export interface IndustryPageData {
@@ -31,6 +32,8 @@ export interface IndustryPageData {
   caseStudy?: { title: string; result: string; desc: string };
   heroImage?: string;
   heroVideo?: string;
+  /** Optional extra section rendered between Challenges and Solutions. */
+  customSection?: React.ReactNode;
 }
 
 export default function IndustryPageTemplate({ data }: { data: IndustryPageData }) {
@@ -118,6 +121,8 @@ export default function IndustryPageTemplate({ data }: { data: IndustryPageData 
         </div>
       </section>
 
+      {data.customSection}
+
       {/* ═══ SOLUTIONS ═══ */}
       <section className="py-28 bg-[#090909]">
         <div className="container max-w-7xl">
@@ -187,7 +192,7 @@ export default function IndustryPageTemplate({ data }: { data: IndustryPageData 
             <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">Related Industries</h2>
             <p className="text-[#777] text-[15px] mt-3">We build compliance-grade AI automation for these sectors too.</p>
           </RevealOnScroll>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
             {relatedIndustries.map(ind => {
               const Icon = ind.icon;
               return (

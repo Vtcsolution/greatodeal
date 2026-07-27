@@ -60,7 +60,7 @@ const faqSchema = {
     {
       '@type': 'Question',
       name: 'Which industries does Greatodeal focus on?',
-      acceptedAnswer: { '@type': 'Answer', text: 'Greatodeal focuses on government and healthcare as its primary industries, with fintech, green tech, and real estate as secondary areas of focus. These are all sectors where compliance, audit, and security are core requirements, not optional extras.' },
+      acceptedAnswer: { '@type': 'Answer', text: 'Greatodeal focuses on government and healthcare as its primary industries, with fintech, green tech, real estate, and AI automation as secondary areas of focus. These are all sectors where compliance, audit, and security are core requirements, not optional extras.' },
     },
     {
       '@type': 'Question',

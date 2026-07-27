@@ -4,7 +4,7 @@ import React, { useRef } from 'react';
 import Link from 'next/link';
 import { motion, useInView } from 'framer-motion';
 import {
-  Landmark, Activity, Banknote, Leaf, Home, ArrowRight, ArrowUpRight, Sparkles,
+  Landmark, Activity, Banknote, Leaf, Home, Bot, ArrowRight, ArrowUpRight, Sparkles,
   Search, ShieldCheck, Layers, FileCheck, CheckCircle, Eye, Lock,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
@@ -22,6 +22,7 @@ const industries: Industry[] = [
   { icon: Banknote, name: 'Fintech', desc: 'KYC/AML automation and auditable transaction infrastructure.', longDesc: 'Financial platforms engineered for KYC/AML compliance, real-time fraud detection, and full transaction auditability.', path: '/industries/fintech', tags: ['KYC/AML', 'Fraud Detection', 'PCI DSS', 'Open Banking'], color: 'text-blue-400', accent: '#60A5FA' },
   { icon: Leaf, name: 'Green Tech', desc: 'Smart grid monitoring and automated emissions compliance reporting.', longDesc: 'Monitoring and automation for energy operators, built around emissions reporting and HSE compliance.', path: '/industries/green-tech', tags: ['Smart Grid', 'Predictive Maintenance', 'HSE', 'IoT'], color: 'text-lime-400', accent: '#A3E635' },
   { icon: Home, name: 'Real Estate', desc: 'Automated disclosure compliance and auditable transaction data.', longDesc: 'Disclosure automation, unified property data, and portfolio reporting for real estate and PropTech platforms.', path: '/industries/real-estate', tags: ['PropTech', 'Disclosure Automation', 'Portfolio Reporting', 'Fraud Detection'], color: 'text-cyan-400', accent: '#22D3EE' },
+  { icon: Bot, name: 'AI Automation', desc: 'Agentic workflow automation that connects scattered tools into one operational system.', longDesc: 'Most businesses are not short on effort, they are short on connected systems. We build agentic automation, operational dashboards, and connected data pipelines with full audit logging on every automated action.', path: '/industries/ai-automation', tags: ['Agentic Automation', 'Connected Systems', 'Operational Visibility', 'Audit Logging'], color: 'text-violet-400', accent: '#A78BFA' },
 ];
 
 const primaryIndustries = industries.filter(i => i.name === 'Government' || i.name === 'Healthcare');
@@ -126,7 +127,7 @@ export default function IndustriesClient() {
             Industries We{' '}<span className="bg-gradient-to-r from-[#6EE7B7] via-[#34D399] to-[#3B82F6] bg-clip-text text-transparent">Serve</span>
           </motion.h1>
           <motion.p className="text-lg sm:text-xl text-white/70 max-w-2xl mx-auto leading-[1.8] mb-8" initial={{ opacity: 0, y: 20 }} animate={heroInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7, delay: 0.6, ease }}>
-            We focus on sectors where compliance, audit, and security aren&apos;t optional. Government and healthcare above all, with fintech, green tech, and real estate as our secondary focus.
+            We focus on sectors where compliance, audit, and security aren&apos;t optional. Government and healthcare above all, with fintech, green tech, real estate, and AI automation as our secondary focus.
           </motion.p>
           <motion.div className="flex flex-wrap items-center justify-center gap-3 mb-10" initial={{ opacity: 0, y: 15 }} animate={heroInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6, delay: 0.75 }}>
             {trustPoints.map(({ icon: Icon, label }) => (
@@ -145,7 +146,7 @@ export default function IndustriesClient() {
       <section className="py-12 border-y border-white/[0.04] bg-[#060606]">
         <div className="container max-w-7xl px-4 sm:px-6 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
           {[
-            { target: 5, suffix: '', label: 'Focus Industries' },
+            { target: 6, suffix: '', label: 'Focus Industries' },
             { target: 6, suffix: '+', label: 'Years in Operation' },
             { target: 100, suffix: '%', label: 'Audit-Trail Coverage' },
             { target: 98, suffix: '%', label: 'Client Satisfaction' },
@@ -188,7 +189,7 @@ export default function IndustriesClient() {
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider mb-5 bg-white/[0.04] border border-white/[0.08] text-white/60">Secondary Focus</div>
             <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-white">Also Built for These Sectors</h2>
           </motion.div>
-          <div className="grid md:grid-cols-3 gap-6">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {secondaryIndustries.map((ind, i) => {
               const Icon = ind.icon;
               return (
