@@ -172,10 +172,11 @@ export default function HomeClient() {
                   <SplitText text="AI Systems &" delay={0.4} />
                   <br />
                   <SplitText
-                    text="Agentic Automation for Regulated Industries"
+                    text="Agentic Automation"
                     delay={0.7}
                     className="bg-gradient-to-r from-[#6EE7B7] via-[#34D399] to-[#3B82F6] bg-clip-text text-transparent"
                   />
+                  <SplitText text="for Regulated Industries" delay={0.9} />
                 </h1>
                 <motion.p className="text-base sm:text-lg text-white/80 max-w-lg leading-[1.8]" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.8, ease }}>
                   We build AI SaaS and agentic automation for government, healthcare, and other regulated industries, with compliance, security, and auditability engineered in from day one, not bolted on after a breach. As an AI automation company in Lahore, we hold every system we ship to that same standard, whether the client is down the street or on the other side of the world.

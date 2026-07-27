@@ -217,7 +217,7 @@ export default function IndustryPageTemplate({ data }: { data: IndustryPageData 
         <div className="container max-w-7xl relative z-10">
           <motion.div className="text-center max-w-3xl mx-auto" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8, ease }}>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 leading-[1.15] tracking-tight">
-              Transform Your{' '}<span className="bg-gradient-to-r from-[#6EE7B7] via-[#34D399] to-[#3B82F6] bg-clip-text text-transparent">{data.title} Business</span>
+              Transform Your {data.title}{' '}<span className="bg-gradient-to-r from-[#6EE7B7] via-[#34D399] to-[#3B82F6] bg-clip-text text-transparent">Business</span>
             </h2>
             <p className="text-[17px] text-[#777] mb-12 max-w-xl mx-auto leading-[1.7]">Join leading {data.title.toLowerCase()} companies that trust Greatodeal for their technology needs.</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">

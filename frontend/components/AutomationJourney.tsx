@@ -110,8 +110,8 @@ export default function AutomationJourney() {
                 <Sparkles className="w-4 h-4" /> It&apos;s Not Prediction, It&apos;s a Truth
               </div>
               <h2 className="text-3xl sm:text-4xl lg:text-[2.75rem] font-bold leading-[1.15] tracking-tight text-white mb-6">
-                Automation will move from{' '}
-                <span className="bg-gradient-to-r from-[#6EE7B7] via-[#34D399] to-[#3B82F6] bg-clip-text text-transparent">advantage to necessity</span>.
+                Automation will move from advantage to{' '}
+                <span className="bg-gradient-to-r from-[#6EE7B7] via-[#34D399] to-[#3B82F6] bg-clip-text text-transparent">necessity</span>.
               </h2>
               <p className="text-white/70 text-base sm:text-lg leading-[1.8] max-w-lg">
                 Growing businesses won&apos;t keep asking whether to automate. They&apos;ll ask why they waited. Manual follow-ups, repeated data entry, slow customer replies, and disconnected tools are already becoming expensive. The businesses that win won&apos;t be the ones using the most software, they&apos;ll be the ones whose systems work together.
