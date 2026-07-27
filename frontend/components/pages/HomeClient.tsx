@@ -67,22 +67,8 @@ function AnimatedCounter({ target, suffix = '' }: { target: number; suffix?: str
   return <span ref={ref}>{count}{suffix}</span>;
 }
 
-function TypingText({ words }: { words: string[] }) {
-  const [index, setIndex] = useState(0);
-  const [text, setText] = useState('');
-  const [phase, setPhase] = useState<'typing' | 'pause' | 'deleting'>('typing');
-  useEffect(() => {
-    const word = words[index]; let timeout: ReturnType<typeof setTimeout>;
-    if (phase === 'typing') { if (text.length < word.length) timeout = setTimeout(() => setText(word.slice(0, text.length + 1)), 70); else timeout = setTimeout(() => setPhase('pause'), 100); }
-    else if (phase === 'pause') { timeout = setTimeout(() => setPhase('deleting'), 2000); }
-    else { if (text.length > 0) timeout = setTimeout(() => setText(t => t.slice(0, -1)), 35); else { setIndex(i => (i + 1) % words.length); setPhase('typing'); } }
-    return () => clearTimeout(timeout);
-  }, [text, phase, index, words]);
-  return (<span className="relative"><span className="bg-gradient-to-r from-[#6EE7B7] via-[#34D399] to-[#3B82F6] bg-clip-text text-transparent">{text}</span><motion.span className="inline-block w-[3px] h-[0.85em] bg-[#6EE7B7] ml-0.5 align-middle rounded-full" animate={{ opacity: [1, 0] }} transition={{ duration: 0.6, repeat: Infinity, repeatType: 'reverse' }} /></span>);
-}
-
-function SplitText({ text, delay = 0 }: { text: string; delay?: number }) {
-  return (<span>{text.split(' ').map((word, i) => (<span key={i} className="inline-block overflow-hidden"><motion.span className="inline-block" initial={{ y: '100%', opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.6, delay: delay + i * 0.04, ease: [0.33, 1, 0.68, 1] }}>{word}&nbsp;</motion.span></span>))}</span>);
+function SplitText({ text, delay = 0, className = '' }: { text: string; delay?: number; className?: string }) {
+  return (<span className={className}>{text.split(' ').map((word, i) => (<span key={i} className="inline-block overflow-hidden"><motion.span className="inline-block" initial={{ y: '100%', opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.6, delay: delay + i * 0.04, ease: [0.33, 1, 0.68, 1] }}>{word}&nbsp;</motion.span></span>))}</span>);
 }
 
 function FeatureVisual({ index, accent }: { index: number; accent: string }) {
@@ -196,10 +182,15 @@ export default function HomeClient() {
               <div className="space-y-5">
                 <h1 className="text-3xl sm:text-5xl lg:text-[3.5rem] font-bold leading-[1.1] tracking-tight text-white">
                   <SplitText text="AI Systems &" delay={0.4} />
-                  <br /><TypingText words={['Agentic Automation', 'Compliance-Grade Infrastructure', 'Audit-Ready AI', 'Secure Automation']} />
+                  <br />
+                  <SplitText
+                    text="Agentic Automation for Regulated Industries"
+                    delay={0.7}
+                    className="bg-gradient-to-r from-[#6EE7B7] via-[#34D399] to-[#3B82F6] bg-clip-text text-transparent"
+                  />
                 </h1>
                 <motion.p className="text-base sm:text-lg text-white/80 max-w-lg leading-[1.8]" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.8, ease }}>
-                  We build AI SaaS and agentic automation for government, healthcare, and other regulated industries, with compliance, security, and auditability engineered in from day one, not bolted on after a breach.
+                  We build AI SaaS and agentic automation for government, healthcare, and other regulated industries, with compliance, security, and auditability engineered in from day one, not bolted on after a breach. As an AI automation company in Lahore, we hold every system we ship to that same standard, whether the client is down the street or on the other side of the world.
                 </motion.p>
               </div>
 
@@ -312,7 +303,7 @@ export default function HomeClient() {
         <div className="container max-w-7xl px-4 sm:px-6">
           <RevealText className="text-center mb-12 sm:mb-16">
             <h2 className="text-3xl sm:text-4xl font-bold mb-5 tracking-tight text-white">Industries We Serve</h2>
-            <p className="text-white/80 max-w-2xl mx-auto text-base sm:text-lg leading-relaxed">We focus on institutions where compliance, audit, and security aren&apos;t optional.</p>
+            <p className="text-white/80 max-w-2xl mx-auto text-base sm:text-lg leading-relaxed">We focus on <Link href="/industries" className="text-[#6EE7B7] hover:underline">five industries</Link> where compliance, audit, and security aren&apos;t optional.</p>
           </RevealText>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 sm:gap-5">
             {industries.map((ind, i) => {
@@ -368,6 +359,9 @@ export default function HomeClient() {
               <p className="text-white/80 leading-[1.8] text-base sm:text-lg mb-6">
                 <span className="text-xl sm:text-2xl font-semibold text-[#6EE7B7]">Greatodeal</span> builds AI SaaS and agentic automation for government, healthcare, and other regulated sectors, where a broken audit trail or an unexplainable AI decision is a compliance failure, not just a bug. We combine technical depth with a compliance-first engineering process, so every system we ship is ready for the scrutiny it will face.
               </p>
+              <p className="text-white/80 leading-[1.8] text-base sm:text-lg mb-6">
+                Based in Lahore, Pakistan, we&apos;ve grown from a <Link href="/about" className="text-[#6EE7B7] hover:underline">local engineering team</Link> into an AI automation agency in Pakistan trusted by institutions that answer to regulators, not just customers. The location hasn&apos;t changed the bar: every system still has to survive the audit it will eventually face.
+              </p>
               <div className="flex flex-wrap gap-2.5">
                 {['Agentic Automation', 'Compliance-Grade Infrastructure', 'Audit-Ready AI', 'Secure Integrations', 'Cloud & DevOps'].map(tag => (
                   <span key={tag} className="px-4 py-2 bg-white/[0.04] border border-white/[0.08] rounded-full text-sm text-white/80 hover:text-[#6EE7B7] hover:border-[#6EE7B7]/20 transition-all duration-500 cursor-default">{tag}</span>
@@ -416,7 +410,7 @@ export default function HomeClient() {
         <div className="container max-w-7xl px-4 sm:px-6 relative z-10">
           <motion.div className="text-center max-w-3xl mx-auto" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8, ease }}>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 leading-[1.15] tracking-tight text-white">Partner with Greatodeal for Your Next Project</h2>
-            <p className="text-base sm:text-lg text-white/80 mb-10 sm:mb-12 max-w-xl mx-auto leading-[1.8]">We specialize in <strong className="text-white/80">agentic AI, compliance-grade infrastructure, and secure cloud systems</strong>. Whether you&apos;re modernizing legacy systems or launching a new platform, our team builds for the audit you&apos;ll face, not just the demo.</p>
+            <p className="text-base sm:text-lg text-white/80 mb-10 sm:mb-12 max-w-xl mx-auto leading-[1.8]">We specialize in <strong className="text-white/80">agentic AI, compliance-grade infrastructure, and secure cloud systems</strong>. Whether you&apos;re modernizing legacy systems or launching a new platform, our team builds for the audit you&apos;ll face, not just the demo. Read more on <Link href="/blog" className="text-[#6EE7B7] hover:underline">our blog</Link>.</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/contact" className="btn-primary group">Request a Demo <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-500" /></Link>
             </div>

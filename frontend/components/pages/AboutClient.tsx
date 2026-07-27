@@ -105,7 +105,7 @@ export default function AboutClient() {
               </div>
             </RevealOnScroll>
             <motion.div initial={{ opacity: 0, x: 40 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.8, delay: 0.2, ease }}>
-              <div className="rounded-2xl overflow-hidden shadow-2xl"><Image src="/images/about1.png" alt="Greatodeal innovative solutions" width={800} height={450} className="w-full h-[400px] lg:h-[450px] object-cover" /></div>
+              <div className="rounded-2xl overflow-hidden shadow-2xl"><Image src="/images/about1.png" alt="Greatodeal AI automation agency team in Lahore, Pakistan" width={800} height={450} className="w-full h-[400px] lg:h-[450px] object-cover" /></div>
             </motion.div>
           </div>
         </div>
@@ -116,7 +116,7 @@ export default function AboutClient() {
         <div className="container max-w-7xl">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <motion.div className="order-2 lg:order-1" initial={{ opacity: 0, x: -40 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.8, ease }}>
-              <div className="rounded-2xl overflow-hidden shadow-2xl"><Image src="/images/about2.png" alt="Greatodeal mission" width={800} height={450} className="w-full h-[400px] lg:h-[450px] object-cover" /></div>
+              <div className="rounded-2xl overflow-hidden shadow-2xl"><Image src="/images/about2.png" alt="Greatodeal's mission: compliance-grade AI automation for regulated industries" width={800} height={450} className="w-full h-[400px] lg:h-[450px] object-cover" /></div>
             </motion.div>
             <RevealOnScroll direction="right" className="order-1 lg:order-2">
               <h2 className="text-3xl md:text-4xl font-bold mb-8">Our Mission</h2>

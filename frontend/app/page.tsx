@@ -2,24 +2,24 @@ import type { Metadata } from 'next';
 import HomeClient from '@/components/pages/HomeClient';
 
 export const metadata: Metadata = {
-  title: 'Greatodeal | AI SaaS & Agentic Automation for Government, Healthcare & Fintech',
-  description: 'Greatodeal builds AI SaaS and agentic automation for regulated industries: government, healthcare, fintech, green tech, and real estate, with compliance, security, and auditability built in.',
+  title: 'Greatodeal | AI Automation Agency in Lahore, Pakistan',
+  description: 'Greatodeal builds AI automation and SaaS platforms for government, healthcare, and fintech, based in Lahore, Pakistan.',
   keywords: [
     'AI SaaS for regulated industries', 'agentic automation', 'compliance-grade AI infrastructure',
     'government AI automation', 'healthcare AI HIPAA compliant', 'fintech AI compliance',
     'AI automation company', 'explainable AI', 'audit-ready AI systems', 'Greatodeal',
   ],
   openGraph: {
-    title: 'AI SaaS & Agentic Automation for Regulated Industries | Greatodeal',
-    description: 'AI SaaS and agentic automation for government, healthcare, fintech, green tech, and real estate, with compliance, security, and audit built in from day one.',
+    title: 'Greatodeal | AI Automation Agency in Lahore, Pakistan',
+    description: 'Greatodeal builds AI automation and SaaS platforms for government, healthcare, and fintech, based in Lahore, Pakistan.',
     url: 'https://greatodeal.com',
     type: 'website',
     images: [{ url: 'https://greatodeal.com/images/logo.png', width: 512, height: 512, alt: 'Greatodeal' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'AI SaaS & Agentic Automation for Regulated Industries | Greatodeal',
-    description: 'AI SaaS and agentic automation for government, healthcare, fintech, green tech, and real estate.',
+    title: 'Greatodeal | AI Automation Agency in Lahore, Pakistan',
+    description: 'Greatodeal builds AI automation and SaaS platforms for government, healthcare, and fintech, based in Lahore, Pakistan.',
     images: ['https://greatodeal.com/images/logo.png'],
   },
   alternates: {
@@ -92,9 +92,47 @@ const serviceSchema = {
   ],
 };
 
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Greatodeal',
+  url: 'https://greatodeal.com',
+  logo: 'https://greatodeal.com/images/logo.png',
+  address: '16 Jail Rd, Shadman 2, Lahore, Pakistan',
+  telephone: '+923011060841',
+  email: 'hello@greatodeal.com',
+  sameAs: [
+    'https://www.facebook.com/greatodealofficial',
+    'https://www.instagram.com/greatodeal',
+    'https://www.linkedin.com/company/greatodeal',
+    'https://www.youtube.com/@GreatodealAI',
+  ],
+  description: 'AI automation and SaaS development agency based in Lahore, Pakistan, serving government, healthcare, fintech, green tech, and real estate.',
+};
+
+const localBusinessSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  name: 'Greatodeal',
+  url: 'https://greatodeal.com',
+  logo: 'https://greatodeal.com/images/logo.png',
+  address: '16 Jail Rd, Shadman 2, Lahore, Pakistan',
+  telephone: '+923011060841',
+  email: 'hello@greatodeal.com',
+  sameAs: [
+    'https://www.facebook.com/greatodealofficial',
+    'https://www.instagram.com/greatodeal',
+    'https://www.linkedin.com/company/greatodeal',
+    'https://www.youtube.com/@GreatodealAI',
+  ],
+  description: 'AI automation and SaaS development agency based in Lahore, Pakistan, serving government, healthcare, fintech, green tech, and real estate.',
+};
+
 export default function HomePage() {
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(homePageSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }} />

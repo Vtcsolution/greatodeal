@@ -15,6 +15,22 @@ export const metadata: Metadata = {
   alternates: { canonical: 'https://greatodeal.com/industries/government' },
 };
 
+const serviceSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: 'Government AI Automation',
+  serviceType: 'Government AI Automation',
+  provider: { '@type': 'Organization', name: 'Greatodeal', url: 'https://greatodeal.com' },
+  areaServed: 'Worldwide',
+  description: 'Agentic automation and AI infrastructure for government: citizen services, secure case management, explainable AI decisions, and audit-ready compliance built in from day one.',
+  url: 'https://greatodeal.com/industries/government',
+};
+
 export default function Page() {
-  return <Content />;
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }} />
+      <Content />
+    </>
+  );
 }

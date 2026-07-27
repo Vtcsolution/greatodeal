@@ -3,11 +3,19 @@
 import React from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { ArrowRight, CheckCircle, Sparkles, AlertTriangle, Layers, Code } from 'lucide-react';
+import { ArrowRight, CheckCircle, Sparkles, AlertTriangle, Layers, Code, Landmark, Activity, Banknote, Leaf, Home, ArrowUpRight } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { RevealOnScroll, SectionBadge, StaggerContainer, StaggerItem } from '@/components/ui/Animations';
 
 const ease = [0.25, 0.1, 0.25, 1] as const;
+
+const allIndustries: Array<{ name: string; icon: LucideIcon; color: string; path: string }> = [
+  { name: 'Government', icon: Landmark, color: 'text-emerald-300', path: '/industries/government' },
+  { name: 'Healthcare', icon: Activity, color: 'text-rose-400', path: '/industries/healthcare' },
+  { name: 'Fintech', icon: Banknote, color: 'text-blue-400', path: '/industries/fintech' },
+  { name: 'Green Tech', icon: Leaf, color: 'text-lime-400', path: '/industries/green-tech' },
+  { name: 'Real Estate', icon: Home, color: 'text-cyan-400', path: '/industries/real-estate' },
+];
 
 export interface IndustryPageData {
   title: string;
@@ -27,6 +35,7 @@ export interface IndustryPageData {
 
 export default function IndustryPageTemplate({ data }: { data: IndustryPageData }) {
   const HeroIcon = data.heroIcon;
+  const relatedIndustries = allIndustries.filter(ind => ind.name !== data.title);
   return (
     <div className="min-h-screen bg-[#090909] text-[#E5E7EB] overflow-x-hidden">
 
@@ -44,7 +53,7 @@ export default function IndustryPageTemplate({ data }: { data: IndustryPageData 
                 <HeroIcon className="w-4 h-4" /> {data.subtitle}
               </motion.div>
               <motion.h1 className="text-4xl sm:text-5xl font-bold mb-6 leading-[1.1] tracking-tight" initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.4, ease }}>
-                {data.title}
+                {data.title}{' '}
                 <span className="block mt-2 bg-gradient-to-r from-[#6EE7B7] via-[#34D399] to-[#3B82F6] bg-clip-text text-transparent">IT Solutions</span>
               </motion.h1>
               <motion.p className="text-[17px] text-[#888] leading-[1.7] mb-10" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.6, ease }}>
@@ -68,7 +77,7 @@ export default function IndustryPageTemplate({ data }: { data: IndustryPageData 
                 </div>
               ) : data.heroImage ? (
                 <div className="relative w-full h-[400px] sm:h-[500px] rounded-2xl overflow-hidden shadow-2xl shadow-black/30">
-                  <img src={data.heroImage} alt={data.title} className="w-full h-full object-cover" />
+                  <img src={data.heroImage} alt={`${data.title} AI automation solutions by Greatodeal`} className="w-full h-full object-cover" />
                 </div>
               ) : (
                 <div className="bg-white/[0.02] p-8 rounded-2xl border border-white/[0.04]">
@@ -167,6 +176,30 @@ export default function IndustryPageTemplate({ data }: { data: IndustryPageData 
                 {tech}
               </motion.span>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ RELATED INDUSTRIES ═══ */}
+      <section className="py-20 bg-[#060606] border-t border-white/[0.04]">
+        <div className="container max-w-7xl">
+          <RevealOnScroll className="text-center mb-12">
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">Related Industries</h2>
+            <p className="text-[#777] text-[15px] mt-3">We build compliance-grade AI automation for these sectors too.</p>
+          </RevealOnScroll>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+            {relatedIndustries.map(ind => {
+              const Icon = ind.icon;
+              return (
+                <Link key={ind.name} href={ind.path} className="group bg-white/[0.02] p-5 rounded-2xl border border-white/[0.04] hover:border-[#6EE7B7]/20 transition-all duration-500 flex flex-col items-center text-center gap-3">
+                  <div className="w-11 h-11 rounded-xl bg-white/[0.04] flex items-center justify-center group-hover:bg-[#6EE7B7]/[0.06] transition-all duration-500">
+                    <Icon className={`w-5 h-5 ${ind.color}`} />
+                  </div>
+                  <span className="text-sm font-semibold text-white/80 group-hover:text-white transition-colors duration-500">{ind.name}</span>
+                  <span className="flex items-center gap-1 text-xs font-medium text-[#6EE7B7] opacity-0 group-hover:opacity-100 transition-opacity duration-500">View <ArrowUpRight className="w-3 h-3" /></span>
+                </Link>
+              );
+            })}
           </div>
         </div>
       </section>

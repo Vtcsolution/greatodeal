@@ -77,7 +77,7 @@ export default function ManageBlogsPage() {
                     <td className="p-4">
                       <div className="flex items-center gap-3">
                         {blog.image && (
-                          <img src={getImageUrl(blog.image)} alt="" className="w-12 h-12 rounded-xl object-cover shrink-0" />
+                          <img src={getImageUrl(blog.image)} alt={blog.title} className="w-12 h-12 rounded-xl object-cover shrink-0" />
                         )}
                         <div className="min-w-0">
                           <div className="font-medium text-white/90 truncate max-w-xs">{blog.title}</div>
@@ -142,7 +142,7 @@ export default function ManageBlogsPage() {
               <div key={blog._id} className="bg-[#161616] rounded-2xl border border-white/10 p-4">
                 <div className="flex gap-3 mb-3">
                   {blog.image && (
-                    <img src={getImageUrl(blog.image)} alt="" className="w-16 h-16 rounded-xl object-cover shrink-0" />
+                    <img src={getImageUrl(blog.image)} alt={blog.title} className="w-16 h-16 rounded-xl object-cover shrink-0" />
                   )}
                   <div className="min-w-0 flex-1">
                     <div className="font-medium text-white/90 text-sm line-clamp-2">{blog.title}</div>

@@ -5,10 +5,7 @@ import LayoutWrapper from '@/components/LayoutWrapper';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://greatodeal.com'),
-  title: {
-    default: 'Greatodeal | AI SaaS & Agentic Automation for Regulated Industries',
-    template: '%s | Greatodeal',
-  },
+  title: 'Greatodeal | AI SaaS & Agentic Automation for Regulated Industries',
   description: 'Greatodeal builds AI SaaS and agentic automation for regulated industries: government, healthcare, fintech, green tech, and real estate. 9+ years, 120+ engineers, compliance built in.',
   keywords: [
     'AI SaaS for regulated industries', 'agentic automation company', 'compliance-grade AI infrastructure',

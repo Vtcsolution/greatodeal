@@ -15,6 +15,22 @@ export const metadata: Metadata = {
   alternates: { canonical: 'https://greatodeal.com/industries/real-estate' },
 };
 
+const serviceSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: 'Real Estate AI Automation',
+  serviceType: 'Real Estate AI Automation',
+  provider: { '@type': 'Organization', name: 'Greatodeal', url: 'https://greatodeal.com' },
+  areaServed: 'Worldwide',
+  description: 'AI-driven platforms for real estate and PropTech: automated disclosure compliance, unified property data, portfolio reporting, and transaction fraud detection.',
+  url: 'https://greatodeal.com/industries/real-estate',
+};
+
 export default function Page() {
-  return <Content />;
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }} />
+      <Content />
+    </>
+  );
 }

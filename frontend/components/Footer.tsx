@@ -34,7 +34,7 @@ export default function Footer() {
           {/* Brand */}
           <div className="space-y-5">
             <Link href="/">
-              <Image src="/images/logo.png" alt="Greatodeal Logo" width={140} height={50} className="h-10 sm:h-12 w-auto object-contain" />
+              <Image src="/images/logo.png" alt="Greatodeal AI automation agency logo" width={140} height={50} className="h-10 sm:h-12 w-auto object-contain" />
             </Link>
             <p className="text-white/70 text-base leading-relaxed" itemProp="description">
               AI SaaS and agentic automation for government, healthcare, and other regulated industries.{' '}

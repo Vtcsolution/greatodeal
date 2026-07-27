@@ -15,6 +15,22 @@ export const metadata: Metadata = {
   alternates: { canonical: 'https://greatodeal.com/industries/fintech' },
 };
 
+const serviceSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: 'Fintech AI Automation',
+  serviceType: 'Fintech AI Automation',
+  provider: { '@type': 'Organization', name: 'Greatodeal', url: 'https://greatodeal.com' },
+  areaServed: 'Worldwide',
+  description: 'AI-driven automation for fintech and banking: KYC/AML compliance, real-time fraud detection, and auditable transaction infrastructure built for regulated financial operations.',
+  url: 'https://greatodeal.com/industries/fintech',
+};
+
 export default function Page() {
-  return <Content />;
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }} />
+      <Content />
+    </>
+  );
 }

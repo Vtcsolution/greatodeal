@@ -106,7 +106,7 @@ export default function ContactClient() {
             </div>
             <motion.div className="hidden lg:block" initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8, delay: 0.5, ease }}>
               <div className="relative w-full h-[400px] sm:h-[500px] rounded-2xl overflow-hidden border-2 border-[#6EE7B7]/10 shadow-2xl">
-                <img src="/images/contact.jpg" alt="Contact Greatodeal" className="w-full h-full object-cover" />
+                <img src="/images/contact.jpg" alt="Contact Greatodeal, an AI automation agency in Pakistan" className="w-full h-full object-cover" />
               </div>
             </motion.div>
           </div>

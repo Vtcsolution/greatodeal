@@ -39,7 +39,7 @@ export function StaggerItem({ children, className = '', index = 0 }: { children:
 }
 
 export function AnimatedCounter({ target, suffix = '', className = '' }: { target: number; suffix?: string; className?: string }) {
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(target);
   const ref = useRef<HTMLSpanElement>(null);
   const inView = useInView(ref, { once: true });
   useEffect(() => {

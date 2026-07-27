@@ -141,7 +141,7 @@ export default function Navbar() {
           <div className="flex items-center justify-between h-16 lg:h-20 px-4 sm:px-6">
             {/* Logo */}
             <Link href="/" className="flex items-center flex-shrink-0 group">
-              <Image src="/images/logo.png" alt="Greatodeal Logo" width={140} height={50} className="h-10 lg:h-14 w-auto object-contain transition-transform group-hover:scale-105" priority />
+              <Image src="/images/logo.png" alt="Greatodeal AI automation agency logo" width={140} height={50} className="h-10 lg:h-14 w-auto object-contain transition-transform group-hover:scale-105" priority />
             </Link>
 
             {/* Desktop Nav */}

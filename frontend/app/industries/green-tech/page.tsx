@@ -15,6 +15,22 @@ export const metadata: Metadata = {
   alternates: { canonical: 'https://greatodeal.com/industries/green-tech' },
 };
 
+const serviceSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: 'Green Tech AI Automation',
+  serviceType: 'Green Tech AI Automation',
+  provider: { '@type': 'Organization', name: 'Greatodeal', url: 'https://greatodeal.com' },
+  areaServed: 'Worldwide',
+  description: 'AI-driven monitoring and automation for green-tech and energy operators: smart grid integration, predictive maintenance, and automated emissions & HSE compliance reporting.',
+  url: 'https://greatodeal.com/industries/green-tech',
+};
+
 export default function Page() {
-  return <Content />;
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }} />
+      <Content />
+    </>
+  );
 }

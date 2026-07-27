@@ -15,6 +15,22 @@ export const metadata: Metadata = {
   alternates: { canonical: 'https://greatodeal.com/industries/healthcare' },
 };
 
+const serviceSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: 'Healthcare AI Automation',
+  serviceType: 'Healthcare AI Automation',
+  provider: { '@type': 'Organization', name: 'Greatodeal', url: 'https://greatodeal.com' },
+  areaServed: 'Worldwide',
+  description: 'HIPAA-compliant AI and agentic automation for healthcare providers, payers, and health-tech: interoperable health records, clinical workflow automation, and auditable AI clinical support.',
+  url: 'https://greatodeal.com/industries/healthcare',
+};
+
 export default function Page() {
-  return <Content />;
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }} />
+      <Content />
+    </>
+  );
 }

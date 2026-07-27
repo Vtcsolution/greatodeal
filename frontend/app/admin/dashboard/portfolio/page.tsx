@@ -157,7 +157,7 @@ export default function PortfolioPage() {
                   {cat.links.map((link, li) => (
                     <div key={li} className="flex items-center gap-4 p-4 sm:p-5 hover:bg-white/[0.02] transition-colors">
                       {link.previewImage ? (
-                        <img src={link.previewImage} alt="" className="w-14 h-14 rounded-xl object-cover shrink-0 border border-white/10" />
+                        <img src={link.previewImage} alt={link.description || 'Portfolio project preview'} className="w-14 h-14 rounded-xl object-cover shrink-0 border border-white/10" />
                       ) : (
                         <div className="w-14 h-14 rounded-xl bg-white/5 flex items-center justify-center shrink-0">
                           <ImageIcon className="w-6 h-6 text-white/20" />
