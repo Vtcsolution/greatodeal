@@ -58,7 +58,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Greatodeal | AI SaaS & Agentic Automation',
-    description: 'AI SaaS and agentic automation for regulated industries. Founded 2020, 200+ projects, 7 countries served.',
+    description: 'AI SaaS and agentic automation for regulated industries. Founded 2020, 7 countries served.',
     images: ['https://greatodeal.com/images/logo.png'],
     creator: '@greatodeal',
     site: '@greatodeal',
