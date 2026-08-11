@@ -69,7 +69,7 @@ export default function AutomationJourney() {
     <>
       {/* ═══ THE REAL PROBLEM ═══ */}
       <section className="relative py-24 sm:py-32 bg-[#060606] border-y border-white/[0.04] overflow-hidden">
-        <div className="container max-w-[1600px] px-4 sm:px-6">
+        <div className="container max-w-[1920px] px-4 sm:px-6">
           <div className="grid lg:grid-cols-2 gap-16 items-start">
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7, ease }}>
               <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/[0.03] border border-white/[0.06] rounded-full text-sm text-[#6EE7B7] mb-6">
@@ -96,7 +96,7 @@ export default function AutomationJourney() {
 
       {/* ═══ IT'S NOT PREDICTION, IT'S A TRUTH ═══ */}
       <section className="relative py-24 sm:py-32 bg-[#090909] overflow-hidden">
-        <div className="container max-w-[1600px] px-4 sm:px-6">
+        <div className="container max-w-[1920px] px-4 sm:px-6">
           <div className="grid lg:grid-cols-2 gap-16 items-start">
             <div className="relative min-h-[420px] lg:min-h-[480px] order-2 lg:order-1">
               <CurvePath accentId="timelineCurve" delay={0.2} d="M60,560 C220,520 260,440 360,400 C480,350 540,280 640,240 C760,190 820,120 940,60" />

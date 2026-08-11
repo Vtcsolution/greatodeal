@@ -164,7 +164,7 @@ export default function HomeClient() {
           <div className="absolute inset-0 bg-gradient-to-b from-[#090909]/60 via-transparent to-[#090909]" />
         </div>
 
-        <motion.div className="container max-w-[1600px] relative z-10 pt-28 pb-20 px-4 sm:px-6">
+        <motion.div className="container max-w-[1920px] relative z-10 pt-28 pb-20 px-4 sm:px-6">
           <div className="grid lg:grid-cols-2 gap-14 lg:gap-20 items-center">
             <div className="space-y-8">
               <div className="space-y-5">
@@ -231,7 +231,7 @@ export default function HomeClient() {
 
       {/* ═══ WHAT WE BUILD ═══ */}
       <section className="py-20 sm:py-28 bg-[#090909]">
-        <div className="container max-w-[1600px] px-4 sm:px-6">
+        <div className="container max-w-[1920px] px-4 sm:px-6">
           <RevealText className="text-center max-w-2xl mx-auto mb-16 sm:mb-24">
             <h2 className="text-3xl sm:text-4xl lg:text-[2.75rem] font-bold tracking-tight text-white mb-4">What We Build</h2>
             <p className="text-white/80 text-base sm:text-lg leading-relaxed">Product capabilities, not a service-line menu, built for institutions that answer to regulators and auditors.</p>
@@ -280,7 +280,7 @@ export default function HomeClient() {
 
       {/* ═══ INDUSTRIES ═══ */}
       <section className="py-20 sm:py-28 bg-[#090909]">
-        <div className="container max-w-[1600px] px-4 sm:px-6">
+        <div className="container max-w-[1920px] px-4 sm:px-6">
           <RevealText className="text-center mb-12 sm:mb-16">
             <h2 className="text-3xl sm:text-4xl font-bold mb-5 tracking-tight text-white">Industries We Serve</h2>
             <p className="text-white/80 max-w-2xl mx-auto text-base sm:text-lg leading-relaxed">We focus on <Link href="/industries" className="text-[#6EE7B7] hover:underline">six industries</Link> where compliance, audit, and security aren&apos;t optional.</p>
@@ -307,7 +307,7 @@ export default function HomeClient() {
           <div className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-[#6EE7B7]/[0.03] blur-[100px]" />
           <div className="absolute bottom-1/3 right-1/3 w-96 h-96 rounded-full bg-[#3B82F6]/[0.03] blur-[100px]" />
         </div>
-        <div className="container max-w-[1600px] px-4 sm:px-6 relative z-10">
+        <div className="container max-w-[1920px] px-4 sm:px-6 relative z-10">
           <RevealText className="mb-12 sm:mb-16">
             <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-white">Why Choose Us</h2>
           </RevealText>
@@ -368,7 +368,7 @@ export default function HomeClient() {
 
       {/* ═══ TECH STACK ═══ */}
       <section className="py-20 sm:py-28 bg-[#090909]">
-        <div className="container max-w-[1600px] px-4 sm:px-6">
+        <div className="container max-w-[1920px] px-4 sm:px-6">
           <RevealText className="text-center mb-12 sm:mb-16">
             <h2 className="text-3xl sm:text-4xl font-bold mb-5 tracking-tight text-white">Our Technology Stack</h2>
             <p className="text-white/80 max-w-2xl mx-auto text-base sm:text-lg">We work with a wide range of technologies to deliver the best solutions for your business needs.</p>
@@ -387,7 +387,7 @@ export default function HomeClient() {
       {/* ═══ CTA ═══ */}
       <section className="relative py-24 sm:py-32 overflow-hidden">
         <div className="absolute inset-0"><div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[450px] bg-[#6EE7B7]/[0.04] rounded-full blur-[180px]" /><div className="absolute inset-0 bg-[linear-gradient(rgba(110,231,183,0.015)_1px,transparent_1px),linear-gradient(90deg,rgba(110,231,183,0.015)_1px,transparent_1px)] bg-[size:60px_60px]" /></div>
-        <div className="container max-w-[1600px] px-4 sm:px-6 relative z-10">
+        <div className="container max-w-[1920px] px-4 sm:px-6 relative z-10">
           <motion.div className="text-center max-w-3xl mx-auto" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8, ease }}>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 leading-[1.15] tracking-tight text-white">Partner with Greatodeal for Your Next Project</h2>
             <p className="text-base sm:text-lg text-white/80 mb-10 sm:mb-12 max-w-xl mx-auto leading-[1.8]">We specialize in <strong className="text-white/80">agentic AI, compliance-grade infrastructure, and secure cloud systems</strong>. Whether you&apos;re modernizing legacy systems or launching a new platform, our team builds for the audit you&apos;ll face, not just the demo. Read more on <Link href="/blog" className="text-[#6EE7B7] hover:underline">our blog</Link>.</p>

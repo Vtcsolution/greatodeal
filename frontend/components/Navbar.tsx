@@ -138,7 +138,7 @@ export default function Navbar() {
       <AIChatBot isOpen={isChatOpen} onClose={() => setIsChatOpen(false)} />
 
       <nav className={`fixed top-0 left-0 right-0 z-40 transition-all duration-500 ${scrolled ? 'backdrop-blur-xl bg-[#090909]/95 shadow-2xl' : 'backdrop-blur-md bg-[#090909]/80'}`}>
-        <div className="container max-w-[1600px]">
+        <div className="container max-w-[1920px]">
           <div className="flex items-center justify-between h-16 lg:h-20 px-4 sm:px-6">
             {/* Logo */}
             <Link href="/" className="flex items-center flex-shrink-0 group">

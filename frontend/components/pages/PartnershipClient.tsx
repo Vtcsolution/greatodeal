@@ -65,7 +65,7 @@ export default function PartnershipClient() {
           <div className="absolute bottom-20 -right-40 w-[400px] h-[400px] bg-[#3B82F6]/[0.05] rounded-full blur-[150px]" />
           <div className="absolute inset-0 bg-[linear-gradient(rgba(110,231,183,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(110,231,183,0.02)_1px,transparent_1px)] bg-[size:72px_72px]" />
         </div>
-        <div className="container max-w-[1600px] relative z-10 text-center">
+        <div className="container max-w-[1920px] relative z-10 text-center">
           <motion.div className="inline-flex items-center gap-2 px-4 py-2 bg-white/[0.03] border border-white/[0.06] rounded-full text-sm text-[#6EE7B7] mb-6" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.2 }}>
             <Users className="w-3.5 h-3.5" /><span className="text-[13px] font-medium">Partner With Us</span>
           </motion.div>
@@ -80,7 +80,7 @@ export default function PartnershipClient() {
 
       {/* ═══ TIERS ═══ */}
       <section className="py-20 bg-[#060606] border-y border-white/[0.04]">
-        <div className="container max-w-[1600px]">
+        <div className="container max-w-[1920px]">
           <motion.h2 className="text-2xl sm:text-3xl font-bold text-center mb-12 tracking-tight" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>Choose Your Partnership Tier</motion.h2>
           <div className="grid md:grid-cols-3 gap-5">
             {tiers.map((tier, i) => {
@@ -115,7 +115,7 @@ export default function PartnershipClient() {
 
       {/* ═══ FORM ═══ */}
       <section className="py-20">
-        <div className="container max-w-[1600px]">
+        <div className="container max-w-[1920px]">
           <div className="max-w-3xl mx-auto">
             <motion.h2 className="text-2xl sm:text-3xl font-bold mb-10 tracking-tight" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>Submit Your Application</motion.h2>
             {error && <motion.div className="mb-6 p-4 bg-red-500/10 border border-red-500/20 rounded-2xl text-red-400 text-sm" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>{error}</motion.div>}

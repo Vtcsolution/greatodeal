@@ -63,7 +63,7 @@ export default function AboutClient() {
       {/* ═══ HERO ═══ */}
       <section className="relative pt-32 pb-24 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-[#0B1120] via-[#111827] to-[#0B1120]" />
-        <div className="container max-w-[1600px] relative z-10">
+        <div className="container max-w-[1920px] relative z-10">
           <div className="text-center mb-16">
             <motion.h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight mb-8" initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.3, ease }}>
               <span className="text-[#6EE7B7]">AI Infrastructure</span>
@@ -91,7 +91,7 @@ export default function AboutClient() {
 
       {/* ═══ OUR STORY ═══ */}
       <section className="py-20">
-        <div className="container max-w-[1600px]">
+        <div className="container max-w-[1920px]">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <RevealOnScroll direction="left">
               <h2 className="text-3xl md:text-4xl font-bold mb-8 leading-tight">
@@ -113,7 +113,7 @@ export default function AboutClient() {
 
       {/* ═══ OUR MISSION ═══ */}
       <section className="py-20 bg-[#111827]/50">
-        <div className="container max-w-[1600px]">
+        <div className="container max-w-[1920px]">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <motion.div className="order-2 lg:order-1" initial={{ opacity: 0, x: -40 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.8, ease }}>
               <div className="rounded-2xl overflow-hidden shadow-2xl"><Image src="/images/about2.png" alt="Greatodeal's mission: compliance-grade AI automation for regulated industries" width={800} height={450} className="w-full h-[400px] lg:h-[450px] object-cover" /></div>
@@ -131,7 +131,7 @@ export default function AboutClient() {
 
       {/* ═══ HOW WE WORK ═══ */}
       <section className="py-20">
-        <div className="container max-w-[1600px]">
+        <div className="container max-w-[1920px]">
           <RevealOnScroll className="text-center mb-14">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">How We Work</h2>
             <p className="text-gray-400 max-w-2xl mx-auto">A compliance-first process, from discovery to audit-ready launch.</p>
@@ -156,7 +156,7 @@ export default function AboutClient() {
 
       {/* ═══ WHAT WE BUILD ═══ */}
       <section className="py-20 bg-[#111827]/50">
-        <div className="container max-w-[1600px]">
+        <div className="container max-w-[1920px]">
           <RevealOnScroll className="text-center mb-14">
             <h2 className="text-3xl md:text-4xl font-bold">What We Build</h2>
           </RevealOnScroll>
@@ -172,7 +172,7 @@ export default function AboutClient() {
 
       {/* ═══ PRINCIPLES ═══ */}
       <section className="py-20">
-        <div className="container max-w-[1600px]">
+        <div className="container max-w-[1920px]">
           <RevealOnScroll className="text-center mb-14">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Our Key Principles for <span className="text-[#6EE7B7]">Project Success</span></h2>
             <p className="text-gray-400 max-w-2xl mx-auto">We&apos;re committed to delivering successful projects that meet your goals and exceed your expectations. We achieve this through proven methodologies, best practices, and a collaborative approach.</p>
@@ -193,7 +193,7 @@ export default function AboutClient() {
 
       {/* ═══ PRICING ═══ */}
       <section className="py-20 bg-[#111827]/50">
-        <div className="container max-w-[1600px]">
+        <div className="container max-w-[1920px]">
           <RevealOnScroll className="text-center mb-14">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Pricing <span className="text-[#6EE7B7]">Models</span></h2>
             <p className="text-gray-400 max-w-2xl mx-auto">We understand that every project is unique, and your pricing model should reflect that. We offer flexible pricing options to ensure you get the best value for your investment.</p>
@@ -218,7 +218,7 @@ export default function AboutClient() {
 
       {/* ═══ TECH STACK ═══ */}
       <section className="py-20">
-        <div className="container max-w-[1600px]">
+        <div className="container max-w-[1920px]">
           <RevealOnScroll className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Our Technology Stack</h2>
             <p className="text-gray-400 max-w-2xl mx-auto">We leverage cutting-edge technologies and proven frameworks to build robust, scalable, and high-performance solutions.</p>
@@ -243,7 +243,7 @@ export default function AboutClient() {
 
       {/* ═══ CTA ═══ */}
       <section className="py-28">
-        <div className="container max-w-[1600px]">
+        <div className="container max-w-[1920px]">
           <motion.div className="text-center max-w-2xl mx-auto" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8, ease }}>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 leading-tight">
               Ready to Build Something<br /><span className="text-[#6EE7B7]">Amazing?</span>

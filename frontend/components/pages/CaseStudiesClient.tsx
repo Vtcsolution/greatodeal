@@ -29,7 +29,7 @@ export default function CaseStudiesClient() {
           <div className="absolute bottom-20 -left-40 w-[400px] h-[400px] bg-[#3B82F6]/[0.05] rounded-full blur-[150px]" />
           <div className="absolute inset-0 bg-[linear-gradient(rgba(110,231,183,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(110,231,183,0.02)_1px,transparent_1px)] bg-[size:72px_72px]" />
         </div>
-        <div className="container max-w-[1600px] relative z-10 text-center">
+        <div className="container max-w-[1920px] relative z-10 text-center">
           <motion.div className="inline-flex items-center gap-2 px-4 py-2 bg-white/[0.03] border border-white/[0.06] rounded-full text-sm text-[#6EE7B7] mb-8" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.2 }}>
             <BarChart3 className="w-3.5 h-3.5" /><span className="text-[13px] font-medium">Our Portfolio</span>
           </motion.div>
@@ -49,7 +49,7 @@ export default function CaseStudiesClient() {
 
       {/* ═══ STATS ═══ */}
       <section className="py-10 border-y border-white/[0.04] bg-[#060606]">
-        <div className="container max-w-[1600px] grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+        <div className="container max-w-[1920px] grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
           {[{ target: 200, suffix: '+', label: 'Projects Completed' }, { target: 50, suffix: '+', label: 'Industries Served' }, { target: 98, suffix: '%', label: 'Client Satisfaction' }, { target: 15, suffix: '+', label: 'Countries Served' }].map(s => (
             <div key={s.label}>
               <div className="text-3xl font-bold text-white tracking-tight mb-1"><AnimatedCounter target={s.target} suffix={s.suffix} /></div>
@@ -61,7 +61,7 @@ export default function CaseStudiesClient() {
 
       {/* ═══ CASE STUDIES ═══ */}
       <section className="py-28 bg-[#090909]">
-        <div className="container max-w-[1600px] space-y-8">
+        <div className="container max-w-[1920px] space-y-8">
           {caseStudies.map((cs, i) => {
             const CsIcon = cs.icon;
             return (
@@ -128,7 +128,7 @@ export default function CaseStudiesClient() {
         <div className="absolute inset-0">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[450px] bg-[#6EE7B7]/[0.04] rounded-full blur-[180px]" />
         </div>
-        <div className="container max-w-[1600px] relative z-10">
+        <div className="container max-w-[1920px] relative z-10">
           <motion.div className="text-center max-w-3xl mx-auto" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8, ease }}>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 leading-[1.15] tracking-tight">
               Your Success Story{' '}<span className="bg-gradient-to-r from-[#6EE7B7] via-[#34D399] to-[#3B82F6] bg-clip-text text-transparent">Starts Here</span>
