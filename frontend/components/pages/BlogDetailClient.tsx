@@ -129,7 +129,7 @@ export default function BlogDetailClient({ id }: { id: string }) {
         <div className="absolute inset-0">
           <div className="absolute top-20 -left-40 w-[500px] h-[500px] rounded-full blur-[150px]" style={{ backgroundColor: accent + '0A' }} />
         </div>
-        <div className="container max-w-5xl relative z-10 px-4 sm:px-6">
+        <div className="container max-w-[1920px] relative z-10 px-4 sm:px-6">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
             <Link href="/blog" className="inline-flex items-center gap-2 text-[#6EE7B7] hover:gap-3 transition-all duration-500 mb-8 text-base font-medium">
               <ArrowLeft className="w-5 h-5" /> Back to Blog
@@ -183,7 +183,7 @@ export default function BlogDetailClient({ id }: { id: string }) {
 
       {/* ═══ COVER IMAGE ═══ */}
       {blog.image && (
-        <motion.div className="container max-w-5xl px-4 sm:px-6 py-8" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.7, ease }}>
+        <motion.div className="container max-w-[1920px] px-4 sm:px-6 py-8" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.7, ease }}>
           <div className="rounded-2xl overflow-hidden border border-white/[0.06]">
             <motion.img src={getImageUrl(blog.image)} alt={blog.title} className="w-full h-64 sm:h-80 md:h-[28rem] object-cover" initial={{ scale: 1.12 }} animate={{ scale: 1 }} transition={{ duration: 1.4, ease }} />
           </div>
@@ -192,7 +192,7 @@ export default function BlogDetailClient({ id }: { id: string }) {
 
       {/* ═══ CONTENT ═══ */}
       <article className="py-8 sm:py-12">
-        <div className="container max-w-5xl px-4 sm:px-6">
+        <div className="container max-w-[1920px] px-4 sm:px-6">
           <div className="grid lg:grid-cols-[1fr_300px] gap-12 lg:gap-16">
             {/* Main content */}
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.6 }}>
@@ -324,7 +324,7 @@ export default function BlogDetailClient({ id }: { id: string }) {
 
       {/* ═══ COMMENTS ═══ */}
       <section className="py-16 sm:py-20 bg-[#060606] border-t border-white/[0.06]">
-        <div className="container max-w-5xl px-4 sm:px-6">
+        <div className="container max-w-[1920px] px-4 sm:px-6">
           <div className="max-w-3xl mx-auto">
             <h2 className="text-2xl sm:text-3xl font-bold mb-8 tracking-tight text-white">Comments ({comments.length})</h2>
 
