@@ -35,7 +35,6 @@ function BlogCard({ blog, index }: { blog: Blog; index: number }) {
               <FileText className="w-10 h-10" style={{ color: accent + '60' }} />
             </div>
           )}
-          <div className="absolute inset-0 bg-gradient-to-t from-[#090909] via-transparent to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-500" />
           <div className="absolute top-3 left-3 flex gap-2">
             {blog.featured && <span className="px-2.5 py-1 bg-[#6EE7B7] text-[#090909] text-[10px] font-bold rounded-lg uppercase tracking-wider">Featured</span>}
             {blog.trending && <span className="px-2.5 py-1 bg-[#3B82F6] text-white text-[10px] font-bold rounded-lg uppercase tracking-wider flex items-center gap-1"><TrendingUp className="w-2.5 h-2.5" />Trending</span>}
@@ -195,7 +194,6 @@ export default function BlogListClient({ initialBlogs = [] }: { initialBlogs?: B
                     <Link href={`/blog/${featuredBlog._id}`} className="group grid md:grid-cols-2 gap-0 bg-white/[0.02] rounded-2xl overflow-hidden border border-white/[0.06] hover:border-[#6EE7B7]/25 transition-all duration-700">
                       <div className="relative h-64 md:h-auto overflow-hidden bg-white/[0.04]">
                         {featuredBlog.image && <img src={getImageUrl(featuredBlog.image)} alt={featuredBlog.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-[1200ms] ease-out" loading="lazy" />}
-                        <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-[#090909] via-[#090909]/10 to-transparent" />
                         <div className="absolute top-4 left-4 flex gap-2">
                           <span className="px-3 py-1 bg-[#6EE7B7] text-[#090909] text-xs font-bold rounded-lg flex items-center gap-1.5"><Star className="w-3 h-3" />Featured</span>
                           {featuredBlog.trending && <span className="px-3 py-1 bg-[#3B82F6] text-white text-xs font-bold rounded-lg">Trending</span>}
