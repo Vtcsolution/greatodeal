@@ -101,7 +101,7 @@ export default function ParticleBackground() {
         camera={{ position: [0, 0, 6], fov: 60 }}
         dpr={[1, 1.5]}
         gl={{ antialias: false, alpha: true }}
-        style={{ background: 'transparent' }}
+        style={{ background: 'transparent', pointerEvents: 'none' }}
       >
         <Particles count={400} />
         <FloatingOrbs />
