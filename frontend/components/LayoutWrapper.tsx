@@ -7,7 +7,6 @@ import Navbar from './Navbar';
 import Footer from './Footer';
 
 const ParticleBackground = dynamic(() => import('./ui/ParticleBackground'), { ssr: false });
-const CustomCursor = dynamic(() => import('./ui/CustomCursor'), { ssr: false });
 
 export default function LayoutWrapper({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -23,7 +22,6 @@ export default function LayoutWrapper({ children }: { children: React.ReactNode 
       {!isAdmin && (
         <>
           {isDesktop && <ParticleBackground />}
-          {isDesktop && <CustomCursor />}
           <Navbar />
         </>
       )}
