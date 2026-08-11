@@ -3,6 +3,32 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Facebook, Linkedin, Instagram, Youtube, MapPin, Mail } from 'lucide-react';
 
+function XIcon(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
+      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+    </svg>
+  );
+}
+
+function GoodFirmsIcon(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.6} {...props}>
+      <circle cx="12" cy="12" r="9.5" />
+      <text x="12" y="15.5" fontSize="8.5" fontWeight="700" textAnchor="middle" fill="currentColor" stroke="none" fontFamily="Arial, sans-serif">GF</text>
+    </svg>
+  );
+}
+
+function ClutchIcon(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.6} {...props}>
+      <circle cx="12" cy="12" r="9.5" />
+      <text x="12" y="15.5" fontSize="10" fontWeight="700" textAnchor="middle" fill="currentColor" stroke="none" fontFamily="Arial, sans-serif">C</text>
+    </svg>
+  );
+}
+
 const footerLinks = {
   company: [
     { name: 'About Us', path: '/about' },
@@ -23,8 +49,11 @@ const footerLinks = {
 const socials = [
   { Icon: Facebook, href: 'https://www.facebook.com/greatodealofficial/', label: 'Facebook' },
   { Icon: Instagram, href: 'https://www.instagram.com/greatodeal/', label: 'Instagram' },
-  { Icon: Linkedin, href: 'https://www.linkedin.com/company/greatodeal', label: 'LinkedIn' },
-  { Icon: Youtube, href: 'https://www.youtube.com/@GreatodealAI', label: 'YouTube' },
+  { Icon: XIcon, href: 'https://x.com/Greatodeal', label: 'X (Twitter)' },
+  { Icon: Linkedin, href: 'https://www.linkedin.com/company/greatodeal/', label: 'LinkedIn' },
+  { Icon: Youtube, href: 'https://www.youtube.com/channel/UCrMgFCo3XdDxxw3vI-gFGkA', label: 'YouTube' },
+  { Icon: GoodFirmsIcon, href: 'https://www.goodfirms.co/company/greatodeal-ai-automation-solutions', label: 'GoodFirms' },
+  { Icon: ClutchIcon, href: 'https://clutch.co/profile/greatodeal', label: 'Clutch' },
 ];
 
 export default function Footer() {
@@ -41,9 +70,9 @@ export default function Footer() {
               AI SaaS and agentic automation for government, healthcare, and other regulated industries.{' '}
               <span className="text-[#6EE7B7]">greatodeal.com</span>
             </p>
-            <div className="flex space-x-2">
+            <div className="flex flex-wrap gap-1.5">
               {socials.map(({ Icon, href, label }) => (
-                <a key={label} href={href} target="_blank" rel="noopener noreferrer" aria-label={label}
+                <a key={label} href={href} target="_blank" rel="noopener noreferrer" aria-label={label} title={label}
                   className="text-white/40 hover:text-[#6EE7B7] p-2.5 rounded-xl transition-all hover:bg-white/[0.04]">
                   <Icon className="w-5 h-5" />
                 </a>
