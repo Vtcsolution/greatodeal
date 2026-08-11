@@ -70,7 +70,7 @@ export default function AboutClient() {
               <br />for Institutions That Can&apos;t Afford to Get It Wrong
             </motion.h1>
             <motion.p className="text-gray-400 max-w-3xl mx-auto leading-relaxed" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.5, ease }}>
-              Founded in 2020, Greatodeal is an AI SaaS and agentic automation company headquartered in Lahore, Pakistan. Our team designs every system around the compliance, audit, and security requirements our clients are held to, not as an afterthought but as the starting point of the architecture.
+              Greatodeal is an AI SaaS and agentic automation company headquartered in Lahore, Pakistan. Our team designs every system around the compliance, audit, and security requirements our clients are held to, not as an afterthought but as the starting point of the architecture.
             </motion.p>
           </div>
 
@@ -99,7 +99,7 @@ export default function AboutClient() {
                 <br />Driven by Innovation & Client Success
               </h2>
               <div className="space-y-5 text-gray-400 leading-relaxed">
-                <p>Since <span className="text-[#6EE7B7] font-semibold">2020</span>, Greatodeal has built technology for organizations where failure isn&apos;t an inconvenience. It&apos;s a compliance incident. What began as a small engineering team has grown into a company focused specifically on <span className="text-white">AI infrastructure for regulated industries</span>.</p>
+                <p>Greatodeal builds technology for organizations where failure isn&apos;t an inconvenience. It&apos;s a compliance incident. What began as a small engineering team has grown into a company focused specifically on <span className="text-white">AI infrastructure for regulated industries</span>.</p>
                 <p>Our approach is simple: every system starts with the question of how it will be audited, not just how it will function. Every project we deliver is built to hold up under regulatory review, not just a product demo.</p>
                 <p>Today, Greatodeal partners with government agencies, healthcare providers, and financial institutions across Pakistan, the US, UK, UAE, Netherlands, Saudi Arabia, and Germany. Alongside this focus, we also build full-stack web and mobile applications, custom software, and generative AI solutions. By treating compliance as a design constraint rather than a checklist, we help our clients adopt AI without taking on risk they can&apos;t justify.</p>
               </div>
