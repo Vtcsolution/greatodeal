@@ -119,7 +119,7 @@ export default function IndustriesClient() {
           <motion.div className="absolute bottom-20 -right-40 w-[400px] h-[400px] bg-[#3B82F6]/[0.05] rounded-full blur-[150px]" animate={{ opacity: [1, 0.6, 1] }} transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut' }} />
           <div className="absolute inset-0 bg-[linear-gradient(rgba(110,231,183,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(110,231,183,0.02)_1px,transparent_1px)] bg-[size:72px_72px]" />
         </div>
-        <div className="container max-w-7xl relative z-10 text-center px-4 sm:px-6">
+        <div className="container max-w-[1600px] relative z-10 text-center px-4 sm:px-6">
           <motion.div className="inline-flex items-center gap-2 px-5 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-full text-base text-[#6EE7B7] mb-8" initial={{ opacity: 0, y: 20 }} animate={heroInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6, delay: 0.2 }}>
             <Sparkles className="w-4 h-4" /><span className="font-medium">Built for Regulated Industries</span>
           </motion.div>
@@ -144,7 +144,7 @@ export default function IndustriesClient() {
 
       {/* ═══ STATS ═══ */}
       <section className="py-12 border-y border-white/[0.04] bg-[#060606]">
-        <div className="container max-w-7xl px-4 sm:px-6 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+        <div className="container max-w-[1600px] px-4 sm:px-6 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
           {[
             { target: 6, suffix: '', label: 'Focus Industries' },
             { target: 6, suffix: '+', label: 'Years in Operation' },
@@ -161,7 +161,7 @@ export default function IndustriesClient() {
 
       {/* ═══ OUR APPROACH ═══ */}
       <section className="py-20 sm:py-28 bg-[#090909]">
-        <div className="container max-w-7xl px-4 sm:px-6">
+        <div className="container max-w-[1600px] px-4 sm:px-6">
           <motion.div className="text-center max-w-2xl mx-auto mb-16 sm:mb-20" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, ease }}>
             <h2 className="text-3xl sm:text-4xl font-bold mb-4 tracking-tight text-white">How We Approach Every Industry</h2>
             <p className="text-white/70 text-base sm:text-lg leading-relaxed">The same compliance-first process, whichever sector you operate in.</p>
@@ -177,14 +177,14 @@ export default function IndustriesClient() {
 
       {/* ═══ PRIMARY FOCUS ═══ */}
       <section className="py-20 sm:py-28 bg-[#060606] border-y border-white/[0.04]">
-        <div className="container max-w-7xl px-4 sm:px-6 space-y-24 sm:space-y-32">
+        <div className="container max-w-[1600px] px-4 sm:px-6 space-y-24 sm:space-y-32">
           {primaryIndustries.map((industry, i) => <PrimaryIndustryCard key={industry.name} industry={industry} index={i} />)}
         </div>
       </section>
 
       {/* ═══ SECONDARY FOCUS ═══ */}
       <section className="py-20 sm:py-28 bg-[#090909]">
-        <div className="container max-w-7xl px-4 sm:px-6">
+        <div className="container max-w-[1600px] px-4 sm:px-6">
           <motion.div className="text-center max-w-2xl mx-auto mb-14 sm:mb-16" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, ease }}>
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider mb-5 bg-white/[0.04] border border-white/[0.08] text-white/60">Secondary Focus</div>
             <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-white">Also Built for These Sectors</h2>
@@ -223,7 +223,7 @@ export default function IndustriesClient() {
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[450px] bg-[#6EE7B7]/[0.04] rounded-full blur-[180px]" />
           <div className="absolute inset-0 bg-[linear-gradient(rgba(110,231,183,0.015)_1px,transparent_1px),linear-gradient(90deg,rgba(110,231,183,0.015)_1px,transparent_1px)] bg-[size:60px_60px]" />
         </div>
-        <div className="container max-w-7xl px-4 sm:px-6 relative z-10">
+        <div className="container max-w-[1600px] px-4 sm:px-6 relative z-10">
           <motion.div className="text-center max-w-3xl mx-auto" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8, ease }}>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 leading-[1.15] tracking-tight">
               Not Seeing Your{' '}

@@ -88,7 +88,7 @@ export default function ContactClient() {
           <div className="absolute bottom-20 -right-40 w-[400px] h-[400px] bg-[#3B82F6]/[0.05] rounded-full blur-[150px]" />
           <div className="absolute inset-0 bg-[linear-gradient(rgba(110,231,183,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(110,231,183,0.02)_1px,transparent_1px)] bg-[size:72px_72px]" />
         </div>
-        <div className="container max-w-7xl relative z-10 px-4 sm:px-6">
+        <div className="container max-w-[1600px] relative z-10 px-4 sm:px-6">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             <div>
               <motion.h1 className="text-3xl sm:text-5xl lg:text-[3.5rem] font-bold mb-6 leading-[1.1] tracking-tight" initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.3, ease }}>
@@ -114,7 +114,7 @@ export default function ContactClient() {
 
       {/* ═══ FORM + SIDEBAR ═══ */}
       <section id="contact-form" className="pb-28">
-        <div className="container max-w-7xl px-4 sm:px-6">
+        <div className="container max-w-[1600px] px-4 sm:px-6">
           <div className="grid lg:grid-cols-3 gap-8">
             {/* Form */}
             <motion.div className="lg:col-span-2" initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.5, ease }}>

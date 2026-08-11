@@ -109,7 +109,7 @@ export default function BlogListClient({ initialBlogs = [] }: { initialBlogs?: B
           <motion.div className="absolute bottom-20 -right-40 w-[400px] h-[400px] bg-[#3B82F6]/[0.05] rounded-full blur-[150px]" animate={{ opacity: [1, 0.6, 1] }} transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut' }} />
           <div className="absolute inset-0 bg-[linear-gradient(rgba(110,231,183,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(110,231,183,0.02)_1px,transparent_1px)] bg-[size:72px_72px]" />
         </div>
-        <div className="container max-w-7xl relative z-10 text-center px-4 sm:px-6">
+        <div className="container max-w-[1600px] relative z-10 text-center px-4 sm:px-6">
           <motion.div className="inline-flex items-center gap-2 px-4 py-2 bg-white/[0.03] border border-white/[0.06] rounded-full text-sm text-[#6EE7B7] mb-6" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.2 }}>
             <Sparkles className="w-3.5 h-3.5" /><span className="text-[13px] font-medium">Tech Insights & Articles</span>
           </motion.div>
@@ -137,7 +137,7 @@ export default function BlogListClient({ initialBlogs = [] }: { initialBlogs?: B
 
       {/* ═══ FILTERS ═══ */}
       <section className="sticky top-[64px] lg:top-[80px] z-20 bg-[#090909]/95 backdrop-blur-md border-y border-white/[0.04] py-3">
-        <div className="container max-w-7xl px-4 sm:px-6">
+        <div className="container max-w-[1600px] px-4 sm:px-6">
           <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center justify-between">
             <div className="flex gap-1.5">
               {(['all', 'featured', 'trending'] as const).map(f => (
@@ -167,7 +167,7 @@ export default function BlogListClient({ initialBlogs = [] }: { initialBlogs?: B
 
       {/* ═══ BLOG GRID ═══ */}
       <section className="py-16">
-        <div className="container max-w-7xl px-4 sm:px-6">
+        <div className="container max-w-[1600px] px-4 sm:px-6">
           {loading ? (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {[...Array(6)].map((_, i) => (

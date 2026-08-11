@@ -37,7 +37,7 @@ export default function PrivacyClient() {
           <div className="absolute top-20 -left-40 w-[500px] h-[500px] bg-[#6EE7B7]/[0.05] rounded-full blur-[150px]" />
           <div className="absolute inset-0 bg-[linear-gradient(rgba(110,231,183,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(110,231,183,0.02)_1px,transparent_1px)] bg-[size:72px_72px]" />
         </div>
-        <div className="container max-w-7xl relative z-10">
+        <div className="container max-w-[1600px] relative z-10">
           <motion.div className="inline-flex items-center gap-2 px-4 py-2 bg-white/[0.03] border border-white/[0.06] rounded-full text-sm text-[#6EE7B7] mb-6" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.2 }}>
             <Shield className="w-3.5 h-3.5" /><span className="text-[13px] font-medium">Privacy & Security</span>
           </motion.div>
@@ -52,7 +52,7 @@ export default function PrivacyClient() {
 
       {/* ═══ STICKY NAV TABS ═══ */}
       <section className="sticky top-[64px] lg:top-[80px] z-20 bg-[#090909]/95 backdrop-blur-md border-y border-white/[0.04] py-3">
-        <div className="container max-w-7xl">
+        <div className="container max-w-[1600px]">
           <div className="flex flex-nowrap overflow-x-auto gap-2 pb-1 scrollbar-thin scrollbar-thumb-[#333]">
             {sections.map((s, i) => {
               const Icon = s.icon;
@@ -69,7 +69,7 @@ export default function PrivacyClient() {
       </section>
 
       {/* ═══ CONTENT ═══ */}
-      <div className="container max-w-7xl py-16">
+      <div className="container max-w-[1600px] py-16">
         <div className="max-w-4xl mx-auto space-y-20">
 
           {/* 1. Introduction */}
@@ -314,7 +314,7 @@ export default function PrivacyClient() {
       {/* ═══ CTA ═══ */}
       <section className="relative py-24 overflow-hidden">
         <div className="absolute inset-0"><div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-[#6EE7B7]/[0.04] rounded-full blur-[180px]" /></div>
-        <div className="container max-w-7xl relative z-10">
+        <div className="container max-w-[1600px] relative z-10">
           <motion.div className="text-center max-w-2xl mx-auto" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8, ease }}>
             <h2 className="text-2xl sm:text-3xl font-bold mb-4 tracking-tight">Have Questions About Your Privacy?</h2>
             <p className="text-[15px] text-[#777] mb-8">Our data protection team is here to help. Contact us for any privacy concerns or data requests.</p>

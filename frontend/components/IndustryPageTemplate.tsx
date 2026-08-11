@@ -49,7 +49,7 @@ export default function IndustryPageTemplate({ data }: { data: IndustryPageData 
           <div className="absolute bottom-20 -right-40 w-[400px] h-[400px] bg-[#3B82F6]/[0.05] rounded-full blur-[150px]" />
           <div className="absolute inset-0 bg-[linear-gradient(rgba(110,231,183,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(110,231,183,0.02)_1px,transparent_1px)] bg-[size:72px_72px]" />
         </div>
-        <div className="container max-w-7xl relative z-10">
+        <div className="container max-w-[1600px] relative z-10">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             <div>
               <motion.div className="inline-flex items-center gap-2 px-4 py-2 bg-white/[0.03] border border-white/[0.06] rounded-full text-sm text-[#6EE7B7] mb-8" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.2 }}>
@@ -104,7 +104,7 @@ export default function IndustryPageTemplate({ data }: { data: IndustryPageData 
 
       {/* ═══ CHALLENGES ═══ */}
       <section className="py-28 bg-[#060606] border-y border-white/[0.04]">
-        <div className="container max-w-7xl">
+        <div className="container max-w-[1600px]">
           <RevealOnScroll className="text-center mb-16">
             <SectionBadge icon={AlertTriangle} text="Pain Points" />
             <h2 className="text-3xl sm:text-4xl font-bold mb-4 tracking-tight">Industry Challenges We Solve</h2>
@@ -125,7 +125,7 @@ export default function IndustryPageTemplate({ data }: { data: IndustryPageData 
 
       {/* ═══ SOLUTIONS ═══ */}
       <section className="py-28 bg-[#090909]">
-        <div className="container max-w-7xl">
+        <div className="container max-w-[1600px]">
           <RevealOnScroll className="text-center mb-16">
             <SectionBadge icon={Sparkles} text="Solutions" />
             <h2 className="text-3xl sm:text-4xl font-bold mb-4 tracking-tight">Our Technology Solutions</h2>
@@ -152,7 +152,7 @@ export default function IndustryPageTemplate({ data }: { data: IndustryPageData 
 
       {/* ═══ FEATURES ═══ */}
       <section className="py-28 bg-[#060606] border-y border-white/[0.04]">
-        <div className="container max-w-7xl">
+        <div className="container max-w-[1600px]">
           <RevealOnScroll>
             <SectionBadge icon={Layers} text="Features" />
             <h2 className="text-3xl sm:text-4xl font-bold mb-12 tracking-tight">Key Features We Deliver</h2>
@@ -170,7 +170,7 @@ export default function IndustryPageTemplate({ data }: { data: IndustryPageData 
 
       {/* ═══ TECH ═══ */}
       <section className="py-28 bg-[#090909]">
-        <div className="container max-w-7xl">
+        <div className="container max-w-[1600px]">
           <RevealOnScroll className="text-center mb-12">
             <SectionBadge icon={Code} text="Tech Stack" />
             <h2 className="text-3xl sm:text-4xl font-bold mb-4 tracking-tight">Technologies We Use</h2>
@@ -187,7 +187,7 @@ export default function IndustryPageTemplate({ data }: { data: IndustryPageData 
 
       {/* ═══ RELATED INDUSTRIES ═══ */}
       <section className="py-20 bg-[#060606] border-t border-white/[0.04]">
-        <div className="container max-w-7xl">
+        <div className="container max-w-[1600px]">
           <RevealOnScroll className="text-center mb-12">
             <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">Related Industries</h2>
             <p className="text-[#777] text-[15px] mt-3">We build compliance-grade AI automation for these sectors too.</p>
@@ -214,7 +214,7 @@ export default function IndustryPageTemplate({ data }: { data: IndustryPageData 
         <div className="absolute inset-0">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[450px] bg-[#6EE7B7]/[0.04] rounded-full blur-[180px]" />
         </div>
-        <div className="container max-w-7xl relative z-10">
+        <div className="container max-w-[1600px] relative z-10">
           <motion.div className="text-center max-w-3xl mx-auto" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8, ease }}>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 leading-[1.15] tracking-tight">
               Transform Your {data.title}{' '}<span className="bg-gradient-to-r from-[#6EE7B7] via-[#34D399] to-[#3B82F6] bg-clip-text text-transparent">Business</span>
