@@ -18,6 +18,8 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5001;
 
+app.set('trust proxy', 1);
+
 connectDB();
 
 app.use(helmet({ crossOriginResourcePolicy: { policy: 'cross-origin' } }));
