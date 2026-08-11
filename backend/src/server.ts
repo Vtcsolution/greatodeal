@@ -4,6 +4,7 @@ import helmet from 'helmet';
 import dotenv from 'dotenv';
 import path from 'path';
 import rateLimit from 'express-rate-limit';
+import multer from 'multer';
 import connectDB from './config/db';
 import blogRoutes from './routes/blogRoutes';
 import contactRoutes from './routes/contactRoutes';
@@ -41,6 +42,18 @@ app.use('/api/partnership', partnershipRoutes);
 app.use('/api/knowledge', knowledgeRoutes);
 
 app.get('/api/health', (_req, res) => res.json({ status: 'OK', message: 'Greatodeal API running' }));
+
+app.use((err: any, _req: express.Request, res: express.Response, next: express.NextFunction) => {
+  if (!err) return next();
+  if (err instanceof multer.MulterError) {
+    if (err.code === 'LIMIT_FILE_SIZE') {
+      return res.status(413).json({ message: 'Image is too large. Maximum size is 8MB.' });
+    }
+    return res.status(400).json({ message: err.message });
+  }
+  console.error('Unhandled request error:', err);
+  res.status(500).json({ message: err.message || 'Internal server error' });
+});
 
 const server = app.listen(PORT, () => {
   console.log(`🚀 Greatodeal Backend API running on port ${PORT}`);
