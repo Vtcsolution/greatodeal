@@ -29,6 +29,19 @@ function ClutchIcon(props: React.SVGProps<SVGSVGElement>) {
   );
 }
 
+function RedditIcon(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
+      <circle cx="12" cy="14" r="6.2" fill="none" stroke="currentColor" strokeWidth={1.6} />
+      <circle cx="9.3" cy="14" r="1.15" />
+      <circle cx="14.7" cy="14" r="1.15" />
+      <path d="M9 17.2c.9.7 4.1.7 5 0" fill="none" stroke="currentColor" strokeWidth={1.2} strokeLinecap="round" />
+      <path d="M12 8V4.3" stroke="currentColor" strokeWidth={1.3} strokeLinecap="round" />
+      <circle cx="12" cy="3.4" r="1" />
+    </svg>
+  );
+}
+
 const footerLinks = {
   company: [
     { name: 'About Us', path: '/about' },
@@ -54,6 +67,7 @@ const socials = [
   { Icon: Youtube, href: 'https://www.youtube.com/channel/UCrMgFCo3XdDxxw3vI-gFGkA', label: 'YouTube' },
   { Icon: GoodFirmsIcon, href: 'https://www.goodfirms.co/company/greatodeal-ai-automation-solutions', label: 'GoodFirms' },
   { Icon: ClutchIcon, href: 'https://clutch.co/profile/greatodeal', label: 'Clutch' },
+  { Icon: RedditIcon, href: 'https://www.reddit.com/user/Greatodeal/', label: 'Reddit' },
 ];
 
 export default function Footer() {
