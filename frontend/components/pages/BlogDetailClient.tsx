@@ -185,7 +185,7 @@ export default function BlogDetailClient({ id }: { id: string }) {
       {blog.image && (
         <motion.div className="container max-w-[1920px] px-4 sm:px-6 py-8" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.7, ease }}>
           <div className="rounded-2xl overflow-hidden border border-white/[0.06]">
-            <motion.img src={getImageUrl(blog.image)} alt={blog.title} className="w-full h-64 sm:h-80 md:h-[28rem] object-cover" initial={{ scale: 1.12 }} animate={{ scale: 1 }} transition={{ duration: 1.4, ease }} />
+            <motion.img src={getImageUrl(blog.image)} alt={blog.title} className="w-full h-auto aspect-video object-cover" initial={{ scale: 1.12 }} animate={{ scale: 1 }} transition={{ duration: 1.4, ease }} />
           </div>
         </motion.div>
       )}
