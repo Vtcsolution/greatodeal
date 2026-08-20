@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only --ignore-watch node_modules --exit-child src/server.ts",
     "build": "tsc",
-    "start": "node dist/server.js"
+    "start": "node dist/server.js",
+    "seed:admin": "ts-node src/seedAdmin.ts",
+    "seed:followups": "ts-node src/seedFollowUpTemplates.ts"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -17,11 +19,15 @@
     "express-validator": "^7.1.0",
     "geoip-lite": "^1.4.10",
     "helmet": "^7.1.0",
+    "imapflow": "^1.0.171",
     "jsonwebtoken": "^9.0.2",
+    "mailparser": "^3.7.1",
     "mongoose": "^8.3.1",
     "multer": "^1.4.5-lts.1",
+    "node-cron": "^3.0.3",
     "nodemailer": "^6.9.13",
     "openai": "^4.40.0",
+    "socket.io": "^4.7.5",
     "ua-parser-js": "^2.0.10",
     "uuid": "^9.0.1"
   },
@@ -31,11 +37,14 @@
     "@types/express": "^4.17.21",
     "@types/geoip-lite": "^1.4.4",
     "@types/jsonwebtoken": "^9.0.6",
+    "@types/mailparser": "^3.4.4",
     "@types/multer": "^1.4.11",
     "@types/node": "^20.12.7",
+    "@types/node-cron": "^3.0.11",
     "@types/nodemailer": "^6.4.14",
     "@types/ua-parser-js": "^0.7.39",
     "@types/uuid": "^9.0.8",
+    "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.4.5"
   }

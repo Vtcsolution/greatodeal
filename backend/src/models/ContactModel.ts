@@ -1,5 +1,7 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
+export type LeadStatus = 'cold' | 'warm' | 'urgent';
+
 export interface IContact extends Document {
   fullName: string;
   company?: string;
@@ -10,6 +12,19 @@ export interface IContact extends Document {
   status: 'new' | 'replied';
   repliedAt?: Date;
   createdAt: Date;
+
+  // Lead automation fields
+  leadStatus: LeadStatus;
+  followUpEnabled: boolean;
+  followUpStage: number;
+  nextFollowUpAt?: Date | null;
+  lastFollowUpAt?: Date | null;
+  unsubscribed: boolean;
+
+  // Open/engagement tracking (aggregate, mirrors latest EmailLog stats)
+  emailOpens: number;
+  lastOpenedAt?: Date | null;
+  lastEmailSentAt?: Date | null;
 }
 
 const ContactSchema = new Schema<IContact>({
@@ -22,6 +37,17 @@ const ContactSchema = new Schema<IContact>({
   status: { type: String, enum: ['new', 'replied'], default: 'new' },
   repliedAt: { type: Date },
   createdAt: { type: Date, default: Date.now },
+
+  leadStatus: { type: String, enum: ['cold', 'warm', 'urgent'], default: 'cold', index: true },
+  followUpEnabled: { type: Boolean, default: true },
+  followUpStage: { type: Number, default: 0 },
+  nextFollowUpAt: { type: Date, default: null, index: true },
+  lastFollowUpAt: { type: Date, default: null },
+  unsubscribed: { type: Boolean, default: false },
+
+  emailOpens: { type: Number, default: 0 },
+  lastOpenedAt: { type: Date, default: null },
+  lastEmailSentAt: { type: Date, default: null },
 });
 
 export default mongoose.model<IContact>('Contact', ContactSchema);

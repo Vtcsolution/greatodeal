@@ -8,7 +8,7 @@ import type { AdminProfile } from '@/types';
 interface AdminContextType {
   admin: AdminProfile | null;
   loading: boolean;
-  login: (email: string, password: string) => Promise<void>;
+  login: (email: string, password: string, rememberMe?: boolean) => Promise<void>;
   logout: () => void;
 }
 
@@ -28,8 +28,8 @@ export function AdminProvider({ children }: { children: ReactNode }) {
       .finally(() => setLoading(false));
   }, []);
 
-  const login = async (email: string, password: string) => {
-    const res = await adminApi.login(email, password);
+  const login = async (email: string, password: string, rememberMe?: boolean) => {
+    const res = await adminApi.login(email, password, rememberMe);
     if (res.data.success) {
       localStorage.setItem('adminToken', res.data.token);
       setAdmin(res.data.admin);

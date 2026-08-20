@@ -11,6 +11,7 @@ export default function AdminLoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPw, setShowPw] = useState(false);
+  const [rememberMe, setRememberMe] = useState(true);
   const [error, setError] = useState('');
   const [submitting, setSubmitting] = useState(false);
 
@@ -23,7 +24,7 @@ export default function AdminLoginPage() {
     setSubmitting(true);
     setError('');
     try {
-      await login(email, password);
+      await login(email, password, rememberMe);
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Invalid credentials');
     } finally { setSubmitting(false); }
@@ -63,6 +64,15 @@ export default function AdminLoginPage() {
                 </button>
               </div>
             </div>
+            <label className="flex items-center gap-2.5 cursor-pointer select-none">
+              <input
+                type="checkbox"
+                checked={rememberMe}
+                onChange={e => setRememberMe(e.target.checked)}
+                className="w-4 h-4 rounded accent-[#6EE7B7] bg-[#0F0F0F] border-white/20"
+              />
+              <span className="text-sm text-white/60">Remember me for 30 days</span>
+            </label>
             <button type="submit" disabled={submitting}
               className="w-full py-3 bg-gradient-to-r from-[#6EE7B7] to-[#3B82F6] text-white rounded-xl font-semibold hover:opacity-90 transition-all disabled:opacity-50 text-sm">
               {submitting ? 'Signing in...' : 'Sign In'}

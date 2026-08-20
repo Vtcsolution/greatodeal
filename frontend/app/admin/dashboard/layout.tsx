@@ -2,9 +2,11 @@
 
 import { useState } from 'react';
 import { useAdmin } from '@/context/AdminContext';
+import { NotificationProvider } from '@/context/NotificationContext';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import AdminSidebar from '@/components/admin/AdminSidebar';
+import NotificationBell from '@/components/admin/NotificationBell';
 import { Menu } from 'lucide-react';
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
@@ -25,19 +27,26 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   if (!admin) return null;
 
   return (
-    <div className="flex min-h-screen bg-[#0F0F0F]">
-      <AdminSidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
-      <div className="flex-1 flex flex-col min-w-0">
-        {/* Mobile top bar */}
-        <header className="sticky top-0 z-30 lg:hidden bg-[#161616] border-b border-white/10 px-4 py-3 flex items-center gap-3">
-          <button onClick={() => setSidebarOpen(true)} className="p-2 rounded-xl text-white/70 hover:text-white hover:bg-white/10 transition-colors">
-            <Menu className="w-5 h-5" />
-          </button>
-          <span className="text-sm font-bold text-[#6EE7B7]">Greatodeal</span>
-          <span className="text-xs text-white/40">Admin</span>
-        </header>
-        <main className="flex-1 overflow-auto">{children}</main>
+    <NotificationProvider>
+      <div className="flex min-h-screen bg-[#0F0F0F]">
+        <AdminSidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+        <div className="flex-1 flex flex-col min-w-0">
+          {/* Mobile top bar */}
+          <header className="sticky top-0 z-30 lg:hidden bg-[#161616] border-b border-white/10 px-4 py-3 flex items-center gap-3">
+            <button onClick={() => setSidebarOpen(true)} className="p-2 rounded-xl text-white/70 hover:text-white hover:bg-white/10 transition-colors">
+              <Menu className="w-5 h-5" />
+            </button>
+            <span className="text-sm font-bold text-[#6EE7B7]">Greatodeal</span>
+            <span className="text-xs text-white/40">Admin</span>
+            <div className="ml-auto"><NotificationBell /></div>
+          </header>
+          {/* Desktop top bar */}
+          <header className="hidden lg:flex sticky top-0 z-30 bg-[#0F0F0F]/80 backdrop-blur border-b border-white/5 px-6 py-3 items-center justify-end">
+            <NotificationBell />
+          </header>
+          <main className="flex-1 overflow-auto">{children}</main>
+        </div>
       </div>
-    </div>
+    </NotificationProvider>
   );
 }

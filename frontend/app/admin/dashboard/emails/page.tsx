@@ -2,19 +2,25 @@
 
 import { useState, useEffect } from 'react';
 import { contactApi } from '@/lib/api';
-import { Mail, Send, CheckCircle, Clock, Search, ArrowLeft } from 'lucide-react';
+import type { Contact, LeadStatus } from '@/types';
+import { Mail, Send, CheckCircle, Clock, Search, ArrowLeft, Eye, Zap, Snowflake, Flame, Power } from 'lucide-react';
 
-interface Contact {
-  _id: string;
-  fullName: string;
-  email: string;
-  phone?: string;
-  countryCode: string;
-  services: string;
-  message: string;
-  status: 'new' | 'replied';
-  createdAt: string;
-}
+const LEAD_STATUS_CONFIG: Record<LeadStatus, { label: string; color: string; bg: string; icon: typeof Snowflake }> = {
+  cold: { label: 'Cold', color: 'text-sky-400', bg: 'bg-sky-500/10', icon: Snowflake },
+  warm: { label: 'Warm', color: 'text-amber-400', bg: 'bg-amber-500/10', icon: Flame },
+  urgent: { label: 'Urgent', color: 'text-red-400', bg: 'bg-red-500/10', icon: Zap },
+};
+
+const timeAgo = (iso?: string | null): string => {
+  if (!iso) return '';
+  const diffMs = Date.now() - new Date(iso).getTime();
+  const mins = Math.floor(diffMs / 60000);
+  if (mins < 1) return 'just now';
+  if (mins < 60) return `${mins}m ago`;
+  const hrs = Math.floor(mins / 60);
+  if (hrs < 24) return `${hrs}h ago`;
+  return `${Math.floor(hrs / 24)}d ago`;
+};
 
 export default function EmailsPage() {
   const [contacts, setContacts] = useState<Contact[]>([]);
@@ -25,12 +31,14 @@ export default function EmailsPage() {
   const [search, setSearch] = useState('');
   const [filter, setFilter] = useState<'all' | 'new' | 'replied'>('all');
 
-  useEffect(() => {
+  const load = () => {
     contactApi.getAll()
       .then(res => setContacts(res.data.data || []))
       .catch(() => setContacts([]))
       .finally(() => setLoading(false));
-  }, []);
+  };
+
+  useEffect(() => { load(); }, []);
 
   const sendReply = async () => {
     if (!selected || !replyText.trim()) return;
@@ -42,10 +50,33 @@ export default function EmailsPage() {
         subject: `Re: Your inquiry about ${selected.services} | Greatodeal`,
         message: replyText,
       });
-      setContacts(prev => prev.map(c => c._id === selected._id ? { ...c, status: 'replied' } : c));
-      setSelected(prev => prev ? { ...prev, status: 'replied' } : null);
+      setContacts(prev => prev.map(c => c._id === selected._id ? { ...c, status: 'replied', followUpEnabled: false } : c));
+      setSelected(prev => prev ? { ...prev, status: 'replied', followUpEnabled: false } : null);
       setReplyText('');
     } catch (err) { console.error(err); } finally { setSending(false); }
+  };
+
+  const changeLeadStatus = async (contact: Contact, leadStatus: LeadStatus) => {
+    setContacts(prev => prev.map(c => c._id === contact._id ? { ...c, leadStatus, followUpStage: 0 } : c));
+    if (selected?._id === contact._id) setSelected(prev => prev ? { ...prev, leadStatus, followUpStage: 0 } : null);
+    try {
+      const res = await contactApi.updateLeadStatus(contact._id, leadStatus);
+      const updated = res.data.data as Contact;
+      setContacts(prev => prev.map(c => c._id === contact._id ? updated : c));
+      if (selected?._id === contact._id) setSelected(updated);
+    } catch (err) { console.error(err); }
+  };
+
+  const toggleAutomation = async (contact: Contact) => {
+    const next = !contact.followUpEnabled;
+    setContacts(prev => prev.map(c => c._id === contact._id ? { ...c, followUpEnabled: next } : c));
+    if (selected?._id === contact._id) setSelected(prev => prev ? { ...prev, followUpEnabled: next } : null);
+    try {
+      const res = await contactApi.toggleFollowUp(contact._id, next);
+      const updated = res.data.data as Contact;
+      setContacts(prev => prev.map(c => c._id === contact._id ? updated : c));
+      if (selected?._id === contact._id) setSelected(updated);
+    } catch (err) { console.error(err); }
   };
 
   const filtered = contacts.filter(c => {
@@ -62,7 +93,7 @@ export default function EmailsPage() {
     <div className="p-4 sm:p-6 lg:p-8">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 sm:mb-8">
         <div>
-          <h1 className="text-xl sm:text-2xl font-bold text-white mb-1">Contact Inquiries</h1>
+          <h1 className="text-xl sm:text-2xl font-bold text-white mb-1">Leads &amp; Contact Inquiries</h1>
           <p className="text-white/50 text-sm">{contacts.length} total &middot; <span className="text-emerald-400">{newCount} new</span></p>
         </div>
       </div>
@@ -86,30 +117,42 @@ export default function EmailsPage() {
       <div className="grid lg:grid-cols-2 gap-4 sm:gap-6">
         {/* Contact List */}
         <div className={`bg-[#161616] rounded-2xl border border-white/10 overflow-hidden ${selected ? 'hidden lg:block' : ''}`}>
-          <div className="divide-y divide-white/5 max-h-[65vh] overflow-y-auto">
+          <div className="divide-y divide-white/5 max-h-[70vh] overflow-y-auto">
             {loading && <div className="p-8 text-center"><div className="w-6 h-6 border-2 border-[#6EE7B7] border-t-transparent rounded-full animate-spin mx-auto" /></div>}
             {!loading && filtered.length === 0 && <div className="p-8 text-center text-white/30 text-sm">No contacts found.</div>}
-            {filtered.map(c => (
-              <button key={c._id} onClick={() => setSelected(c)}
-                className={`w-full p-4 text-left hover:bg-white/[0.03] transition-colors ${selected?._id === c._id ? 'bg-[#6EE7B7]/10 border-l-2 border-[#6EE7B7]' : ''}`}>
-                <div className="flex items-start justify-between gap-2">
-                  <div className="min-w-0 flex-1">
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className="font-medium text-sm text-white/90">{c.fullName}</span>
-                      {c.status === 'new' && <span className="w-2 h-2 bg-emerald-400 rounded-full shrink-0" title="New" />}
+            {filtered.map(c => {
+              const lead = LEAD_STATUS_CONFIG[c.leadStatus || 'cold'];
+              const LeadIcon = lead.icon;
+              return (
+                <button key={c._id} onClick={() => setSelected(c)}
+                  className={`w-full p-4 text-left hover:bg-white/[0.03] transition-colors ${selected?._id === c._id ? 'bg-[#6EE7B7]/10 border-l-2 border-[#6EE7B7]' : ''}`}>
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-center gap-2 mb-1 flex-wrap">
+                        <span className="font-medium text-sm text-white/90">{c.fullName}</span>
+                        {c.status === 'new' && <span className="w-2 h-2 bg-emerald-400 rounded-full shrink-0" title="New" />}
+                        <span className={`flex items-center gap-1 text-[10px] px-1.5 py-0.5 rounded-full font-medium ${lead.bg} ${lead.color}`}>
+                          <LeadIcon className="w-2.5 h-2.5" />{lead.label}
+                        </span>
+                      </div>
+                      <div className="text-xs text-white/40 truncate">{c.email}</div>
+                      <div className="text-xs text-[#6EE7B7]/70 mt-1 truncate">{c.services}</div>
+                      {c.emailOpens > 0 && (
+                        <div className="text-[11px] text-white/35 mt-1 flex items-center gap-1">
+                          <Eye className="w-3 h-3" />Opened {c.emailOpens}x{c.lastOpenedAt ? ` · ${timeAgo(c.lastOpenedAt)}` : ''}
+                        </div>
+                      )}
                     </div>
-                    <div className="text-xs text-white/40 truncate">{c.email}</div>
-                    <div className="text-xs text-[#6EE7B7]/70 mt-1 truncate">{c.services}</div>
+                    <div className="shrink-0 text-right">
+                      <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${c.status === 'new' ? 'bg-emerald-500/15 text-emerald-400' : 'bg-white/5 text-white/40'}`}>
+                        {c.status}
+                      </span>
+                      <div className="text-xs text-white/30 mt-1">{new Date(c.createdAt).toLocaleDateString()}</div>
+                    </div>
                   </div>
-                  <div className="shrink-0 text-right">
-                    <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${c.status === 'new' ? 'bg-emerald-500/15 text-emerald-400' : 'bg-white/5 text-white/40'}`}>
-                      {c.status}
-                    </span>
-                    <div className="text-xs text-white/30 mt-1">{new Date(c.createdAt).toLocaleDateString()}</div>
-                  </div>
-                </div>
-              </button>
-            ))}
+                </button>
+              );
+            })}
           </div>
         </div>
 
@@ -137,6 +180,38 @@ export default function EmailsPage() {
                     )}
                   </div>
                 </div>
+
+                {/* Lead status selector */}
+                <div className="flex items-center gap-2 mb-3 flex-wrap">
+                  {(Object.keys(LEAD_STATUS_CONFIG) as LeadStatus[]).map(status => {
+                    const cfg = LEAD_STATUS_CONFIG[status];
+                    const Icon = cfg.icon;
+                    const active = selected.leadStatus === status;
+                    return (
+                      <button key={status} onClick={() => changeLeadStatus(selected, status)}
+                        className={`flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${active ? `${cfg.bg} ${cfg.color} ring-1 ring-inset ring-current` : 'bg-white/5 text-white/40 hover:text-white/70'}`}>
+                        <Icon className="w-3 h-3" />{cfg.label}
+                      </button>
+                    );
+                  })}
+                  <button onClick={() => toggleAutomation(selected)}
+                    className={`flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ml-auto ${selected.followUpEnabled ? 'bg-[#6EE7B7]/10 text-[#6EE7B7]' : 'bg-white/5 text-white/40'}`}>
+                    <Power className="w-3 h-3" />{selected.followUpEnabled ? 'Automation On' : 'Automation Off'}
+                  </button>
+                </div>
+
+                {selected.followUpEnabled && selected.nextFollowUpAt && (
+                  <div className="text-xs text-white/40 mb-3">
+                    Next auto follow-up (stage {selected.followUpStage + 1}): {new Date(selected.nextFollowUpAt).toLocaleString()}
+                  </div>
+                )}
+                {selected.emailOpens > 0 && (
+                  <div className="text-xs text-white/40 mb-3 flex items-center gap-1">
+                    <Eye className="w-3.5 h-3.5" />Opened {selected.emailOpens} time{selected.emailOpens > 1 ? 's' : ''}
+                    {selected.lastOpenedAt ? ` · last ${timeAgo(selected.lastOpenedAt)}` : ''}
+                  </div>
+                )}
+
                 <div className="p-3 bg-white/5 rounded-xl text-xs text-[#6EE7B7] mb-3">{selected.services}</div>
                 <p className="text-sm text-white/60 leading-relaxed">{selected.message}</p>
                 <div className="text-xs text-white/30 mt-3">{new Date(selected.createdAt).toLocaleString()}</div>
@@ -151,6 +226,7 @@ export default function EmailsPage() {
                   className="flex items-center gap-2 px-6 py-2.5 bg-[#6EE7B7] text-[#121212] rounded-xl font-semibold hover:bg-[#5CD7A5] transition-all disabled:opacity-50 text-sm">
                   <Send className="w-4 h-4" />{sending ? 'Sending...' : 'Send Reply'}
                 </button>
+                <p className="text-xs text-white/30 mt-2">Sending a manual reply pauses automated follow-ups for this lead.</p>
               </div>
             </>
           ) : (

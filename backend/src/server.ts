@@ -1,7 +1,11 @@
+// Must be the very first import: loads .env into process.env before any other
+// module (emailService, imapService, etc.) reads env vars at module-load time.
+import 'dotenv/config';
+
 import express from 'express';
+import http from 'http';
 import cors from 'cors';
 import helmet from 'helmet';
-import dotenv from 'dotenv';
 import path from 'path';
 import rateLimit from 'express-rate-limit';
 import multer from 'multer';
@@ -14,10 +18,16 @@ import commentRoutes from './routes/commentRoutes';
 import partnershipRoutes from './routes/partnershipRoutes';
 import knowledgeRoutes from './routes/knowledgeRoutes';
 import analyticsRoutes from './routes/analyticsRoutes';
-
-dotenv.config();
+import emailTrackingRoutes from './routes/emailTrackingRoutes';
+import notificationRoutes from './routes/notificationRoutes';
+import followUpRoutes from './routes/followUpRoutes';
+import mailboxRoutes from './routes/mailboxRoutes';
+import { initSocket } from './utils/socket';
+import { startFollowUpCron } from './services/followUpEngine';
+import { startImapPolling } from './services/imapService';
 
 const app = express();
+const httpServer = http.createServer(app);
 const PORT = process.env.PORT || 5001;
 
 app.set('trust proxy', 1);
@@ -42,6 +52,10 @@ app.use('/api/comments', commentRoutes);
 app.use('/api/partnership', partnershipRoutes);
 app.use('/api/knowledge', knowledgeRoutes);
 app.use('/api/analytics', analyticsRoutes);
+app.use('/api/email-tracking', emailTrackingRoutes);
+app.use('/api/notifications', notificationRoutes);
+app.use('/api/followups', followUpRoutes);
+app.use('/api/mailbox', mailboxRoutes);
 
 app.get('/api/health', (_req, res) => res.json({ status: 'OK', message: 'Greatodeal API running' }));
 
@@ -57,8 +71,12 @@ app.use((err: any, _req: express.Request, res: express.Response, next: express.N
   res.status(500).json({ message: err.message || 'Internal server error' });
 });
 
-const server = app.listen(PORT, () => {
+initSocket(httpServer);
+
+const server = httpServer.listen(PORT, () => {
   console.log(`🚀 Greatodeal Backend API running on port ${PORT}`);
+  startFollowUpCron();
+  startImapPolling();
 });
 
 server.on('error', (err: NodeJS.ErrnoException) => {

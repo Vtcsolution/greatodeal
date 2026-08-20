@@ -29,6 +29,30 @@ export const contactApi = {
   send: (data: Record<string, unknown>) => api.post('/contact/send', data),
   getAll: () => api.get('/contact/all'),
   reply: (data: Record<string, unknown>) => api.post('/contact/reply', data),
+  updateLeadStatus: (id: string, leadStatus: string) => api.put(`/contact/${id}/lead-status`, { leadStatus }),
+  toggleFollowUp: (id: string, followUpEnabled: boolean) => api.put(`/contact/${id}/follow-up`, { followUpEnabled }),
+};
+
+export const notificationApi = {
+  getAll: (limit?: number) => api.get('/notifications', { params: { limit } }),
+  markRead: (id: string) => api.put(`/notifications/${id}/read`),
+  markAllRead: () => api.put('/notifications/read-all'),
+};
+
+export const followUpApi = {
+  getTemplates: () => api.get('/followups/templates'),
+  saveTemplate: (data: Record<string, unknown>) => api.post('/followups/templates', data),
+  deleteTemplate: (id: string) => api.delete(`/followups/templates/${id}`),
+  getLogs: (contactId?: string) => api.get('/followups/logs', { params: contactId ? { contactId } : {} }),
+  runNow: () => api.post('/followups/run-now'),
+};
+
+export const mailboxApi = {
+  getFolderCounts: () => api.get('/mailbox/folders'),
+  getFolderMessages: (folder: string, params?: Record<string, unknown>) => api.get(`/mailbox/folders/${folder}`, { params }),
+  getMessage: (id: string) => api.get(`/mailbox/message/${id}`),
+  moveMessage: (id: string, folder: string) => api.put(`/mailbox/message/${id}/move`, { folder }),
+  deleteMessage: (id: string) => api.delete(`/mailbox/message/${id}`),
 };
 
 export const chatApi = {
@@ -39,7 +63,7 @@ export const chatApi = {
 };
 
 export const adminApi = {
-  login: (email: string, password: string) => api.post('/admin/login', { email, password }),
+  login: (email: string, password: string, rememberMe?: boolean) => api.post('/admin/login', { email, password, rememberMe }),
   getProfile: () => api.get('/admin/profile'),
   updateProfile: (data: Record<string, unknown>) => api.put('/admin/profile', data),
   getStats: () => api.get('/admin/stats'),
