@@ -7,6 +7,7 @@ import Navbar from './Navbar';
 import Footer from './Footer';
 
 const ParticleBackground = dynamic(() => import('./ui/ParticleBackground'), { ssr: false });
+const AnalyticsTracker = dynamic(() => import('./AnalyticsTracker'), { ssr: false });
 
 export default function LayoutWrapper({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -22,6 +23,7 @@ export default function LayoutWrapper({ children }: { children: React.ReactNode 
       {!isAdmin && (
         <>
           {isDesktop && <ParticleBackground />}
+          <AnalyticsTracker />
           <Navbar />
         </>
       )}

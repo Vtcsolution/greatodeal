@@ -13,6 +13,7 @@ import adminRoutes from './routes/adminRoutes';
 import commentRoutes from './routes/commentRoutes';
 import partnershipRoutes from './routes/partnershipRoutes';
 import knowledgeRoutes from './routes/knowledgeRoutes';
+import analyticsRoutes from './routes/analyticsRoutes';
 
 dotenv.config();
 
@@ -40,6 +41,7 @@ app.use('/api/admin', adminRoutes);
 app.use('/api/comments', commentRoutes);
 app.use('/api/partnership', partnershipRoutes);
 app.use('/api/knowledge', knowledgeRoutes);
+app.use('/api/analytics', analyticsRoutes);
 
 app.get('/api/health', (_req, res) => res.json({ status: 'OK', message: 'Greatodeal API running' }));
 

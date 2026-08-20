@@ -67,6 +67,11 @@ export const partnershipApi = {
   updateStatus: (id: string, data: Record<string, unknown>) => api.put(`/partnership/applications/${id}/status`, data),
 };
 
+export const analyticsApi = {
+  track: (data: Record<string, unknown>) => api.post('/analytics/track', data),
+  getSummary: (range: string) => api.get('/analytics/summary', { params: { range } }),
+};
+
 export const getImageUrl = (path: string): string => {
   if (!path) return '/images/placeholder.jpg';
   if (path.startsWith('http')) return path;
