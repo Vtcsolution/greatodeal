@@ -13,7 +13,12 @@ interface PlaceResult {
   website: string;
   rating: number | null;
   ratingCount: number;
+  businessStatus: string;
 }
+
+export type ActivityLevel = 'active' | 'quiet' | 'unknown';
+
+const ACTIVE_WITHIN_MONTHS = 18;
 
 async function fetchWithTimeout(url: string, init: RequestInit, timeoutMs: number): Promise<globalThis.Response | null> {
   const controller = new AbortController();
@@ -36,7 +41,7 @@ async function searchPlaces(textQuery: string): Promise<PlaceResult[]> {
         'Content-Type': 'application/json',
         'X-Goog-Api-Key': PLACES_API_KEY as string,
         'X-Goog-FieldMask':
-          'places.id,places.displayName,places.formattedAddress,places.internationalPhoneNumber,places.websiteUri,places.rating,places.userRatingCount',
+          'places.id,places.displayName,places.formattedAddress,places.internationalPhoneNumber,places.websiteUri,places.rating,places.userRatingCount,places.businessStatus',
       },
       body: JSON.stringify({ textQuery, maxResultCount: MAX_RESULTS }),
     },
@@ -50,15 +55,53 @@ async function searchPlaces(textQuery: string): Promise<PlaceResult[]> {
 
   const data = (await res.json()) as { places?: any[] };
   const places = data.places || [];
-  return places.map((p: any) => ({
-    placeId: p.id,
-    name: p.displayName?.text || 'Unknown business',
-    address: p.formattedAddress || '',
-    phone: p.internationalPhoneNumber || '',
-    website: p.websiteUri || '',
-    rating: typeof p.rating === 'number' ? p.rating : null,
-    ratingCount: p.userRatingCount || 0,
-  }));
+  return places
+    .map((p: any) => ({
+      placeId: p.id,
+      name: p.displayName?.text || 'Unknown business',
+      address: p.formattedAddress || '',
+      phone: p.internationalPhoneNumber || '',
+      website: p.websiteUri || '',
+      rating: typeof p.rating === 'number' ? p.rating : null,
+      ratingCount: p.userRatingCount || 0,
+      businessStatus: p.businessStatus || 'OPERATIONAL',
+    }))
+    // Google marks businesses it believes have shut down — dead leads look
+    // unprofessional to reach out to, so drop them before they're ever shown.
+    .filter((p) => p.businessStatus === 'OPERATIONAL');
+}
+
+/**
+ * Uses each business's most recent customer review as a free, honest proxy
+ * for "is this business still active" — real social-media activity APIs
+ * (Facebook Graph, Instagram) require per-business OAuth and app review, so
+ * they can't be checked for arbitrary third-party companies. Review recency
+ * is the closest signal Google's own data actually gives us for free.
+ */
+async function getActivitySignal(placeId: string): Promise<{ activity: ActivityLevel; lastReviewDate: string | null }> {
+  const res = await fetchWithTimeout(
+    `https://places.googleapis.com/v1/places/${placeId}`,
+    {
+      headers: {
+        'X-Goog-Api-Key': PLACES_API_KEY as string,
+        'X-Goog-FieldMask': 'reviews.publishTime',
+      },
+    },
+    FETCH_TIMEOUT_MS
+  );
+
+  if (!res || !res.ok) return { activity: 'unknown', lastReviewDate: null };
+
+  const data = (await res.json().catch(() => null)) as { reviews?: { publishTime?: string }[] } | null;
+  const dates = (data?.reviews || []).map((r) => (r.publishTime ? new Date(r.publishTime).getTime() : 0)).filter(Boolean);
+  if (dates.length === 0) return { activity: 'unknown', lastReviewDate: null };
+
+  const mostRecent = new Date(Math.max(...dates));
+  const monthsAgo = (Date.now() - mostRecent.getTime()) / (1000 * 60 * 60 * 24 * 30);
+  return {
+    activity: monthsAgo <= ACTIVE_WITHIN_MONTHS ? 'active' : 'quiet',
+    lastReviewDate: mostRecent.toISOString(),
+  };
 }
 
 const EMAIL_RE = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g;
@@ -208,15 +251,18 @@ export const searchCompanies = async (req: Request, res: Response): Promise<void
 
     const places = await searchPlaces(`${keyword} in ${location}`);
 
-    // Look up emails for each result's website in parallel, capped by timeout per-site.
-    const withEmails = await Promise.all(
-      places.map(async (p) => ({
-        ...p,
-        email: p.website ? await findEmailForWebsite(p.website) : null,
-      }))
+    // Look up each result's email and activity signal in parallel, per-place.
+    const enriched = await Promise.all(
+      places.map(async (p) => {
+        const [email, activitySignal] = await Promise.all([
+          p.website ? findEmailForWebsite(p.website) : Promise.resolve(null),
+          getActivitySignal(p.placeId),
+        ]);
+        return { ...p, email, ...activitySignal };
+      })
     );
 
-    res.json({ success: true, data: withEmails });
+    res.json({ success: true, data: enriched });
   } catch (error) {
     console.error('searchCompanies error:', error);
     res.status(500).json({ success: false, message: error instanceof Error ? error.message : 'Error searching companies' });

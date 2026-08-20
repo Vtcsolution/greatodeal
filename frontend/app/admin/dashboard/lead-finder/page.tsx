@@ -2,7 +2,9 @@
 
 import { useState } from 'react';
 import { leadFinderApi } from '@/lib/api';
-import { Search, Phone, Globe, Mail, MapPin, Star, Snowflake, Flame, Zap, Check, Loader2, AlertTriangle } from 'lucide-react';
+import { Search, Phone, Globe, Mail, MapPin, Star, Snowflake, Flame, Zap, Check, Loader2, AlertTriangle, Radio, Clock, HelpCircle } from 'lucide-react';
+
+type Activity = 'active' | 'quiet' | 'unknown';
 
 interface CompanyResult {
   placeId: string;
@@ -13,6 +15,8 @@ interface CompanyResult {
   rating: number | null;
   ratingCount: number;
   email: string | null;
+  activity: Activity;
+  lastReviewDate: string | null;
 }
 
 type LeadStatus = 'cold' | 'warm' | 'urgent';
@@ -23,6 +27,17 @@ const LEAD_STATUS_CONFIG: Record<LeadStatus, { label: string; color: string; bg:
   urgent: { label: 'Urgent', color: 'text-red-400', bg: 'bg-red-500/10', icon: Zap },
 };
 
+const ACTIVITY_CONFIG: Record<Activity, { label: string; color: string; bg: string; icon: typeof Radio }> = {
+  active: { label: 'Active', color: 'text-emerald-400', bg: 'bg-emerald-500/10', icon: Radio },
+  quiet: { label: 'Quiet', color: 'text-white/40', bg: 'bg-white/5', icon: Clock },
+  unknown: { label: 'No reviews yet', color: 'text-white/30', bg: 'bg-white/5', icon: HelpCircle },
+};
+
+function formatMonthYear(iso: string | null): string {
+  if (!iso) return '';
+  return new Date(iso).toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+}
+
 export default function LeadFinderPage() {
   const [keyword, setKeyword] = useState('');
   const [location, setLocation] = useState('');
@@ -31,6 +46,9 @@ export default function LeadFinderPage() {
   const [searchError, setSearchError] = useState('');
   const [importedIds, setImportedIds] = useState<Record<string, 'importing' | 'done' | 'exists' | 'error'>>({});
   const [leadStatusPick, setLeadStatusPick] = useState<Record<string, LeadStatus>>({});
+  const [activeOnly, setActiveOnly] = useState(false);
+
+  const visibleResults = activeOnly ? results.filter(r => r.activity === 'active') : results;
 
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -124,11 +142,26 @@ export default function LeadFinderPage() {
 
       {!searching && results.length > 0 && (
         <div className="bg-[#161616] rounded-2xl border border-white/10 overflow-hidden">
-          <div className="p-4 sm:p-6 border-b border-white/10 text-sm text-white/50">
-            {results.length} companies found · {results.filter(r => r.email).length} with a discoverable email
+          <div className="p-4 sm:p-6 border-b border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div className="text-sm text-white/50">
+              Google already excludes permanently closed businesses. {results.length} operating companies found ·{' '}
+              {results.filter(r => r.email).length} with a discoverable email · {results.filter(r => r.activity === 'active').length} recently active
+            </div>
+            <label className="flex items-center gap-2.5 cursor-pointer select-none shrink-0">
+              <input
+                type="checkbox"
+                checked={activeOnly}
+                onChange={e => setActiveOnly(e.target.checked)}
+                className="w-4 h-4 rounded accent-[#6EE7B7] bg-[#0F0F0F] border-white/20"
+              />
+              <span className="text-xs text-white/60">Only show recently active businesses</span>
+            </label>
           </div>
+          {visibleResults.length === 0 && (
+            <div className="p-8 text-center text-white/30 text-sm">No results have a recent review — try unchecking the filter.</div>
+          )}
           <div className="divide-y divide-white/5">
-            {results.map((c) => {
+            {visibleResults.map((c) => {
               const status = importedIds[c.placeId];
               const picked = leadStatusPick[c.placeId] || 'cold';
               return (
@@ -141,6 +174,15 @@ export default function LeadFinderPage() {
                           <Star className="w-3 h-3 fill-amber-400" />{c.rating} ({c.ratingCount})
                         </span>
                       )}
+                      {(() => {
+                        const cfg = ACTIVITY_CONFIG[c.activity];
+                        const Icon = cfg.icon;
+                        return (
+                          <span className={`flex items-center gap-1 text-xs px-2 py-0.5 rounded-full ${cfg.bg} ${cfg.color}`} title={c.lastReviewDate ? `Last review: ${formatMonthYear(c.lastReviewDate)}` : undefined}>
+                            <Icon className="w-3 h-3" />{cfg.label}{c.activity !== 'unknown' && c.lastReviewDate ? ` · ${formatMonthYear(c.lastReviewDate)}` : ''}
+                          </span>
+                        );
+                      })()}
                     </div>
                     <div className="flex flex-col gap-1 mt-2 text-xs text-white/50">
                       {c.address && <span className="flex items-center gap-1.5"><MapPin className="w-3.5 h-3.5 shrink-0" />{c.address}</span>}
