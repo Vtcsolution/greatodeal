@@ -44,11 +44,16 @@ declare module 'imapflow' {
     [key: string]: unknown;
   }
 
+  export interface AppendResponseObject {
+    [key: string]: unknown;
+  }
+
   export class ImapFlow {
     constructor(options: ImapFlowOptions);
     connect(): Promise<void>;
     logout(): Promise<void>;
     mailboxOpen(path: string): Promise<MailboxObject>;
     fetch(range: string, query: FetchQueryOptions): AsyncIterable<FetchMessageObject>;
+    append(path: string, content: string | Buffer, flags?: string[], idate?: Date | string): Promise<AppendResponseObject>;
   }
 }

@@ -1,11 +1,22 @@
 import nodemailer from 'nodemailer';
+import { ImapFlow } from 'imapflow';
 import { v4 as uuidv4 } from 'uuid';
 import EmailLog, { EmailLogType } from '../models/EmailLog';
 import { Types } from 'mongoose';
 
+// No TS types ship for this nodemailer submodule — it's the standard way to
+// build a raw MIME message without actually sending it, needed below to save
+// a copy into the mailbox's own Sent folder via IMAP.
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const MailComposer = require('nodemailer/lib/mail-composer');
+
 const isDev = process.env.NODE_ENV !== 'production';
 const port = Number(process.env.EMAIL_PORT) || 587;
 const API_PUBLIC_URL = process.env.API_PUBLIC_URL || `http://localhost:${process.env.PORT || 5001}`;
+
+const IMAP_HOST = process.env.IMAP_HOST || (process.env.EMAIL_HOST || '').replace(/^smtp\./, 'imap.') || 'imap.hostinger.com';
+const IMAP_PORT = Number(process.env.IMAP_PORT) || 993;
+const SENT_FOLDER_CANDIDATES = ['Sent', 'INBOX.Sent', 'Sent Items', 'Sent Messages'];
 
 export type MailboxKey = 'sales' | 'zia';
 
@@ -48,8 +59,78 @@ function resolveMailbox(from?: MailboxKey): Mailbox {
   return mailboxes[from || 'sales'];
 }
 
+// Credentials for saving a Sent-folder copy — each mailbox's IMAP login is
+// the same as its SMTP one on Hostinger-style hosting.
+function imapCredentialsFor(from?: MailboxKey): { user: string; pass: string } | null {
+  if (from === 'zia' && process.env.ZIA_EMAIL_USER && process.env.ZIA_EMAIL_PASS) {
+    return { user: process.env.ZIA_EMAIL_USER, pass: process.env.ZIA_EMAIL_PASS };
+  }
+  const user = process.env.IMAP_USER || process.env.EMAIL_USER;
+  const pass = process.env.IMAP_PASS || process.env.EMAIL_PASS;
+  return user && pass ? { user, pass } : null;
+}
+
+function buildRawMessage(options: nodemailer.SendMailOptions): Promise<Buffer> {
+  return new Promise((resolve, reject) => {
+    new MailComposer(options).compile().build((err: Error | null, message: Buffer) => {
+      if (err) reject(err); else resolve(message);
+    });
+  });
+}
+
+/**
+ * A raw SMTP send (what nodemailer does) never touches the mailbox's own
+ * Sent folder — that copy is something a mail client does on your behalf,
+ * not part of the SMTP protocol. Without this, every email sent through the
+ * app is genuinely delivered but invisible in the admin panel's Mailbox
+ * view. Best-effort and non-blocking: a failure here must never affect the
+ * actual send or crash the process (an unhandled rejection anywhere in this
+ * app takes the whole server down), so every failure path is swallowed.
+ */
+async function saveCopyToSent(options: nodemailer.SendMailOptions, from?: MailboxKey): Promise<void> {
+  const creds = imapCredentialsFor(from);
+  if (!creds) return;
+
+  let raw: Buffer;
+  try {
+    raw = await buildRawMessage(options);
+  } catch (err) {
+    console.error('Could not build raw message for Sent-folder copy:', (err as Error).message);
+    return;
+  }
+
+  const client = new ImapFlow({
+    host: IMAP_HOST,
+    port: IMAP_PORT,
+    secure: IMAP_PORT === 993,
+    auth: creds,
+    logger: false,
+  });
+
+  try {
+    await client.connect();
+    let saved = false;
+    for (const name of SENT_FOLDER_CANDIDATES) {
+      try {
+        await client.append(name, raw, ['\\Seen']);
+        saved = true;
+        break;
+      } catch {
+        // try next candidate folder name
+      }
+    }
+    if (!saved) console.error('Could not find a Sent folder to save a copy into (tried:', SENT_FOLDER_CANDIDATES.join(', '), ')');
+  } catch (err) {
+    console.error('IMAP Sent-folder save error:', (err as Error).message);
+  } finally {
+    try { await client.logout(); } catch { /* ignore */ }
+  }
+}
+
 async function sendMail(options: nodemailer.SendMailOptions, from?: MailboxKey) {
   const mailbox = resolveMailbox(from);
+  const finalOptions = { ...options, from: options.from || `"${mailbox.label}" <${mailbox.address}>` };
+
   if (isDev) {
     console.log('\n📧 [DEV] Email not sent — logged instead:');
     console.log('  From mailbox:', mailbox.address || '(unconfigured)');
@@ -58,7 +139,9 @@ async function sendMail(options: nodemailer.SendMailOptions, from?: MailboxKey) 
     console.log('  Body:', typeof options.html === 'string' ? options.html.replace(/<[^>]+>/g, '') : options.text);
     return;
   }
-  await mailbox.transporter.sendMail({ ...options, from: options.from || `"${mailbox.label}" <${mailbox.address}>` });
+
+  await mailbox.transporter.sendMail(finalOptions);
+  saveCopyToSent(finalOptions, from).catch((err) => console.error('Sent-folder save error:', err?.message || err));
 }
 
 export const sendContactEmail = async (data: {
