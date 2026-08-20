@@ -36,6 +36,7 @@ function EmailsPageInner() {
   const [contacts, setContacts] = useState<Contact[]>([]);
   const [loading, setLoading] = useState(true);
   const [selected, setSelected] = useState<Contact | null>(null);
+  const [replySubject, setReplySubject] = useState('');
   const [replyText, setReplyText] = useState('');
   const [sending, setSending] = useState(false);
   const [fromMailbox, setFromMailbox] = useState<MailboxKey>('sales');
@@ -53,6 +54,11 @@ function EmailsPageInner() {
       .catch(() => setProjectId(null))
       .finally(() => setCheckingProject(false));
   }, [selected?._id, selected?.dealClosed]);
+
+  // Give each newly-selected lead a sensible default subject, editable before sending.
+  useEffect(() => {
+    setReplySubject(selected ? `Re: Your inquiry about ${selected.services} | Greatodeal` : '');
+  }, [selected?._id]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const load = () => {
     contactApi.getAll()
@@ -83,13 +89,13 @@ function EmailsPageInner() {
   };
 
   const sendReply = async () => {
-    if (!selected || !replyText.trim()) return;
+    if (!selected || !replyText.trim() || !replySubject.trim()) return;
     setSending(true);
     try {
       await contactApi.reply({
         contactId: selected._id,
         to: selected.email,
-        subject: `Re: Your inquiry about ${selected.services} | Greatodeal`,
+        subject: replySubject,
         message: replyText,
         from: fromMailbox,
       });
@@ -298,10 +304,15 @@ function EmailsPageInner() {
                     ))}
                   </div>
                 </div>
+                <label className="block text-xs font-medium text-white/40 mb-1.5">Subject</label>
+                <input value={replySubject} onChange={e => setReplySubject(e.target.value)}
+                  placeholder="Subject"
+                  className="w-full px-4 py-2.5 bg-[#0F0F0F] border border-white/10 rounded-xl focus:border-[#6EE7B7] outline-none text-sm text-white placeholder-white/25 mb-3" />
+                <label className="block text-xs font-medium text-white/40 mb-1.5">Message</label>
                 <textarea rows={4} value={replyText} onChange={e => setReplyText(e.target.value)}
                   placeholder={`Write your reply to ${selected.fullName}...`}
                   className="w-full px-4 py-3 bg-[#0F0F0F] border border-white/10 rounded-xl focus:border-[#6EE7B7] outline-none resize-none text-sm text-white placeholder-white/25 mb-3" />
-                <button onClick={sendReply} disabled={sending || !replyText.trim()}
+                <button onClick={sendReply} disabled={sending || !replyText.trim() || !replySubject.trim()}
                   className="flex items-center gap-2 px-6 py-2.5 bg-[#6EE7B7] text-[#121212] rounded-xl font-semibold hover:bg-[#5CD7A5] transition-all disabled:opacity-50 text-sm">
                   <Send className="w-4 h-4" />{sending ? 'Sending...' : 'Send Reply'}
                 </button>
