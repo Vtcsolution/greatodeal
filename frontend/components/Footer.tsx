@@ -42,6 +42,15 @@ function RedditIcon(props: React.SVGProps<SVGSVGElement>) {
   );
 }
 
+function GoogleIcon(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.6} {...props}>
+      <circle cx="12" cy="12" r="9.5" />
+      <text x="12" y="15.5" fontSize="10" fontWeight="700" textAnchor="middle" fill="currentColor" stroke="none" fontFamily="Arial, sans-serif">G</text>
+    </svg>
+  );
+}
+
 const footerLinks = {
   company: [
     { name: 'About Us', path: '/about' },
@@ -60,6 +69,7 @@ const footerLinks = {
 };
 
 const socials = [
+  { Icon: GoogleIcon, href: 'https://share.google/YhrMvJp0M0Q2fxsV1', label: 'Google Business Profile' },
   { Icon: Facebook, href: 'https://www.facebook.com/greatodealofficial/', label: 'Facebook' },
   { Icon: Instagram, href: 'https://www.instagram.com/greatodeal/', label: 'Instagram' },
   { Icon: XIcon, href: 'https://x.com/Greatodeal', label: 'X (Twitter)' },

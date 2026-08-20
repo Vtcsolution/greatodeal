@@ -142,6 +142,7 @@ const organizationSchema = {
     'https://www.reddit.com/user/Greatodeal/',
     'https://www.goodfirms.co/company/greatodeal-ai-automation-solutions',
     'https://clutch.co/profile/greatodeal',
+    'https://share.google/YhrMvJp0M0Q2fxsV1',
   ],
   knowsAbout: [
     'Agentic AI', 'Artificial Intelligence', 'Machine Learning', 'Compliance-Grade Infrastructure',
@@ -204,7 +205,7 @@ const localBusinessSchema = {
       closes: '18:00',
     },
   ],
-  aggregateRating: { '@type': 'AggregateRating', ratingValue: '5.0', ratingCount: '6', bestRating: '5', worstRating: '1' },
+  aggregateRating: { '@type': 'AggregateRating', ratingValue: '5.0', ratingCount: '10', bestRating: '5', worstRating: '1' },
   hasMap: 'https://maps.google.com/?cid=13357701166578108019',
   additionalType: 'https://schema.org/SoftwareApplication',
   serviceType: ['Agentic AI Platforms', 'AI Agent Development', 'Agentic AI Services', 'AI Automation Agency Services', 'Compliance-Grade Infrastructure', 'Government AI Automation', 'Healthcare AI (HIPAA)', 'Fintech AI Automation', 'Secure Integration & Data Pipelines'],
@@ -227,6 +228,7 @@ const localBusinessSchema = {
     'https://www.goodfirms.co/company/greatodeal-ai-automation-solutions',
     'https://clutch.co/profile/greatodeal',
     'https://g.co/kgs/13357701166578108019',
+    'https://share.google/YhrMvJp0M0Q2fxsV1',
   ],
 };
 
