@@ -61,27 +61,89 @@ async function searchPlaces(textQuery: string): Promise<PlaceResult[]> {
   }));
 }
 
-// Pulls the first plausible-looking email address out of a block of HTML.
 const EMAIL_RE = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g;
-const JUNK_DOMAINS = ['sentry.io', 'wixpress.com', 'example.com', 'domain.com', 'yourdomain.com', 'w3.org', 'schema.org'];
+const MAILTO_RE = /href\s*=\s*["']mailto:([^"'?]+)/gi;
+const JSONLD_EMAIL_RE = /"email"\s*:\s*"([^"]+)"/i;
+const JUNK_DOMAINS = ['sentry.io', 'wixpress.com', 'example.com', 'domain.com', 'yourdomain.com', 'w3.org', 'schema.org', 'godaddy.com', 'wordpress.com'];
 const JUNK_EXT = /\.(png|jpg|jpeg|gif|svg|webp|css|js)$/i;
+const CONTACT_KEYWORDS = ['contact', 'about', 'reach', 'support', 'connect', 'get-in-touch', 'getintouch', 'enquiry', 'inquiry', 'team'];
+const PER_SITE_PAGE_BUDGET = 5;
 
+function isJunkEmail(email: string): boolean {
+  const domain = email.split('@')[1] || '';
+  return JUNK_EXT.test(email) || JUNK_DOMAINS.some((j) => domain.includes(j));
+}
+
+// Tries the strongest signals first: an explicit mailto: link, then structured
+// data (schema.org JSON-LD, which many business sites embed for SEO), then a
+// plain-text scan as the last resort.
 function extractEmail(html: string): string | null {
-  const matches = html.match(EMAIL_RE);
-  if (!matches) return null;
-  for (const m of matches) {
-    const email = m.toLowerCase();
-    const domain = email.split('@')[1] || '';
-    if (JUNK_EXT.test(email)) continue;
-    if (JUNK_DOMAINS.some((j) => domain.includes(j))) continue;
-    return email;
+  const mailtoMatches = [...html.matchAll(MAILTO_RE)].map((m) => decodeURIComponent(m[1]).toLowerCase());
+  for (const email of mailtoMatches) {
+    if (!isJunkEmail(email)) return email;
+  }
+
+  const jsonLdMatch = html.match(JSONLD_EMAIL_RE);
+  if (jsonLdMatch) {
+    const email = jsonLdMatch[1].toLowerCase();
+    if (!isJunkEmail(email)) return email;
+  }
+
+  const textMatches = html.match(EMAIL_RE);
+  if (textMatches) {
+    for (const m of textMatches) {
+      const email = m.toLowerCase();
+      if (!isJunkEmail(email)) return email;
+    }
   }
   return null;
 }
 
+// Pulls same-domain links off a page and ranks ones that look like a contact
+// or about page higher, so we follow real navigation instead of guessing URLs.
+function extractPrioritizedLinks(html: string, base: URL): string[] {
+  const hrefRe = /<a\s+[^>]*href\s*=\s*["']([^"'#]+)["'][^>]*>(.*?)<\/a>/gis;
+  const seen = new Set<string>();
+  const scored: { url: string; score: number }[] = [];
+
+  for (const m of html.matchAll(hrefRe)) {
+    const rawHref = m[1];
+    const anchorText = m[2].replace(/<[^>]+>/g, ' ').toLowerCase();
+    if (!rawHref || rawHref.startsWith('mailto:') || rawHref.startsWith('tel:') || rawHref.startsWith('javascript:')) continue;
+
+    let url: URL;
+    try {
+      url = new URL(rawHref, base);
+    } catch {
+      continue;
+    }
+    if (url.hostname !== base.hostname) continue;
+
+    const key = url.toString();
+    if (seen.has(key)) continue;
+    seen.add(key);
+
+    const haystack = `${url.pathname.toLowerCase()} ${anchorText}`;
+    const score = CONTACT_KEYWORDS.some((kw) => haystack.includes(kw)) ? 1 : 0;
+    scored.push({ url: key, score });
+  }
+
+  return scored
+    .sort((a, b) => b.score - a.score)
+    .slice(0, PER_SITE_PAGE_BUDGET - 1)
+    .map((s) => s.url);
+}
+
+async function fetchPage(url: string): Promise<string | null> {
+  const res = await fetchWithTimeout(url, { headers: { 'User-Agent': 'Mozilla/5.0 (compatible; GreatodealLeadFinder/1.0)' } }, FETCH_TIMEOUT_MS);
+  if (!res || !res.ok) return null;
+  const contentType = res.headers.get('content-type') || '';
+  if (!contentType.includes('text/html')) return null;
+  return res.text();
+}
+
 async function findEmailForWebsite(websiteUrl: string): Promise<string | null> {
   if (!websiteUrl) return null;
-  const candidatePaths = ['', 'contact', 'contact-us', 'about', 'about-us'];
   let base: URL;
   try {
     base = new URL(websiteUrl);
@@ -89,20 +151,42 @@ async function findEmailForWebsite(websiteUrl: string): Promise<string | null> {
     return null;
   }
 
-  for (const path of candidatePaths) {
-    try {
-      const url = path ? new URL(path, base).toString() : base.toString();
-      const res = await fetchWithTimeout(url, { headers: { 'User-Agent': 'Mozilla/5.0 (compatible; GreatodealLeadFinder/1.0)' } }, FETCH_TIMEOUT_MS);
-      if (!res || !res.ok) continue;
-      const contentType = res.headers.get('content-type') || '';
-      if (!contentType.includes('text/html')) continue;
-      const html = await res.text();
+  try {
+    const homeHtml = await fetchPage(base.toString());
+    if (!homeHtml) return null;
+
+    const homeEmail = extractEmail(homeHtml.slice(0, 500_000));
+    if (homeEmail) return homeEmail;
+
+    // Follow real links on the page (ranked by how "contact-like" they look)
+    // instead of guessing fixed URLs — this finds the actual contact page
+    // regardless of how the site structures its URLs.
+    const links = extractPrioritizedLinks(homeHtml, base);
+    for (const link of links) {
+      const html = await fetchPage(link);
+      if (!html) continue;
       const email = extractEmail(html.slice(0, 500_000));
       if (email) return email;
-    } catch {
-      // try next candidate
     }
+
+    // Last resort: common fixed paths, in case the contact page exists but
+    // isn't linked from the homepage nav.
+    const fallbackPaths = ['contact', 'contact-us', 'about', 'about-us'];
+    for (const path of fallbackPaths) {
+      if (links.some((l) => l.includes(path))) continue; // already tried
+      try {
+        const html = await fetchPage(new URL(path, base).toString());
+        if (!html) continue;
+        const email = extractEmail(html.slice(0, 500_000));
+        if (email) return email;
+      } catch {
+        // try next
+      }
+    }
+  } catch {
+    return null;
   }
+
   return null;
 }
 
