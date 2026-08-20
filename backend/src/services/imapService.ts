@@ -2,8 +2,14 @@ import { ImapFlow, FetchMessageObject } from 'imapflow';
 import { simpleParser } from 'mailparser';
 import Contact from '../models/ContactModel';
 import MailMessage, { MailFolder } from '../models/MailMessage';
+import MailboxState from '../models/MailboxState';
 import { notify } from '../utils/notify';
 import { emitToAdmins } from './../utils/socket';
+
+// On the very first poll ever for a folder, fetch this many of the most
+// recent existing messages instead of starting from a blank slate — a
+// restart resuming from persisted state never hits this path again.
+const INITIAL_BACKFILL_COUNT = 50;
 
 const IMAP_HOST = process.env.IMAP_HOST || (process.env.EMAIL_HOST || '').replace(/^smtp\./, 'imap.') || 'imap.hostinger.com';
 const IMAP_PORT = Number(process.env.IMAP_PORT) || 993;
@@ -25,8 +31,6 @@ const FOLDER_CONFIGS: FolderConfig[] = [
   { candidates: ['Sent', 'INBOX.Sent', 'Sent Items', 'Sent Messages'], folder: 'sent' },
 ];
 
-// Tracks the last processed UID per folder so we only fetch new mail each poll.
-const lastUidByFolder = new Map<string, number>();
 let polling = false;
 let started = false;
 
@@ -47,18 +51,23 @@ const processFolder = async (client: ImapFlow, config: FolderConfig): Promise<vo
   if (!opened) return; // folder doesn't exist on this account, skip silently
 
   const key = config.folder;
-  let lastUid = lastUidByFolder.get(key);
+  const state = await MailboxState.findOne({ folder: key });
+  const isBackfill = !state;
+  let lastUid = state?.lastUid;
 
   if (lastUid === undefined) {
-    // First run for this folder: don't backfill the whole mailbox history,
-    // just remember where we are and start tracking from here.
-    const status = opened.box;
-    lastUid = Math.max((status.uidNext || 1) - 1, 0);
-    lastUidByFolder.set(key, lastUid);
-    return;
+    // True first run ever for this folder (no persisted state) — backfill a
+    // bounded window of recent messages instead of either dumping the whole
+    // mailbox history or skipping everything. Every run after this resumes
+    // from the persisted UID, restart or not.
+    const uidNext = opened.box.uidNext || 1;
+    lastUid = Math.max(uidNext - 1 - INITIAL_BACKFILL_COUNT, 0);
   }
 
-  if (opened.box.uidNext <= lastUid + 1) return; // nothing new
+  if (opened.box.uidNext <= lastUid + 1) {
+    await MailboxState.updateOne({ folder: key }, { $set: { lastUid } }, { upsert: true });
+    return; // nothing new
+  }
 
   const range = `${lastUid + 1}:*`;
   const messages: FetchMessageObject[] = [];
@@ -102,7 +111,7 @@ const processFolder = async (client: ImapFlow, config: FolderConfig): Promise<vo
         contactId: contact?._id,
       });
 
-      emitToAdmins('mail:new', { folder: key, id: mailDoc._id, from: fromAddr, subject, date });
+      if (!isBackfill) emitToAdmins('mail:new', { folder: key, id: mailDoc._id, from: fromAddr, subject, date });
 
       if (key === 'inbox' && contact && contact.status !== 'replied') {
         contact.status = 'replied';
@@ -110,11 +119,16 @@ const processFolder = async (client: ImapFlow, config: FolderConfig): Promise<vo
         contact.followUpEnabled = false;
         contact.nextFollowUpAt = null;
         await contact.save();
-        await notify('email_replied', 'Lead replied to your email', `${contact.fullName} replied: "${subject}"`, contact._id as any, {
-          subject,
-          from: fromAddr,
-        });
-      } else if (key === 'inbox') {
+        // Backfilled history is real state (a lead genuinely did reply) but
+        // shouldn't ring the bell for something that may have happened weeks
+        // before this feature existed.
+        if (!isBackfill) {
+          await notify('email_replied', 'Lead replied to your email', `${contact.fullName} replied: "${subject}"`, contact._id as any, {
+            subject,
+            from: fromAddr,
+          });
+        }
+      } else if (key === 'inbox' && !isBackfill) {
         await notify('new_mail', 'New message received', `New email from ${fromName || fromAddr}: "${subject}"`, contact?._id as any, {
           subject,
           from: fromAddr,
@@ -125,7 +139,7 @@ const processFolder = async (client: ImapFlow, config: FolderConfig): Promise<vo
     }
   }
 
-  lastUidByFolder.set(key, lastUid);
+  await MailboxState.updateOne({ folder: key }, { $set: { lastUid } }, { upsert: true });
 };
 
 export const pollMailbox = async (): Promise<void> => {
