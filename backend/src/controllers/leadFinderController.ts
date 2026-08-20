@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import Contact from '../models/ContactModel';
+import Prospect from '../models/Prospect';
 
 const PLACES_API_KEY = process.env.GOOGLE_PLACES_API_KEY;
 const FETCH_TIMEOUT_MS = 6000;
@@ -318,6 +319,28 @@ export const searchCompanies = async (req: Request, res: Response): Promise<void
     // budget and operational complexity that make AI automation worthwhile.
     enriched.sort((a, b) => b.ratingCount - a.ratingCount);
 
+    // Persist every result so it survives a page refresh and doesn't need
+    // re-fetching (and re-billing) from Google on next visit. Upsert by
+    // placeId so re-running the same search refreshes stale data in place.
+    if (enriched.length > 0) {
+      await Prospect.bulkWrite(
+        enriched.map((p) => ({
+          updateOne: {
+            filter: { placeId: p.placeId },
+            update: {
+              $set: {
+                name: p.name, address: p.address, phone: p.phone, website: p.website,
+                rating: p.rating, ratingCount: p.ratingCount, businessStatus: p.businessStatus,
+                email: p.email, hasLinkedIn: p.hasLinkedIn, sizeTier: p.sizeTier,
+                activity: p.activity, lastReviewDate: p.lastReviewDate ? new Date(p.lastReviewDate) : null, keyword, location,
+              },
+            },
+            upsert: true,
+          },
+        }))
+      );
+    }
+
     res.json({ success: true, data: enriched });
   } catch (error) {
     console.error('searchCompanies error:', error);
@@ -325,9 +348,18 @@ export const searchCompanies = async (req: Request, res: Response): Promise<void
   }
 };
 
+export const getProspects = async (_req: Request, res: Response): Promise<void> => {
+  try {
+    const prospects = await Prospect.find().sort({ ratingCount: -1 });
+    res.json({ success: true, data: prospects });
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Error fetching saved prospects', error });
+  }
+};
+
 export const importLead = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { name, email, phone, website, address, leadStatus, services } = req.body;
+    const { placeId, name, email, phone, website, address, leadStatus, services } = req.body;
     if (!name || !email) {
       res.status(400).json({ success: false, message: 'name and email are required to import a lead' });
       return;
@@ -351,6 +383,10 @@ export const importLead = async (req: Request, res: Response): Promise<void> => 
       leadStatus: leadStatus || 'cold',
       source: 'lead_finder',
     });
+
+    if (placeId) {
+      await Prospect.updateOne({ placeId }, { $set: { imported: true, importedContactId: contact._id } });
+    }
 
     res.status(201).json({ success: true, data: contact });
   } catch (error) {

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { leadFinderApi } from '@/lib/api';
 import { Search, Phone, Globe, Mail, MapPin, Star, Snowflake, Flame, Zap, Check, Loader2, AlertTriangle, Radio, Clock, HelpCircle, Building2, Linkedin } from 'lucide-react';
 
@@ -20,6 +20,7 @@ interface CompanyResult {
   sizeTier: SizeTier;
   activity: Activity;
   lastReviewDate: string | null;
+  imported?: boolean;
 }
 
 type LeadStatus = 'cold' | 'warm' | 'urgent';
@@ -58,6 +59,23 @@ export default function LeadFinderPage() {
   const [leadStatusPick, setLeadStatusPick] = useState<Record<string, LeadStatus>>({});
   const [activeOnly, setActiveOnly] = useState(false);
   const [establishedOnly, setEstablishedOnly] = useState(false);
+  const [loadingSaved, setLoadingSaved] = useState(true);
+
+  // Every company Lead Finder has ever found is saved server-side, so a
+  // refresh (or coming back tomorrow) doesn't lose the list or burn more
+  // Google API quota re-searching the same thing.
+  useEffect(() => {
+    leadFinderApi.getProspects()
+      .then(res => {
+        const saved: CompanyResult[] = res.data.data || [];
+        setResults(saved);
+        const importedState: Record<string, 'done'> = {};
+        saved.forEach(p => { if (p.imported) importedState[p.placeId] = 'done'; });
+        setImportedIds(importedState);
+      })
+      .catch(() => {})
+      .finally(() => setLoadingSaved(false));
+  }, []);
 
   const visibleResults = results
     .filter(r => !activeOnly || r.activity === 'active')
@@ -68,10 +86,16 @@ export default function LeadFinderPage() {
     if (!keyword.trim() || !location.trim()) return;
     setSearching(true);
     setSearchError('');
-    setResults([]);
     try {
       const res = await leadFinderApi.search(keyword.trim(), location.trim());
-      setResults(res.data.data || []);
+      const fresh: CompanyResult[] = res.data.data || [];
+      // Merge into whatever's already on screen (saved from before + earlier
+      // searches this session) instead of throwing that away.
+      setResults(prev => {
+        const byId = new Map(prev.map(r => [r.placeId, r]));
+        fresh.forEach(r => byId.set(r.placeId, { ...byId.get(r.placeId), ...r }));
+        return Array.from(byId.values()).sort((a, b) => b.ratingCount - a.ratingCount);
+      });
     } catch (err: any) {
       setSearchError(err?.response?.data?.message || 'Search failed. Check the server logs / API key configuration.');
     } finally {
@@ -84,6 +108,7 @@ export default function LeadFinderPage() {
     setImportedIds(prev => ({ ...prev, [company.placeId]: 'importing' }));
     try {
       await leadFinderApi.import({
+        placeId: company.placeId,
         name: company.name,
         email: company.email,
         phone: company.phone,
@@ -147,17 +172,23 @@ export default function LeadFinderPage() {
         </div>
       )}
 
+      {loadingSaved && (
+        <div className="flex items-center justify-center py-16 text-white/40 text-sm gap-2">
+          <Loader2 className="w-5 h-5 animate-spin" /> Loading previously found companies…
+        </div>
+      )}
+
       {searching && (
         <div className="flex items-center justify-center py-16 text-white/40 text-sm gap-2">
           <Loader2 className="w-5 h-5 animate-spin" /> Searching Google Places and scanning company websites for contact emails…
         </div>
       )}
 
-      {!searching && results.length > 0 && (
+      {!loadingSaved && !searching && results.length > 0 && (
         <div className="bg-[#161616] rounded-2xl border border-white/10 overflow-hidden">
           <div className="p-4 sm:p-6 border-b border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div className="text-sm text-white/50">
-              Sorted largest business first. {results.length} operating companies found ·{' '}
+              Saved automatically — sorted largest business first. {results.length} operating companies found so far ·{' '}
               {results.filter(r => r.email).length} with a discoverable email · {results.filter(r => r.activity === 'active').length} recently active
             </div>
             <div className="flex items-center gap-4 shrink-0">
@@ -279,7 +310,7 @@ export default function LeadFinderPage() {
         </div>
       )}
 
-      {!searching && results.length === 0 && !searchError && (
+      {!loadingSaved && !searching && results.length === 0 && !searchError && (
         <div className="text-center py-16 text-white/30 text-sm">Search for an industry and location above to find companies to reach out to.</div>
       )}
     </div>

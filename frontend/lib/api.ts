@@ -106,6 +106,7 @@ export const projectApi = {
 export const leadFinderApi = {
   search: (keyword: string, location: string) => api.post('/lead-finder/search', { keyword, location }),
   import: (data: Record<string, unknown>) => api.post('/lead-finder/import', data),
+  getProspects: () => api.get('/lead-finder/prospects'),
 };
 
 export const analyticsApi = {
