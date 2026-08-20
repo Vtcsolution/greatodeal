@@ -1,8 +1,8 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { leadFinderApi } from '@/lib/api';
-import { Search, Phone, Globe, Mail, MapPin, Star, Snowflake, Flame, Zap, Check, Loader2, AlertTriangle, Radio, Clock, HelpCircle, Building2, Linkedin } from 'lucide-react';
+import { Search, Phone, Globe, Mail, MapPin, Star, Snowflake, Flame, Zap, Check, Loader2, AlertTriangle, Radio, Clock, HelpCircle, Building2, Linkedin, ChevronLeft, ChevronRight, Filter } from 'lucide-react';
 
 type Activity = 'active' | 'quiet' | 'unknown';
 type SizeTier = 'small' | 'growing' | 'established' | 'large';
@@ -21,6 +21,8 @@ interface CompanyResult {
   activity: Activity;
   lastReviewDate: string | null;
   imported?: boolean;
+  keyword?: string;
+  location?: string;
 }
 
 type LeadStatus = 'cold' | 'warm' | 'urgent';
@@ -60,6 +62,10 @@ export default function LeadFinderPage() {
   const [activeOnly, setActiveOnly] = useState(false);
   const [establishedOnly, setEstablishedOnly] = useState(false);
   const [loadingSaved, setLoadingSaved] = useState(true);
+  const [keywordFilter, setKeywordFilter] = useState('');
+  const [locationFilter, setLocationFilter] = useState('');
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(20);
 
   // Every company Lead Finder has ever found is saved server-side, so a
   // refresh (or coming back tomorrow) doesn't lose the list or burn more
@@ -77,9 +83,29 @@ export default function LeadFinderPage() {
       .finally(() => setLoadingSaved(false));
   }, []);
 
+  // Every distinct keyword/location that's actually been searched, so the
+  // dropdowns only ever show real, applied searches — never guesses.
+  const keywordHistory = useMemo(
+    () => Array.from(new Set(results.map(r => r.keyword).filter((k): k is string => !!k))).sort(),
+    [results]
+  );
+  const locationHistory = useMemo(
+    () => Array.from(new Set(results.map(r => r.location).filter((l): l is string => !!l))).sort(),
+    [results]
+  );
+
   const visibleResults = results
     .filter(r => !activeOnly || r.activity === 'active')
-    .filter(r => !establishedOnly || r.sizeTier !== 'small');
+    .filter(r => !establishedOnly || r.sizeTier !== 'small')
+    .filter(r => !keywordFilter || r.keyword === keywordFilter)
+    .filter(r => !locationFilter || r.location === locationFilter);
+
+  const totalPages = Math.max(1, Math.ceil(visibleResults.length / pageSize));
+  const pagedResults = visibleResults.slice((page - 1) * pageSize, page * pageSize);
+
+  // Any filter or page-size change should snap back to page 1 rather than
+  // leaving the view stuck on a now-invalid page.
+  useEffect(() => { setPage(1); }, [activeOnly, establishedOnly, keywordFilter, locationFilter, pageSize]);
 
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -142,8 +168,12 @@ export default function LeadFinderPage() {
               value={keyword}
               onChange={e => setKeyword(e.target.value)}
               placeholder="e.g. dental clinics, real estate agencies"
+              list="keyword-history"
               className="w-full px-4 py-3 bg-[#0D0D0D] border border-white/10 rounded-xl text-sm text-white placeholder-white/30 outline-none focus:border-[#6EE7B7]/40 focus:ring-2 focus:ring-[#6EE7B7]/20 transition-all"
             />
+            <datalist id="keyword-history">
+              {keywordHistory.map(k => <option key={k} value={k} />)}
+            </datalist>
           </div>
           <div>
             <label className="block text-xs font-medium text-white/50 mb-2">Location</label>
@@ -151,8 +181,12 @@ export default function LeadFinderPage() {
               value={location}
               onChange={e => setLocation(e.target.value)}
               placeholder="e.g. Lahore, Pakistan"
+              list="location-history"
               className="w-full px-4 py-3 bg-[#0D0D0D] border border-white/10 rounded-xl text-sm text-white placeholder-white/30 outline-none focus:border-[#6EE7B7]/40 focus:ring-2 focus:ring-[#6EE7B7]/20 transition-all"
             />
+            <datalist id="location-history">
+              {locationHistory.map(l => <option key={l} value={l} />)}
+            </datalist>
           </div>
         </div>
         <button
@@ -186,12 +220,25 @@ export default function LeadFinderPage() {
 
       {!loadingSaved && !searching && results.length > 0 && (
         <div className="bg-[#161616] rounded-2xl border border-white/10 overflow-hidden">
-          <div className="p-4 sm:p-6 border-b border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-            <div className="text-sm text-white/50">
+          <div className="p-4 sm:p-6 border-b border-white/10">
+            <div className="text-sm text-white/50 mb-4">
               Saved automatically — sorted largest business first. {results.length} operating companies found so far ·{' '}
               {results.filter(r => r.email).length} with a discoverable email · {results.filter(r => r.activity === 'active').length} recently active
+              {visibleResults.length !== results.length && <> · <span className="text-[#6EE7B7]">{visibleResults.length} match current filters</span></>}
             </div>
-            <div className="flex items-center gap-4 shrink-0">
+            <div className="flex flex-wrap items-center gap-3">
+              <div className="flex items-center gap-1.5 text-xs text-white/40 mr-1"><Filter className="w-3.5 h-3.5" />Filter by:</div>
+              <select value={keywordFilter} onChange={e => setKeywordFilter(e.target.value)}
+                className="px-3 py-2 bg-[#0D0D0D] border border-white/10 rounded-xl text-xs text-white outline-none focus:border-[#6EE7B7]/40">
+                <option value="">All industries</option>
+                {keywordHistory.map(k => <option key={k} value={k}>{k}</option>)}
+              </select>
+              <select value={locationFilter} onChange={e => setLocationFilter(e.target.value)}
+                className="px-3 py-2 bg-[#0D0D0D] border border-white/10 rounded-xl text-xs text-white outline-none focus:border-[#6EE7B7]/40">
+                <option value="">All locations</option>
+                {locationHistory.map(l => <option key={l} value={l}>{l}</option>)}
+              </select>
+              <div className="w-px h-5 bg-white/10 mx-1" />
               <label className="flex items-center gap-2.5 cursor-pointer select-none">
                 <input
                   type="checkbox"
@@ -216,7 +263,7 @@ export default function LeadFinderPage() {
             <div className="p-8 text-center text-white/30 text-sm">No results match these filters — try unchecking one.</div>
           )}
           <div className="divide-y divide-white/5">
-            {visibleResults.map((c) => {
+            {pagedResults.map((c) => {
               const status = importedIds[c.placeId];
               const picked = leadStatusPick[c.placeId] || 'cold';
               return (
@@ -307,6 +354,30 @@ export default function LeadFinderPage() {
               );
             })}
           </div>
+
+          {visibleResults.length > 0 && (
+            <div className="p-4 sm:p-6 border-t border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div className="flex items-center gap-2 text-xs text-white/50">
+                <span>Show</span>
+                <select value={pageSize} onChange={e => setPageSize(Number(e.target.value))}
+                  className="px-2.5 py-1.5 bg-[#0D0D0D] border border-white/10 rounded-lg text-xs text-white outline-none focus:border-[#6EE7B7]/40">
+                  {[10, 20, 50, 100].map(n => <option key={n} value={n}>{n}</option>)}
+                </select>
+                <span>per page &middot; {visibleResults.length} total</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <button onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1}
+                  className="p-2 rounded-lg bg-white/5 text-white/50 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-all">
+                  <ChevronLeft className="w-4 h-4" />
+                </button>
+                <span className="text-xs text-white/50 px-2">Page {page} of {totalPages}</span>
+                <button onClick={() => setPage(p => Math.min(totalPages, p + 1))} disabled={page === totalPages}
+                  className="p-2 rounded-lg bg-white/5 text-white/50 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-all">
+                  <ChevronRight className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       )}
 

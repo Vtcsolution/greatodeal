@@ -319,6 +319,11 @@ export const searchCompanies = async (req: Request, res: Response): Promise<void
     // budget and operational complexity that make AI automation worthwhile.
     enriched.sort((a, b) => b.ratingCount - a.ratingCount);
 
+    // Tag each result with the search that found it, matching what's saved
+    // to Prospect below, so the frontend's history dropdowns are correct
+    // immediately without waiting for a reload.
+    const withSearchMeta = enriched.map((p) => ({ ...p, keyword, location }));
+
     // Persist every result so it survives a page refresh and doesn't need
     // re-fetching (and re-billing) from Google on next visit. Upsert by
     // placeId so re-running the same search refreshes stale data in place.
@@ -341,7 +346,7 @@ export const searchCompanies = async (req: Request, res: Response): Promise<void
       );
     }
 
-    res.json({ success: true, data: enriched });
+    res.json({ success: true, data: withSearchMeta });
   } catch (error) {
     console.error('searchCompanies error:', error);
     res.status(500).json({ success: false, message: error instanceof Error ? error.message : 'Error searching companies' });
