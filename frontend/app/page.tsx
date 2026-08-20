@@ -8,6 +8,8 @@ export const metadata: Metadata = {
     'AI SaaS for regulated industries', 'agentic automation', 'compliance-grade AI infrastructure',
     'government AI automation', 'healthcare AI HIPAA compliant', 'fintech AI compliance',
     'AI automation company', 'explainable AI', 'audit-ready AI systems', 'Greatodeal',
+    'AI agent development company', 'agentic AI services', 'AI automation agency Lahore',
+    'AI services provider Pakistan', 'top AI companies Pakistan', 'business automation AI',
   ],
   openGraph: {
     title: 'Greatodeal | AI Automation Agency in Lahore, Pakistan',
@@ -77,6 +79,16 @@ const faqSchema = {
       name: 'How can I request a demo from Greatodeal?',
       acceptedAnswer: { '@type': 'Answer', text: 'You can request a demo via the contact form at greatodeal.com/contact, by email at sales@greatodeal.com, or via WhatsApp. Our team responds within 24 hours.' },
     },
+    {
+      '@type': 'Question',
+      name: 'Is Greatodeal an AI automation agency based in Lahore, Pakistan?',
+      acceptedAnswer: { '@type': 'Answer', text: 'Yes. Greatodeal is an AI automation agency headquartered in Lahore, Pakistan, providing AI agent development, agentic automation, and AI services to clients in Pakistan and internationally.' },
+    },
+    {
+      '@type': 'Question',
+      name: 'What is an AI agent, and does Greatodeal build them?',
+      acceptedAnswer: { '@type': 'Answer', text: 'An AI agent is a system that can plan and execute multi-step tasks toward a goal, rather than just responding to a single prompt. Greatodeal builds AI agents and agentic automation that connect a business\'s tools and workflows into one operational system, with human review built in for actions that matter.' },
+    },
   ],
 };
 
@@ -86,53 +98,21 @@ const serviceSchema = {
   name: 'What Greatodeal Builds',
   itemListElement: [
     { '@type': 'ListItem', position: 1, name: 'Agentic AI Platforms', url: 'https://greatodeal.com' },
-    { '@type': 'ListItem', position: 2, name: 'Compliance-Grade Infrastructure', url: 'https://greatodeal.com' },
-    { '@type': 'ListItem', position: 3, name: 'Industry-Specific SaaS', url: 'https://greatodeal.com/industries' },
-    { '@type': 'ListItem', position: 4, name: 'Secure Integration & Data Pipelines', url: 'https://greatodeal.com' },
+    { '@type': 'ListItem', position: 2, name: 'AI Agent Development', url: 'https://greatodeal.com/industries/ai-automation' },
+    { '@type': 'ListItem', position: 3, name: 'Compliance-Grade Infrastructure', url: 'https://greatodeal.com' },
+    { '@type': 'ListItem', position: 4, name: 'Industry-Specific SaaS', url: 'https://greatodeal.com/industries' },
+    { '@type': 'ListItem', position: 5, name: 'Secure Integration & Data Pipelines', url: 'https://greatodeal.com' },
   ],
 };
 
-const organizationSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'Organization',
-  name: 'Greatodeal',
-  url: 'https://greatodeal.com',
-  logo: 'https://greatodeal.com/images/logo.png',
-  address: '16 Jail Rd, Shadman 2, Lahore, Pakistan',
-  telephone: '+923011060841',
-  email: 'hello@greatodeal.com',
-  sameAs: [
-    'https://www.facebook.com/greatodealofficial',
-    'https://www.instagram.com/greatodeal',
-    'https://www.linkedin.com/company/greatodeal',
-    'https://www.youtube.com/@GreatodealAI',
-  ],
-  description: 'AI automation and SaaS development agency based in Lahore, Pakistan, serving government, healthcare, fintech, green tech, and real estate.',
-};
-
-const localBusinessSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'LocalBusiness',
-  name: 'Greatodeal',
-  url: 'https://greatodeal.com',
-  logo: 'https://greatodeal.com/images/logo.png',
-  address: '16 Jail Rd, Shadman 2, Lahore, Pakistan',
-  telephone: '+923011060841',
-  email: 'hello@greatodeal.com',
-  sameAs: [
-    'https://www.facebook.com/greatodealofficial',
-    'https://www.instagram.com/greatodeal',
-    'https://www.linkedin.com/company/greatodeal',
-    'https://www.youtube.com/@GreatodealAI',
-  ],
-  description: 'AI automation and SaaS development agency based in Lahore, Pakistan, serving government, healthcare, fintech, green tech, and real estate.',
-};
+// Organization and LocalBusiness entities are declared once, in the root
+// layout (rendered on every page including this one) — duplicating a second,
+// less complete copy here just gives Google two conflicting descriptions of
+// the same business, which hurts entity recognition rather than helping it.
 
 export default function HomePage() {
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(homePageSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }} />

@@ -4,7 +4,7 @@ import Content from './content';
 export const metadata: Metadata = {
   title: 'AI Automation Solutions | Agentic Workflows | Greatodeal',
   description: 'Agentic AI automation that connects scattered tools into one operational system: workflow automation, operational dashboards, and automated customer response with full audit logging.',
-  keywords: ['AI automation company', 'agentic workflow automation', 'business process automation AI', 'operational automation software', 'connected systems automation', 'Greatodeal'],
+  keywords: ['AI automation company', 'agentic workflow automation', 'business process automation AI', 'operational automation software', 'connected systems automation', 'Greatodeal', 'AI agent development', 'agentic AI services', 'AI automation agency Pakistan', 'automate business with AI'],
   openGraph: {
     title: 'AI Automation Solutions | Agentic Workflows | Greatodeal',
     description: 'Agentic AI automation that connects scattered tools into one operational system, with full audit logging on every automated action.',
