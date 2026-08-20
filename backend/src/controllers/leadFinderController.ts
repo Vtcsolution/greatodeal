@@ -20,8 +20,24 @@ interface PlaceResult {
 }
 
 export type ActivityLevel = 'active' | 'quiet' | 'unknown';
+export type SizeTier = 'small' | 'growing' | 'established' | 'large';
 
 const ACTIVE_WITHIN_MONTHS = 18;
+
+/**
+ * Google doesn't expose revenue or headcount for arbitrary businesses (no free
+ * or paid API does, for privacy reasons) — review count is the closest honest,
+ * free proxy for scale/customer volume it actually gives us. Bigger, more
+ * established businesses accumulate far more reviews over time than a small
+ * local shop, which is what we actually want to prioritize for AI automation
+ * outreach (more budget, more operational complexity to automate).
+ */
+function sizeTierFor(ratingCount: number): SizeTier {
+  if (ratingCount >= 500) return 'large';
+  if (ratingCount >= 100) return 'established';
+  if (ratingCount >= 20) return 'growing';
+  return 'small';
+}
 
 async function fetchWithTimeout(url: string, init: RequestInit, timeoutMs: number): Promise<globalThis.Response | null> {
   const controller = new AbortController();
@@ -204,52 +220,68 @@ async function fetchPage(url: string): Promise<string | null> {
   return res.text();
 }
 
-async function findEmailForWebsite(websiteUrl: string): Promise<string | null> {
-  if (!websiteUrl) return null;
+const LINKEDIN_COMPANY_RE = /linkedin\.com\/(company|showcase)\//i;
+
+interface WebsiteScan {
+  email: string | null;
+  hasLinkedIn: boolean;
+}
+
+async function scanWebsite(websiteUrl: string): Promise<WebsiteScan> {
+  const result: WebsiteScan = { email: null, hasLinkedIn: false };
+  if (!websiteUrl) return result;
   let base: URL;
   try {
     base = new URL(websiteUrl);
   } catch {
-    return null;
+    return result;
   }
+
+  const checkPage = (html: string) => {
+    if (!result.hasLinkedIn && LINKEDIN_COMPANY_RE.test(html)) result.hasLinkedIn = true;
+    if (!result.email) result.email = extractEmail(html.slice(0, 500_000));
+  };
 
   try {
     const homeHtml = await fetchPage(base.toString());
-    if (!homeHtml) return null;
-
-    const homeEmail = extractEmail(homeHtml.slice(0, 500_000));
-    if (homeEmail) return homeEmail;
+    if (!homeHtml) return result;
+    checkPage(homeHtml);
+    if (result.email && result.hasLinkedIn) return result;
 
     // Follow real links on the page (ranked by how "contact-like" they look)
     // instead of guessing fixed URLs — this finds the actual contact page
-    // regardless of how the site structures its URLs.
+    // regardless of how the site structures its URLs. A LinkedIn link, when
+    // present, is usually in the header/footer of every page, so the
+    // homepage scan above already catches it in almost all cases.
     const links = extractPrioritizedLinks(homeHtml, base);
     for (const link of links) {
+      if (result.email && result.hasLinkedIn) break;
       const html = await fetchPage(link);
       if (!html) continue;
-      const email = extractEmail(html.slice(0, 500_000));
-      if (email) return email;
+      checkPage(html);
     }
+
+    if (result.email) return result;
 
     // Last resort: common fixed paths, in case the contact page exists but
     // isn't linked from the homepage nav.
     const fallbackPaths = ['contact', 'contact-us', 'about', 'about-us'];
     for (const path of fallbackPaths) {
+      if (result.email) break;
       if (links.some((l) => l.includes(path))) continue; // already tried
       try {
         const html = await fetchPage(new URL(path, base).toString());
         if (!html) continue;
-        const email = extractEmail(html.slice(0, 500_000));
-        if (email) return email;
+        checkPage(html);
       } catch {
         // try next
       }
     }
   } catch {
-    return null;
+    return result;
   }
 
-  return null;
+  return result;
 }
 
 export const searchCompanies = async (req: Request, res: Response): Promise<void> => {
@@ -270,16 +302,21 @@ export const searchCompanies = async (req: Request, res: Response): Promise<void
 
     const places = await searchPlaces(`${keyword} in ${location}`);
 
-    // Look up each result's email and activity signal in parallel, per-place.
+    // Look up each result's website scan (email + LinkedIn presence) and
+    // activity signal in parallel, per-place.
     const enriched = await Promise.all(
       places.map(async (p) => {
-        const [email, activitySignal] = await Promise.all([
-          p.website ? findEmailForWebsite(p.website) : Promise.resolve(null),
+        const [scan, activitySignal] = await Promise.all([
+          p.website ? scanWebsite(p.website) : Promise.resolve<WebsiteScan>({ email: null, hasLinkedIn: false }),
           getActivitySignal(p.placeId),
         ]);
-        return { ...p, email, ...activitySignal };
+        return { ...p, ...scan, sizeTier: sizeTierFor(p.ratingCount), ...activitySignal };
       })
     );
+
+    // Biggest, most established businesses first — they're the ones with the
+    // budget and operational complexity that make AI automation worthwhile.
+    enriched.sort((a, b) => b.ratingCount - a.ratingCount);
 
     res.json({ success: true, data: enriched });
   } catch (error) {

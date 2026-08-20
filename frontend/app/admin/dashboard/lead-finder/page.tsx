@@ -2,9 +2,10 @@
 
 import { useState } from 'react';
 import { leadFinderApi } from '@/lib/api';
-import { Search, Phone, Globe, Mail, MapPin, Star, Snowflake, Flame, Zap, Check, Loader2, AlertTriangle, Radio, Clock, HelpCircle } from 'lucide-react';
+import { Search, Phone, Globe, Mail, MapPin, Star, Snowflake, Flame, Zap, Check, Loader2, AlertTriangle, Radio, Clock, HelpCircle, Building2, Linkedin } from 'lucide-react';
 
 type Activity = 'active' | 'quiet' | 'unknown';
+type SizeTier = 'small' | 'growing' | 'established' | 'large';
 
 interface CompanyResult {
   placeId: string;
@@ -15,6 +16,8 @@ interface CompanyResult {
   rating: number | null;
   ratingCount: number;
   email: string | null;
+  hasLinkedIn: boolean;
+  sizeTier: SizeTier;
   activity: Activity;
   lastReviewDate: string | null;
 }
@@ -33,6 +36,13 @@ const ACTIVITY_CONFIG: Record<Activity, { label: string; color: string; bg: stri
   unknown: { label: 'No reviews yet', color: 'text-white/30', bg: 'bg-white/5', icon: HelpCircle },
 };
 
+const SIZE_CONFIG: Record<SizeTier, { label: string; color: string; bg: string }> = {
+  large: { label: 'Large', color: 'text-violet-400', bg: 'bg-violet-500/10' },
+  established: { label: 'Established', color: 'text-blue-400', bg: 'bg-blue-500/10' },
+  growing: { label: 'Growing', color: 'text-teal-400', bg: 'bg-teal-500/10' },
+  small: { label: 'Small', color: 'text-white/30', bg: 'bg-white/5' },
+};
+
 function formatMonthYear(iso: string | null): string {
   if (!iso) return '';
   return new Date(iso).toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
@@ -47,8 +57,11 @@ export default function LeadFinderPage() {
   const [importedIds, setImportedIds] = useState<Record<string, 'importing' | 'done' | 'exists' | 'error'>>({});
   const [leadStatusPick, setLeadStatusPick] = useState<Record<string, LeadStatus>>({});
   const [activeOnly, setActiveOnly] = useState(false);
+  const [establishedOnly, setEstablishedOnly] = useState(false);
 
-  const visibleResults = activeOnly ? results.filter(r => r.activity === 'active') : results;
+  const visibleResults = results
+    .filter(r => !activeOnly || r.activity === 'active')
+    .filter(r => !establishedOnly || r.sizeTier !== 'small');
 
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -93,7 +106,7 @@ export default function LeadFinderPage() {
     <div className="p-4 sm:p-6 lg:p-8">
       <h1 className="text-xl sm:text-2xl font-bold text-white mb-1">Lead Finder</h1>
       <p className="text-white/50 text-sm mb-6 sm:mb-8">
-        Search for companies by industry and location, then import the ones with a discoverable email straight into your lead automation.
+        Search for companies by industry and location. Results are sorted biggest-first (by review volume, the closest free signal to scale) so you reach the businesses with real budget for automation before the small ones.
       </p>
 
       <form onSubmit={handleSearch} className="bg-[#161616] rounded-2xl border border-white/10 p-4 sm:p-6 mb-6 sm:mb-8">
@@ -144,21 +157,32 @@ export default function LeadFinderPage() {
         <div className="bg-[#161616] rounded-2xl border border-white/10 overflow-hidden">
           <div className="p-4 sm:p-6 border-b border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div className="text-sm text-white/50">
-              Google already excludes permanently closed businesses. {results.length} operating companies found ·{' '}
+              Sorted largest business first. {results.length} operating companies found ·{' '}
               {results.filter(r => r.email).length} with a discoverable email · {results.filter(r => r.activity === 'active').length} recently active
             </div>
-            <label className="flex items-center gap-2.5 cursor-pointer select-none shrink-0">
-              <input
-                type="checkbox"
-                checked={activeOnly}
-                onChange={e => setActiveOnly(e.target.checked)}
-                className="w-4 h-4 rounded accent-[#6EE7B7] bg-[#0F0F0F] border-white/20"
-              />
-              <span className="text-xs text-white/60">Only show recently active businesses</span>
-            </label>
+            <div className="flex items-center gap-4 shrink-0">
+              <label className="flex items-center gap-2.5 cursor-pointer select-none">
+                <input
+                  type="checkbox"
+                  checked={establishedOnly}
+                  onChange={e => setEstablishedOnly(e.target.checked)}
+                  className="w-4 h-4 rounded accent-[#6EE7B7] bg-[#0F0F0F] border-white/20"
+                />
+                <span className="text-xs text-white/60">Established+ only (20+ reviews)</span>
+              </label>
+              <label className="flex items-center gap-2.5 cursor-pointer select-none">
+                <input
+                  type="checkbox"
+                  checked={activeOnly}
+                  onChange={e => setActiveOnly(e.target.checked)}
+                  className="w-4 h-4 rounded accent-[#6EE7B7] bg-[#0F0F0F] border-white/20"
+                />
+                <span className="text-xs text-white/60">Only recently active</span>
+              </label>
+            </div>
           </div>
           {visibleResults.length === 0 && (
-            <div className="p-8 text-center text-white/30 text-sm">No results have a recent review — try unchecking the filter.</div>
+            <div className="p-8 text-center text-white/30 text-sm">No results match these filters — try unchecking one.</div>
           )}
           <div className="divide-y divide-white/5">
             {visibleResults.map((c) => {
@@ -172,6 +196,14 @@ export default function LeadFinderPage() {
                       {c.rating !== null && (
                         <span className="flex items-center gap-1 text-xs text-amber-400">
                           <Star className="w-3 h-3 fill-amber-400" />{c.rating} ({c.ratingCount})
+                        </span>
+                      )}
+                      <span className={`flex items-center gap-1 text-xs px-2 py-0.5 rounded-full ${SIZE_CONFIG[c.sizeTier].bg} ${SIZE_CONFIG[c.sizeTier].color}`} title="Based on review count, the closest free signal to business scale">
+                        <Building2 className="w-3 h-3" />{SIZE_CONFIG[c.sizeTier].label}
+                      </span>
+                      {c.hasLinkedIn && (
+                        <span className="flex items-center gap-1 text-xs px-2 py-0.5 rounded-full bg-[#0A66C2]/10 text-[#4A9FE0]" title="Website links to a LinkedIn company page">
+                          <Linkedin className="w-3 h-3" />LinkedIn
                         </span>
                       )}
                       {(() => {
