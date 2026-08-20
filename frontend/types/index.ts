@@ -94,6 +94,7 @@ export interface Contact {
   lastEmailSentAt?: string | null;
   dealClosed: boolean;
   dealClosedAt?: string | null;
+  source: 'contact_form' | 'lead_finder';
 }
 
 export type ProjectStatus = 'planning' | 'in_progress' | 'completed' | 'on_hold' | 'cancelled';

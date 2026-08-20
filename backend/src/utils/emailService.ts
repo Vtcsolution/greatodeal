@@ -95,6 +95,121 @@ export const sendReplyEmail = async (to: string, subject: string, htmlContent: s
 };
 
 /**
+ * The same signature block already used in Hostinger, appended automatically
+ * to every email the system sends (manual replies and automated follow-ups
+ * both go through sendTrackedEmail below) so it doesn't have to be pasted in
+ * by hand.
+ */
+const EMAIL_SIGNATURE_HTML = `
+<div>
+  <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="font-family: Arial, Helvetica, sans-serif; width: 400px; max-width: 100%; border-collapse: collapse;">
+    <tbody>
+      <tr>
+        <td style="padding-top: 16px;">
+          <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="border-top: 1px solid #e5e7eb;">
+            <tbody>
+              <tr>
+                <td>&nbsp;</td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td style="padding-top: 16px;">
+          <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+            <tbody>
+              <tr>
+                <td width="40" valign="middle" style="border-right: 1px solid #e5e7eb; padding-right: 10px;">
+                  <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+                    <tbody>
+                      <tr>
+                        <td height="24" width="24" style="padding-bottom: 5px;">
+                          <a href="https://www.facebook.com/greatodealofficial/">
+                            <img src="https://greatodeal.com/images/icons/facebook.png" width="24" height="24" alt="Facebook" style="display: block; border: 0;">
+                          </a>
+                          <br>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td height="24" width="24" style="padding-bottom: 5px;">
+                          <a href="https://www.instagram.com/greatodeal/">
+                            <img src="https://greatodeal.com/images/icons/instagram.png" width="24" height="24" alt="Instagram" style="display: block; border: 0;">
+                          </a>
+                          <br>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td height="24" width="24" style="padding-bottom: 5px;">
+                          <a href="https://www.linkedin.com/company/greatodeal">
+                            <img src="https://greatodeal.com/images/icons/linkedin.png" width="24" height="24" alt="LinkedIn" style="display: block; border: 0;">
+                          </a>
+                          <br>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td height="24" width="24">
+                          <a href="https://www.youtube.com/@GreatodealAI">
+                            <img src="https://greatodeal.com/images/icons/youtube.png" width="24" height="24" alt="YouTube" style="display: block; border: 0;">
+                          </a>
+                          <br>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+                <td width="80" valign="middle" align="center" style="padding: 0 12px;">
+                  <img src="https://greatodeal.com/images/email_logo.png" width="64" height="64" alt="Greatodeal" style="border-radius: 50%; border: 3px solid #6EE7B7; display: block;">
+                  <br>
+                </td>
+                <td valign="middle">
+                  <div style="font-size: 15px; font-weight: bold; color: #111827; font-family: Arial, sans-serif; line-height: 1.3; white-space: nowrap;">Greatodeal AI Automation Agency</div>
+                  <div style="font-size: 12px; color: #374151; font-family: Arial, sans-serif; margin-top: 3px;">
+                    <span style="font-weight: 600;">Zia Shafique</span>
+                    <span style="color: #9ca3af;">&nbsp;&middot;&nbsp;</span>
+                    <span style="color: rgb(16, 185, 129); letter-spacing: 0.3px;">
+                      <b>FOUNDER &amp; CEO</b>
+                    </span>
+                  </div>
+                  <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="margin: 8px 0;">
+                    <tbody>
+                      <tr>
+                        <td style="border-top: 1px solid #e5e7eb; font-size: 1px; line-height: 1px;">&nbsp;</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+                    <tbody>
+                      <tr>
+                        <td width="42" align="left" valign="top" style="font-size: 9px; color: #9ca3af; font-weight: bold; letter-spacing: 0.5px; font-family: Arial, sans-serif; padding-top: 2px;">PHONE</td>
+                        <td align="left" style="font-size: 12px; color: #111827; font-family: Arial, sans-serif; padding-bottom: 5px;">+92 301 1060841</td>
+                      </tr>
+                      <tr>
+                        <td width="42" align="left" valign="top" style="font-size: 9px; color: #9ca3af; font-weight: bold; letter-spacing: 0.5px; font-family: Arial, sans-serif; padding-top: 2px;">EMAIL</td>
+                        <td align="left" style="font-size: 12px; font-family: Arial, sans-serif; padding-bottom: 5px;">
+                          <a href="mailto:sales@greatodeal.com" style="color: #10b981; text-decoration: none;">sales@greatodeal.com</a>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td width="42" align="left" valign="top" style="font-size: 9px; color: #9ca3af; font-weight: bold; letter-spacing: 0.5px; font-family: Arial, sans-serif; padding-top: 2px;">WEB</td>
+                        <td align="left" style="font-size: 12px; font-family: Arial, sans-serif;">
+                          <a href="https://greatodeal.com" style="color: #111827; text-decoration: none;">greatodeal.com</a>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+`;
+
+/**
  * Injects a 1x1 tracking pixel into an HTML email body so we can detect opens.
  */
 const injectTrackingPixel = (html: string, trackingId: string): string => {
@@ -118,7 +233,7 @@ export const sendTrackedEmail = async (options: {
   from?: MailboxKey;
 }): Promise<{ trackingId: string; emailLogId: Types.ObjectId }> => {
   const trackingId = uuidv4();
-  const trackedHtml = injectTrackingPixel(options.html, trackingId);
+  const trackedHtml = injectTrackingPixel(`${options.html}${EMAIL_SIGNATURE_HTML}`, trackingId);
 
   const log = await EmailLog.create({
     contactId: options.contactId,
