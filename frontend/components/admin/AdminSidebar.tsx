@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useAdmin } from '@/context/AdminContext';
-import { LayoutDashboard, FileText, PlusCircle, MessageSquare, Mail, User, LogOut, X, FolderOpen, BarChart3, Zap, Inbox, Activity } from 'lucide-react';
+import { LayoutDashboard, FileText, PlusCircle, MessageSquare, Mail, User, LogOut, X, FolderOpen, BarChart3, Zap, Inbox, Activity, Search } from 'lucide-react';
 
 const navItems = [
   { href: '/admin/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
@@ -13,6 +13,7 @@ const navItems = [
   { href: '/admin/dashboard/portfolio', icon: FolderOpen, label: 'Portfolio / Knowledge' },
   { href: '/admin/dashboard/chats', icon: MessageSquare, label: 'AI Chats' },
   { href: '/admin/dashboard/emails', icon: Mail, label: 'Leads / Emails' },
+  { href: '/admin/dashboard/lead-finder', icon: Search, label: 'Lead Finder' },
   { href: '/admin/dashboard/followups', icon: Zap, label: 'Follow-Up Automation' },
   { href: '/admin/dashboard/mailbox', icon: Inbox, label: 'Mailbox' },
   { href: '/admin/dashboard/activity', icon: Activity, label: 'Live Activity' },

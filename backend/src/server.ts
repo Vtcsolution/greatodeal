@@ -22,6 +22,7 @@ import emailTrackingRoutes from './routes/emailTrackingRoutes';
 import notificationRoutes from './routes/notificationRoutes';
 import followUpRoutes from './routes/followUpRoutes';
 import mailboxRoutes from './routes/mailboxRoutes';
+import leadFinderRoutes from './routes/leadFinderRoutes';
 import { initSocket } from './utils/socket';
 import { startFollowUpCron } from './services/followUpEngine';
 import { startImapPolling } from './services/imapService';
@@ -56,6 +57,7 @@ app.use('/api/email-tracking', emailTrackingRoutes);
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/followups', followUpRoutes);
 app.use('/api/mailbox', mailboxRoutes);
+app.use('/api/lead-finder', leadFinderRoutes);
 
 app.get('/api/health', (_req, res) => res.json({ status: 'OK', message: 'Greatodeal API running' }));
 

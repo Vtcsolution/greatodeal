@@ -25,6 +25,11 @@ export interface IContact extends Document {
   emailOpens: number;
   lastOpenedAt?: Date | null;
   lastEmailSentAt?: Date | null;
+
+  // Where this contact came from
+  source: 'contact_form' | 'lead_finder';
+  website?: string;
+  address?: string;
 }
 
 const ContactSchema = new Schema<IContact>({
@@ -48,6 +53,10 @@ const ContactSchema = new Schema<IContact>({
   emailOpens: { type: Number, default: 0 },
   lastOpenedAt: { type: Date, default: null },
   lastEmailSentAt: { type: Date, default: null },
+
+  source: { type: String, enum: ['contact_form', 'lead_finder'], default: 'contact_form' },
+  website: { type: String },
+  address: { type: String },
 });
 
 export default mongoose.model<IContact>('Contact', ContactSchema);

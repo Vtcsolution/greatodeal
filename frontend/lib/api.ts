@@ -91,6 +91,11 @@ export const partnershipApi = {
   updateStatus: (id: string, data: Record<string, unknown>) => api.put(`/partnership/applications/${id}/status`, data),
 };
 
+export const leadFinderApi = {
+  search: (keyword: string, location: string) => api.post('/lead-finder/search', { keyword, location }),
+  import: (data: Record<string, unknown>) => api.post('/lead-finder/import', data),
+};
+
 export const analyticsApi = {
   track: (data: Record<string, unknown>) => api.post('/analytics/track', data),
   getSummary: (range: string) => api.get('/analytics/summary', { params: { range } }),
