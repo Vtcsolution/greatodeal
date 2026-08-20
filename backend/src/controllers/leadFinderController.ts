@@ -3,7 +3,10 @@ import Contact from '../models/ContactModel';
 
 const PLACES_API_KEY = process.env.GOOGLE_PLACES_API_KEY;
 const FETCH_TIMEOUT_MS = 6000;
-const MAX_RESULTS = 15;
+const PAGE_SIZE = 20; // Google's hard maximum per request — not configurable
+const MAX_PAGES = 3; // 3 x 20 = 60 results per search. Raise with care: each extra
+// page is another billed Places API call, and each result triggers an email/activity
+// lookup, so higher pages make every search noticeably slower and costlier.
 
 interface PlaceResult {
   placeId: string;
@@ -32,7 +35,9 @@ async function fetchWithTimeout(url: string, init: RequestInit, timeoutMs: numbe
   }
 }
 
-async function searchPlaces(textQuery: string): Promise<PlaceResult[]> {
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+async function fetchPlacesPage(textQuery: string, pageToken?: string): Promise<{ places?: any[]; nextPageToken?: string }> {
   const res = await fetchWithTimeout(
     'https://places.googleapis.com/v1/places:searchText',
     {
@@ -41,9 +46,9 @@ async function searchPlaces(textQuery: string): Promise<PlaceResult[]> {
         'Content-Type': 'application/json',
         'X-Goog-Api-Key': PLACES_API_KEY as string,
         'X-Goog-FieldMask':
-          'places.id,places.displayName,places.formattedAddress,places.internationalPhoneNumber,places.websiteUri,places.rating,places.userRatingCount,places.businessStatus',
+          'places.id,places.displayName,places.formattedAddress,places.internationalPhoneNumber,places.websiteUri,places.rating,places.userRatingCount,places.businessStatus,nextPageToken',
       },
-      body: JSON.stringify({ textQuery, maxResultCount: MAX_RESULTS }),
+      body: JSON.stringify(pageToken ? { textQuery, pageToken } : { textQuery, pageSize: PAGE_SIZE }),
     },
     FETCH_TIMEOUT_MS
   );
@@ -53,9 +58,23 @@ async function searchPlaces(textQuery: string): Promise<PlaceResult[]> {
     throw new Error(`Google Places API error (${res?.status ?? 'timeout'}): ${body.slice(0, 300)}`);
   }
 
-  const data = (await res.json()) as { places?: any[] };
-  const places = data.places || [];
-  return places
+  return (await res.json()) as { places?: any[]; nextPageToken?: string };
+}
+
+async function searchPlaces(textQuery: string): Promise<PlaceResult[]> {
+  const all: any[] = [];
+  let pageToken: string | undefined;
+
+  for (let page = 0; page < MAX_PAGES; page++) {
+    const data = await fetchPlacesPage(textQuery, pageToken);
+    all.push(...(data.places || []));
+    if (!data.nextPageToken) break;
+    pageToken = data.nextPageToken;
+    // A freshly issued pageToken needs a short moment before Google accepts it.
+    await sleep(2000);
+  }
+
+  return all
     .map((p: any) => ({
       placeId: p.id,
       name: p.displayName?.text || 'Unknown business',

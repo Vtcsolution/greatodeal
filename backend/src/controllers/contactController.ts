@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import Contact, { LeadStatus } from '../models/ContactModel';
-import { sendContactEmail, sendTrackedEmail } from '../utils/emailService';
+import { sendContactEmail, sendTrackedEmail, MailboxKey } from '../utils/emailService';
 import { notify } from '../utils/notify';
 import { scheduleNextFollowUp } from '../services/followUpEngine';
 
@@ -33,7 +33,7 @@ export const getAllContacts = async (_req: Request, res: Response): Promise<void
 
 export const replyToContact = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { contactId, to, subject, message } = req.body;
+    const { contactId, to, subject, message, from } = req.body as { contactId: string; to: string; subject: string; message: string; from?: MailboxKey };
     if (!to || !subject || !message) {
       res.status(400).json({ success: false, message: 'to, subject, and message are required' });
       return;
@@ -44,6 +44,7 @@ export const replyToContact = async (req: Request, res: Response): Promise<void>
       html: `<div style="font-family:Arial,sans-serif">${message}</div>`,
       type: 'manual_reply',
       contactId,
+      from,
     });
     await Contact.findByIdAndUpdate(contactId, {
       status: 'replied',

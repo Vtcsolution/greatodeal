@@ -7,28 +7,58 @@ const isDev = process.env.NODE_ENV !== 'production';
 const port = Number(process.env.EMAIL_PORT) || 587;
 const API_PUBLIC_URL = process.env.API_PUBLIC_URL || `http://localhost:${process.env.PORT || 5001}`;
 
-const transporter = nodemailer.createTransport({
-  host: process.env.EMAIL_HOST,
-  port,
-  secure: port === 465,
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
-  tls: {
-    rejectUnauthorized: false,
-  },
-});
+export type MailboxKey = 'sales' | 'zia';
 
-async function sendMail(options: nodemailer.SendMailOptions) {
+interface Mailbox {
+  address: string;
+  label: string;
+  transporter: nodemailer.Transporter;
+}
+
+// Every mailbox on the same domain shares EMAIL_HOST/EMAIL_PORT (Hostinger-style
+// hosting) — only the user/pass differ per mailbox.
+function buildTransporter(user: string, pass: string): nodemailer.Transporter {
+  return nodemailer.createTransport({
+    host: process.env.EMAIL_HOST,
+    port,
+    secure: port === 465,
+    auth: { user, pass },
+    tls: { rejectUnauthorized: false },
+  });
+}
+
+const mailboxes: Record<MailboxKey, Mailbox> = {
+  sales: {
+    address: process.env.EMAIL_USER || '',
+    label: 'Greatodeal Team',
+    transporter: buildTransporter(process.env.EMAIL_USER || '', process.env.EMAIL_PASS || ''),
+  },
+  zia: {
+    address: process.env.ZIA_EMAIL_USER || '',
+    label: 'Zia | Greatodeal',
+    // Falls back to the sales mailbox's transporter if zia's own credentials
+    // aren't configured yet, so nothing breaks before .env is updated.
+    transporter: process.env.ZIA_EMAIL_USER && process.env.ZIA_EMAIL_PASS
+      ? buildTransporter(process.env.ZIA_EMAIL_USER, process.env.ZIA_EMAIL_PASS)
+      : buildTransporter(process.env.EMAIL_USER || '', process.env.EMAIL_PASS || ''),
+  },
+};
+
+function resolveMailbox(from?: MailboxKey): Mailbox {
+  return mailboxes[from || 'sales'];
+}
+
+async function sendMail(options: nodemailer.SendMailOptions, from?: MailboxKey) {
+  const mailbox = resolveMailbox(from);
   if (isDev) {
     console.log('\n📧 [DEV] Email not sent — logged instead:');
+    console.log('  From mailbox:', mailbox.address || '(unconfigured)');
     console.log('  To:', options.to);
     console.log('  Subject:', options.subject);
     console.log('  Body:', typeof options.html === 'string' ? options.html.replace(/<[^>]+>/g, '') : options.text);
     return;
   }
-  await transporter.sendMail(options);
+  await mailbox.transporter.sendMail({ ...options, from: options.from || `"${mailbox.label}" <${mailbox.address}>` });
 }
 
 export const sendContactEmail = async (data: {
@@ -60,13 +90,8 @@ export const sendContactEmail = async (data: {
   });
 };
 
-export const sendReplyEmail = async (to: string, subject: string, htmlContent: string): Promise<void> => {
-  await sendMail({
-    from: `"Greatodeal Team" <${process.env.EMAIL_USER}>`,
-    to,
-    subject,
-    html: htmlContent,
-  });
+export const sendReplyEmail = async (to: string, subject: string, htmlContent: string, from?: MailboxKey): Promise<void> => {
+  await sendMail({ to, subject, html: htmlContent }, from);
 };
 
 /**
@@ -90,6 +115,7 @@ export const sendTrackedEmail = async (options: {
   type: EmailLogType;
   contactId?: string | Types.ObjectId;
   followUpStage?: number;
+  from?: MailboxKey;
 }): Promise<{ trackingId: string; emailLogId: Types.ObjectId }> => {
   const trackingId = uuidv4();
   const trackedHtml = injectTrackingPixel(options.html, trackingId);
@@ -106,12 +132,7 @@ export const sendTrackedEmail = async (options: {
   });
 
   try {
-    await sendMail({
-      from: `"Greatodeal Team" <${process.env.EMAIL_USER}>`,
-      to: options.to,
-      subject: options.subject,
-      html: trackedHtml,
-    });
+    await sendMail({ to: options.to, subject: options.subject, html: trackedHtml }, options.from);
   } catch (err: any) {
     log.status = 'failed';
     log.error = err?.message || 'Unknown send error';

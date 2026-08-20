@@ -11,6 +11,12 @@ const LEAD_STATUS_CONFIG: Record<LeadStatus, { label: string; color: string; bg:
   urgent: { label: 'Urgent', color: 'text-red-400', bg: 'bg-red-500/10', icon: Zap },
 };
 
+type MailboxKey = 'sales' | 'zia';
+const MAILBOXES: { key: MailboxKey; label: string; address: string }[] = [
+  { key: 'sales', label: 'Sales', address: 'sales@greatodeal.com' },
+  { key: 'zia', label: 'Zia', address: 'zia@greatodeal.com' },
+];
+
 const timeAgo = (iso?: string | null): string => {
   if (!iso) return '';
   const diffMs = Date.now() - new Date(iso).getTime();
@@ -28,6 +34,7 @@ export default function EmailsPage() {
   const [selected, setSelected] = useState<Contact | null>(null);
   const [replyText, setReplyText] = useState('');
   const [sending, setSending] = useState(false);
+  const [fromMailbox, setFromMailbox] = useState<MailboxKey>('sales');
   const [search, setSearch] = useState('');
   const [filter, setFilter] = useState<'all' | 'new' | 'replied'>('all');
 
@@ -49,6 +56,7 @@ export default function EmailsPage() {
         to: selected.email,
         subject: `Re: Your inquiry about ${selected.services} | Greatodeal`,
         message: replyText,
+        from: fromMailbox,
       });
       setContacts(prev => prev.map(c => c._id === selected._id ? { ...c, status: 'replied', followUpEnabled: false } : c));
       setSelected(prev => prev ? { ...prev, status: 'replied', followUpEnabled: false } : null);
@@ -219,6 +227,17 @@ export default function EmailsPage() {
 
               <div className="p-4 sm:p-6 flex-1">
                 <h4 className="font-semibold text-white/90 mb-3 flex items-center gap-2 text-sm"><Mail className="w-4 h-4 text-[#6EE7B7]" />Send Reply</h4>
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="text-xs text-white/40 shrink-0">Send from:</span>
+                  <div className="flex items-center gap-1 bg-[#0F0F0F] border border-white/10 rounded-xl p-1">
+                    {MAILBOXES.map(mb => (
+                      <button key={mb.key} type="button" onClick={() => setFromMailbox(mb.key)}
+                        className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${fromMailbox === mb.key ? 'bg-[#6EE7B7]/15 text-[#6EE7B7]' : 'text-white/50 hover:text-white/80'}`}>
+                        {mb.label} <span className="text-white/30">· {mb.address}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
                 <textarea rows={4} value={replyText} onChange={e => setReplyText(e.target.value)}
                   placeholder={`Write your reply to ${selected.fullName}...`}
                   className="w-full px-4 py-3 bg-[#0F0F0F] border border-white/10 rounded-xl focus:border-[#6EE7B7] outline-none resize-none text-sm text-white placeholder-white/25 mb-3" />
