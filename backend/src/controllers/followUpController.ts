@@ -1,7 +1,44 @@
 import { Request, Response } from 'express';
 import FollowUpTemplate from '../models/FollowUpTemplate';
 import EmailLog from '../models/EmailLog';
+import Contact from '../models/ContactModel';
 import { runFollowUpCycle } from '../services/followUpEngine';
+
+/**
+ * Leads that have been emailed but haven't replied or closed — grouped by
+ * how many days it's been since they were last contacted, so the admin can
+ * see at a glance who's overdue for a manual nudge (Day 1, Day 2, Day 3…).
+ * This is a review/visibility list for a human, separate from the automated
+ * cron which sends on its own schedule regardless of anyone looking at this.
+ */
+export const getFollowUpReminders = async (_req: Request, res: Response): Promise<void> => {
+  try {
+    const contacts = await Contact.find({
+      status: { $ne: 'replied' },
+      dealClosed: { $ne: true },
+      unsubscribed: { $ne: true },
+      lastEmailSentAt: { $ne: null },
+    }).sort({ lastEmailSentAt: 1 });
+
+    const now = Date.now();
+    const withDays = contacts.map((c) => ({
+      _id: c._id,
+      fullName: c.fullName,
+      company: c.company,
+      email: c.email,
+      leadStatus: c.leadStatus,
+      emailOpens: c.emailOpens,
+      lastOpenedAt: c.lastOpenedAt,
+      lastEmailSentAt: c.lastEmailSentAt,
+      followUpStage: c.followUpStage,
+      daysSinceLastEmail: Math.max(0, Math.floor((now - new Date(c.lastEmailSentAt as Date).getTime()) / (1000 * 60 * 60 * 24))),
+    }));
+
+    res.json({ success: true, data: withDays });
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Error fetching follow-up reminders', error });
+  }
+};
 
 export const getTemplates = async (_req: Request, res: Response): Promise<void> => {
   try {

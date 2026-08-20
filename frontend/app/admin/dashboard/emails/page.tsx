@@ -1,9 +1,10 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { contactApi } from '@/lib/api';
 import type { Contact, LeadStatus } from '@/types';
-import { Mail, Send, CheckCircle, Clock, Search, ArrowLeft, Eye, Zap, Snowflake, Flame, Power } from 'lucide-react';
+import { Mail, Send, CheckCircle, Clock, Search, ArrowLeft, Eye, Zap, Snowflake, Flame, Power, Trophy } from 'lucide-react';
 
 const LEAD_STATUS_CONFIG: Record<LeadStatus, { label: string; color: string; bg: string; icon: typeof Snowflake }> = {
   cold: { label: 'Cold', color: 'text-sky-400', bg: 'bg-sky-500/10', icon: Snowflake },
@@ -28,7 +29,9 @@ const timeAgo = (iso?: string | null): string => {
   return `${Math.floor(hrs / 24)}d ago`;
 };
 
-export default function EmailsPage() {
+function EmailsPageInner() {
+  const searchParams = useSearchParams();
+  const preselectId = searchParams.get('contactId');
   const [contacts, setContacts] = useState<Contact[]>([]);
   const [loading, setLoading] = useState(true);
   const [selected, setSelected] = useState<Contact | null>(null);
@@ -37,15 +40,35 @@ export default function EmailsPage() {
   const [fromMailbox, setFromMailbox] = useState<MailboxKey>('sales');
   const [search, setSearch] = useState('');
   const [filter, setFilter] = useState<'all' | 'new' | 'replied'>('all');
+  const [togglingDeal, setTogglingDeal] = useState(false);
 
   const load = () => {
     contactApi.getAll()
-      .then(res => setContacts(res.data.data || []))
+      .then(res => {
+        const data: Contact[] = res.data.data || [];
+        setContacts(data);
+        if (preselectId) {
+          const match = data.find(c => c._id === preselectId);
+          if (match) setSelected(match);
+        }
+      })
       .catch(() => setContacts([]))
       .finally(() => setLoading(false));
   };
 
-  useEffect(() => { load(); }, []);
+  useEffect(() => { load(); }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const toggleDealClosed = async () => {
+    if (!selected) return;
+    const next = !selected.dealClosed;
+    setTogglingDeal(true);
+    try {
+      const res = await contactApi.toggleDealClosed(selected._id, next);
+      const updated = res.data.data as Contact;
+      setContacts(prev => prev.map(c => c._id === updated._id ? updated : c));
+      setSelected(updated);
+    } catch (err) { console.error(err); } finally { setTogglingDeal(false); }
+  };
 
   const sendReply = async () => {
     if (!selected || !replyText.trim()) return;
@@ -180,12 +203,17 @@ export default function EmailsPage() {
                       {selected.phone && <div className="text-white/50 text-sm mt-0.5">{selected.countryCode} {selected.phone}</div>}
                     </div>
                   </div>
-                  <div className="flex items-center gap-1 text-sm shrink-0">
+                  <div className="flex items-center gap-2 text-sm shrink-0">
                     {selected.status === 'replied' ? (
                       <span className="flex items-center gap-1 text-[#6EE7B7]"><CheckCircle className="w-4 h-4" />Replied</span>
                     ) : (
                       <span className="flex items-center gap-1 text-amber-400"><Clock className="w-4 h-4" />New</span>
                     )}
+                    <button onClick={toggleDealClosed} disabled={togglingDeal}
+                      title={selected.dealClosed ? 'Reopen this lead' : 'Mark deal closed'}
+                      className={`flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-medium transition-all disabled:opacity-50 ${selected.dealClosed ? 'bg-[#6EE7B7]/15 text-[#6EE7B7]' : 'bg-white/5 text-white/40 hover:text-white/70'}`}>
+                      <Trophy className="w-3.5 h-3.5" />{selected.dealClosed ? 'Deal Closed' : 'Mark Closed'}
+                    </button>
                   </div>
                 </div>
 
@@ -259,5 +287,17 @@ export default function EmailsPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function EmailsPage() {
+  return (
+    <Suspense fallback={
+      <div className="p-8 text-center">
+        <div className="w-8 h-8 border-2 border-[#6EE7B7] border-t-transparent rounded-full animate-spin mx-auto" />
+      </div>
+    }>
+      <EmailsPageInner />
+    </Suspense>
   );
 }

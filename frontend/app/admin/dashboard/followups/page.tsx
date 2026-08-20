@@ -1,9 +1,10 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { followUpApi } from '@/lib/api';
-import type { FollowUpTemplate, LeadStatus, EmailLogEntry } from '@/types';
-import { Zap, Snowflake, Flame, Plus, Trash2, Save, PlayCircle, Mail, Eye } from 'lucide-react';
+import Link from 'next/link';
+import { followUpApi, contactApi } from '@/lib/api';
+import type { FollowUpTemplate, LeadStatus, EmailLogEntry, FollowUpReminder } from '@/types';
+import { Zap, Snowflake, Flame, Plus, Trash2, Save, PlayCircle, Mail, Eye, Bell, Trophy, ArrowUpRight } from 'lucide-react';
 
 const GROUPS: { status: LeadStatus; label: string; color: string; icon: typeof Snowflake }[] = [
   { status: 'cold', label: 'Cold Leads', color: 'text-sky-400', icon: Snowflake },
@@ -11,26 +12,46 @@ const GROUPS: { status: LeadStatus; label: string; color: string; icon: typeof S
   { status: 'urgent', label: 'Urgent Leads', color: 'text-red-400', icon: Zap },
 ];
 
+const LEAD_STATUS_COLOR: Record<LeadStatus, string> = { cold: 'text-sky-400', warm: 'text-amber-400', urgent: 'text-red-400' };
+
+function dayLabel(days: number): string {
+  if (days === 0) return 'Today';
+  if (days === 1) return 'Day 1';
+  if (days <= 4) return `Day ${days}`;
+  return `Day ${days}+`;
+}
+
 type DraftTemplate = Partial<FollowUpTemplate> & { leadStatus: LeadStatus; stage: number };
 
 export default function FollowUpsPage() {
   const [templates, setTemplates] = useState<FollowUpTemplate[]>([]);
   const [logs, setLogs] = useState<EmailLogEntry[]>([]);
+  const [reminders, setReminders] = useState<FollowUpReminder[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState<string | null>(null);
   const [running, setRunning] = useState(false);
   const [runResult, setRunResult] = useState<string | null>(null);
+  const [closingId, setClosingId] = useState<string | null>(null);
 
   const load = () => {
-    Promise.all([followUpApi.getTemplates(), followUpApi.getLogs()])
-      .then(([t, l]) => {
+    Promise.all([followUpApi.getTemplates(), followUpApi.getLogs(), followUpApi.getReminders()])
+      .then(([t, l, r]) => {
         setTemplates(t.data.data || []);
         setLogs(l.data.data || []);
+        setReminders(r.data.data || []);
       })
       .finally(() => setLoading(false));
   };
 
   useEffect(() => { load(); }, []);
+
+  const markDealClosed = async (id: string) => {
+    setClosingId(id);
+    try {
+      await contactApi.toggleDealClosed(id, true);
+      setReminders(prev => prev.filter(r => r._id !== id));
+    } catch (err) { console.error(err); } finally { setClosingId(null); }
+  };
 
   const templatesFor = (status: LeadStatus) =>
     templates.filter(t => t.leadStatus === status).sort((a, b) => a.stage - b.stage);
@@ -118,6 +139,51 @@ export default function FollowUpsPage() {
             <PlayCircle className="w-4 h-4" />{running ? 'Running...' : 'Run Now'}
           </button>
         </div>
+      </div>
+
+      {/* Follow-up reminders — leads emailed but not yet replied/closed, by day */}
+      <div className="bg-[#161616] rounded-2xl border border-white/10 p-4 sm:p-6 mb-8">
+        <h2 className="flex items-center gap-2 font-semibold text-white/90 mb-1">
+          <Bell className="w-4 h-4 text-[#6EE7B7]" />Needs Your Attention
+        </h2>
+        <p className="text-white/40 text-xs mb-4">
+          Emailed but haven&apos;t replied yet. The automation keeps nudging them on its own — this is just so you can see who&apos;s gone quiet and close them out once a deal is done.
+        </p>
+        {reminders.length === 0 ? (
+          <p className="text-sm text-white/30 py-4">Nobody&apos;s overdue right now — every emailed lead has replied or been closed.</p>
+        ) : (
+          <div className="space-y-3">
+            {reminders.map(r => (
+              <div key={r._id} className="flex flex-col sm:flex-row sm:items-center gap-3 p-3 bg-[#0F0F0F] border border-white/10 rounded-xl">
+                <span className="shrink-0 text-xs font-bold px-2.5 py-1 rounded-lg bg-white/5 text-white/60 w-fit">{dayLabel(r.daysSinceLastEmail)}</span>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <span className="font-medium text-sm text-white/90 truncate">{r.fullName}</span>
+                    {r.company && <span className="text-xs text-white/30 truncate">· {r.company}</span>}
+                    <span className={`text-[10px] font-medium uppercase tracking-wide ${LEAD_STATUS_COLOR[r.leadStatus]}`}>{r.leadStatus}</span>
+                  </div>
+                  <div className="text-xs text-white/40 truncate">{r.email}</div>
+                </div>
+                {r.emailOpens > 0 && (
+                  <span className="flex items-center gap-1 text-xs text-[#6EE7B7] shrink-0">
+                    <Eye className="w-3.5 h-3.5" />Opened {r.emailOpens}x
+                  </span>
+                )}
+                <div className="flex items-center gap-2 shrink-0">
+                  <Link href={`/admin/dashboard/emails?contactId=${r._id}`}
+                    className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-medium bg-[#6EE7B7]/10 text-[#6EE7B7] hover:bg-[#6EE7B7]/20 transition-all">
+                    <ArrowUpRight className="w-3.5 h-3.5" />Follow Up
+                  </Link>
+                  <button onClick={() => markDealClosed(r._id)} disabled={closingId === r._id}
+                    title="Mark deal closed"
+                    className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-medium bg-white/5 text-white/40 hover:text-white/70 transition-all disabled:opacity-50">
+                    <Trophy className="w-3.5 h-3.5" />{closingId === r._id ? '...' : 'Closed'}
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       <div className="space-y-8">

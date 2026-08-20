@@ -30,6 +30,11 @@ export interface IContact extends Document {
   source: 'contact_form' | 'lead_finder';
   website?: string;
   address?: string;
+
+  // Deal outcome — separate from `status`, since a lead can reply and still
+  // be mid-negotiation. Closing the deal is the explicit "we're done" signal.
+  dealClosed: boolean;
+  dealClosedAt?: Date | null;
 }
 
 const ContactSchema = new Schema<IContact>({
@@ -57,6 +62,9 @@ const ContactSchema = new Schema<IContact>({
   source: { type: String, enum: ['contact_form', 'lead_finder'], default: 'contact_form' },
   website: { type: String },
   address: { type: String },
+
+  dealClosed: { type: Boolean, default: false, index: true },
+  dealClosedAt: { type: Date, default: null },
 });
 
 export default mongoose.model<IContact>('Contact', ContactSchema);

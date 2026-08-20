@@ -92,6 +92,21 @@ export interface Contact {
   emailOpens: number;
   lastOpenedAt?: string | null;
   lastEmailSentAt?: string | null;
+  dealClosed: boolean;
+  dealClosedAt?: string | null;
+}
+
+export interface FollowUpReminder {
+  _id: string;
+  fullName: string;
+  company?: string;
+  email: string;
+  leadStatus: LeadStatus;
+  emailOpens: number;
+  lastOpenedAt?: string | null;
+  lastEmailSentAt: string;
+  followUpStage: number;
+  daysSinceLastEmail: number;
 }
 
 export type NotificationType = 'new_lead' | 'email_opened' | 'email_replied' | 'followup_sent' | 'new_mail' | 'partnership_lead';

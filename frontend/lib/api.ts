@@ -31,6 +31,7 @@ export const contactApi = {
   reply: (data: Record<string, unknown>) => api.post('/contact/reply', data),
   updateLeadStatus: (id: string, leadStatus: string) => api.put(`/contact/${id}/lead-status`, { leadStatus }),
   toggleFollowUp: (id: string, followUpEnabled: boolean) => api.put(`/contact/${id}/follow-up`, { followUpEnabled }),
+  toggleDealClosed: (id: string, dealClosed: boolean) => api.put(`/contact/${id}/deal-closed`, { dealClosed }),
 };
 
 export const notificationApi = {
@@ -45,6 +46,7 @@ export const followUpApi = {
   deleteTemplate: (id: string) => api.delete(`/followups/templates/${id}`),
   getLogs: (contactId?: string) => api.get('/followups/logs', { params: contactId ? { contactId } : {} }),
   runNow: () => api.post('/followups/run-now'),
+  getReminders: () => api.get('/followups/reminders'),
 };
 
 export const mailboxApi = {

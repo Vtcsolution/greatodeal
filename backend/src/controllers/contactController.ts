@@ -81,6 +81,26 @@ export const updateLeadStatus = async (req: Request, res: Response): Promise<voi
   }
 };
 
+export const toggleDealClosed = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { dealClosed } = req.body as { dealClosed: boolean };
+    const contact = await Contact.findById(req.params.id);
+    if (!contact) { res.status(404).json({ success: false, message: 'Contact not found' }); return; }
+
+    contact.dealClosed = !!dealClosed;
+    contact.dealClosedAt = dealClosed ? new Date() : null;
+    if (dealClosed) {
+      // A closed deal doesn't need any more automated nudging.
+      contact.followUpEnabled = false;
+      contact.nextFollowUpAt = null;
+    }
+    await contact.save();
+    res.json({ success: true, data: contact });
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Error updating deal status', error });
+  }
+};
+
 export const toggleFollowUp = async (req: Request, res: Response): Promise<void> => {
   try {
     const { followUpEnabled } = req.body as { followUpEnabled: boolean };
