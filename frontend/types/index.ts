@@ -162,6 +162,32 @@ export interface FollowUpReminder {
   daysSinceLastEmail: number;
 }
 
+export interface BusinessOverview {
+  leads: {
+    total: number;
+    new: number;
+    replied: number;
+    closedDeals: number;
+    byStatus: { status: LeadStatus; count: number }[];
+    bySource: { source: 'contact_form' | 'lead_finder'; count: number }[];
+  };
+  emails: {
+    sent: number;
+    opened: number;
+    openRate: number;
+  };
+  revenue: {
+    totalRevenue: number;
+    totalCollected: number;
+    totalOutstanding: number;
+    totalExpenses: number;
+    netProfit: number;
+    monthly: { month: string; revenue: number; count: number }[];
+    yearly: { year: number; revenue: number; count: number }[];
+  };
+  topProjects: { _id: string; projectName: string; clientName: string; budget: number; currency: string; status: ProjectStatus; startDate: string }[];
+}
+
 export type NotificationType = 'new_lead' | 'email_opened' | 'email_replied' | 'followup_sent' | 'new_mail' | 'partnership_lead';
 
 export interface AppNotification {

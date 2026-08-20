@@ -69,6 +69,7 @@ export const adminApi = {
   getProfile: () => api.get('/admin/profile'),
   updateProfile: (data: Record<string, unknown>) => api.put('/admin/profile', data),
   getStats: () => api.get('/admin/stats'),
+  getBusinessOverview: () => api.get('/admin/business-overview'),
 };
 
 export const commentApi = {
