@@ -96,6 +96,59 @@ export interface Contact {
   dealClosedAt?: string | null;
 }
 
+export type ProjectStatus = 'planning' | 'in_progress' | 'completed' | 'on_hold' | 'cancelled';
+export type MilestoneStatus = 'pending' | 'in_progress' | 'done';
+export type ExpenseCategory = 'development' | 'api' | 'tool' | 'other';
+
+export interface ProjectFeature {
+  _id?: string;
+  name: string;
+  done: boolean;
+}
+
+export interface ProjectMilestone {
+  _id?: string;
+  title: string;
+  startDate?: string | null;
+  endDate?: string | null;
+  status: MilestoneStatus;
+  amount: number;
+}
+
+export interface ProjectExpense {
+  _id?: string;
+  label: string;
+  category: ExpenseCategory;
+  amount: number;
+  date: string;
+}
+
+export interface Project {
+  _id: string;
+  contactId: string;
+  clientName: string;
+  clientEmail: string;
+  company?: string;
+  projectName: string;
+  projectType: string;
+  description?: string;
+  status: ProjectStatus;
+  startDate: string;
+  targetEndDate?: string | null;
+  completedAt?: string | null;
+  budget: number;
+  amountPaidByClient: number;
+  currency: string;
+  features: ProjectFeature[];
+  milestones: ProjectMilestone[];
+  expenses: ProjectExpense[];
+  totalExpenses: number;
+  remainingBudget: number;
+  amountDue: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface FollowUpReminder {
   _id: string;
   fullName: string;

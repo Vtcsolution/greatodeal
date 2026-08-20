@@ -93,6 +93,15 @@ export const partnershipApi = {
   updateStatus: (id: string, data: Record<string, unknown>) => api.put(`/partnership/applications/${id}/status`, data),
 };
 
+export const projectApi = {
+  getAll: () => api.get('/projects'),
+  getById: (id: string) => api.get(`/projects/${id}`),
+  getByContact: (contactId: string) => api.get(`/projects/by-contact/${contactId}`),
+  create: (data: Record<string, unknown>) => api.post('/projects', data),
+  update: (id: string, data: Record<string, unknown>) => api.put(`/projects/${id}`, data),
+  delete: (id: string) => api.delete(`/projects/${id}`),
+};
+
 export const leadFinderApi = {
   search: (keyword: string, location: string) => api.post('/lead-finder/search', { keyword, location }),
   import: (data: Record<string, unknown>) => api.post('/lead-finder/import', data),

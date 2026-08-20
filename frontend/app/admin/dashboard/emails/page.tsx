@@ -2,9 +2,10 @@
 
 import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { contactApi } from '@/lib/api';
+import Link from 'next/link';
+import { contactApi, projectApi } from '@/lib/api';
 import type { Contact, LeadStatus } from '@/types';
-import { Mail, Send, CheckCircle, Clock, Search, ArrowLeft, Eye, Zap, Snowflake, Flame, Power, Trophy } from 'lucide-react';
+import { Mail, Send, CheckCircle, Clock, Search, ArrowLeft, Eye, Zap, Snowflake, Flame, Power, Trophy, Briefcase, ArrowUpRight } from 'lucide-react';
 
 const LEAD_STATUS_CONFIG: Record<LeadStatus, { label: string; color: string; bg: string; icon: typeof Snowflake }> = {
   cold: { label: 'Cold', color: 'text-sky-400', bg: 'bg-sky-500/10', icon: Snowflake },
@@ -41,6 +42,17 @@ function EmailsPageInner() {
   const [search, setSearch] = useState('');
   const [filter, setFilter] = useState<'all' | 'new' | 'replied'>('all');
   const [togglingDeal, setTogglingDeal] = useState(false);
+  const [projectId, setProjectId] = useState<string | null>(null);
+  const [checkingProject, setCheckingProject] = useState(false);
+
+  useEffect(() => {
+    if (!selected?.dealClosed) { setProjectId(null); return; }
+    setCheckingProject(true);
+    projectApi.getByContact(selected._id)
+      .then(res => setProjectId(res.data.data?._id || null))
+      .catch(() => setProjectId(null))
+      .finally(() => setCheckingProject(false));
+  }, [selected?._id, selected?.dealClosed]);
 
   const load = () => {
     contactApi.getAll()
@@ -235,6 +247,22 @@ function EmailsPageInner() {
                     <Power className="w-3 h-3" />{selected.followUpEnabled ? 'Automation On' : 'Automation Off'}
                   </button>
                 </div>
+
+                {selected.dealClosed && (
+                  <div className="flex items-center justify-between gap-3 p-3 bg-[#6EE7B7]/10 border border-[#6EE7B7]/20 rounded-xl mb-3">
+                    <span className="flex items-center gap-2 text-xs text-[#6EE7B7]"><Trophy className="w-4 h-4" />Deal closed — set up the project to track budget, milestones, and costs.</span>
+                    {checkingProject ? (
+                      <span className="text-xs text-white/30 shrink-0">Checking...</span>
+                    ) : (
+                      <Link
+                        href={projectId ? `/admin/dashboard/projects/${projectId}` : `/admin/dashboard/projects/new?contactId=${selected._id}&clientName=${encodeURIComponent(selected.fullName)}&clientEmail=${encodeURIComponent(selected.email)}&company=${encodeURIComponent(selected.company || '')}&services=${encodeURIComponent(selected.services || '')}`}
+                        className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold bg-[#6EE7B7] text-[#121212] hover:bg-[#5CD7A5] transition-all shrink-0"
+                      >
+                        <Briefcase className="w-3.5 h-3.5" />{projectId ? 'View Project' : 'Set Up Project'}<ArrowUpRight className="w-3.5 h-3.5" />
+                      </Link>
+                    )}
+                  </div>
+                )}
 
                 {selected.followUpEnabled && selected.nextFollowUpAt && (
                   <div className="text-xs text-white/40 mb-3">
