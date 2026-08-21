@@ -90,7 +90,7 @@ function Scene({ hovered }: { hovered: boolean }) {
 
   useFrame((_, delta) => {
     if (!group.current) return;
-    const target = hovered ? 1.16 : 1;
+    const target = hovered ? 1.1 : 1;
     scaleRef.current += (target - scaleRef.current) * 0.08;
     group.current.scale.setScalar(scaleRef.current);
 
@@ -116,8 +116,14 @@ export default function ParticleSphere() {
       onMouseLeave={() => setHovered(false)}
     >
       {/* Fixed square size per breakpoint (not aspect-ratio-computed) so the
-          clip circle below always matches the canvas's actual box exactly. */}
-      <div className="relative w-[280px] h-[280px] sm:w-[380px] sm:h-[380px] lg:w-[480px] lg:h-[480px] rounded-full overflow-hidden">
+          clip circle below always matches the canvas's actual box exactly.
+          clip-path (not just rounded-full+overflow-hidden, which some
+          browsers fail to apply consistently to a WebGL canvas) forces the
+          hard circular boundary at the compositor level. */}
+      <div
+        className="relative w-[280px] h-[280px] sm:w-[380px] sm:h-[380px] lg:w-[480px] lg:h-[480px] rounded-full overflow-hidden"
+        style={{ clipPath: 'circle(50% at 50% 50%)', WebkitClipPath: 'circle(50% at 50% 50%)' }}
+      >
         <Canvas camera={{ position: [0, 0, 7.4], fov: 42 }} dpr={[1, 1.75]} gl={{ antialias: true, alpha: true }} style={{ background: 'transparent' }}>
           <Scene hovered={hovered} />
         </Canvas>
