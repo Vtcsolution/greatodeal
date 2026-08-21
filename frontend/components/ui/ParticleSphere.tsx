@@ -111,7 +111,7 @@ export default function ParticleSphere() {
 
   return (
     <div
-      className="relative w-full h-[340px] sm:h-[440px] lg:h-[560px] flex items-center justify-center cursor-pointer"
+      className="relative w-full h-[380px] sm:h-[500px] lg:h-[660px] flex items-center justify-center cursor-pointer"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
@@ -121,7 +121,7 @@ export default function ParticleSphere() {
           browsers fail to apply consistently to a WebGL canvas) forces the
           hard circular boundary at the compositor level. */}
       <div
-        className="relative w-[280px] h-[280px] sm:w-[380px] sm:h-[380px] lg:w-[480px] lg:h-[480px] rounded-full overflow-hidden"
+        className="relative w-[320px] h-[320px] sm:w-[440px] sm:h-[440px] lg:w-[640px] lg:h-[640px] rounded-full overflow-hidden"
         style={{ clipPath: 'circle(50% at 50% 50%)', WebkitClipPath: 'circle(50% at 50% 50%)' }}
       >
         <Canvas camera={{ position: [0, 0, 6.5], fov: 42 }} dpr={[1, 1.75]} gl={{ antialias: true, alpha: true }} style={{ background: 'transparent' }}>
