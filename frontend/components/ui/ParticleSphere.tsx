@@ -96,8 +96,8 @@ function Scene({ hovered }: { hovered: boolean }) {
     <group ref={group}>
       <CoreGlow hovered={hovered} />
       <SphereField />
-      <OrbitRing radius={2.9} tilt={[Math.PI / 2.4, 0, 0]} speed={0.12} color="#6EE7B7" opacity={0.3} />
-      <OrbitRing radius={3.3} tilt={[Math.PI / 1.8, 0.4, 0]} speed={-0.09} color="#3B82F6" opacity={0.22} />
+      <OrbitRing radius={2.6} tilt={[Math.PI / 2.4, 0, 0]} speed={0.12} color="#6EE7B7" opacity={0.3} />
+      <OrbitRing radius={2.7} tilt={[Math.PI / 1.8, 0.4, 0]} speed={-0.09} color="#3B82F6" opacity={0.22} />
       <OrbitRing radius={2.5} tilt={[Math.PI / 3, -0.5, 0]} speed={0.16} color="#6EE7B7" opacity={0.18} />
     </group>
   );
@@ -117,7 +117,7 @@ export default function ParticleSphere() {
       </div>
       {/* Clipped to a true circle so nothing (rings viewed edge-on, etc.) can ever render past a round silhouette */}
       <div className="relative aspect-square h-full max-w-full rounded-full overflow-hidden">
-        <Canvas camera={{ position: [0, 0, 6.2], fov: 45 }} dpr={[1, 1.75]} gl={{ antialias: true, alpha: true }} style={{ background: 'transparent' }}>
+        <Canvas camera={{ position: [0, 0, 7.4], fov: 42 }} dpr={[1, 1.75]} gl={{ antialias: true, alpha: true }} style={{ background: 'transparent' }}>
           <Scene hovered={hovered} />
         </Canvas>
       </div>
