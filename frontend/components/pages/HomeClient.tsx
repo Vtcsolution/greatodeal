@@ -172,12 +172,12 @@ export default function HomeClient() {
     <div className="min-h-screen bg-[#090909] text-white/90 overflow-x-hidden">
 
       {/* ═══ HERO ═══ */}
-      <section className="relative min-h-screen flex items-center overflow-hidden">
+      <section className="relative min-h-screen flex items-start overflow-hidden">
         <div className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-gradient-to-b from-[#090909]/60 via-transparent to-[#090909]" />
         </div>
 
-        <motion.div className="container max-w-[1920px] relative z-10 pt-28 pb-20 px-4 sm:px-6">
+        <motion.div className="container max-w-[1920px] relative z-10 pt-24 sm:pt-28 pb-20 px-4 sm:px-6">
           <div className="grid lg:grid-cols-2 gap-14 lg:gap-20 items-center">
             <div className="space-y-8">
               <motion.div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#6EE7B7]/20 bg-[#6EE7B7]/[0.06]" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.1, ease }}>
