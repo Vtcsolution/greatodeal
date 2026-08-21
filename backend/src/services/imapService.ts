@@ -5,6 +5,7 @@ import MailMessage, { MailFolder } from '../models/MailMessage';
 import MailboxState from '../models/MailboxState';
 import { notify } from '../utils/notify';
 import { emitToAdmins } from './../utils/socket';
+import { sendWhatsAppAlert } from '../utils/whatsapp';
 
 // On the very first poll ever for a folder, fetch this many of the most
 // recent existing messages instead of starting from a blank slate — a
@@ -127,12 +128,14 @@ const processFolder = async (client: ImapFlow, config: FolderConfig): Promise<vo
             subject,
             from: fromAddr,
           });
+          sendWhatsAppAlert(`📧 *${contact.fullName}* replied to your email\nSubject: ${subject}\nFrom: ${fromAddr}`);
         }
       } else if (key === 'inbox' && !isBackfill) {
         await notify('new_mail', 'New message received', `New email from ${fromName || fromAddr}: "${subject}"`, contact?._id as any, {
           subject,
           from: fromAddr,
         });
+        sendWhatsAppAlert(`📧 New email from *${fromName || fromAddr}*\nSubject: ${subject}`);
       }
     } catch (err) {
       console.error('IMAP message processing error:', err);
