@@ -235,8 +235,8 @@ export default function HomeClient() {
             </div>
 
             {/* Particle sphere */}
-            <motion.div className="relative hidden lg:block" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 1, delay: 0.5, ease }}>
-              {isDesktop && <ParticleSphere />}
+            <motion.div className="relative mt-8 lg:mt-0" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 1, delay: 0.5, ease }}>
+              <ParticleSphere />
 
               <motion.div className="absolute left-0 top-[8%] px-4 py-3 bg-[#0D0D0D]/90 border border-white/[0.08] rounded-xl shadow-xl backdrop-blur-md" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0, y: [0, -8, 0] }} transition={{ opacity: { delay: 1.5, duration: 0.6 }, y: { delay: 2, duration: 4, repeat: Infinity, ease: 'easeInOut' } }}>
                 <div className="flex items-center gap-3"><div className="w-9 h-9 rounded-lg bg-[#6EE7B7]/10 flex items-center justify-center"><Shield className="w-4 h-4 text-[#6EE7B7]" /></div><div><div className="text-sm font-bold text-white">100% Audit Coverage</div><div className="text-xs text-white/40">Every action logged</div></div></div>
