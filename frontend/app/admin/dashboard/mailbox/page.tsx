@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { mailboxApi } from '@/lib/api';
 import { useNotifications } from '@/context/NotificationContext';
 import type { MailMessage, MailFolder } from '@/types';
-import { Inbox, Send, ShieldAlert, Trash2, Search, ArrowLeft, RefreshCw } from 'lucide-react';
+import { Inbox, Send, ShieldAlert, Trash2, Search, ArrowLeft, RefreshCw, Eye, EyeOff, Globe } from 'lucide-react';
 
 const FOLDERS: { key: MailFolder; label: string; icon: typeof Inbox }[] = [
   { key: 'inbox', label: 'Inbox', icon: Inbox },
@@ -20,6 +20,7 @@ export default function MailboxPage() {
   const [selected, setSelected] = useState<MailMessage | null>(null);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
+  const [sentStats, setSentStats] = useState<{ totalSent: number; totalOpened: number } | null>(null);
   const { notifications } = useNotifications();
 
   const loadCounts = useCallback(() => {
@@ -29,8 +30,11 @@ export default function MailboxPage() {
   const loadMessages = useCallback((f: MailFolder, q: string) => {
     setLoading(true);
     mailboxApi.getFolderMessages(f, { search: q || undefined })
-      .then(res => setMessages(res.data.data || []))
-      .catch(() => setMessages([]))
+      .then(res => {
+        setMessages(res.data.data || []);
+        setSentStats(res.data.stats || null);
+      })
+      .catch(() => { setMessages([]); setSentStats(null); })
       .finally(() => setLoading(false));
   }, []);
 
@@ -113,6 +117,18 @@ export default function MailboxPage() {
 
         {/* Message list */}
         <div className={`bg-[#161616] rounded-2xl border border-white/10 overflow-hidden ${selected ? 'hidden lg:block' : ''}`}>
+          {folder === 'sent' && sentStats && (
+            <div className="flex items-center gap-4 px-4 py-3 border-b border-white/10 bg-white/[0.02]">
+              <div className="flex items-center gap-1.5 text-xs text-white/60">
+                <Globe className="w-3.5 h-3.5 text-[#6EE7B7]" />
+                <span className="font-semibold text-white">{sentStats.totalSent}</span> sent from website
+              </div>
+              <div className="flex items-center gap-1.5 text-xs text-white/60">
+                <Eye className="w-3.5 h-3.5 text-[#6EE7B7]" />
+                <span className="font-semibold text-white">{sentStats.totalOpened}</span> opened
+              </div>
+            </div>
+          )}
           <div className="divide-y divide-white/5 max-h-[70vh] overflow-y-auto">
             {loading && <div className="p-8 text-center"><div className="w-6 h-6 border-2 border-[#6EE7B7] border-t-transparent rounded-full animate-spin mx-auto" /></div>}
             {!loading && messages.length === 0 && (
@@ -125,7 +141,14 @@ export default function MailboxPage() {
                 className={`w-full p-4 text-left hover:bg-white/[0.03] transition-colors ${selected?._id === m._id ? 'bg-[#6EE7B7]/10 border-l-2 border-[#6EE7B7]' : ''}`}>
                 <div className="flex items-center justify-between gap-2 mb-1">
                   <span className={`text-sm truncate ${!m.read ? 'font-semibold text-white' : 'text-white/70'}`}>{m.fromName || m.from}</span>
-                  <span className="text-[11px] text-white/30 shrink-0">{new Date(m.date).toLocaleDateString()}</span>
+                  <div className="flex items-center gap-1.5 shrink-0">
+                    {folder === 'sent' && m.tracked && (
+                      m.opened
+                        ? <Eye className="w-3.5 h-3.5 text-[#6EE7B7]" aria-label="Opened" />
+                        : <EyeOff className="w-3.5 h-3.5 text-white/25" aria-label="Not opened yet" />
+                    )}
+                    <span className="text-[11px] text-white/30">{new Date(m.date).toLocaleDateString()}</span>
+                  </div>
                 </div>
                 <div className={`text-xs truncate ${!m.read ? 'text-white/80' : 'text-white/40'}`}>{m.subject}</div>
               </button>
@@ -148,6 +171,14 @@ export default function MailboxPage() {
                       From <span className="text-white/70">{selected.fromName ? `${selected.fromName} <${selected.from}>` : selected.from}</span>
                     </div>
                     <div className="text-xs text-white/30 mt-0.5">{new Date(selected.date).toLocaleString()}</div>
+                    {folder === 'sent' && selected.tracked && (
+                      <div className={`inline-flex items-center gap-1.5 text-xs mt-2 px-2.5 py-1 rounded-full ${selected.opened ? 'bg-[#6EE7B7]/10 text-[#6EE7B7]' : 'bg-white/5 text-white/40'}`}>
+                        {selected.opened ? <Eye className="w-3.5 h-3.5" /> : <EyeOff className="w-3.5 h-3.5" />}
+                        {selected.opened
+                          ? `Opened ${selected.openCount || 1}× · last ${selected.lastOpenedAt ? new Date(selected.lastOpenedAt).toLocaleString() : ''}`
+                          : 'Not opened yet'}
+                      </div>
+                    )}
                   </div>
                 </div>
                 <div className="flex gap-2 mt-3">

@@ -242,6 +242,13 @@ export interface MailMessage {
   date: string;
   read: boolean;
   contactId?: string;
+  // Only populated for the "sent" folder — whether this message was sent
+  // from our own system (vs. by hand through Hostinger webmail) and, if so,
+  // its open-tracking status.
+  tracked?: boolean;
+  opened?: boolean;
+  openCount?: number;
+  lastOpenedAt?: string | null;
 }
 
 export interface ApiResponse<T = unknown> {

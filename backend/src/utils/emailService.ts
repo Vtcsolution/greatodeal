@@ -127,7 +127,7 @@ async function saveCopyToSent(options: nodemailer.SendMailOptions, from?: Mailbo
   }
 }
 
-async function sendMail(options: nodemailer.SendMailOptions, from?: MailboxKey) {
+async function sendMail(options: nodemailer.SendMailOptions, from?: MailboxKey): Promise<string | undefined> {
   const mailbox = resolveMailbox(from);
   const finalOptions = { ...options, from: options.from || `"${mailbox.label}" <${mailbox.address}>` };
 
@@ -137,11 +137,14 @@ async function sendMail(options: nodemailer.SendMailOptions, from?: MailboxKey) 
     console.log('  To:', options.to);
     console.log('  Subject:', options.subject);
     console.log('  Body:', typeof options.html === 'string' ? options.html.replace(/<[^>]+>/g, '') : options.text);
-    return;
+    return undefined;
   }
 
-  await mailbox.transporter.sendMail(finalOptions);
+  const info = await mailbox.transporter.sendMail(finalOptions);
   saveCopyToSent(finalOptions, from).catch((err) => console.error('Sent-folder save error:', err?.message || err));
+  // Strip angle brackets so this matches however the Message-ID ends up stored
+  // once the Mailbox's IMAP sync parses it back out of the same sent message.
+  return info?.messageId ? info.messageId.replace(/[<>]/g, '').trim() : undefined;
 }
 
 export const sendContactEmail = async (data: {
@@ -330,7 +333,11 @@ export const sendTrackedEmail = async (options: {
   });
 
   try {
-    await sendMail({ to: options.to, subject: options.subject, html: trackedHtml }, options.from);
+    const messageId = await sendMail({ to: options.to, subject: options.subject, html: trackedHtml }, options.from);
+    if (messageId) {
+      log.messageId = messageId;
+      await log.save();
+    }
   } catch (err: any) {
     log.status = 'failed';
     log.error = err?.message || 'Unknown send error';

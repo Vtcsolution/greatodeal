@@ -1,7 +1,37 @@
 import { Request, Response } from 'express';
 import MailMessage, { MailFolder } from '../models/MailMessage';
+import EmailLog from '../models/EmailLog';
 
 const FOLDERS: MailFolder[] = ['inbox', 'sent', 'spam', 'trash'];
+
+const normalizeMessageId = (id?: string | null): string => (id || '').replace(/[<>]/g, '').trim();
+
+// Joins Sent-folder messages against EmailLog by Message-ID so the Mailbox
+// view can show which sent emails actually came from the website (vs. sent
+// by hand through Hostinger webmail) and whether they've been opened.
+async function attachTrackingInfo(messages: Array<Record<string, any>>) {
+  const wanted = new Set(messages.map(m => normalizeMessageId(m.messageId)).filter(Boolean));
+  if (wanted.size === 0) return messages.map(m => ({ ...m, tracked: false }));
+
+  const logs = await EmailLog.find({ messageId: { $exists: true, $ne: null } })
+    .select('messageId opened openCount lastOpenedAt')
+    .sort({ createdAt: -1 })
+    .limit(1000)
+    .lean();
+
+  const logMap = new Map(logs.map(l => [normalizeMessageId(l.messageId), l]));
+
+  return messages.map(m => {
+    const log = logMap.get(normalizeMessageId(m.messageId));
+    return {
+      ...m,
+      tracked: !!log,
+      opened: log?.opened || false,
+      openCount: log?.openCount || 0,
+      lastOpenedAt: log?.lastOpenedAt || null,
+    };
+  });
+}
 
 export const getFolderCounts = async (_req: Request, res: Response): Promise<void> => {
   try {
@@ -39,16 +69,29 @@ export const getFolderMessages = async (req: Request, res: Response): Promise<vo
       ];
     }
 
-    const [messages, total] = await Promise.all([
+    const [rawMessages, total] = await Promise.all([
       MailMessage.find(filter)
         .sort({ date: -1 })
         .skip((page - 1) * limit)
         .limit(limit)
-        .select('-htmlBody -textBody'),
+        .select('-htmlBody -textBody')
+        .lean(),
       MailMessage.countDocuments(filter),
     ]);
 
-    res.json({ success: true, data: messages, total, page, limit });
+    let messages: Array<Record<string, any>> = rawMessages;
+    let stats: { totalSent: number; totalOpened: number } | undefined;
+
+    if (folder === 'sent') {
+      messages = await attachTrackingInfo(rawMessages);
+      const [totalSent, totalOpened] = await Promise.all([
+        EmailLog.countDocuments({ status: 'sent' }),
+        EmailLog.countDocuments({ status: 'sent', opened: true }),
+      ]);
+      stats = { totalSent, totalOpened };
+    }
+
+    res.json({ success: true, data: messages, total, page, limit, stats });
   } catch (error) {
     res.status(500).json({ success: false, message: 'Error fetching messages', error });
   }
@@ -62,7 +105,11 @@ export const getMessage = async (req: Request, res: Response): Promise<void> => 
       message.read = true;
       await message.save();
     }
-    res.json({ success: true, data: message });
+    let data: Record<string, any> = message.toObject();
+    if (message.folder === 'sent') {
+      [data] = await attachTrackingInfo([data]);
+    }
+    res.json({ success: true, data });
   } catch (error) {
     res.status(500).json({ success: false, message: 'Error fetching message', error });
   }
