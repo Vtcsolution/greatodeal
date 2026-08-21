@@ -64,7 +64,7 @@ function CoreGlow({ hovered }: { hovered: boolean }) {
 
   useFrame(() => {
     if (!mesh.current) return;
-    const target = hovered ? 1.35 : 1;
+    const target = hovered ? 1.12 : 1;
     scaleRef.current += (target - scaleRef.current) * 0.08;
     mesh.current.scale.setScalar(scaleRef.current);
   });
@@ -72,7 +72,7 @@ function CoreGlow({ hovered }: { hovered: boolean }) {
   return (
     <mesh ref={mesh}>
       <sphereGeometry args={[1.15, 32, 32]} />
-      <meshBasicMaterial color="#3B82F6" transparent opacity={0.07} />
+      <meshBasicMaterial color="#3B82F6" transparent opacity={0.05} />
     </mesh>
   );
 }
@@ -112,7 +112,9 @@ export default function ParticleSphere() {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      <div className={`absolute inset-0 rounded-full bg-[#6EE7B7]/10 blur-[100px] transition-all duration-700 ${hovered ? 'bg-[#6EE7B7]/20 blur-[110px] scale-110' : 'scale-100'}`} />
+      <div className="absolute inset-0 flex items-center justify-center">
+        <div className={`w-[65%] aspect-square rounded-full bg-[#6EE7B7]/10 blur-[100px] transition-all duration-700 ${hovered ? 'bg-[#6EE7B7]/20 blur-[100px] scale-110' : 'scale-100'}`} />
+      </div>
       <Canvas camera={{ position: [0, 0, 6.2], fov: 45 }} dpr={[1, 1.75]} gl={{ antialias: true, alpha: true }} style={{ background: 'transparent' }}>
         <Scene hovered={hovered} />
       </Canvas>
