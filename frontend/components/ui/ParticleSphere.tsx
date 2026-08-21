@@ -4,7 +4,7 @@ import React, { useRef, useMemo, useState } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 
-function SphereField({ count = 1400, radius = 2.4 }: { count?: number; radius?: number }) {
+function SphereField({ count = 1400, radius = 1.7 }: { count?: number; radius?: number }) {
   const points = useRef<THREE.Points>(null!);
   const startTime = useRef(performance.now());
 
@@ -66,18 +66,18 @@ function useGlowTexture() {
 
 function CoreGlow({ hovered }: { hovered: boolean }) {
   const sprite = useRef<THREE.Sprite>(null!);
-  const scaleRef = useRef(5.2);
+  const scaleRef = useRef(3.6);
   const texture = useGlowTexture();
 
   useFrame(() => {
     if (!sprite.current) return;
-    const target = hovered ? 5.7 : 5.2;
+    const target = hovered ? 3.9 : 3.6;
     scaleRef.current += (target - scaleRef.current) * 0.08;
     sprite.current.scale.setScalar(scaleRef.current);
   });
 
   return (
-    <sprite ref={sprite} scale={[5.2, 5.2, 1]}>
+    <sprite ref={sprite} scale={[3.6, 3.6, 1]}>
       <spriteMaterial map={texture} transparent depthWrite={false} />
     </sprite>
   );
