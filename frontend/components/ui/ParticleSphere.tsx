@@ -40,57 +40,46 @@ function SphereField({ count = 1400, radius = 2.4 }: { count?: number; radius?: 
   );
 }
 
-function OrbitRing({ radius, tilt, speed, color, opacity = 0.3 }: { radius: number; tilt: [number, number, number]; speed: number; color: string; opacity?: number }) {
-  const ring = useRef<THREE.Mesh>(null!);
-  const startTime = useRef(performance.now());
-
-  useFrame(() => {
-    if (!ring.current) return;
-    const t = (performance.now() - startTime.current) / 1000;
-    ring.current.rotation.z = t * speed;
-  });
-
-  return (
-    <mesh ref={ring} rotation={tilt}>
-      <torusGeometry args={[radius, 0.006, 16, 128]} />
-      <meshBasicMaterial color={color} transparent opacity={opacity} />
-    </mesh>
-  );
+// A single canvas-drawn radial gradient, applied to a camera-facing sprite
+// (not a UV-mapped sphere, not stacked transparent meshes) — this is the only
+// approach that can't produce z-fighting seams, stepped rings, or rotation-
+// skewed gradients, since a sprite is always a flat circle facing the camera.
+function useGlowTexture() {
+  return useMemo(() => {
+    const size = 256;
+    const canvas = document.createElement('canvas');
+    canvas.width = size;
+    canvas.height = size;
+    const ctx = canvas.getContext('2d')!;
+    const gradient = ctx.createRadialGradient(size / 2, size / 2, 0, size / 2, size / 2, size / 2);
+    gradient.addColorStop(0, 'rgba(209, 250, 229, 0.9)');
+    gradient.addColorStop(0.35, 'rgba(110, 231, 183, 0.65)');
+    gradient.addColorStop(0.7, 'rgba(34, 197, 139, 0.35)');
+    gradient.addColorStop(1, 'rgba(59, 130, 246, 0)');
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, size, size);
+    const texture = new THREE.CanvasTexture(canvas);
+    texture.needsUpdate = true;
+    return texture;
+  }, []);
 }
 
 function CoreGlow({ hovered }: { hovered: boolean }) {
-  const group = useRef<THREE.Group>(null!);
-  const scaleRef = useRef(1);
+  const sprite = useRef<THREE.Sprite>(null!);
+  const scaleRef = useRef(5.2);
+  const texture = useGlowTexture();
 
   useFrame(() => {
-    if (!group.current) return;
-    const target = hovered ? 1.12 : 1;
+    if (!sprite.current) return;
+    const target = hovered ? 5.7 : 5.2;
     scaleRef.current += (target - scaleRef.current) * 0.08;
-    group.current.scale.setScalar(scaleRef.current);
+    sprite.current.scale.setScalar(scaleRef.current);
   });
 
-  // Layered spheres of decreasing radius/increasing opacity, bright green at
-  // the core fading to blue at the edge — approximates a radial gradient
-  // "planet" fill without needing a custom shader/texture.
   return (
-    <group ref={group}>
-      <mesh>
-        <sphereGeometry args={[2.35, 32, 32]} />
-        <meshBasicMaterial color="#3B82F6" transparent opacity={0.06} />
-      </mesh>
-      <mesh>
-        <sphereGeometry args={[1.9, 32, 32]} />
-        <meshBasicMaterial color="#22C58B" transparent opacity={0.14} />
-      </mesh>
-      <mesh>
-        <sphereGeometry args={[1.4, 32, 32]} />
-        <meshBasicMaterial color="#6EE7B7" transparent opacity={0.22} />
-      </mesh>
-      <mesh>
-        <sphereGeometry args={[0.75, 32, 32]} />
-        <meshBasicMaterial color="#A7F3D0" transparent opacity={0.3} />
-      </mesh>
-    </group>
+    <sprite ref={sprite} scale={[5.2, 5.2, 1]}>
+      <spriteMaterial map={texture} transparent depthWrite={false} />
+    </sprite>
   );
 }
 
@@ -113,9 +102,6 @@ function Scene({ hovered }: { hovered: boolean }) {
     <group ref={group}>
       <CoreGlow hovered={hovered} />
       <SphereField />
-      <OrbitRing radius={2.6} tilt={[Math.PI / 2.4, 0, 0]} speed={0.12} color="#6EE7B7" opacity={0.3} />
-      <OrbitRing radius={2.7} tilt={[Math.PI / 1.8, 0.4, 0]} speed={-0.09} color="#3B82F6" opacity={0.22} />
-      <OrbitRing radius={2.5} tilt={[Math.PI / 3, -0.5, 0]} speed={0.16} color="#6EE7B7" opacity={0.18} />
     </group>
   );
 }
@@ -130,10 +116,7 @@ export default function ParticleSphere() {
       onMouseLeave={() => setHovered(false)}
     >
       {/* Fixed square size per breakpoint (not aspect-ratio-computed) so the
-          clip circle below always matches the canvas's actual box exactly —
-          no stray rectangular sliver from a size mismatch. The gradient fill
-          lives entirely in the 3D scene (CoreGlow) so nothing bleeds into
-          the page background outside this circle. */}
+          clip circle below always matches the canvas's actual box exactly. */}
       <div className="relative w-[280px] h-[280px] sm:w-[380px] sm:h-[380px] lg:w-[480px] lg:h-[480px] rounded-full overflow-hidden">
         <Canvas camera={{ position: [0, 0, 7.4], fov: 42 }} dpr={[1, 1.75]} gl={{ antialias: true, alpha: true }} style={{ background: 'transparent' }}>
           <Scene hovered={hovered} />
