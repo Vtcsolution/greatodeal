@@ -129,11 +129,12 @@ export default function ParticleSphere() {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      <div className="absolute inset-0 flex items-center justify-center">
-        <div className={`w-[65%] aspect-square rounded-full bg-[#6EE7B7]/10 blur-[100px] transition-all duration-700 ${hovered ? 'bg-[#6EE7B7]/20 blur-[100px] scale-110' : 'scale-100'}`} />
-      </div>
-      {/* Clipped to a true circle so nothing (rings viewed edge-on, etc.) can ever render past a round silhouette */}
-      <div className="relative aspect-square h-full max-w-full rounded-full overflow-hidden">
+      {/* Fixed square size per breakpoint (not aspect-ratio-computed) so the
+          clip circle below always matches the canvas's actual box exactly —
+          no stray rectangular sliver from a size mismatch. The gradient fill
+          lives entirely in the 3D scene (CoreGlow) so nothing bleeds into
+          the page background outside this circle. */}
+      <div className="relative w-[280px] h-[280px] sm:w-[380px] sm:h-[380px] lg:w-[480px] lg:h-[480px] rounded-full overflow-hidden">
         <Canvas camera={{ position: [0, 0, 7.4], fov: 42 }} dpr={[1, 1.75]} gl={{ antialias: true, alpha: true }} style={{ background: 'transparent' }}>
           <Scene hovered={hovered} />
         </Canvas>
