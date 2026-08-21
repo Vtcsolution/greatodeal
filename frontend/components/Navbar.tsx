@@ -125,69 +125,81 @@ export default function Navbar() {
         <ArrowUp className="w-5 h-5 text-[#090909]" />
       </motion.button>
 
-      {/* WhatsApp Button */}
-      <a href={whatsappUrl} target="_blank" rel="noopener noreferrer"
-        className="fixed bottom-32 right-3 sm:right-6 bg-[#6EE7B7] p-2 sm:p-3 rounded-full shadow-lg hover:shadow-[0_0_20px_rgba(110,231,183,0.3)] transition-all duration-700 z-50 flex items-center gap-1"
-        aria-label="WhatsApp"
-      >
-        <svg viewBox="0 0 32 32" className="w-6 h-6 sm:w-8 sm:h-8 text-[#090909]">
-          <path d="M19.11 17.205c-.372 0-1.088 1.39-1.518 1.39a.63.63 0 0 1-.315-.1c-.802-.402-1.504-.817-2.163-1.447-.545-.516-1.146-1.29-1.46-1.963a.426.426 0 0 1-.073-.215c0-.33.99-.945.99-1.49 0-.143-.73-2.09-.832-2.335-.143-.372-.214-.487-.6-.487-.187 0-.36-.043-.53-.043-.302 0-.53.115-.746.315-.688.645-1.032 1.318-1.06 2.264v.114c-.015.99.472 1.977 1.017 2.78 1.23 1.82 2.506 3.41 4.554 4.34.616.287 2.035.888 2.722.888.817 0 2.15-.515 2.478-1.318.13-.33.244-.73.244-1.088 0-.058 0-.144-.03-.215-.1-.172-2.434-1.39-2.678-1.39zm-2.908 7.593c-1.747 0-3.48-.53-4.942-1.49L7.793 24.41l1.132-3.337a8.955 8.955 0 0 1-1.72-5.272c0-4.955 4.04-8.995 8.997-8.995S25.2 10.845 25.2 15.8c0 4.958-4.04 8.998-8.998 8.998zm0-19.798c-5.96 0-10.8 4.842-10.8 10.8 0 1.964.53 3.898 1.546 5.574L5 27.176l5.974-1.92a10.807 10.807 0 0 0 16.03-9.455c0-5.958-4.842-10.8-10.802-10.8z" fill="currentColor" fillRule="evenodd" />
-        </svg>
-        <span className="text-xs sm:text-sm font-semibold text-[#090909]">WhatsApp</span>
-      </a>
-
-      {/* AI Chat Button */}
+      {/* Floating widgets: WhatsApp + AI chat button, with the preview bubble
+          stacking above them via flex-col-reverse so nothing needs manually
+          calculated offsets that can drift out of sync and overlap. */}
       {!isChatOpen && (
-        <>
+        <div className="fixed bottom-20 sm:bottom-24 right-3 sm:right-6 z-50 flex flex-col-reverse items-end gap-3">
+          <div className="flex items-center gap-2 sm:gap-3">
+            <a href={whatsappUrl} target="_blank" rel="noopener noreferrer"
+              className="bg-[#6EE7B7] p-2 sm:p-3 rounded-full shadow-lg hover:shadow-[0_0_20px_rgba(110,231,183,0.3)] transition-all duration-700 flex items-center gap-1"
+              aria-label="WhatsApp"
+            >
+              <svg viewBox="0 0 32 32" className="w-5 h-5 sm:w-6 sm:h-6 text-[#090909]">
+                <path d="M19.11 17.205c-.372 0-1.088 1.39-1.518 1.39a.63.63 0 0 1-.315-.1c-.802-.402-1.504-.817-2.163-1.447-.545-.516-1.146-1.29-1.46-1.963a.426.426 0 0 1-.073-.215c0-.33.99-.945.99-1.49 0-.143-.73-2.09-.832-2.335-.143-.372-.214-.487-.6-.487-.187 0-.36-.043-.53-.043-.302 0-.53.115-.746.315-.688.645-1.032 1.318-1.06 2.264v.114c-.015.99.472 1.977 1.017 2.78 1.23 1.82 2.506 3.41 4.554 4.34.616.287 2.035.888 2.722.888.817 0 2.15-.515 2.478-1.318.13-.33.244-.73.244-1.088 0-.058 0-.144-.03-.215-.1-.172-2.434-1.39-2.678-1.39zm-2.908 7.593c-1.747 0-3.48-.53-4.942-1.49L7.793 24.41l1.132-3.337a8.955 8.955 0 0 1-1.72-5.272c0-4.955 4.04-8.995 8.997-8.995S25.2 10.845 25.2 15.8c0 4.958-4.04 8.998-8.998 8.998zm0-19.798c-5.96 0-10.8 4.842-10.8 10.8 0 1.964.53 3.898 1.546 5.574L5 27.176l5.974-1.92a10.807 10.807 0 0 0 16.03-9.455c0-5.958-4.842-10.8-10.802-10.8z" fill="currentColor" fillRule="evenodd" />
+              </svg>
+              <span className="hidden sm:inline text-sm font-semibold text-[#090909]">WhatsApp</span>
+            </a>
+
+            <motion.button
+              className="bg-[#6EE7B7] p-2 sm:p-3 rounded-full shadow-lg hover:shadow-[0_0_20px_rgba(110,231,183,0.3)] flex items-center gap-1 pr-3 sm:pr-4"
+              onClick={openChatWithPreview}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+            >
+              <svg className="w-5 h-5 sm:w-6 sm:h-6 text-[#090909]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+              </svg>
+              <span className="text-xs sm:text-sm font-semibold text-[#090909]">AI Greato</span>
+            </motion.button>
+          </div>
+
           <AnimatePresence>
             {showChatPreview && (
               <motion.div
-                className="fixed bottom-28 right-3 sm:right-6 z-50 w-64 bg-[#0D0D0D] border border-white/[0.08] rounded-2xl rounded-br-md shadow-2xl shadow-black/40 p-4"
+                className="w-72 bg-[#0D0D0D]/95 backdrop-blur-xl border border-white/[0.1] rounded-2xl rounded-br-md shadow-2xl shadow-black/50 overflow-hidden"
                 initial={{ opacity: 0, y: 12, scale: 0.95 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: 12, scale: 0.95 }}
                 transition={{ duration: 0.3 }}
               >
-                <button
-                  onClick={() => { setShowChatPreview(false); setChatPreviewDismissed(true); }}
-                  className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-[#111] border border-white/[0.1] flex items-center justify-center hover:bg-white/10 transition-colors"
-                  aria-label="Dismiss"
-                >
-                  <X className="w-3 h-3 text-white/60" />
-                </button>
-                <div className="flex items-center gap-2.5 mb-3">
-                  <div className="w-8 h-8 rounded-full bg-[#6EE7B7]/10 border border-[#6EE7B7]/20 flex items-center justify-center shrink-0">
-                    <MessageCircle className="w-4 h-4 text-[#6EE7B7]" />
+                <div className="flex items-center justify-between px-4 py-3.5 border-b border-white/[0.06] bg-white/[0.02]">
+                  <div className="flex items-center gap-2.5">
+                    <div className="relative w-9 h-9 rounded-full bg-[#6EE7B7]/10 border border-[#6EE7B7]/20 flex items-center justify-center shrink-0">
+                      <MessageCircle className="w-4 h-4 text-[#6EE7B7]" />
+                      <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 bg-[#6EE7B7] rounded-full border-2 border-[#0D0D0D] animate-pulse" />
+                    </div>
+                    <div>
+                      <p className="text-sm font-bold text-white leading-tight">AI Greato</p>
+                      <p className="text-[11px] text-white/40">Typically replies instantly</p>
+                    </div>
                   </div>
-                  <p className="text-sm font-semibold text-white leading-tight">Hi! How can we help?</p>
+                  <button
+                    onClick={() => { setShowChatPreview(false); setChatPreviewDismissed(true); }}
+                    className="p-1.5 rounded-lg text-white/40 hover:text-white hover:bg-white/[0.06] transition-colors shrink-0"
+                    aria-label="Dismiss"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
                 </div>
-                <div className="flex flex-wrap gap-1.5">
-                  {chatQuickReplies.map(label => (
-                    <button
-                      key={label}
-                      onClick={openChatWithPreview}
-                      className="px-3 py-1.5 border border-[#6EE7B7]/20 text-[#6EE7B7] text-xs rounded-lg hover:bg-[#6EE7B7]/10 transition-colors font-medium"
-                    >
-                      {label}
-                    </button>
-                  ))}
+                <div className="p-4">
+                  <p className="text-sm text-white/85 leading-relaxed mb-3.5">Hi! 👋 How can we help you automate your business today?</p>
+                  <div className="flex flex-wrap gap-1.5">
+                    {chatQuickReplies.map(label => (
+                      <button
+                        key={label}
+                        onClick={openChatWithPreview}
+                        className="px-3 py-1.5 border border-[#6EE7B7]/25 text-[#6EE7B7] text-xs rounded-lg hover:bg-[#6EE7B7]/10 transition-colors font-medium"
+                      >
+                        {label}
+                      </button>
+                    ))}
+                  </div>
                 </div>
               </motion.div>
             )}
           </AnimatePresence>
-
-          <motion.button
-            className="fixed bottom-16 right-3 sm:right-6 bg-[#6EE7B7] p-2 sm:p-3 rounded-full shadow-lg hover:shadow-[0_0_20px_rgba(110,231,183,0.3)] z-50 flex items-center gap-1 pr-3 sm:pr-4"
-            onClick={openChatWithPreview}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-          >
-            <svg className="w-5 h-5 sm:w-6 sm:h-6 text-[#090909]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
-            </svg>
-            <span className="text-xs sm:text-sm font-semibold text-[#090909]">AI Greato</span>
-          </motion.button>
-        </>
+        </div>
       )}
 
       <AIChatBot isOpen={isChatOpen} onClose={() => setIsChatOpen(false)} />
