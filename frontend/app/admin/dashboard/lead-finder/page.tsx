@@ -64,6 +64,8 @@ export default function LeadFinderPage() {
   const [loadingSaved, setLoadingSaved] = useState(true);
   const [keywordFilter, setKeywordFilter] = useState('');
   const [locationFilter, setLocationFilter] = useState('');
+  const [minRating, setMinRating] = useState(0);
+  const [minReviews, setMinReviews] = useState('');
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(20);
 
@@ -94,18 +96,22 @@ export default function LeadFinderPage() {
     [results]
   );
 
+  const minReviewsNum = minReviews.trim() === '' ? 0 : Number(minReviews);
+
   const visibleResults = results
     .filter(r => !activeOnly || r.activity === 'active')
     .filter(r => !establishedOnly || r.sizeTier !== 'small')
     .filter(r => !keywordFilter || r.keyword === keywordFilter)
-    .filter(r => !locationFilter || r.location === locationFilter);
+    .filter(r => !locationFilter || r.location === locationFilter)
+    .filter(r => minRating === 0 || (r.rating !== null && r.rating >= minRating))
+    .filter(r => !minReviewsNum || r.ratingCount >= minReviewsNum);
 
   const totalPages = Math.max(1, Math.ceil(visibleResults.length / pageSize));
   const pagedResults = visibleResults.slice((page - 1) * pageSize, page * pageSize);
 
   // Any filter or page-size change should snap back to page 1 rather than
   // leaving the view stuck on a now-invalid page.
-  useEffect(() => { setPage(1); }, [activeOnly, establishedOnly, keywordFilter, locationFilter, pageSize]);
+  useEffect(() => { setPage(1); }, [activeOnly, establishedOnly, keywordFilter, locationFilter, minRating, minReviews, pageSize]);
 
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -238,6 +244,22 @@ export default function LeadFinderPage() {
                 <option value="">All locations</option>
                 {locationHistory.map(l => <option key={l} value={l}>{l}</option>)}
               </select>
+              <select value={minRating} onChange={e => setMinRating(Number(e.target.value))}
+                className="px-3 py-2 bg-[#0D0D0D] border border-white/10 rounded-xl text-xs text-white outline-none focus:border-[#6EE7B7]/40">
+                <option value={0}>Any rating</option>
+                <option value={2}>2+ stars</option>
+                <option value={3}>3+ stars</option>
+                <option value={4}>4+ stars</option>
+                <option value={4.5}>4.5+ stars</option>
+              </select>
+              <input
+                type="number"
+                min={0}
+                value={minReviews}
+                onChange={e => setMinReviews(e.target.value)}
+                placeholder="Min reviews (e.g. 40)"
+                className="w-36 px-3 py-2 bg-[#0D0D0D] border border-white/10 rounded-xl text-xs text-white placeholder-white/30 outline-none focus:border-[#6EE7B7]/40"
+              />
               <div className="w-px h-5 bg-white/10 mx-1" />
               <label className="flex items-center gap-2.5 cursor-pointer select-none">
                 <input
