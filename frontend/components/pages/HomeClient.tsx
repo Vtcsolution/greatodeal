@@ -188,14 +188,11 @@ export default function HomeClient() {
               <div className="space-y-5">
                 <h1 className="text-4xl sm:text-6xl lg:text-[4.25rem] font-extrabold leading-[1.15] tracking-tight text-white">
                   <SplitText text="Build the" delay={0.4} />{' '}
-                  <span className="inline-flex items-center gap-2">
-                    <Sparkles className="w-5 h-5 sm:w-8 sm:h-8 text-[#6EE7B7]/70 shrink-0" />
-                    <SplitText
-                      text="AI system"
-                      delay={0.6}
-                      className="bg-gradient-to-r from-[#6EE7B7] via-[#34D399] to-[#3B82F6] bg-clip-text text-transparent"
-                    />
-                  </span>{' '}
+                  <SplitText
+                    text="AI system"
+                    delay={0.6}
+                    className="bg-gradient-to-r from-[#6EE7B7] via-[#34D399] to-[#3B82F6] bg-clip-text text-transparent"
+                  />{' '}
                   <SplitText text="your business deserves." delay={0.8} />
                 </h1>
                 <motion.p className="text-base sm:text-lg text-white/80 max-w-lg leading-[1.8]" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.9, ease }}>
