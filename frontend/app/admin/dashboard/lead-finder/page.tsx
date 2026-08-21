@@ -167,7 +167,7 @@ export default function LeadFinderPage() {
       </p>
 
       <form onSubmit={handleSearch} className="bg-[#161616] rounded-2xl border border-white/10 p-4 sm:p-6 mb-6 sm:mb-8">
-        <div className="grid sm:grid-cols-2 gap-4 mb-4">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
           <div>
             <label className="block text-xs font-medium text-white/50 mb-2">Industry / keyword</label>
             <input
@@ -194,7 +194,35 @@ export default function LeadFinderPage() {
               {locationHistory.map(l => <option key={l} value={l} />)}
             </datalist>
           </div>
+          <div>
+            <label className="block text-xs font-medium text-white/50 mb-2">Minimum rating</label>
+            <select
+              value={minRating}
+              onChange={e => setMinRating(Number(e.target.value))}
+              className="w-full px-4 py-3 bg-[#0D0D0D] border border-white/10 rounded-xl text-sm text-white outline-none focus:border-[#6EE7B7]/40 focus:ring-2 focus:ring-[#6EE7B7]/20 transition-all"
+            >
+              <option value={0}>Any rating</option>
+              <option value={2}>2+ stars</option>
+              <option value={3}>3+ stars</option>
+              <option value={4}>4+ stars</option>
+              <option value={4.5}>4.5+ stars</option>
+            </select>
+          </div>
+          <div>
+            <label className="block text-xs font-medium text-white/50 mb-2">Minimum reviews</label>
+            <input
+              type="number"
+              min={0}
+              value={minReviews}
+              onChange={e => setMinReviews(e.target.value)}
+              placeholder="e.g. 40"
+              className="w-full px-4 py-3 bg-[#0D0D0D] border border-white/10 rounded-xl text-sm text-white placeholder-white/30 outline-none focus:border-[#6EE7B7]/40 focus:ring-2 focus:ring-[#6EE7B7]/20 transition-all"
+            />
+          </div>
         </div>
+        <p className="text-xs text-white/30 mb-4">
+          Rating and review filters apply to the results shown below (Google search itself can&apos;t be limited by rating) — set them here before searching, or adjust anytime to re-filter what&apos;s already saved.
+        </p>
         <button
           type="submit"
           disabled={searching || !keyword.trim() || !location.trim()}
@@ -244,22 +272,11 @@ export default function LeadFinderPage() {
                 <option value="">All locations</option>
                 {locationHistory.map(l => <option key={l} value={l}>{l}</option>)}
               </select>
-              <select value={minRating} onChange={e => setMinRating(Number(e.target.value))}
-                className="px-3 py-2 bg-[#0D0D0D] border border-white/10 rounded-xl text-xs text-white outline-none focus:border-[#6EE7B7]/40">
-                <option value={0}>Any rating</option>
-                <option value={2}>2+ stars</option>
-                <option value={3}>3+ stars</option>
-                <option value={4}>4+ stars</option>
-                <option value={4.5}>4.5+ stars</option>
-              </select>
-              <input
-                type="number"
-                min={0}
-                value={minReviews}
-                onChange={e => setMinReviews(e.target.value)}
-                placeholder="Min reviews (e.g. 40)"
-                className="w-36 px-3 py-2 bg-[#0D0D0D] border border-white/10 rounded-xl text-xs text-white placeholder-white/30 outline-none focus:border-[#6EE7B7]/40"
-              />
+              {(minRating > 0 || minReviewsNum > 0) && (
+                <span className="text-xs text-[#6EE7B7] bg-[#6EE7B7]/10 px-2.5 py-1 rounded-full">
+                  {minRating > 0 ? `${minRating}+ stars` : ''}{minRating > 0 && minReviewsNum > 0 ? ' · ' : ''}{minReviewsNum > 0 ? `${minReviewsNum}+ reviews` : ''} (set above)
+                </span>
+              )}
               <div className="w-px h-5 bg-white/10 mx-1" />
               <label className="flex items-center gap-2.5 cursor-pointer select-none">
                 <input
