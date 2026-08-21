@@ -2,13 +2,24 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import dynamic from 'next/dynamic';
 import { motion, useInView } from 'framer-motion';
 import {
   Database, CheckCircle, ArrowRight,
-  Zap, Cpu, Shield, Users, Rocket, Lightbulb, Clock, Globe,
+  Zap, Cpu, Shield, Users, Rocket, Lightbulb, Clock,
   TrendingUp, Layers, Play, Landmark, Activity, Banknote, Leaf, Home, Bot,
+  Sparkles, Building2, Search,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
+
+const ParticleSphere = dynamic(() => import('@/components/ui/ParticleSphere'), { ssr: false });
+
+const heroStats: Array<{ icon: LucideIcon; value: string; label: string }> = [
+  { icon: Shield, value: '100%', label: 'Audit-trail coverage' },
+  { icon: Building2, value: '5', label: 'Regulated industries served' },
+  { icon: TrendingUp, value: '60%+', label: 'Operational cost saved' },
+];
 
 const ease = [0.25, 0.1, 0.25, 1] as const;
 const mockupLabels = ['workflow.agent', 'access_log.audit', 'dashboard.gov', 'pipeline.sync'];
@@ -137,11 +148,18 @@ function FeatureVisual({ index, accent }: { index: number; accent: string }) {
 export default function HomeClient() {
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
+  const [analyseQuery, setAnalyseQuery] = useState('');
   const videoRef = useRef<HTMLVideoElement>(null);
+  const router = useRouter();
 
   useEffect(() => {
     setIsDesktop(window.innerWidth >= 768);
   }, []);
+
+  const handleAnalyseSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    router.push('/contact');
+  };
 
   const handlePlayVideo = () => {
     if (videoRef.current) {
@@ -167,61 +185,74 @@ export default function HomeClient() {
         <motion.div className="container max-w-[1920px] relative z-10 pt-28 pb-20 px-4 sm:px-6">
           <div className="grid lg:grid-cols-2 gap-14 lg:gap-20 items-center">
             <div className="space-y-8">
+              <motion.div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#6EE7B7]/20 bg-[#6EE7B7]/[0.06]" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.1, ease }}>
+                <Sparkles className="w-3.5 h-3.5 text-[#6EE7B7]" />
+                <span className="text-xs font-semibold text-[#6EE7B7] tracking-wide uppercase">AI Automation Agency</span>
+              </motion.div>
+
               <div className="space-y-5">
-                <h1 className="text-3xl sm:text-5xl lg:text-[3.5rem] font-bold leading-[1.1] tracking-tight text-white">
-                  <SplitText text="AI Systems &" delay={0.4} />
+                <h1 className="text-4xl sm:text-6xl lg:text-[4.25rem] font-extrabold leading-[1.05] tracking-tight text-white">
+                  <SplitText text="AI Systems That" delay={0.4} />
                   <br />
                   <SplitText
-                    text="Agentic Automation"
+                    text="Run Your Business"
                     delay={0.7}
                     className="bg-gradient-to-r from-[#6EE7B7] via-[#34D399] to-[#3B82F6] bg-clip-text text-transparent"
                   />
-                  <SplitText text="for Regulated Industries" delay={0.9} />
                 </h1>
-                <motion.p className="text-base sm:text-lg text-white/80 max-w-lg leading-[1.8]" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.8, ease }}>
+                <motion.p className="text-base sm:text-lg text-white/80 max-w-lg leading-[1.8]" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.9, ease }}>
                   We build AI SaaS and agentic automation for government, healthcare, and other regulated industries, with compliance, security, and auditability engineered in from day one, not bolted on after a breach. As an AI automation company in Lahore, we hold every system we ship to that same standard, whether the client is down the street or on the other side of the world.
                 </motion.p>
               </div>
 
-              <motion.div className="flex flex-col sm:flex-row gap-4" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 1, ease }}>
-                <Link href="/contact" className="btn-primary group">
-                  Request a Demo <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-500" />
-                </Link>
+              <motion.form onSubmit={handleAnalyseSubmit} className="flex flex-col sm:flex-row items-stretch gap-3 max-w-lg p-2 rounded-2xl bg-white/[0.03] border border-white/[0.08] backdrop-blur-sm" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 1, ease }}>
+                <div className="flex items-center gap-2.5 flex-1 px-3">
+                  <Search className="w-4 h-4 text-white/30 shrink-0" />
+                  <input
+                    type="text"
+                    value={analyseQuery}
+                    onChange={e => setAnalyseQuery(e.target.value)}
+                    placeholder="What does your business need automated?"
+                    className="w-full bg-transparent text-sm text-white placeholder-white/35 outline-none py-2.5"
+                  />
+                </div>
+                <button type="submit" className="btn-primary shrink-0 justify-center">
+                  Get Free Analysis <ArrowRight className="w-4 h-4" />
+                </button>
+              </motion.form>
+
+              <motion.div className="flex flex-wrap gap-x-8 gap-y-5 pt-2" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 1.1, ease }}>
+                {heroStats.map((stat, i) => {
+                  const Icon = stat.icon;
+                  return (
+                    <div key={i} className="flex items-center gap-3">
+                      <div className="w-9 h-9 rounded-lg bg-[#6EE7B7]/10 border border-[#6EE7B7]/15 flex items-center justify-center shrink-0">
+                        <Icon className="w-4 h-4 text-[#6EE7B7]" />
+                      </div>
+                      <div>
+                        <div className="text-lg font-bold text-white leading-none">{stat.value}</div>
+                        <div className="text-xs text-white/45 mt-1">{stat.label}</div>
+                      </div>
+                    </div>
+                  );
+                })}
               </motion.div>
             </div>
 
-            {/* Code editor */}
+            {/* Particle sphere */}
             <motion.div className="relative hidden lg:block" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 1, delay: 0.5, ease }}>
-              <div className="absolute -inset-8 bg-gradient-to-r from-[#6EE7B7]/10 to-[#3B82F6]/10 rounded-[2rem] blur-[80px] opacity-50" />
-              <div className="relative bg-[#0D0D0D]/80 backdrop-blur-xl rounded-2xl border border-white/[0.08] overflow-hidden shadow-2xl shadow-black/40">
-                <div className="flex items-center gap-2 px-5 py-3.5 border-b border-white/[0.06] bg-[#0A0A0A]/80">
-                  <div className="flex gap-1.5"><div className="w-2.5 h-2.5 rounded-full bg-[#FF5F57]" /><div className="w-2.5 h-2.5 rounded-full bg-[#FEBC2E]" /><div className="w-2.5 h-2.5 rounded-full bg-[#28C840]" /></div>
-                  <span className="text-white/30 text-sm ml-3 font-mono">greatodeal_agent.ts</span>
-                </div>
-                <div className="p-7 font-mono text-sm leading-[2] space-y-0.5">
-                  <motion.div className="text-white/40" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.8 }}>{'// Compliance-grade AI, audited by default'}</motion.div>
-                  <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1 }}><span className="text-[#C084FC]">const</span> <span className="text-[#7DD3FC]">agent</span> = <span className="text-[#C084FC]">function</span> <span className="text-[#FCD34D]">{'() {'}</span></motion.div>
-                  <motion.div className="pl-5" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.2 }}><span className="text-white/80">return</span> <span className="text-[#F97316]">&quot;Audited. Explainable. Secure.&quot;</span><span className="text-white/40">;</span></motion.div>
-                  <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.4 }}><span className="text-[#FCD34D]">{'}'}</span></motion.div>
-                </div>
-              </div>
+              {isDesktop && <ParticleSphere />}
 
-              <motion.div className="absolute -left-10 top-[28%] px-4 py-3 bg-[#0D0D0D]/90 border border-white/[0.08] rounded-xl shadow-xl backdrop-blur-md" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0, y: [0, -8, 0] }} transition={{ opacity: { delay: 1.5, duration: 0.6 }, y: { delay: 2, duration: 4, repeat: Infinity, ease: 'easeInOut' } }}>
-                <div className="flex items-center gap-3"><div className="w-9 h-9 rounded-lg bg-[#6EE7B7]/10 flex items-center justify-center"><TrendingUp className="w-4 h-4 text-[#6EE7B7]" /></div><div><div className="text-sm font-bold text-white">99.9% Uptime</div><div className="text-xs text-white/40">SLA Guaranteed</div></div></div>
+              <motion.div className="absolute left-0 top-[8%] px-4 py-3 bg-[#0D0D0D]/90 border border-white/[0.08] rounded-xl shadow-xl backdrop-blur-md" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0, y: [0, -8, 0] }} transition={{ opacity: { delay: 1.5, duration: 0.6 }, y: { delay: 2, duration: 4, repeat: Infinity, ease: 'easeInOut' } }}>
+                <div className="flex items-center gap-3"><div className="w-9 h-9 rounded-lg bg-[#6EE7B7]/10 flex items-center justify-center"><Shield className="w-4 h-4 text-[#6EE7B7]" /></div><div><div className="text-sm font-bold text-white">100% Audit Coverage</div><div className="text-xs text-white/40">Every action logged</div></div></div>
               </motion.div>
-              <motion.div className="absolute -right-8 bottom-[30%] px-4 py-3 bg-[#0D0D0D]/90 border border-white/[0.08] rounded-xl shadow-xl backdrop-blur-md" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0, y: [0, 8, 0] }} transition={{ opacity: { delay: 1.8, duration: 0.6 }, y: { delay: 2.5, duration: 5, repeat: Infinity, ease: 'easeInOut' } }}>
-                <div className="flex items-center gap-3"><div className="w-9 h-9 rounded-lg bg-[#3B82F6]/10 flex items-center justify-center"><Globe className="w-4 h-4 text-[#3B82F6]" /></div><div><div className="text-sm font-bold text-white">15+ Countries</div><div className="text-xs text-white/40">Global Reach</div></div></div>
+              <motion.div className="absolute right-0 bottom-[10%] px-4 py-3 bg-[#0D0D0D]/90 border border-white/[0.08] rounded-xl shadow-xl backdrop-blur-md" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0, y: [0, 8, 0] }} transition={{ opacity: { delay: 1.8, duration: 0.6 }, y: { delay: 2.5, duration: 5, repeat: Infinity, ease: 'easeInOut' } }}>
+                <div className="flex items-center gap-3"><div className="w-9 h-9 rounded-lg bg-[#3B82F6]/10 flex items-center justify-center"><TrendingUp className="w-4 h-4 text-[#3B82F6]" /></div><div><div className="text-sm font-bold text-white">60%+ Cost Saved</div><div className="text-xs text-white/40">Through automation</div></div></div>
               </motion.div>
-              <motion.div className="absolute -right-6 -top-8 px-4 py-2.5 bg-[#0D0D0D]/90 border border-white/[0.08] rounded-xl shadow-xl backdrop-blur-md max-w-[220px]" initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 2.1, duration: 0.6 }}>
+              <motion.div className="absolute right-4 top-0 px-4 py-2.5 bg-[#0D0D0D]/90 border border-white/[0.08] rounded-xl shadow-xl backdrop-blur-md max-w-[220px]" initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 2.1, duration: 0.6 }}>
                 <div className="flex items-center gap-2.5">
                   <div className="w-8 h-8 rounded-lg bg-[#6EE7B7]/10 flex items-center justify-center shrink-0"><Cpu className="w-4 h-4 text-[#6EE7B7]" /></div>
-                  <span className="text-xs text-white/70 leading-tight">Verify KYC, Case #4471</span>
-                </div>
-              </motion.div>
-              <motion.div className="absolute -left-6 -bottom-6 px-4 py-2.5 bg-[#0D0D0D]/90 border border-white/[0.08] rounded-xl shadow-xl backdrop-blur-md" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 2.3, duration: 0.6 }}>
-                <div className="flex items-center gap-2.5">
-                  <CheckCircle className="w-4 h-4 text-[#6EE7B7]" />
-                  <span className="text-xs font-semibold text-white">Audit trail logged</span>
+                  <span className="text-xs text-white/70 leading-tight">Agent verifying case #4471</span>
                 </div>
               </motion.div>
             </motion.div>

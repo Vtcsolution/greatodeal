@@ -4,9 +4,11 @@ import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { Menu, X, ChevronDown, ArrowRight, ArrowUp } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { Menu, X, ChevronDown, ArrowRight, ArrowUp, MessageCircle } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import AIChatBot from './AIChatBot';
+
+const chatQuickReplies = ['Services', 'Get a Quote', 'AI Automation'];
 
 interface NavSubItem { name: string; path: string; }
 interface NavItem {
@@ -42,6 +44,8 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [isChatOpen, setIsChatOpen] = useState(false);
+  const [showChatPreview, setShowChatPreview] = useState(false);
+  const [chatPreviewDismissed, setChatPreviewDismissed] = useState(false);
   const pathname = usePathname();
   const mobileMenuRef = useRef<HTMLDivElement>(null);
   const hoverTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -71,6 +75,18 @@ export default function Navbar() {
   }, []);
 
   useEffect(() => { setIsOpen(false); setActiveDropdown(null); setMobileDropdowns({}); }, [pathname]);
+
+  useEffect(() => {
+    if (chatPreviewDismissed || isChatOpen) return;
+    const timer = setTimeout(() => setShowChatPreview(true), 4000);
+    return () => clearTimeout(timer);
+  }, [chatPreviewDismissed, isChatOpen]);
+
+  const openChatWithPreview = () => {
+    setShowChatPreview(false);
+    setChatPreviewDismissed(true);
+    setIsChatOpen(true);
+  };
 
   useEffect(() => {
     document.body.style.overflow = isOpen ? 'hidden' : 'unset';
@@ -122,17 +138,56 @@ export default function Navbar() {
 
       {/* AI Chat Button */}
       {!isChatOpen && (
-        <motion.button
-          className="fixed bottom-16 right-3 sm:right-6 bg-[#6EE7B7] p-2 sm:p-3 rounded-full shadow-lg hover:shadow-[0_0_20px_rgba(110,231,183,0.3)] z-50 flex items-center gap-1 pr-3 sm:pr-4"
-          onClick={() => setIsChatOpen(true)}
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-        >
-          <svg className="w-5 h-5 sm:w-6 sm:h-6 text-[#090909]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
-          </svg>
-          <span className="text-xs sm:text-sm font-semibold text-[#090909]">AI Greato</span>
-        </motion.button>
+        <>
+          <AnimatePresence>
+            {showChatPreview && (
+              <motion.div
+                className="fixed bottom-28 right-3 sm:right-6 z-50 w-64 bg-[#0D0D0D] border border-white/[0.08] rounded-2xl rounded-br-md shadow-2xl shadow-black/40 p-4"
+                initial={{ opacity: 0, y: 12, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 12, scale: 0.95 }}
+                transition={{ duration: 0.3 }}
+              >
+                <button
+                  onClick={() => { setShowChatPreview(false); setChatPreviewDismissed(true); }}
+                  className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-[#111] border border-white/[0.1] flex items-center justify-center hover:bg-white/10 transition-colors"
+                  aria-label="Dismiss"
+                >
+                  <X className="w-3 h-3 text-white/60" />
+                </button>
+                <div className="flex items-center gap-2.5 mb-3">
+                  <div className="w-8 h-8 rounded-full bg-[#6EE7B7]/10 border border-[#6EE7B7]/20 flex items-center justify-center shrink-0">
+                    <MessageCircle className="w-4 h-4 text-[#6EE7B7]" />
+                  </div>
+                  <p className="text-sm font-semibold text-white leading-tight">Hi! How can we help?</p>
+                </div>
+                <div className="flex flex-wrap gap-1.5">
+                  {chatQuickReplies.map(label => (
+                    <button
+                      key={label}
+                      onClick={openChatWithPreview}
+                      className="px-3 py-1.5 border border-[#6EE7B7]/20 text-[#6EE7B7] text-xs rounded-lg hover:bg-[#6EE7B7]/10 transition-colors font-medium"
+                    >
+                      {label}
+                    </button>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          <motion.button
+            className="fixed bottom-16 right-3 sm:right-6 bg-[#6EE7B7] p-2 sm:p-3 rounded-full shadow-lg hover:shadow-[0_0_20px_rgba(110,231,183,0.3)] z-50 flex items-center gap-1 pr-3 sm:pr-4"
+            onClick={openChatWithPreview}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+          >
+            <svg className="w-5 h-5 sm:w-6 sm:h-6 text-[#090909]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+            </svg>
+            <span className="text-xs sm:text-sm font-semibold text-[#090909]">AI Greato</span>
+          </motion.button>
+        </>
       )}
 
       <AIChatBot isOpen={isChatOpen} onClose={() => setIsChatOpen(false)} />
