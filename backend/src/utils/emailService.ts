@@ -46,7 +46,7 @@ const mailboxes: Record<MailboxKey, Mailbox> = {
   },
   zia: {
     address: process.env.ZIA_EMAIL_USER || '',
-    label: 'Zia | Greatodeal',
+    label: 'Zia Shafique',
     // Falls back to the sales mailbox's transporter if zia's own credentials
     // aren't configured yet, so nothing breaks before .env is updated.
     transporter: process.env.ZIA_EMAIL_USER && process.env.ZIA_EMAIL_PASS
