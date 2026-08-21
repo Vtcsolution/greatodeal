@@ -59,21 +59,38 @@ function OrbitRing({ radius, tilt, speed, color, opacity = 0.3 }: { radius: numb
 }
 
 function CoreGlow({ hovered }: { hovered: boolean }) {
-  const mesh = useRef<THREE.Mesh>(null!);
+  const group = useRef<THREE.Group>(null!);
   const scaleRef = useRef(1);
 
   useFrame(() => {
-    if (!mesh.current) return;
+    if (!group.current) return;
     const target = hovered ? 1.12 : 1;
     scaleRef.current += (target - scaleRef.current) * 0.08;
-    mesh.current.scale.setScalar(scaleRef.current);
+    group.current.scale.setScalar(scaleRef.current);
   });
 
+  // Layered spheres of decreasing radius/increasing opacity, bright green at
+  // the core fading to blue at the edge — approximates a radial gradient
+  // "planet" fill without needing a custom shader/texture.
   return (
-    <mesh ref={mesh}>
-      <sphereGeometry args={[1.15, 32, 32]} />
-      <meshBasicMaterial color="#3B82F6" transparent opacity={0.05} />
-    </mesh>
+    <group ref={group}>
+      <mesh>
+        <sphereGeometry args={[2.35, 32, 32]} />
+        <meshBasicMaterial color="#3B82F6" transparent opacity={0.06} />
+      </mesh>
+      <mesh>
+        <sphereGeometry args={[1.9, 32, 32]} />
+        <meshBasicMaterial color="#22C58B" transparent opacity={0.14} />
+      </mesh>
+      <mesh>
+        <sphereGeometry args={[1.4, 32, 32]} />
+        <meshBasicMaterial color="#6EE7B7" transparent opacity={0.22} />
+      </mesh>
+      <mesh>
+        <sphereGeometry args={[0.75, 32, 32]} />
+        <meshBasicMaterial color="#A7F3D0" transparent opacity={0.3} />
+      </mesh>
+    </group>
   );
 }
 
