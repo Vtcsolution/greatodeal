@@ -195,6 +195,9 @@ export default function HomeClient() {
                   />{' '}
                   <SplitText text="your business deserves." delay={0.8} />
                 </h1>
+                <motion.p className="text-base sm:text-lg text-white/80 max-w-lg leading-[1.8]" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.9, ease }}>
+                  We build AI SaaS and agentic automation for government, healthcare, and other regulated industries, with compliance, security, and auditability engineered in from day one, not bolted on after a breach. We hold every system we ship to that same standard, whether the client is down the street or on the other side of the world.
+                </motion.p>
               </div>
 
               <motion.form onSubmit={handleAnalyseSubmit} className="flex flex-col sm:flex-row items-stretch gap-3 max-w-lg p-2 rounded-2xl bg-white/[0.03] border border-white/[0.08] backdrop-blur-sm" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 1, ease }}>
