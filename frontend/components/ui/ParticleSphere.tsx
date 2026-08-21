@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef, useMemo } from 'react';
+import React, { useRef, useMemo, useState } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 
@@ -58,25 +58,63 @@ function OrbitRing({ radius, tilt, speed, color, opacity = 0.3 }: { radius: numb
   );
 }
 
-function CoreGlow() {
+function CoreGlow({ hovered }: { hovered: boolean }) {
+  const mesh = useRef<THREE.Mesh>(null!);
+  const scaleRef = useRef(1);
+
+  useFrame(() => {
+    if (!mesh.current) return;
+    const target = hovered ? 1.35 : 1;
+    scaleRef.current += (target - scaleRef.current) * 0.08;
+    mesh.current.scale.setScalar(scaleRef.current);
+  });
+
   return (
-    <mesh>
+    <mesh ref={mesh}>
       <sphereGeometry args={[1.15, 32, 32]} />
       <meshBasicMaterial color="#3B82F6" transparent opacity={0.07} />
     </mesh>
   );
 }
 
-export default function ParticleSphere() {
+function Scene({ hovered }: { hovered: boolean }) {
+  const group = useRef<THREE.Group>(null!);
+  const scaleRef = useRef(1);
+  const spinRef = useRef(0);
+
+  useFrame((_, delta) => {
+    if (!group.current) return;
+    const target = hovered ? 1.16 : 1;
+    scaleRef.current += (target - scaleRef.current) * 0.08;
+    group.current.scale.setScalar(scaleRef.current);
+
+    spinRef.current += (hovered ? 0.6 : 0.06) * delta;
+    group.current.rotation.y = spinRef.current;
+  });
+
   return (
-    <div className="relative w-full h-[340px] sm:h-[440px] lg:h-[560px] pointer-events-none">
-      <div className="absolute inset-0 rounded-full bg-[#6EE7B7]/10 blur-[100px]" />
+    <group ref={group}>
+      <CoreGlow hovered={hovered} />
+      <SphereField />
+      <OrbitRing radius={2.9} tilt={[Math.PI / 2.4, 0, 0]} speed={0.12} color="#6EE7B7" opacity={0.3} />
+      <OrbitRing radius={3.3} tilt={[Math.PI / 1.8, 0.4, 0]} speed={-0.09} color="#3B82F6" opacity={0.22} />
+      <OrbitRing radius={2.5} tilt={[Math.PI / 3, -0.5, 0]} speed={0.16} color="#6EE7B7" opacity={0.18} />
+    </group>
+  );
+}
+
+export default function ParticleSphere() {
+  const [hovered, setHovered] = useState(false);
+
+  return (
+    <div
+      className="relative w-full h-[340px] sm:h-[440px] lg:h-[560px] cursor-pointer"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      <div className={`absolute inset-0 rounded-full bg-[#6EE7B7]/10 blur-[100px] transition-all duration-700 ${hovered ? 'bg-[#6EE7B7]/20 blur-[110px] scale-110' : 'scale-100'}`} />
       <Canvas camera={{ position: [0, 0, 6.2], fov: 45 }} dpr={[1, 1.75]} gl={{ antialias: true, alpha: true }} style={{ background: 'transparent' }}>
-        <CoreGlow />
-        <SphereField />
-        <OrbitRing radius={2.9} tilt={[Math.PI / 2.4, 0, 0]} speed={0.12} color="#6EE7B7" opacity={0.3} />
-        <OrbitRing radius={3.3} tilt={[Math.PI / 1.8, 0.4, 0]} speed={-0.09} color="#3B82F6" opacity={0.22} />
-        <OrbitRing radius={2.5} tilt={[Math.PI / 3, -0.5, 0]} speed={0.16} color="#6EE7B7" opacity={0.18} />
+        <Scene hovered={hovered} />
       </Canvas>
     </div>
   );
