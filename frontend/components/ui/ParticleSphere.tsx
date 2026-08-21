@@ -108,16 +108,19 @@ export default function ParticleSphere() {
 
   return (
     <div
-      className="relative w-full h-[340px] sm:h-[440px] lg:h-[560px] cursor-pointer"
+      className="relative w-full h-[340px] sm:h-[440px] lg:h-[560px] flex items-center justify-center cursor-pointer"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
       <div className="absolute inset-0 flex items-center justify-center">
         <div className={`w-[65%] aspect-square rounded-full bg-[#6EE7B7]/10 blur-[100px] transition-all duration-700 ${hovered ? 'bg-[#6EE7B7]/20 blur-[100px] scale-110' : 'scale-100'}`} />
       </div>
-      <Canvas camera={{ position: [0, 0, 6.2], fov: 45 }} dpr={[1, 1.75]} gl={{ antialias: true, alpha: true }} style={{ background: 'transparent' }}>
-        <Scene hovered={hovered} />
-      </Canvas>
+      {/* Clipped to a true circle so nothing (rings viewed edge-on, etc.) can ever render past a round silhouette */}
+      <div className="relative aspect-square h-full max-w-full rounded-full overflow-hidden">
+        <Canvas camera={{ position: [0, 0, 6.2], fov: 45 }} dpr={[1, 1.75]} gl={{ antialias: true, alpha: true }} style={{ background: 'transparent' }}>
+          <Scene hovered={hovered} />
+        </Canvas>
+      </div>
     </div>
   );
 }
