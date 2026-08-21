@@ -32,7 +32,7 @@ export default function PrivacyClient() {
     <div className="min-h-screen bg-[#090909] text-[#E5E7EB] overflow-x-hidden">
 
       {/* ═══ HERO ═══ */}
-      <section className="relative pt-32 pb-16 overflow-hidden">
+      <section className="relative pt-40 pb-16 overflow-hidden">
         <div className="absolute inset-0">
           <div className="absolute top-20 -left-40 w-[500px] h-[500px] bg-[#6EE7B7]/[0.05] rounded-full blur-[150px]" />
           <div className="absolute inset-0 bg-[linear-gradient(rgba(110,231,183,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(110,231,183,0.02)_1px,transparent_1px)] bg-[size:72px_72px]" />

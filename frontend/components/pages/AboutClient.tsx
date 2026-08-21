@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
@@ -56,13 +56,25 @@ const techCategories = [
 
 export default function AboutClient() {
   const [activeTech, setActiveTech] = useState(0);
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  useEffect(() => {
+    setIsDesktop(window.innerWidth >= 768);
+  }, []);
 
   return (
     <div className="min-h-screen bg-[#0B1120] text-gray-200 overflow-x-hidden">
 
       {/* ═══ HERO ═══ */}
-      <section className="relative pt-32 pb-24 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#0B1120] via-[#111827] to-[#0B1120]" />
+      <section className="relative pt-40 pb-24 overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          {isDesktop && (
+            <video autoPlay loop muted playsInline preload="none" aria-hidden="true" className="w-full h-full object-cover opacity-[0.15]">
+              <source src="/images/video_home.webm" type="video/webm" />
+            </video>
+          )}
+          <div className="absolute inset-0 bg-gradient-to-br from-[#0B1120]/85 via-[#111827]/70 to-[#0B1120]/90" />
+        </div>
         <div className="container max-w-[1920px] relative z-10">
           <div className="text-center mb-16">
             <motion.h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight mb-8" initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.3, ease }}>

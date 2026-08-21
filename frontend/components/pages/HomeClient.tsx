@@ -174,11 +174,6 @@ export default function HomeClient() {
       {/* ═══ HERO ═══ */}
       <section className="relative min-h-screen flex items-center overflow-hidden">
         <div className="absolute inset-0 z-0">
-          {isDesktop && (
-            <video autoPlay loop muted playsInline preload="none" aria-hidden="true" className="w-full h-full object-cover opacity-[0.15]">
-              <source src="/images/video_home.webm" type="video/webm" />
-            </video>
-          )}
           <div className="absolute inset-0 bg-gradient-to-b from-[#090909]/60 via-transparent to-[#090909]" />
         </div>
 
@@ -191,14 +186,17 @@ export default function HomeClient() {
               </motion.div>
 
               <div className="space-y-5">
-                <h1 className="text-4xl sm:text-6xl lg:text-[4.25rem] font-extrabold leading-[1.05] tracking-tight text-white">
-                  <SplitText text="AI Systems That" delay={0.4} />
-                  <br />
-                  <SplitText
-                    text="Run Your Business"
-                    delay={0.7}
-                    className="bg-gradient-to-r from-[#6EE7B7] via-[#34D399] to-[#3B82F6] bg-clip-text text-transparent"
-                  />
+                <h1 className="text-4xl sm:text-6xl lg:text-[4.25rem] font-extrabold leading-[1.15] tracking-tight text-white">
+                  <SplitText text="Build the" delay={0.4} />{' '}
+                  <span className="inline-flex items-center gap-2">
+                    <Sparkles className="w-5 h-5 sm:w-8 sm:h-8 text-[#6EE7B7]/70 shrink-0" />
+                    <SplitText
+                      text="AI system"
+                      delay={0.6}
+                      className="bg-gradient-to-r from-[#6EE7B7] via-[#34D399] to-[#3B82F6] bg-clip-text text-transparent"
+                    />
+                  </span>{' '}
+                  <SplitText text="your business deserves." delay={0.8} />
                 </h1>
                 <motion.p className="text-base sm:text-lg text-white/80 max-w-lg leading-[1.8]" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.9, ease }}>
                   We build AI SaaS and agentic automation for government, healthcare, and other regulated industries, with compliance, security, and auditability engineered in from day one, not bolted on after a breach. As an AI automation company in Lahore, we hold every system we ship to that same standard, whether the client is down the street or on the other side of the world.
