@@ -34,7 +34,6 @@ const nextConfig = {
   },
   async redirects() {
     return [
-      { source: '/services/:path*', destination: '/', permanent: true },
       { source: '/how-we-work', destination: '/about', permanent: true },
       { source: '/estimate', destination: '/contact', permanent: true },
       { source: '/industries/banking', destination: '/industries/fintech', permanent: true },
@@ -43,7 +42,6 @@ const nextConfig = {
       { source: '/industries/construction', destination: '/industries/real-estate', permanent: true },
       { source: '/industries/public-sector', destination: '/industries/government', permanent: true },
       { source: '/industries/education', destination: '/industries', permanent: true },
-      { source: '/industries/ecommerce', destination: '/industries', permanent: true },
       { source: '/industries/supply-chain', destination: '/industries', permanent: true },
 
       // Legacy pre-rebuild URL scheme (/solutions/*, /focus-areas/*, /howwork, /blogs)
