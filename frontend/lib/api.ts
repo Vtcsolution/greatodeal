@@ -36,6 +36,17 @@ export const portfolioApi = {
   updateSettings: (isVisible: boolean) => api.put('/portfolio/settings', { isVisible }),
 };
 
+export const pricingApi = {
+  getAll: () => api.get('/pricing'),
+  getById: (id: string) => api.get(`/pricing/${id}`),
+  getPublic: () => api.get('/pricing/public'),
+  create: (data: Record<string, unknown>) => api.post('/pricing', data),
+  update: (id: string, data: Record<string, unknown>) => api.put(`/pricing/${id}`, data),
+  delete: (id: string) => api.delete(`/pricing/${id}`),
+  getSettings: () => api.get('/pricing/settings'),
+  updateSettings: (isVisible: boolean) => api.put('/pricing/settings', { isVisible }),
+};
+
 export const contactApi = {
   send: (data: Record<string, unknown>) => api.post('/contact/send', data),
   getAll: () => api.get('/contact/all'),

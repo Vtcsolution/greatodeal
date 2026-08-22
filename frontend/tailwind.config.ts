@@ -15,6 +15,10 @@ const config: Config = {
       },
     },
     extend: {
+      fontFamily: {
+        serif: ['var(--font-fraunces)', 'Georgia', 'serif'],
+        mono: ['var(--font-space-mono)', 'ui-monospace', 'monospace'],
+      },
       colors: {
         brand: {
           dark: '#121212',

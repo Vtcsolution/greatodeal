@@ -7,7 +7,7 @@ import { usePathname } from 'next/navigation';
 import { Menu, X, ChevronDown, ArrowRight, ArrowUp, MessageCircle } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import AIChatBot from './AIChatBot';
-import { portfolioApi } from '@/lib/api';
+import { portfolioApi, pricingApi } from '@/lib/api';
 
 const chatQuickReplies = ['Services', 'Get a Quote', 'AI Automation'];
 
@@ -51,6 +51,7 @@ export default function Navbar() {
   const [showChatPreview, setShowChatPreview] = useState(false);
   const [chatPreviewDismissed, setChatPreviewDismissed] = useState(false);
   const [showPortfolioLink, setShowPortfolioLink] = useState(false);
+  const [showPricingLink, setShowPricingLink] = useState(false);
   const pathname = usePathname();
   const mobileMenuRef = useRef<HTMLDivElement>(null);
   const hoverTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -85,14 +86,17 @@ export default function Navbar() {
     portfolioApi.getPublic()
       .then(res => setShowPortfolioLink(!!res.data?.data?.isVisible))
       .catch(() => setShowPortfolioLink(false));
+    pricingApi.getPublic()
+      .then(res => setShowPricingLink(!!res.data?.data?.isVisible))
+      .catch(() => setShowPricingLink(false));
   }, []);
 
   const visibleNavItems = useMemo(() => {
-    if (!showPortfolioLink) return navItems;
     const items = [...navItems];
-    items.splice(2, 0, { name: 'Portfolio', path: '/portfolio' });
+    if (showPricingLink) items.splice(2, 0, { name: 'Pricing', path: '/pricing' });
+    if (showPortfolioLink) items.splice(2, 0, { name: 'Portfolio', path: '/portfolio' });
     return items;
-  }, [showPortfolioLink]);
+  }, [showPortfolioLink, showPricingLink]);
 
   useEffect(() => {
     if (chatPreviewDismissed || isChatOpen) return;

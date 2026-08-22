@@ -251,6 +251,20 @@ export interface MailMessage {
   lastOpenedAt?: string | null;
 }
 
+export interface PricingTier {
+  _id: string;
+  title: string;
+  badge?: string;
+  description: string;
+  currency: string;
+  price: string;
+  priceSuffix?: string;
+  features: string[];
+  order: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface PortfolioProject {
   _id: string;
   title: string;

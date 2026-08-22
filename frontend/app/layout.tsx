@@ -1,7 +1,11 @@
 import type { Metadata } from 'next';
 import Script from 'next/script';
+import { Fraunces, Space_Mono } from 'next/font/google';
 import './globals.css';
 import LayoutWrapper from '@/components/LayoutWrapper';
+
+const fraunces = Fraunces({ subsets: ['latin'], variable: '--font-fraunces', weight: ['400', '500', '600', '700'], style: ['normal', 'italic'], display: 'swap' });
+const spaceMono = Space_Mono({ subsets: ['latin'], variable: '--font-space-mono', weight: ['400', '700'], display: 'swap' });
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://greatodeal.com'),
@@ -318,7 +322,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="preconnect" href="https://www.googletagmanager.com" />
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
       </head>
-      <body className="min-h-screen bg-[#090909] text-[#E5E7EB]" suppressHydrationWarning>
+      <body className={`min-h-screen bg-[#090909] text-[#E5E7EB] ${fraunces.variable} ${spaceMono.variable}`} suppressHydrationWarning>
         <LayoutWrapper>{children}</LayoutWrapper>
 
         {/* Google Analytics — lazy loaded */}

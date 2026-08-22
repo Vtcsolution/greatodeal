@@ -42,6 +42,13 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Site-wide display serif on every heading, everywhere — one rule instead of
+   touching every page's markup. Body copy keeps the system sans above so
+   paragraph line-wrapping across existing pages doesn't shift. */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-fraunces), Georgia, serif;
+}
+
 /* Scrollbar */
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: var(--brand-dark); }
