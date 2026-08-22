@@ -3,7 +3,7 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Briefcase, ExternalLink, X, ChevronLeft, ChevronRight, ImageOff, ArrowRight, Sparkles, LayoutGrid } from 'lucide-react';
+import { Briefcase, ExternalLink, X, ChevronLeft, ChevronRight, ImageOff, ArrowRight, ArrowUpRight, Sparkles, LayoutGrid } from 'lucide-react';
 import { portfolioApi, getImageUrl } from '@/lib/api';
 import type { PortfolioProject } from '@/types';
 
@@ -26,6 +26,15 @@ function SplitText({ text, delay = 0, className = '' }: { text: string; delay?: 
       ))}
     </span>
   );
+}
+
+function displayDomain(url?: string): string {
+  if (!url) return '';
+  try {
+    return new URL(url).hostname.replace(/^www\./, '');
+  } catch {
+    return url.replace(/^https?:\/\//, '').replace(/^www\./, '').split('/')[0];
+  }
 }
 
 export default function PortfolioClient() {
@@ -85,110 +94,141 @@ export default function PortfolioClient() {
     <div className="min-h-screen bg-[#090909] text-white overflow-x-hidden">
 
       {/* ═══ HERO ═══ */}
-      <section className="relative pt-40 pb-20 overflow-hidden">
+      <section className="relative pt-40 pb-16 overflow-hidden">
         <div className="absolute inset-0">
           <motion.div className="absolute top-20 -left-40 w-[500px] h-[500px] bg-[#6EE7B7]/[0.05] rounded-full blur-[150px]" animate={{ opacity: [0.6, 1, 0.6] }} transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }} />
           <motion.div className="absolute bottom-20 -right-40 w-[400px] h-[400px] bg-[#3B82F6]/[0.05] rounded-full blur-[150px]" animate={{ opacity: [1, 0.6, 1] }} transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut' }} />
           <div className="absolute inset-0 bg-[linear-gradient(rgba(110,231,183,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(110,231,183,0.02)_1px,transparent_1px)] bg-[size:72px_72px]" />
         </div>
-        <div className="container max-w-[1920px] relative z-10 text-center px-4 sm:px-6">
+        <div className="container max-w-[1920px] relative z-10 px-4 sm:px-6">
           <motion.div className="inline-flex items-center gap-2 px-5 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-full text-base text-[#6EE7B7] mb-8" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.2 }}>
-            <Briefcase className="w-4 h-4" /><span className="font-medium">Our Work</span>
+            <Briefcase className="w-4 h-4" /><span className="font-mono uppercase tracking-wider text-xs">Our Work</span>
           </motion.div>
           <h1 className="text-4xl sm:text-6xl lg:text-[3.75rem] font-bold mb-6 leading-[1.1] tracking-tight">
             <SplitText text="Real Projects," delay={0.4} />
             <br />
-            <SplitText text="Real Results" delay={0.65} className="bg-gradient-to-r from-[#6EE7B7] via-[#34D399] to-[#3B82F6] bg-clip-text text-transparent" />
+            <SplitText text="Real Results" delay={0.65} className="italic bg-gradient-to-r from-[#6EE7B7] via-[#34D399] to-[#3B82F6] bg-clip-text text-transparent" />
           </h1>
-          <motion.p className="text-lg sm:text-xl text-white/70 max-w-2xl mx-auto leading-[1.8] mb-10" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.9, ease }}>
+          <motion.p className="text-lg sm:text-xl text-white/70 max-w-2xl leading-[1.8] mb-10" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.9, ease }}>
             A selection of AI automation and software projects we&apos;ve delivered for clients across regulated industries.
           </motion.p>
 
-          {!loading && visible && projects.length > 0 && (
-            <motion.div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-white/[0.03] border border-white/[0.06] rounded-full text-sm text-white/60 mb-14" initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 1 }}>
-              <Sparkles className="w-3.5 h-3.5 text-[#6EE7B7]" />{projects.length} project{projects.length !== 1 ? 's' : ''} delivered
-            </motion.div>
-          )}
-
-          {/* ═══ CATEGORY FILTERS ═══ */}
-          {!loading && visible && categories.length > 2 && (
-            <motion.div className="flex flex-wrap items-center justify-center gap-2.5 mb-14" initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 1.1 }}>
-              {categories.map(cat => (
-                <button
-                  key={cat}
-                  onClick={() => setActiveCategory(cat)}
-                  className={`px-4 py-2 rounded-full text-sm font-semibold transition-all duration-300 ${
-                    activeCategory === cat
-                      ? 'bg-[#6EE7B7] text-[#090909]'
-                      : 'bg-white/[0.03] border border-white/[0.08] text-white/60 hover:text-white hover:border-white/[0.16]'
-                  }`}
-                >
-                  {cat}
-                </button>
-              ))}
-            </motion.div>
-          )}
-
-          {loading ? (
-            <div className="flex justify-center py-16">
-              <div className="w-8 h-8 border-4 border-[#6EE7B7] border-t-transparent rounded-full animate-spin" />
-            </div>
-          ) : !visible || projects.length === 0 ? (
-            <div className="text-center py-20">
-              <div className="w-16 h-16 rounded-2xl bg-white/[0.03] border border-white/[0.06] flex items-center justify-center mx-auto mb-5">
-                <LayoutGrid className="w-7 h-7 text-white/20" />
-              </div>
-              <p className="text-white/50 text-lg font-medium">Our portfolio is being updated.</p>
-              <p className="text-white/30 text-sm mt-1.5 max-w-sm mx-auto">Check back soon, or get in touch to discuss your project directly.</p>
-              <Link href="/contact" className="btn-primary group mt-8 inline-flex">
-                Get in Touch <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-500" />
-              </Link>
-            </div>
-          ) : (
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 text-left">
-              <AnimatePresence mode="popLayout">
-                {visibleProjects.map((p, i) => (
-                  <motion.button
-                    key={p._id}
-                    layout
-                    onClick={() => openProject(p)}
-                    className="text-left bg-white/[0.02] rounded-2xl border border-white/[0.06] hover:border-[#6EE7B7]/30 overflow-hidden transition-colors duration-500 group hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-black/40"
-                    style={{ transition: 'transform 0.5s ease, box-shadow 0.5s ease, border-color 0.5s ease' }}
-                    initial={{ opacity: 0, y: 24 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, scale: 0.95 }}
-                    transition={{ delay: (i % 6) * 0.06, duration: 0.5, ease }}
-                  >
-                    <div className="aspect-video bg-white/[0.03] relative overflow-hidden">
-                      {p.images[0] ? (
-                        <img src={getImageUrl(p.images[0])} alt={p.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" loading="lazy" />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center">
-                          <ImageOff className="w-8 h-8 text-white/10" />
-                        </div>
-                      )}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                      {p.images.length > 1 && (
-                        <span className="absolute bottom-3 right-3 px-2.5 py-1 bg-black/70 backdrop-blur-sm rounded-lg text-[11px] text-white/80 font-medium">
-                          {p.images.length} photos
-                        </span>
-                      )}
-                    </div>
-                    <div className="p-5 sm:p-6">
-                      {p.category && <span className="inline-block px-2.5 py-0.5 bg-[#6EE7B7]/10 text-[#6EE7B7] text-[11px] font-semibold rounded-full mb-2.5">{p.category}</span>}
-                      <h3 className="font-bold text-white text-lg mb-1.5 leading-snug group-hover:text-[#6EE7B7] transition-colors duration-500">{p.title}</h3>
-                      <p className="text-white/50 text-sm leading-relaxed line-clamp-2 mb-4">{p.description}</p>
-                      <div className="flex items-center gap-1.5 text-sm font-semibold text-white/40 group-hover:text-[#6EE7B7] group-hover:gap-2.5 transition-all duration-500">
-                        View Project <ArrowRight className="w-3.5 h-3.5" />
-                      </div>
-                    </div>
-                  </motion.button>
-                ))}
-              </AnimatePresence>
-            </div>
-          )}
+          <div className="flex flex-wrap items-center gap-3">
+            {!loading && visible && projects.length > 0 && (
+              <motion.div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-white/[0.03] border border-white/[0.06] rounded-full text-sm text-white/60" initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 1 }}>
+                <Sparkles className="w-3.5 h-3.5 text-[#6EE7B7]" />{projects.length} project{projects.length !== 1 ? 's' : ''} delivered
+              </motion.div>
+            )}
+            {!loading && visible && categories.length > 2 && categories.map(cat => (
+              <button
+                key={cat}
+                onClick={() => setActiveCategory(cat)}
+                className={`px-4 py-1.5 rounded-full text-sm font-semibold font-mono uppercase tracking-wide transition-all duration-300 ${
+                  activeCategory === cat
+                    ? 'bg-[#6EE7B7] text-[#090909]'
+                    : 'bg-white/[0.03] border border-white/[0.08] text-white/60 hover:text-white hover:border-white/[0.16]'
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
         </div>
       </section>
+
+      {/* ═══ PROJECTS ═══ */}
+      {loading ? (
+        <div className="flex justify-center py-16">
+          <div className="w-8 h-8 border-4 border-[#6EE7B7] border-t-transparent rounded-full animate-spin" />
+        </div>
+      ) : !visible || projects.length === 0 ? (
+        <div className="container max-w-[1920px] px-4 sm:px-6 text-center py-20">
+          <div className="w-16 h-16 rounded-2xl bg-white/[0.03] border border-white/[0.06] flex items-center justify-center mx-auto mb-5">
+            <LayoutGrid className="w-7 h-7 text-white/20" />
+          </div>
+          <p className="text-white/50 text-lg font-medium">Our portfolio is being updated.</p>
+          <p className="text-white/30 text-sm mt-1.5 max-w-sm mx-auto">Check back soon, or get in touch to discuss your project directly.</p>
+          <Link href="/contact" className="btn-primary group mt-8 inline-flex">
+            Get in Touch <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-500" />
+          </Link>
+        </div>
+      ) : (
+        <section className="relative pb-16">
+          {visibleProjects.map((p, i) => {
+            const domain = displayDomain(p.projectUrl);
+            const reverse = i % 2 === 1;
+            return (
+              <motion.div
+                key={p._id}
+                className="border-t border-white/[0.06] py-20 sm:py-28"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-80px' }}
+                transition={{ duration: 0.7, ease }}
+              >
+                <div className="container max-w-[1920px] px-4 sm:px-6">
+                  <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+                    <div className={reverse ? 'lg:order-2' : ''}>
+                      <div className="font-mono text-xs uppercase tracking-[0.15em] text-white/40 mb-6">
+                        {[p.category, p.year].filter(Boolean).join(' · ')}
+                      </div>
+                      <h2 className="text-4xl sm:text-5xl font-bold tracking-tight mb-6 leading-[1.1]">
+                        {p.title}{p.subtitle && <> <span className="italic text-[#6EE7B7]">{p.subtitle}</span></>}
+                      </h2>
+                      <p className="text-white/60 text-base sm:text-lg leading-relaxed max-w-lg mb-8">{p.description}</p>
+
+                      {p.highlights.length > 0 && (
+                        <div className="flex flex-wrap gap-2.5 mb-8">
+                          {p.highlights.map(h => (
+                            <span key={h} className="px-4 py-2 bg-white/[0.04] border border-white/[0.08] rounded-full text-sm text-white/70">{h}</span>
+                          ))}
+                        </div>
+                      )}
+
+                      {p.projectUrl && (
+                        <div>
+                          <p className="text-white/80 text-base mb-2">
+                            Live at{' '}
+                            <a href={p.projectUrl} target="_blank" rel="noopener noreferrer" className="text-[#6EE7B7] font-semibold hover:underline">{domain}</a>
+                          </p>
+                          <a href={p.projectUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-widest text-white/50 hover:text-white transition-colors">
+                            Visit Site <ExternalLink className="w-3.5 h-3.5" />
+                          </a>
+                        </div>
+                      )}
+                    </div>
+
+                    <div className={`relative ${reverse ? 'lg:order-1' : ''}`}>
+                      <div className="absolute -inset-6 rounded-[2rem] blur-[70px] opacity-25 bg-gradient-to-br from-[#6EE7B7]/40 to-transparent" />
+                      <button
+                        onClick={() => openProject(p)}
+                        className="relative block w-full bg-[#0D0D0D]/90 backdrop-blur-xl rounded-2xl border border-white/[0.08] overflow-hidden shadow-2xl shadow-black/40 text-left group"
+                      >
+                        <div className="flex items-center gap-2 px-4 py-3 border-b border-white/[0.06] bg-[#0A0A0A]/80">
+                          <div className="flex gap-1.5"><div className="w-2.5 h-2.5 rounded-full bg-[#FF5F57]" /><div className="w-2.5 h-2.5 rounded-full bg-[#FEBC2E]" /><div className="w-2.5 h-2.5 rounded-full bg-[#28C840]" /></div>
+                          <span className="ml-2 text-white/30 text-xs font-mono truncate">{domain || 'preview'}</span>
+                          {p.images.length > 1 && (
+                            <span className="ml-auto text-[10px] font-mono text-white/30 uppercase tracking-wide shrink-0">{p.images.length} photos</span>
+                          )}
+                        </div>
+                        <div className="aspect-video bg-white/[0.02] overflow-hidden relative">
+                          {p.images[0] ? (
+                            <img src={getImageUrl(p.images[0])} alt={p.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy" />
+                          ) : (
+                            <div className="w-full h-full flex items-center justify-center">
+                              <ImageOff className="w-8 h-8 text-white/10" />
+                            </div>
+                          )}
+                        </div>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            );
+          })}
+        </section>
+      )}
 
       {/* ═══ CTA ═══ */}
       {!loading && visible && projects.length > 0 && (
@@ -273,7 +313,7 @@ export default function PortfolioClient() {
                 <p className="text-white/60 text-sm leading-relaxed whitespace-pre-wrap mb-4">{active.description}</p>
                 {active.projectUrl && (
                   <a href={active.projectUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-[#6EE7B7] text-sm font-semibold hover:gap-2.5 transition-all">
-                    Visit project <ExternalLink className="w-3.5 h-3.5" />
+                    Visit project <ArrowUpRight className="w-3.5 h-3.5" />
                   </a>
                 )}
               </div>

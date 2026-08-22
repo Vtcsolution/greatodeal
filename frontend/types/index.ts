@@ -268,9 +268,12 @@ export interface PricingTier {
 export interface PortfolioProject {
   _id: string;
   title: string;
+  subtitle?: string;
   description: string;
   images: string[];
   category?: string;
+  year?: string;
+  highlights: string[];
   projectUrl?: string;
   order: number;
   createdAt: string;

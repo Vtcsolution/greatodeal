@@ -62,14 +62,22 @@ export const getPortfolioProjectById = async (req: Request, res: Response): Prom
   }
 };
 
+function parseListField(value: unknown): string[] {
+  if (!value) return [];
+  return Array.isArray(value) ? value : [value as string];
+}
+
 export const createPortfolioProject = async (req: Request, res: Response): Promise<void> => {
   try {
     const files = (req.files as Express.Multer.File[]) || [];
     const images = files.map(f => `/uploads/portfolio/${f.filename}`);
     const project = await PortfolioProject.create({
       title: req.body.title,
+      subtitle: req.body.subtitle || undefined,
       description: req.body.description,
       category: req.body.category || undefined,
+      year: req.body.year || undefined,
+      highlights: parseListField(req.body.highlights),
       projectUrl: req.body.projectUrl || undefined,
       order: Number(req.body.order) || 0,
       images,
@@ -85,14 +93,14 @@ export const updatePortfolioProject = async (req: Request, res: Response): Promi
   try {
     const files = (req.files as Express.Multer.File[]) || [];
     const newImages = files.map(f => `/uploads/portfolio/${f.filename}`);
-    let keepImages: string[] = [];
-    if (req.body.keepImages) {
-      keepImages = Array.isArray(req.body.keepImages) ? req.body.keepImages : [req.body.keepImages];
-    }
+    const keepImages = parseListField(req.body.keepImages);
     const updateData = {
       title: req.body.title,
+      subtitle: req.body.subtitle || undefined,
       description: req.body.description,
       category: req.body.category || undefined,
+      year: req.body.year || undefined,
+      highlights: parseListField(req.body.highlights),
       projectUrl: req.body.projectUrl || undefined,
       order: Number(req.body.order) || 0,
       images: [...keepImages, ...newImages],
