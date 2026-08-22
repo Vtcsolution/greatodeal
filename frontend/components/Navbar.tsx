@@ -20,6 +20,7 @@ interface NavItem {
 
 const navItems: NavItem[] = [
   { name: 'About', path: '/about' },
+  { name: 'Services', path: '/services' },
   {
     name: 'Industries',
     path: '/industries',
@@ -87,7 +88,7 @@ export default function Navbar() {
   const visibleNavItems = useMemo(() => {
     if (!showPortfolioLink) return navItems;
     const items = [...navItems];
-    items.splice(1, 0, { name: 'Portfolio', path: '/portfolio' });
+    items.splice(2, 0, { name: 'Portfolio', path: '/portfolio' });
     return items;
   }, [showPortfolioLink]);
 

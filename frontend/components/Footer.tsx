@@ -54,6 +54,7 @@ function GoogleIcon(props: React.SVGProps<SVGSVGElement>) {
 const footerLinks = {
   company: [
     { name: 'About Us', path: '/about' },
+    { name: 'Services', path: '/services' },
     { name: 'Contact', path: '/contact' },
     { name: 'Blogs', path: '/blog' },
     { name: 'Privacy Policy', path: '/privacy-policy' },
