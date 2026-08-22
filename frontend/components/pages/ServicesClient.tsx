@@ -4,7 +4,7 @@ import React, { useRef } from 'react';
 import Link from 'next/link';
 import { motion, useInView } from 'framer-motion';
 import {
-  Code2, Bot, Globe, Database, Sparkles, Workflow, Smartphone, Cloud,
+  Code2, Bot, Globe, Database, Sparkles, Workflow, Smartphone, Cloud, Layers,
   ArrowRight, ArrowUpRight, CheckCircle, Target, Shield, Award,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
@@ -35,19 +35,22 @@ interface Service {
   icon: LucideIcon; name: string; desc: string; longDesc: string; tags: string[]; accent: string;
 }
 
+const FLAGSHIP_NAMES = ['Custom Software Development', 'AI Agents & Agentic Automation', 'AI-Automation SaaS Platforms'];
+
 const services: Service[] = [
-  { icon: Code2, name: 'Custom Software Development', desc: 'Bespoke software built around how your business actually operates, not a generic template stretched to fit.', longDesc: 'Off-the-shelf tools eventually hit a wall: a workflow they were never built for, a system they cannot talk to, a scale they cannot handle. We build full-stack web and desktop applications from the ground up, architected around your exact operations and designed to grow with you instead of being replaced in two years.', tags: ['Full-Stack Web Apps', 'API-First Architecture', 'Legacy Modernization', 'Cloud-Native'], accent: '#6EE7B7' },
-  { icon: Bot, name: 'AI Agents & Agentic Automation', desc: 'Autonomous agents that execute multi-step operational workflows, not chatbots wrapped around a generic model.', longDesc: 'This is where "automate your business" actually happens. We build agents that carry out real, multi-step operational work inside the guardrails your business requires, with human-in-the-loop review where it matters and a full audit trail on every action, so you can trust what the agent did and why.', tags: ['Multi-Step Automation', 'Human-in-the-Loop', 'Explainable Decisions', 'System Integration'], accent: '#A78BFA' },
   { icon: Globe, name: 'Website Development', desc: 'Fast, conversion-focused websites and web platforms built to represent your business and generate leads.', tags: ['Custom Design & Build', 'SEO-Optimized', 'CMS & Content Tools', 'E-Commerce & Booking'], longDesc: '', accent: '#60A5FA' },
+  { icon: Code2, name: 'Custom Software Development', desc: 'Bespoke software built around how your business actually operates, not a generic template stretched to fit.', longDesc: 'Off-the-shelf tools eventually hit a wall: a workflow they were never built for, a system they cannot talk to, a scale they cannot handle. We build full-stack web and desktop applications from the ground up, architected around your exact operations and designed to grow with you instead of being replaced in two years.', tags: ['Full-Stack Web Apps', 'API-First Architecture', 'Legacy Modernization', 'Cloud-Native'], accent: '#6EE7B7' },
+  { icon: Layers, name: 'AI-Automation SaaS Platforms', desc: 'Multi-tenant SaaS products built with AI automation baked into the architecture, not bolted on as a chatbot widget.', longDesc: 'Most "AI-powered" SaaS is a generic model wrapped around an existing product. We build the opposite: SaaS platforms designed around AI automation from the data model up, so the intelligence is core to how the product works and how you charge for it, not a feature toggle.', tags: ['Multi-Tenant Architecture', 'AI-Native Product Design', 'API-First', 'Usage-Based Billing'], accent: '#34D399' },
   { icon: Database, name: 'ERP Systems', desc: 'Enterprise resource planning systems that unify inventory, finance, HR, and operations into one system of record.', tags: ['Custom ERP Builds', 'Workflow Automation', 'Real-Time Reporting', 'Role-Based Access'], longDesc: '', accent: '#FB923C' },
   { icon: Sparkles, name: 'AI Tools & Copilots', desc: 'Purpose-built AI tools and copilots embedded directly into the workflows your team already uses.', tags: ['LLM-Powered Tools', 'Internal Knowledge Copilots', 'Document Extraction', 'Predictive Analytics'], longDesc: '', accent: '#FB7185' },
+  { icon: Bot, name: 'AI Agents & Agentic Automation', desc: 'Autonomous agents that execute multi-step operational workflows, not chatbots wrapped around a generic model.', longDesc: 'This is where "automate your business" actually happens. We build agents that carry out real, multi-step operational work inside the guardrails your business requires, with human-in-the-loop review where it matters and a full audit trail on every action, so you can trust what the agent did and why.', tags: ['Multi-Step Automation', 'Human-in-the-Loop', 'Explainable Decisions', 'System Integration'], accent: '#A78BFA' },
   { icon: Workflow, name: 'Business Process Automation', desc: 'Automate the repetitive manual work slowing your team down, from data entry to multi-step approvals.', tags: ['Approval Automation', 'Data Processing', 'Cross-System Sync', 'Alerts & Notifications'], longDesc: '', accent: '#A3E635' },
   { icon: Smartphone, name: 'Mobile App Development', desc: 'Native and cross-platform mobile apps for iOS and Android, built for real-world daily use.', tags: ['iOS & Android Native', 'React Native', 'App Store Deployment', 'Push & Offline Sync'], longDesc: '', accent: '#22D3EE' },
   { icon: Cloud, name: 'Cloud, DevOps & API Integration', desc: 'Secure API development and cloud infrastructure that connects the systems your business already depends on.', tags: ['AWS / Azure / GCP', 'CI/CD Pipelines', 'Third-Party API Integration', 'Monitoring & Incident Response'], longDesc: '', accent: '#F472B6' },
 ];
 
-const primaryServices = services.filter(s => s.name === 'Custom Software Development' || s.name === 'AI Agents & Agentic Automation');
-const secondaryServices = services.filter(s => s.name !== 'Custom Software Development' && s.name !== 'AI Agents & Agentic Automation');
+const primaryServices = services.filter(s => FLAGSHIP_NAMES.includes(s.name));
+const secondaryServices = services.filter(s => !FLAGSHIP_NAMES.includes(s.name));
 
 const processSteps: Array<{ number: string; icon: LucideIcon; title: string; desc: string }> = [
   { number: '01', icon: Target, title: 'Discovery & Compliance Mapping', desc: 'We map your regulatory requirements and operational workflow before writing a line of code, so compliance is a design input, not a retrofit.' },
@@ -135,7 +138,7 @@ export default function ServicesClient() {
             <SplitText text="Fully Automated" delay={0.65} className="bg-gradient-to-r from-[#6EE7B7] via-[#34D399] to-[#3B82F6] bg-clip-text text-transparent" />
           </h1>
           <motion.p className="text-lg sm:text-xl text-white/70 max-w-2xl mx-auto leading-[1.8] mb-10" initial={{ opacity: 0, y: 20 }} animate={heroInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7, delay: 0.9, ease }}>
-            Websites, software, ERP, AI tools, and AI agents, everything you need to build, run, and automate your business, delivered by one team.
+            Websites, software, AI-automation SaaS, ERP, AI tools, AI agents, and agentic AI, everything you need to build, run, and automate your business, delivered by one team.
           </motion.p>
           <motion.div className="flex flex-wrap gap-4 justify-center" initial={{ opacity: 0, y: 20 }} animate={heroInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7, delay: 1.1, ease }}>
             <Link href="/contact" className="btn-primary group">
@@ -149,7 +152,7 @@ export default function ServicesClient() {
       <section className="py-12 border-y border-white/[0.04] bg-[#060606]">
         <div className="container max-w-[1920px] px-4 sm:px-6 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
           {[
-            { target: 8, suffix: '', label: 'Core Services' },
+            { target: 9, suffix: '', label: 'Core Services' },
             { target: 5, suffix: '', label: 'Regulated Industries Served' },
             { target: 100, suffix: '%', label: 'Audit-Trail Coverage' },
             { target: 60, suffix: '%+', label: 'Operational Cost Saved' },
