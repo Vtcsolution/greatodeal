@@ -52,6 +52,7 @@ export default function Navbar() {
   const [chatPreviewDismissed, setChatPreviewDismissed] = useState(false);
   const [showPortfolioLink, setShowPortfolioLink] = useState(false);
   const [showPricingLink, setShowPricingLink] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
   const pathname = usePathname();
   const mobileMenuRef = useRef<HTMLDivElement>(null);
   const hoverTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -60,6 +61,9 @@ export default function Navbar() {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
       setIsVisible(window.pageYOffset > 300);
+      const doc = document.documentElement;
+      const scrollable = doc.scrollHeight - doc.clientHeight;
+      setScrollProgress(scrollable > 0 ? Math.min(100, (window.scrollY / scrollable) * 100) : 0);
     };
     const handleClickOutside = (e: MouseEvent) => {
       if (mobileMenuRef.current && !mobileMenuRef.current.contains(e.target as Node)) {
@@ -136,6 +140,14 @@ export default function Navbar() {
 
   return (
     <>
+      {/* Scroll Progress Bar */}
+      <div className="fixed top-0 left-0 right-0 h-[3px] z-[60] bg-white/5">
+        <div
+          className="h-full bg-gradient-to-r from-[#6EE7B7] to-[#3B82F6]"
+          style={{ width: `${scrollProgress}%` }}
+        />
+      </div>
+
       {/* Scroll to Top */}
       <motion.button
         onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
