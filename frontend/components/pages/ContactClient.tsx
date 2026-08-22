@@ -2,28 +2,17 @@
 
 import React, { useState, useRef } from 'react';
 import Link from 'next/link';
-import { Mail, Phone, MapPin, Send, CheckCircle, ChevronDown, Search, X } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, CheckCircle, ChevronDown, Search, X, Sparkles, Shield, Clock, Users } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { contactApi } from '@/lib/api';
+import { countryCodes as countries } from '@/lib/countryCodes';
 
 const ease = [0.25, 0.1, 0.25, 1] as const;
 
-const countries = [
-  { code: '+92', name: 'Pakistan', flag: '🇵🇰' }, { code: '+31', name: 'Netherlands', flag: '🇳🇱' },
-  { code: '+1', name: 'United States', flag: '🇺🇸' }, { code: '+44', name: 'United Kingdom', flag: '🇬🇧' },
-  { code: '+971', name: 'United Arab Emirates', flag: '🇦🇪' }, { code: '+966', name: 'Saudi Arabia', flag: '🇸🇦' },
-  { code: '+49', name: 'Germany', flag: '🇩🇪' }, { code: '+33', name: 'France', flag: '🇫🇷' },
-  { code: '+61', name: 'Australia', flag: '🇦🇺' }, { code: '+1', name: 'Canada', flag: '🇨🇦' },
-  { code: '+91', name: 'India', flag: '🇮🇳' }, { code: '+86', name: 'China', flag: '🇨🇳' },
-  { code: '+65', name: 'Singapore', flag: '🇸🇬' }, { code: '+60', name: 'Malaysia', flag: '🇲🇾' },
-  { code: '+974', name: 'Qatar', flag: '🇶🇦' }, { code: '+965', name: 'Kuwait', flag: '🇰🇼' },
-  { code: '+973', name: 'Bahrain', flag: '🇧🇭' }, { code: '+968', name: 'Oman', flag: '🇴🇲' },
-  { code: '+20', name: 'Egypt', flag: '🇪🇬' }, { code: '+27', name: 'South Africa', flag: '🇿🇦' },
-  { code: '+55', name: 'Brazil', flag: '🇧🇷' }, { code: '+34', name: 'Spain', flag: '🇪🇸' },
-  { code: '+39', name: 'Italy', flag: '🇮🇹' }, { code: '+7', name: 'Russia', flag: '🇷🇺' },
-  { code: '+81', name: 'Japan', flag: '🇯🇵' }, { code: '+82', name: 'South Korea', flag: '🇰🇷' },
-  { code: '+62', name: 'Indonesia', flag: '🇮🇩' }, { code: '+66', name: 'Thailand', flag: '🇹🇭' },
-  { code: '+84', name: 'Vietnam', flag: '🇻🇳' }, { code: '+63', name: 'Philippines', flag: '🇵🇭' },
+const trustPoints: Array<{ icon: typeof Shield; label: string }> = [
+  { icon: Clock, label: 'Reply within 24 hours' },
+  { icon: Shield, label: 'NDA available' },
+  { icon: Users, label: 'Dedicated project manager' },
 ];
 
 const serviceOptions = [
@@ -88,27 +77,26 @@ export default function ContactClient() {
           <div className="absolute bottom-20 -right-40 w-[400px] h-[400px] bg-[#3B82F6]/[0.05] rounded-full blur-[150px]" />
           <div className="absolute inset-0 bg-[linear-gradient(rgba(110,231,183,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(110,231,183,0.02)_1px,transparent_1px)] bg-[size:72px_72px]" />
         </div>
-        <div className="container max-w-[1920px] relative z-10 px-4 sm:px-6">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-            <div>
-              <motion.h1 className="text-3xl sm:text-5xl lg:text-[3.5rem] font-bold mb-6 leading-[1.1] tracking-tight" initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.3, ease }}>
-                Request a{' '}<span className="bg-gradient-to-r from-[#6EE7B7] via-[#34D399] to-[#3B82F6] bg-clip-text text-transparent">Demo</span>
-              </motion.h1>
-              <motion.p className="text-lg sm:text-xl text-white/70 max-w-xl leading-[1.8] mb-8" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.5, ease }}>
-                See how our AI SaaS and agentic automation work for your industry. Fill out the form below or reach us directly, and our team will get back to you within 24 hours.
-              </motion.p>
-              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.7, ease }}>
-                <a href="#contact-form" className="btn-primary group">
-                  <Send className="w-5 h-5" /> Request a Demo
-                </a>
-              </motion.div>
-            </div>
-            <motion.div className="hidden lg:block" initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8, delay: 0.5, ease }}>
-              <div className="relative w-full h-[400px] sm:h-[500px] rounded-2xl overflow-hidden border-2 border-[#6EE7B7]/10 shadow-2xl">
-                <img src="/images/contact.jpg" alt="Contact Greatodeal, an AI automation agency in Pakistan" className="w-full h-full object-cover" />
-              </div>
-            </motion.div>
-          </div>
+        <div className="container max-w-[1920px] relative z-10 px-4 sm:px-6 text-center">
+          <motion.div className="inline-flex items-center gap-2 px-5 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-full text-base text-[#6EE7B7] mb-8" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.1 }}>
+            <Sparkles className="w-4 h-4" /><span className="font-mono uppercase tracking-wider text-xs">Let&apos;s Talk</span>
+          </motion.div>
+          <motion.h1 className="text-4xl sm:text-6xl lg:text-[3.75rem] font-bold mb-6 leading-[1.1] tracking-tight" initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.3, ease }}>
+            Request a{' '}<span className="bg-gradient-to-r from-[#6EE7B7] via-[#34D399] to-[#3B82F6] bg-clip-text text-transparent">Demo</span>
+          </motion.h1>
+          <motion.p className="text-lg sm:text-xl text-white/70 max-w-2xl mx-auto leading-[1.8] mb-8" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.5, ease }}>
+            See how our AI SaaS and agentic automation work for your industry. Fill out the form below or reach us directly, and our team will get back to you within 24 hours.
+          </motion.p>
+          <motion.div className="flex flex-wrap items-center justify-center gap-3 mb-10" initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.65 }}>
+            {trustPoints.map(({ icon: Icon, label }) => (
+              <span key={label} className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-white/[0.03] border border-white/[0.06] rounded-full text-sm text-white/60"><Icon className="w-3.5 h-3.5 text-[#6EE7B7]" />{label}</span>
+            ))}
+          </motion.div>
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.8, ease }}>
+            <a href="#contact-form" className="btn-primary group">
+              <Send className="w-5 h-5" /> Request a Demo
+            </a>
+          </motion.div>
         </div>
       </section>
 
@@ -117,9 +105,15 @@ export default function ContactClient() {
         <div className="container max-w-[1920px] px-4 sm:px-6">
           <div className="grid lg:grid-cols-3 gap-8">
             {/* Form */}
-            <motion.div className="lg:col-span-2" initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.5, ease }}>
-              <div className="bg-white/[0.02] p-6 sm:p-10 rounded-2xl border border-white/[0.06]">
-                <h2 className="text-2xl sm:text-3xl font-bold mb-8 tracking-tight">Request a Demo</h2>
+            <motion.div className="lg:col-span-2 relative" initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.5, ease }}>
+              <div className="absolute -inset-6 rounded-[2rem] blur-[80px] opacity-20 bg-gradient-to-br from-[#6EE7B7]/40 to-[#3B82F6]/20 pointer-events-none" />
+              <div className="relative bg-white/[0.02] backdrop-blur-xl p-6 sm:p-10 rounded-2xl border border-white/[0.06]">
+                <div className="flex items-center gap-3 mb-8">
+                  <div className="w-11 h-11 bg-[#6EE7B7]/10 border border-[#6EE7B7]/15 rounded-xl flex items-center justify-center shrink-0">
+                    <Send className="w-5 h-5 text-[#6EE7B7]" />
+                  </div>
+                  <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">Request a Demo</h2>
+                </div>
                 {isSuccess ? (
                   <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="text-center py-16">
                     <div className="w-20 h-20 bg-[#6EE7B7]/10 rounded-full flex items-center justify-center mx-auto mb-6">
