@@ -58,7 +58,31 @@ const techCategories = [
   { label: 'AI & Data', items: ['TensorFlow', 'PyTorch', 'OpenAI', 'LangChain', 'MongoDB', 'PostgreSQL'] },
 ];
 
+const marqueeItems = [
+  'Website Development', 'AI Agents', 'B2B Platforms', 'SaaS Development',
+  'Agentic Automation', 'ERP Systems', 'AI Tools', 'Custom Software',
+];
+
 /* ═══ HELPERS ═══ */
+
+function MarqueeStrip() {
+  return (
+    <div className="relative py-10 sm:py-14 border-y border-white/[0.08] overflow-hidden bg-[#090909]">
+      <motion.div
+        className="flex items-center gap-8 sm:gap-12 whitespace-nowrap w-max"
+        animate={{ x: ['0%', '-50%'] }}
+        transition={{ duration: 26, repeat: Infinity, ease: 'linear' }}
+      >
+        {[...marqueeItems, ...marqueeItems].map((item, i) => (
+          <span key={i} className="flex items-center gap-8 sm:gap-12 shrink-0">
+            <span className="font-serif italic text-3xl sm:text-5xl text-[#F5F0E6]">{item}</span>
+            <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 text-amber-300 shrink-0" />
+          </span>
+        ))}
+      </motion.div>
+    </div>
+  );
+}
 
 function RevealText({ children, className = '', delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) {
   const ref = useRef(null);
@@ -254,6 +278,9 @@ export default function HomeClient() {
           </div>
         </motion.div>
       </section>
+
+      {/* ═══ MARQUEE ═══ */}
+      <MarqueeStrip />
 
       {/* ═══ WHAT WE BUILD ═══ */}
       <section className="py-20 sm:py-28 bg-[#090909]">
