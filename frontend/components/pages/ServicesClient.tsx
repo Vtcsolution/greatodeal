@@ -12,6 +12,25 @@ import { AnimatedCounter } from '@/components/ui/Animations';
 
 const ease = [0.25, 0.1, 0.25, 1] as const;
 
+function SplitText({ text, delay = 0, className = '' }: { text: string; delay?: number; className?: string }) {
+  return (
+    <span className={className}>
+      {text.split(' ').map((word, i) => (
+        <span key={i} className="inline-block overflow-hidden">
+          <motion.span
+            className="inline-block"
+            initial={{ y: '100%', opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.6, delay: delay + i * 0.04, ease: [0.33, 1, 0.68, 1] }}
+          >
+            {word}&nbsp;
+          </motion.span>
+        </span>
+      ))}
+    </span>
+  );
+}
+
 interface Service {
   icon: LucideIcon; name: string; desc: string; longDesc: string; tags: string[]; accent: string;
 }
@@ -110,13 +129,15 @@ export default function ServicesClient() {
           <motion.div className="inline-flex items-center gap-2 px-5 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-full text-base text-[#6EE7B7] mb-8" initial={{ opacity: 0, y: 20 }} animate={heroInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6, delay: 0.2 }}>
             <Sparkles className="w-4 h-4" /><span className="font-medium">What We Do</span>
           </motion.div>
-          <motion.h1 className="text-3xl sm:text-5xl lg:text-[3.5rem] font-bold mb-6 leading-[1.1] tracking-tight" initial={{ opacity: 0, y: 30 }} animate={heroInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7, delay: 0.4, ease }}>
-            Everything You Need to Build, Run, and{' '}<span className="bg-gradient-to-r from-[#6EE7B7] via-[#34D399] to-[#3B82F6] bg-clip-text text-transparent">Automate Your Business</span>
-          </motion.h1>
-          <motion.p className="text-lg sm:text-xl text-white/70 max-w-2xl mx-auto leading-[1.8] mb-10" initial={{ opacity: 0, y: 20 }} animate={heroInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7, delay: 0.6, ease }}>
-            From your first website to a fully agentic operation: websites, software, ERP systems, AI tools, AI agents, and the automation that connects it all, delivered by one team.
+          <h1 className="text-4xl sm:text-6xl lg:text-[4rem] font-bold mb-6 leading-[1.1] tracking-tight">
+            <SplitText text="From Startup to" delay={0.4} />
+            <br />
+            <SplitText text="Fully Automated" delay={0.65} className="bg-gradient-to-r from-[#6EE7B7] via-[#34D399] to-[#3B82F6] bg-clip-text text-transparent" />
+          </h1>
+          <motion.p className="text-lg sm:text-xl text-white/70 max-w-2xl mx-auto leading-[1.8] mb-10" initial={{ opacity: 0, y: 20 }} animate={heroInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7, delay: 0.9, ease }}>
+            Websites, software, ERP, AI tools, and AI agents, everything you need to build, run, and automate your business, delivered by one team.
           </motion.p>
-          <motion.div className="flex flex-wrap gap-4 justify-center" initial={{ opacity: 0, y: 20 }} animate={heroInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7, delay: 0.8, ease }}>
+          <motion.div className="flex flex-wrap gap-4 justify-center" initial={{ opacity: 0, y: 20 }} animate={heroInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7, delay: 1.1, ease }}>
             <Link href="/contact" className="btn-primary group">
               Request a Demo <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-500" />
             </Link>
