@@ -1,12 +1,13 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { Menu, X, ChevronDown, ArrowRight, ArrowUp, MessageCircle } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import AIChatBot from './AIChatBot';
+import { portfolioApi } from '@/lib/api';
 
 const chatQuickReplies = ['Services', 'Get a Quote', 'AI Automation'];
 
@@ -46,6 +47,7 @@ export default function Navbar() {
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [showChatPreview, setShowChatPreview] = useState(false);
   const [chatPreviewDismissed, setChatPreviewDismissed] = useState(false);
+  const [showPortfolioLink, setShowPortfolioLink] = useState(false);
   const pathname = usePathname();
   const mobileMenuRef = useRef<HTMLDivElement>(null);
   const hoverTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -75,6 +77,19 @@ export default function Navbar() {
   }, []);
 
   useEffect(() => { setIsOpen(false); setActiveDropdown(null); setMobileDropdowns({}); }, [pathname]);
+
+  useEffect(() => {
+    portfolioApi.getPublic()
+      .then(res => setShowPortfolioLink(!!res.data?.data?.isVisible))
+      .catch(() => setShowPortfolioLink(false));
+  }, []);
+
+  const visibleNavItems = useMemo(() => {
+    if (!showPortfolioLink) return navItems;
+    const items = [...navItems];
+    items.splice(1, 0, { name: 'Portfolio', path: '/portfolio' });
+    return items;
+  }, [showPortfolioLink]);
 
   useEffect(() => {
     if (chatPreviewDismissed || isChatOpen) return;
@@ -215,7 +230,7 @@ export default function Navbar() {
             {/* Desktop Nav */}
             <div className="hidden lg:flex flex-1 justify-center">
               <div className="flex items-center space-x-1 xl:space-x-2">
-                {navItems.map((item) => (
+                {visibleNavItems.map((item) => (
                   item.dropdown ? (
                     <div
                       key={item.name}
@@ -306,7 +321,7 @@ export default function Navbar() {
           </div>
           <div className="pt-6 pb-8 px-6 h-[calc(100%-4rem)] overflow-y-auto">
             <div className="space-y-2">
-              {navItems.map((item) => (
+              {visibleNavItems.map((item) => (
                 <div key={item.name} className="border-b border-gray-800 last:border-0">
                   {item.dropdown ? (
                     <>

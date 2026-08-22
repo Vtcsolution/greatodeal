@@ -3,14 +3,15 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useAdmin } from '@/context/AdminContext';
-import { LayoutDashboard, FileText, PlusCircle, MessageSquare, Mail, User, LogOut, X, FolderOpen, BarChart3, Zap, Inbox, Activity, Search, Briefcase } from 'lucide-react';
+import { LayoutDashboard, FileText, PlusCircle, MessageSquare, Mail, User, LogOut, X, FolderOpen, BarChart3, Zap, Inbox, Activity, Search, Briefcase, Image as ImageIcon } from 'lucide-react';
 
 const navItems = [
   { href: '/admin/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
   { href: '/admin/dashboard/analytics', icon: BarChart3, label: 'Analytics' },
   { href: '/admin/dashboard/add-blog', icon: PlusCircle, label: 'Add Blog' },
   { href: '/admin/dashboard/manage-blogs', icon: FileText, label: 'Manage Blogs' },
-  { href: '/admin/dashboard/portfolio', icon: FolderOpen, label: 'Portfolio / Knowledge' },
+  { href: '/admin/dashboard/portfolio', icon: ImageIcon, label: 'Portfolio' },
+  { href: '/admin/dashboard/knowledge', icon: FolderOpen, label: 'AI Knowledge Base' },
   { href: '/admin/dashboard/chats', icon: MessageSquare, label: 'AI Chats' },
   { href: '/admin/dashboard/emails', icon: Mail, label: 'Leads / Emails' },
   { href: '/admin/dashboard/lead-finder', icon: Search, label: 'Lead Finder' },

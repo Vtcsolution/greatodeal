@@ -25,6 +25,17 @@ export const blogApi = {
   delete: (id: string) => api.delete(`/blogs/${id}`),
 };
 
+export const portfolioApi = {
+  getAll: () => api.get('/portfolio'),
+  getById: (id: string) => api.get(`/portfolio/${id}`),
+  getPublic: () => api.get('/portfolio/public'),
+  create: (data: FormData) => api.post('/portfolio', data, { headers: { 'Content-Type': 'multipart/form-data' } }),
+  update: (id: string, data: FormData) => api.put(`/portfolio/${id}`, data, { headers: { 'Content-Type': 'multipart/form-data' } }),
+  delete: (id: string) => api.delete(`/portfolio/${id}`),
+  getSettings: () => api.get('/portfolio/settings'),
+  updateSettings: (isVisible: boolean) => api.put('/portfolio/settings', { isVisible }),
+};
+
 export const contactApi = {
   send: (data: Record<string, unknown>) => api.post('/contact/send', data),
   getAll: () => api.get('/contact/all'),

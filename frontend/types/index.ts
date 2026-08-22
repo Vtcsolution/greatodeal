@@ -251,6 +251,18 @@ export interface MailMessage {
   lastOpenedAt?: string | null;
 }
 
+export interface PortfolioProject {
+  _id: string;
+  title: string;
+  description: string;
+  images: string[];
+  category?: string;
+  projectUrl?: string;
+  order: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface ApiResponse<T = unknown> {
   success: boolean;
   data?: T;
