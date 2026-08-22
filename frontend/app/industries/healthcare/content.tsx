@@ -13,7 +13,7 @@ const pageData: IndustryPageData = {
     { value: 'HIPAA', label: 'Compliant by Design' },
     { value: '100%', label: 'PHI Access Logging' },
     { value: 'Encrypted', label: 'End-to-End' },
-    { value: '9+', label: 'Years Health-Tech Exp.' },
+    { value: '6+', label: 'Years Health-Tech Exp.' },
   ],
   challenges: [
     'Fragmented patient data across EHRs, labs, and specialist systems',

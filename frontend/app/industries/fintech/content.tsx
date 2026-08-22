@@ -13,7 +13,7 @@ const pageData: IndustryPageData = {
     { value: 'PCI DSS', label: 'Compliance Ready' },
     { value: '100%', label: 'Transaction Audit Trail' },
     { value: 'Real-Time', label: 'Fraud Detection' },
-    { value: '9+', label: 'Years FinTech Exp.' },
+    { value: '6+', label: 'Years FinTech Exp.' },
   ],
   challenges: [
     'Regulatory compliance across KYC, AML, PCI DSS, and open-banking rules',

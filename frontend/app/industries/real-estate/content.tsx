@@ -13,7 +13,7 @@ const pageData: IndustryPageData = {
     { value: '100%', label: 'Transaction Audit Trail' },
     { value: 'Automated', label: 'Disclosure Compliance' },
     { value: 'Real-Time', label: 'Portfolio Analytics' },
-    { value: '9+', label: 'Years Platform Exp.' },
+    { value: '6+', label: 'Years Platform Exp.' },
   ],
   challenges: [
     'Legal and disclosure compliance across property transactions',

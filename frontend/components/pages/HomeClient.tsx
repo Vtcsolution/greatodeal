@@ -9,7 +9,7 @@ import {
   Database, CheckCircle, ArrowRight,
   Zap, Cpu, Shield, Users, Rocket, Lightbulb, Clock,
   TrendingUp, Layers, Play, Landmark, Activity, Banknote, Leaf, Home, Bot,
-  Sparkles, Building2, Search,
+  Sparkles, Building2, Search, Briefcase, ShoppingCart,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 
@@ -40,6 +40,8 @@ const industries: Array<{ name: string; icon: LucideIcon; color: string; desc: s
   { name: 'Green Tech', icon: Leaf, color: 'text-lime-400', desc: 'Smart grid monitoring and automated emissions compliance reporting.', path: '/industries/green-tech' },
   { name: 'Real Estate', icon: Home, color: 'text-cyan-400', desc: 'Automated disclosure compliance and auditable transaction data.', path: '/industries/real-estate' },
   { name: 'AI Automation', icon: Bot, color: 'text-violet-400', desc: 'Agentic workflow automation that connects scattered tools into one system.', path: '/industries/ai-automation' },
+  { name: 'Business Services', icon: Briefcase, color: 'text-amber-400', desc: 'Client onboarding, billing, and operational workflow automation.', path: '/industries/business' },
+  { name: 'E-Commerce', icon: ShoppingCart, color: 'text-pink-400', desc: 'Inventory, order, and fulfillment automation for online retail.', path: '/industries/ecommerce' },
 ];
 
 const whyUs: Array<{ icon: LucideIcon; title: string; description: string }> = [
@@ -336,7 +338,7 @@ export default function HomeClient() {
         <div className="container max-w-[1920px] px-4 sm:px-6">
           <RevealText className="text-center mb-12 sm:mb-16">
             <h2 className="text-3xl sm:text-4xl font-bold mb-5 tracking-tight text-white">Industries We Serve</h2>
-            <p className="text-white/80 max-w-2xl mx-auto text-base sm:text-lg leading-relaxed">We focus on <Link href="/industries" className="text-[#6EE7B7] hover:underline">six industries</Link> where compliance, audit, and security aren&apos;t optional.</p>
+            <p className="text-white/80 max-w-2xl mx-auto text-base sm:text-lg leading-relaxed">We focus on <Link href="/industries" className="text-[#6EE7B7] hover:underline">eight industries</Link> where compliance, audit, and security aren&apos;t optional.</p>
           </RevealText>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
             {industries.map((ind, i) => {

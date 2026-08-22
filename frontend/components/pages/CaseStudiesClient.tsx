@@ -50,7 +50,7 @@ export default function CaseStudiesClient() {
       {/* ═══ STATS ═══ */}
       <section className="py-10 border-y border-white/[0.04] bg-[#060606]">
         <div className="container max-w-[1920px] grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-          {[{ target: 200, suffix: '+', label: 'Projects Completed' }, { target: 50, suffix: '+', label: 'Industries Served' }, { target: 98, suffix: '%', label: 'Client Satisfaction' }, { target: 15, suffix: '+', label: 'Countries Served' }].map(s => (
+          {[{ target: 200, suffix: '+', label: 'Projects Completed' }, { target: 8, suffix: '', label: 'Industries Served' }, { target: 98, suffix: '%', label: 'Client Satisfaction' }, { target: 7, suffix: '', label: 'Countries Served' }].map(s => (
             <div key={s.label}>
               <div className="text-3xl font-bold text-white tracking-tight mb-1"><AnimatedCounter target={s.target} suffix={s.suffix} /></div>
               <div className="text-[#777] text-sm">{s.label}</div>

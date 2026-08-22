@@ -13,7 +13,7 @@ const pageData: IndustryPageData = {
     { value: 'Zero-Trust', label: 'Security Model' },
     { value: '100%', label: 'Audit Trail Coverage' },
     { value: 'Explainable', label: 'AI Decisions' },
-    { value: '9+', label: 'Years Public-Sector Work' },
+    { value: '6+', label: 'Years Public-Sector Work' },
   ],
   challenges: [
     'Legacy case-management systems that can\'t be modernized without service disruption',

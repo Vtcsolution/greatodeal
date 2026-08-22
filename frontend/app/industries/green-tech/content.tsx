@@ -13,7 +13,7 @@ const pageData: IndustryPageData = {
     { value: '24/7', label: 'Grid & Sensor Monitoring' },
     { value: '100%', label: 'Emissions Reporting Trail' },
     { value: 'Real-Time', label: 'Anomaly Detection' },
-    { value: '9+', label: 'Years Infrastructure Exp.' },
+    { value: '6+', label: 'Years Infrastructure Exp.' },
   ],
   challenges: [
     'Regulatory reporting for emissions, energy usage, and environmental compliance',
