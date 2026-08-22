@@ -12,7 +12,7 @@ const ease = [0.25, 0.1, 0.25, 1] as const;
 
 const stats = [
   { icon: Shield, target: 100, suffix: '%', label: 'audit-trail coverage' },
-  { icon: Building2, target: 5, suffix: '', label: 'regulated industries served' },
+  { icon: Building2, target: 8, suffix: '', label: 'industries served' },
   { icon: Star, target: 98, suffix: '%', label: 'client satisfaction rate' },
   { icon: DollarSign, target: 60, suffix: '%+', label: 'cost saved' },
 ];

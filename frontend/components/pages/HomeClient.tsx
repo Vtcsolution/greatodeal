@@ -17,7 +17,7 @@ const ParticleSphere = dynamic(() => import('@/components/ui/ParticleSphere'), {
 
 const heroStats: Array<{ icon: LucideIcon; value: string; label: string }> = [
   { icon: Shield, value: '100%', label: 'Audit-trail coverage' },
-  { icon: Building2, value: '5', label: 'Regulated industries served' },
+  { icon: Building2, value: '8', label: 'Industries served' },
   { icon: TrendingUp, value: '60%+', label: 'Operational cost saved' },
 ];
 

@@ -153,7 +153,7 @@ export default function ServicesClient() {
         <div className="container max-w-[1920px] px-4 sm:px-6 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
           {[
             { target: 9, suffix: '', label: 'Core Services' },
-            { target: 5, suffix: '', label: 'Regulated Industries Served' },
+            { target: 8, suffix: '', label: 'Industries Served' },
             { target: 100, suffix: '%', label: 'Audit-Trail Coverage' },
             { target: 60, suffix: '%+', label: 'Operational Cost Saved' },
           ].map((s, i) => (
