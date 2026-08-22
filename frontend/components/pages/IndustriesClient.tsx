@@ -28,7 +28,6 @@ const industries: Industry[] = [
 ];
 
 const primaryIndustries = industries.filter(i => i.name === 'Government' || i.name === 'Healthcare');
-const secondaryIndustries = industries.filter(i => i.name !== 'Government' && i.name !== 'Healthcare');
 
 const approachSteps: Array<{ icon: LucideIcon; title: string; desc: string }> = [
   { icon: Search, title: 'Map Regulatory Requirements', desc: 'We start with your compliance framework (HIPAA, FOIA, PCI DSS, or sector-specific mandates) before any architecture decision is made.' },
@@ -184,15 +183,15 @@ export default function IndustriesClient() {
         </div>
       </section>
 
-      {/* ═══ SECONDARY FOCUS ═══ */}
+      {/* ═══ ALL INDUSTRIES ═══ */}
       <section className="py-20 sm:py-28 bg-[#090909]">
         <div className="container max-w-[1920px] px-4 sm:px-6">
           <motion.div className="text-center max-w-2xl mx-auto mb-14 sm:mb-16" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, ease }}>
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider mb-5 bg-white/[0.04] border border-white/[0.08] text-white/60">Secondary Focus</div>
-            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-white">Also Built for These Sectors</h2>
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider mb-5 bg-white/[0.04] border border-white/[0.08] text-white/60">All Industries</div>
+            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-white">Every Sector We Serve</h2>
           </motion.div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {secondaryIndustries.map((ind, i) => {
+            {industries.map((ind, i) => {
               const Icon = ind.icon;
               return (
                 <motion.div key={ind.name} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-40px' }} transition={{ delay: i * 0.1, duration: 0.6, ease }}>
