@@ -76,7 +76,7 @@ function MarqueeStrip() {
         {[...marqueeItems, ...marqueeItems].map((item, i) => (
           <span key={i} className="flex items-center gap-8 sm:gap-12 shrink-0">
             <span className="font-serif italic text-3xl sm:text-5xl text-[#F5F0E6]">{item}</span>
-            <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 text-amber-300 shrink-0" />
+            <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 text-[#6EE7B7] shrink-0" />
           </span>
         ))}
       </motion.div>
