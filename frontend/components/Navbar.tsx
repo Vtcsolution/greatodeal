@@ -31,6 +31,8 @@ const navItems: NavItem[] = [
       { name: 'Green Tech', path: '/industries/green-tech' },
       { name: 'Real Estate', path: '/industries/real-estate' },
       { name: 'AI Automation', path: '/industries/ai-automation' },
+      { name: 'Business Services', path: '/industries/business' },
+      { name: 'E-Commerce', path: '/industries/ecommerce' },
     ],
   },
   { name: 'Insights', path: '/blog' },

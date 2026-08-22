@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { motion, useInView } from 'framer-motion';
 import {
   Landmark, Activity, Banknote, Leaf, Home, Bot, ArrowRight, ArrowUpRight, Sparkles,
-  Search, ShieldCheck, Layers, FileCheck, CheckCircle, Eye, Lock,
+  Search, ShieldCheck, Layers, FileCheck, CheckCircle, Eye, Lock, Briefcase, ShoppingCart,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { AnimatedCounter } from '@/components/ui/Animations';
@@ -23,6 +23,8 @@ const industries: Industry[] = [
   { icon: Leaf, name: 'Green Tech', desc: 'Smart grid monitoring and automated emissions compliance reporting.', longDesc: 'Monitoring and automation for energy operators, built around emissions reporting and HSE compliance.', path: '/industries/green-tech', tags: ['Smart Grid', 'Predictive Maintenance', 'HSE', 'IoT'], color: 'text-lime-400', accent: '#A3E635' },
   { icon: Home, name: 'Real Estate', desc: 'Automated disclosure compliance and auditable transaction data.', longDesc: 'Disclosure automation, unified property data, and portfolio reporting for real estate and PropTech platforms.', path: '/industries/real-estate', tags: ['PropTech', 'Disclosure Automation', 'Portfolio Reporting', 'Fraud Detection'], color: 'text-cyan-400', accent: '#22D3EE' },
   { icon: Bot, name: 'AI Automation', desc: 'Agentic workflow automation that connects scattered tools into one operational system.', longDesc: 'Most businesses are not short on effort, they are short on connected systems. We build agentic automation, operational dashboards, and connected data pipelines with full audit logging on every automated action.', path: '/industries/ai-automation', tags: ['Agentic Automation', 'Connected Systems', 'Operational Visibility', 'Audit Logging'], color: 'text-violet-400', accent: '#A78BFA' },
+  { icon: Briefcase, name: 'Business Services', desc: 'Client onboarding, billing, and operational workflow automation for professional services firms.', longDesc: 'Professional services firms lose margin to manual busywork: onboarding, time tracking, invoicing, and reporting eating hours that should go to billable client work. We automate the operational backbone so your team spends time on the work that actually grows the business.', path: '/industries/business', tags: ['Client Onboarding', 'Workflow Automation', 'Billing & Invoicing', 'Operational Reporting'], color: 'text-amber-400', accent: '#FBBF24' },
+  { icon: ShoppingCart, name: 'E-Commerce', desc: 'Inventory, order, and fulfillment automation for online retail operations.', longDesc: 'Online retailers run on inventory accuracy and fulfillment speed, and both break down fast without the right systems. We build order management, inventory sync across channels, and fulfillment automation that scales with demand instead of falling over during it.', path: '/industries/ecommerce', tags: ['Inventory Sync', 'Order Automation', 'Multi-Channel Selling', 'Fulfillment Ops'], color: 'text-pink-400', accent: '#F472B6' },
 ];
 
 const primaryIndustries = industries.filter(i => i.name === 'Government' || i.name === 'Healthcare');
@@ -127,7 +129,7 @@ export default function IndustriesClient() {
             Industries We{' '}<span className="bg-gradient-to-r from-[#6EE7B7] via-[#34D399] to-[#3B82F6] bg-clip-text text-transparent">Serve</span>
           </motion.h1>
           <motion.p className="text-lg sm:text-xl text-white/70 max-w-2xl mx-auto leading-[1.8] mb-8" initial={{ opacity: 0, y: 20 }} animate={heroInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7, delay: 0.6, ease }}>
-            We focus on sectors where compliance, audit, and security aren&apos;t optional. Government and healthcare above all, with fintech, green tech, real estate, and AI automation as our secondary focus.
+            We focus on sectors where compliance, audit, and security aren&apos;t optional. Government and healthcare above all, with fintech, green tech, real estate, AI automation, business services, and e-commerce as our secondary focus.
           </motion.p>
           <motion.div className="flex flex-wrap items-center justify-center gap-3 mb-10" initial={{ opacity: 0, y: 15 }} animate={heroInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6, delay: 0.75 }}>
             {trustPoints.map(({ icon: Icon, label }) => (
@@ -146,7 +148,7 @@ export default function IndustriesClient() {
       <section className="py-12 border-y border-white/[0.04] bg-[#060606]">
         <div className="container max-w-[1920px] px-4 sm:px-6 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
           {[
-            { target: 6, suffix: '', label: 'Focus Industries' },
+            { target: 8, suffix: '', label: 'Focus Industries' },
             { target: 6, suffix: '+', label: 'Years in Operation' },
             { target: 100, suffix: '%', label: 'Audit-Trail Coverage' },
             { target: 98, suffix: '%', label: 'Client Satisfaction' },

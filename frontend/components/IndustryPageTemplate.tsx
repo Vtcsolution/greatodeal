@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { ArrowRight, CheckCircle, Sparkles, AlertTriangle, Layers, Code, Landmark, Activity, Banknote, Leaf, Home, Bot, ArrowUpRight } from 'lucide-react';
+import { ArrowRight, CheckCircle, Sparkles, AlertTriangle, Layers, Code, Landmark, Activity, Banknote, Leaf, Home, Bot, ArrowUpRight, Briefcase, ShoppingCart } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { RevealOnScroll, SectionBadge, StaggerContainer, StaggerItem } from '@/components/ui/Animations';
 
@@ -16,6 +16,8 @@ const allIndustries: Array<{ name: string; icon: LucideIcon; color: string; path
   { name: 'Green Tech', icon: Leaf, color: 'text-lime-400', path: '/industries/green-tech' },
   { name: 'Real Estate', icon: Home, color: 'text-cyan-400', path: '/industries/real-estate' },
   { name: 'AI Automation', icon: Bot, color: 'text-violet-400', path: '/industries/ai-automation' },
+  { name: 'Business Services', icon: Briefcase, color: 'text-amber-400', path: '/industries/business' },
+  { name: 'E-Commerce', icon: ShoppingCart, color: 'text-pink-400', path: '/industries/ecommerce' },
 ];
 
 export interface IndustryPageData {
