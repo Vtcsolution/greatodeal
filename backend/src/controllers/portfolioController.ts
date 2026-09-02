@@ -147,6 +147,17 @@ export const updatePortfolioProject = async (req: Request, res: Response): Promi
   }
 };
 
+export const updatePortfolioProjectOrder = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { order } = req.body as { order: number };
+    const project = await PortfolioProject.findByIdAndUpdate(req.params.id, { order: Number(order) || 0 }, { new: true });
+    if (!project) { res.status(404).json({ success: false, message: 'Project not found' }); return; }
+    res.json({ success: true, data: project });
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Error updating project order' });
+  }
+};
+
 export const deletePortfolioProject = async (req: Request, res: Response): Promise<void> => {
   try {
     const project = await PortfolioProject.findByIdAndDelete(req.params.id);
