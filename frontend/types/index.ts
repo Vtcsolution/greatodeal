@@ -251,6 +251,9 @@ export interface MailMessage {
   lastOpenedAt?: string | null;
 }
 
+export type LinkedInStage = 'trust' | 'understand' | 'propose' | 'closing';
+export type LinkedInStatus = 'active' | 'won' | 'lost';
+
 export interface LinkedInContact {
   _id: string;
   name: string;
@@ -263,6 +266,9 @@ export interface LinkedInContact {
   messageCount?: number;
   interestScore?: number;
   interestNote?: string;
+  stage?: LinkedInStage;
+  status: LinkedInStatus;
+  needsFollowUp?: boolean;
   createdAt: string;
   updatedAt: string;
 }

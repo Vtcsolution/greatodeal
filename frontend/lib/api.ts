@@ -48,13 +48,15 @@ export const pricingApi = {
 };
 
 export const linkedinApi = {
-  getAll: () => api.get('/linkedin'),
+  getAll: (status?: string) => api.get('/linkedin', { params: status ? { status } : undefined }),
   getById: (id: string) => api.get(`/linkedin/${id}`),
   create: (data: Record<string, unknown>) => api.post('/linkedin', data),
   update: (id: string, data: Record<string, unknown>) => api.put(`/linkedin/${id}`, data),
+  updateStatus: (id: string, status: 'active' | 'won' | 'lost') => api.put(`/linkedin/${id}/status`, { status }),
   delete: (id: string) => api.delete(`/linkedin/${id}`),
   addMessage: (id: string, role: 'me' | 'them', content: string) => api.post(`/linkedin/${id}/messages`, { role, content }),
   generateReply: (id: string) => api.post(`/linkedin/${id}/generate-reply`),
+  generateFollowUp: (id: string) => api.post(`/linkedin/${id}/generate-followup`),
 };
 
 export const contactApi = {

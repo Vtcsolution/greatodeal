@@ -1,11 +1,12 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { linkedinApi } from '@/lib/api';
-import type { LinkedInContact, LinkedInMessage } from '@/types';
+import type { LinkedInContact, LinkedInMessage, LinkedInStage } from '@/types';
 import {
   Linkedin, PlusCircle, X, Send, Sparkles, Copy, Check, Loader2,
-  ExternalLink, Trash2, MessageSquare, ArrowLeft,
+  ExternalLink, Trash2, MessageSquare, ArrowLeft, Clock, Trophy, XCircle,
+  Handshake, Search as SearchIcon, MessagesSquare, Target, PhoneCall,
 } from 'lucide-react';
 
 function interestColor(score?: number): string {
@@ -15,6 +16,13 @@ function interestColor(score?: number): string {
   if (score >= 21) return 'text-amber-300 bg-amber-400/10 border-amber-400/25';
   return 'text-white/40 bg-white/5 border-white/10';
 }
+
+const STAGE_META: Record<LinkedInStage, { label: string; icon: typeof Handshake }> = {
+  trust: { label: 'Building Trust', icon: Handshake },
+  understand: { label: 'Understanding', icon: MessagesSquare },
+  propose: { label: 'Proposing', icon: Target },
+  closing: { label: 'Closing', icon: PhoneCall },
+};
 
 function timeAgo(iso: string): string {
   const diff = Date.now() - new Date(iso).getTime();
@@ -28,9 +36,13 @@ function timeAgo(iso: string): string {
   return new Date(iso).toLocaleDateString();
 }
 
+type FilterTab = 'all' | 'followup' | 'won' | 'lost';
+
 export default function LinkedInAssistantPage() {
   const [contacts, setContacts] = useState<LinkedInContact[]>([]);
   const [loadingList, setLoadingList] = useState(true);
+  const [filterTab, setFilterTab] = useState<FilterTab>('all');
+  const [search, setSearch] = useState('');
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [selectedContact, setSelectedContact] = useState<LinkedInContact | null>(null);
   const [messages, setMessages] = useState<LinkedInMessage[]>([]);
@@ -47,8 +59,10 @@ export default function LinkedInAssistantPage() {
 
   const [draft, setDraft] = useState('');
   const [generating, setGenerating] = useState(false);
+  const [generatingFollowUp, setGeneratingFollowUp] = useState(false);
   const [savingDraft, setSavingDraft] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [updatingStatus, setUpdatingStatus] = useState(false);
 
   const loadContacts = useCallback(() => {
     setLoadingList(true);
@@ -59,6 +73,20 @@ export default function LinkedInAssistantPage() {
   }, []);
 
   useEffect(() => { loadContacts(); }, [loadContacts]);
+
+  const visibleContacts = useMemo(() => {
+    let list = contacts;
+    if (filterTab === 'followup') list = list.filter(c => c.needsFollowUp);
+    else if (filterTab === 'won') list = list.filter(c => c.status === 'won');
+    else if (filterTab === 'lost') list = list.filter(c => c.status === 'lost');
+    if (search.trim()) {
+      const q = search.trim().toLowerCase();
+      list = list.filter(c => c.name.toLowerCase().includes(q) || c.company?.toLowerCase().includes(q) || c.position?.toLowerCase().includes(q));
+    }
+    return list;
+  }, [contacts, filterTab, search]);
+
+  const followUpCount = useMemo(() => contacts.filter(c => c.needsFollowUp).length, [contacts]);
 
   const openContact = (id: string) => {
     setSelectedId(id);
@@ -112,6 +140,18 @@ export default function LinkedInAssistantPage() {
     } catch { /* ignore */ }
   };
 
+  const changeStatus = async (status: 'active' | 'won' | 'lost') => {
+    if (!selectedId) return;
+    setUpdatingStatus(true);
+    try {
+      const res = await linkedinApi.updateStatus(selectedId, status);
+      setSelectedContact(res.data.data);
+      loadContacts();
+    } catch { /* ignore */ } finally {
+      setUpdatingStatus(false);
+    }
+  };
+
   const addTheirReply = async () => {
     if (!selectedId || !theirReply.trim()) return;
     setAddingReply(true);
@@ -137,17 +177,32 @@ export default function LinkedInAssistantPage() {
     }
   };
 
+  const applyAiResult = (data: { draft?: string; interestScore?: number; interestNote?: string; stage?: LinkedInStage } | undefined) => {
+    setDraft(data?.draft || '');
+    const { interestScore, interestNote, stage } = data || {};
+    setSelectedContact(prev => (prev ? { ...prev, interestScore, interestNote, stage } : prev));
+    loadContacts();
+  };
+
   const generateDraft = async (id: string) => {
     setGenerating(true);
     setDraft('');
     try {
       const res = await linkedinApi.generateReply(id);
-      setDraft(res.data.data?.draft || '');
-      const { interestScore, interestNote } = res.data.data || {};
-      setSelectedContact(prev => (prev ? { ...prev, interestScore, interestNote } : prev));
-      loadContacts();
+      applyAiResult(res.data.data);
     } catch { /* ignore */ } finally {
       setGenerating(false);
+    }
+  };
+
+  const generateFollowUp = async (id: string) => {
+    setGeneratingFollowUp(true);
+    setDraft('');
+    try {
+      const res = await linkedinApi.generateFollowUp(id);
+      applyAiResult(res.data.data);
+    } catch { /* ignore */ } finally {
+      setGeneratingFollowUp(false);
     }
   };
 
@@ -170,12 +225,23 @@ export default function LinkedInAssistantPage() {
     });
   };
 
+  const StageBadge = ({ stage }: { stage?: LinkedInStage }) => {
+    if (!stage) return null;
+    const meta = STAGE_META[stage];
+    const Icon = meta.icon;
+    return (
+      <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white/5 border border-white/10 text-white/60 text-xs font-medium">
+        <Icon className="w-3.5 h-3.5" /> {meta.label}
+      </span>
+    );
+  };
+
   return (
     <div className="p-4 sm:p-6 lg:p-8">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 sm:mb-8">
         <div>
           <h1 className="text-xl sm:text-2xl font-bold text-white mb-1">LinkedIn Assistant</h1>
-          <p className="text-white/50 text-sm">Save LinkedIn conversations and let AI draft your replies. Copy the draft into LinkedIn's message box to send it.</p>
+          <p className="text-white/50 text-sm">Save LinkedIn conversations and let AI manage them, draft replies, score interest, and nudge contacts who've gone quiet.</p>
         </div>
         <button onClick={() => setShowAddForm(true)} className="btn-primary btn-primary-sm shrink-0">
           <PlusCircle className="w-4 h-4" /> Add Contact
@@ -185,20 +251,45 @@ export default function LinkedInAssistantPage() {
       <div className="grid lg:grid-cols-[340px_1fr] gap-4 sm:gap-6">
         {/* Contact list */}
         <div className={`bg-[#161616] rounded-2xl border border-white/10 overflow-hidden ${selectedId ? 'hidden lg:block' : ''}`}>
-          <div className="divide-y divide-white/5 max-h-[75vh] overflow-y-auto">
+          <div className="p-3 border-b border-white/10 space-y-2.5">
+            <div className="relative">
+              <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-white/30" />
+              <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search contacts..."
+                className="w-full pl-8 pr-2 py-2 bg-[#0F0F0F] border border-white/10 rounded-lg text-xs text-white placeholder-white/25 outline-none focus:border-[#6EE7B7]" />
+            </div>
+            <div className="flex flex-wrap gap-1.5">
+              {([
+                ['all', 'All'],
+                ['followup', `Follow Up${followUpCount ? ` (${followUpCount})` : ''}`],
+                ['won', 'Won'],
+                ['lost', 'Lost'],
+              ] as [FilterTab, string][]).map(([key, label]) => (
+                <button key={key} onClick={() => setFilterTab(key)}
+                  className={`px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-colors ${filterTab === key ? 'bg-[#6EE7B7]/15 text-[#6EE7B7]' : 'text-white/40 hover:text-white/70 hover:bg-white/5'}`}>
+                  {label}
+                </button>
+              ))}
+            </div>
+          </div>
+          <div className="divide-y divide-white/5 max-h-[70vh] overflow-y-auto">
             {loadingList ? (
               <div className="p-8 text-center"><div className="w-6 h-6 border-2 border-[#6EE7B7] border-t-transparent rounded-full animate-spin mx-auto" /></div>
-            ) : contacts.length === 0 ? (
+            ) : visibleContacts.length === 0 ? (
               <div className="p-8 text-center text-white/30 text-sm">
                 <Linkedin className="w-8 h-8 mx-auto mb-3 text-white/15" />
-                No contacts yet. Add one to get started.
+                {contacts.length === 0 ? 'No contacts yet. Add one to get started.' : 'No contacts match this filter.'}
               </div>
             ) : (
-              contacts.map(c => (
+              visibleContacts.map(c => (
                 <button key={c._id} onClick={() => openContact(c._id)}
                   className={`w-full p-4 text-left hover:bg-white/[0.03] transition-colors ${selectedId === c._id ? 'bg-[#6EE7B7]/10 border-l-2 border-[#6EE7B7]' : ''}`}>
                   <div className="flex items-center justify-between gap-2 mb-1">
-                    <span className="text-sm font-semibold text-white truncate">{c.name}</span>
+                    <span className="text-sm font-semibold text-white truncate flex items-center gap-1.5">
+                      {c.name}
+                      {c.status === 'won' && <Trophy className="w-3.5 h-3.5 text-[#6EE7B7] shrink-0" />}
+                      {c.status === 'lost' && <XCircle className="w-3.5 h-3.5 text-white/20 shrink-0" />}
+                      {c.needsFollowUp && <Clock className="w-3.5 h-3.5 text-amber-300 shrink-0" />}
+                    </span>
                     <span className="text-[11px] text-white/30 shrink-0">{timeAgo(c.lastMessageAt)}</span>
                   </div>
                   <div className="flex items-center gap-2 mb-1">
@@ -257,14 +348,43 @@ export default function LinkedInAssistantPage() {
                     <Trash2 className="w-4 h-4" />
                   </button>
                 </div>
+
+                <div className="flex flex-wrap items-center gap-2 mt-3 pl-0 lg:pl-9">
+                  <StageBadge stage={selectedContact.stage} />
+                  {selectedContact.needsFollowUp && selectedContact.status === 'active' && (
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-amber-400/10 border border-amber-400/25 text-amber-300 text-xs font-medium">
+                      <Clock className="w-3.5 h-3.5" /> Needs follow-up
+                    </span>
+                  )}
+                  <div className="flex items-center gap-1.5 ml-auto">
+                    <button onClick={() => changeStatus('won')} disabled={updatingStatus || selectedContact.status === 'won'}
+                      className={`px-2.5 py-1 rounded-lg text-xs font-semibold transition-colors disabled:opacity-40 ${selectedContact.status === 'won' ? 'bg-[#6EE7B7]/15 text-[#6EE7B7]' : 'text-white/40 hover:text-[#6EE7B7] hover:bg-white/5'}`}>
+                      Won
+                    </button>
+                    <button onClick={() => changeStatus('lost')} disabled={updatingStatus || selectedContact.status === 'lost'}
+                      className={`px-2.5 py-1 rounded-lg text-xs font-semibold transition-colors disabled:opacity-40 ${selectedContact.status === 'lost' ? 'bg-white/10 text-white/60' : 'text-white/40 hover:text-white/70 hover:bg-white/5'}`}>
+                      Lost
+                    </button>
+                    {selectedContact.status !== 'active' && (
+                      <button onClick={() => changeStatus('active')} disabled={updatingStatus} className="px-2.5 py-1 rounded-lg text-xs font-semibold text-white/40 hover:text-white/70 hover:bg-white/5 transition-colors disabled:opacity-40">
+                        Reopen
+                      </button>
+                    )}
+                  </div>
+                </div>
                 {selectedContact.interestNote && (
-                  <p className="text-xs text-white/40 mt-2.5 pl-0 lg:pl-9">{selectedContact.interestNote}</p>
+                  <p className="text-xs text-white/40 mt-2 pl-0 lg:pl-9">{selectedContact.interestNote}</p>
                 )}
               </div>
 
               <div className="flex-1 overflow-y-auto p-4 sm:p-5 space-y-3">
                 {messages.length === 0 && (
-                  <p className="text-center text-white/30 text-sm py-8">No messages yet. Paste their first reply below, or send your own opener.</p>
+                  <div className="text-center py-8">
+                    <p className="text-white/30 text-sm mb-4">No messages yet.</p>
+                    <button onClick={() => generateDraft(selectedContact._id)} disabled={generating} className="btn-primary btn-primary-sm disabled:opacity-50">
+                      {generating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />} Suggest Opening Message
+                    </button>
+                  </div>
                 )}
                 {messages.map(m => (
                   <div key={m._id} className={`flex ${m.role === 'me' ? 'justify-end' : 'justify-start'}`}>
@@ -275,13 +395,21 @@ export default function LinkedInAssistantPage() {
                     </div>
                   </div>
                 ))}
+                {selectedContact.needsFollowUp && selectedContact.status === 'active' && !draft && (
+                  <div className="flex justify-center pt-2">
+                    <button onClick={() => generateFollowUp(selectedContact._id)} disabled={generatingFollowUp}
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-amber-400/10 hover:bg-amber-400/20 border border-amber-400/25 rounded-lg text-xs font-semibold text-amber-300 transition-colors disabled:opacity-50">
+                      {generatingFollowUp ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Clock className="w-3.5 h-3.5" />} They've gone quiet, draft a follow-up
+                    </button>
+                  </div>
+                )}
               </div>
 
               <div className="border-t border-white/10 p-4 sm:p-5 space-y-3">
                 {draft && (
                   <div className="p-3 bg-[#6EE7B7]/[0.06] border border-[#6EE7B7]/20 rounded-xl">
                     <div className="flex items-center gap-1.5 mb-2 text-xs font-semibold text-[#6EE7B7] uppercase tracking-wide">
-                      <Sparkles className="w-3.5 h-3.5" /> AI Draft Reply
+                      <Sparkles className="w-3.5 h-3.5" /> AI Draft
                     </div>
                     <textarea value={draft} onChange={e => setDraft(e.target.value)} rows={4}
                       className="w-full px-3 py-2 bg-[#0F0F0F] border border-white/10 rounded-lg text-sm text-white outline-none focus:border-[#6EE7B7]/40 resize-none mb-2" />
@@ -345,7 +473,7 @@ export default function LinkedInAssistantPage() {
               </div>
               <input value={form.profileUrl} onChange={e => setForm(p => ({ ...p, profileUrl: e.target.value }))} placeholder="LinkedIn profile URL (optional)"
                 className="w-full px-3 py-2.5 bg-[#0F0F0F] border border-white/10 rounded-xl text-sm text-white placeholder-white/25 outline-none focus:border-[#6EE7B7]/40" />
-              <textarea value={form.firstMessage} onChange={e => setForm(p => ({ ...p, firstMessage: e.target.value }))} rows={3} placeholder="First message you sent them (optional)"
+              <textarea value={form.firstMessage} onChange={e => setForm(p => ({ ...p, firstMessage: e.target.value }))} rows={3} placeholder="First message you sent them (optional — leave blank and use 'Suggest Opening Message' instead)"
                 className="w-full px-3 py-2.5 bg-[#0F0F0F] border border-white/10 rounded-xl text-sm text-white placeholder-white/25 outline-none focus:border-[#6EE7B7]/40 resize-none" />
             </div>
             <div className="flex gap-3 mt-5">
