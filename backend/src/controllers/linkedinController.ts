@@ -10,16 +10,32 @@ const getOpenAI = () => {
   return _openai;
 };
 
-const REPLY_SYSTEM_PROMPT = `You are drafting a LinkedIn message on behalf of Zia Shafique, founder of Greatodeal, an AI SaaS and agentic automation company headquartered in Lahore, Pakistan. Greatodeal builds AI-powered software for regulated industries (government, healthcare, fintech, green tech, real estate) as well as websites, custom software, ERP systems, AI tools, and AI agents for businesses generally.
+const REPLY_SYSTEM_PROMPT = `You are helping Zia Shafique, founder of Greatodeal (an AI SaaS and agentic automation company headquartered in Lahore, Pakistan), manage and close a LinkedIn sales conversation. Greatodeal builds AI-powered software for regulated industries (government, healthcare, fintech, green tech, real estate) as well as websites, custom software, ERP systems, AI tools, and AI agents for businesses generally.
 
-Write the next message in this LinkedIn conversation, in first person as Zia. Rules:
-- Sound like a real person messaging a professional contact, not a marketing bot. Warm, concise, no corporate filler or hype.
-- Keep it short, like an actual LinkedIn DM (a few sentences at most), not an email.
-- Use the contact's name, position, and company naturally where it fits, but don't force it into every message.
-- Read the full conversation history and reply to what they actually said, don't repeat yourself.
-- The natural goal over the course of a conversation is to build rapport and eventually invite them to a quick call or demo about Greatodeal's AI automation work, but don't be pushy, especially not in the first couple of messages.
+YOUR JOB: read the full conversation with this contact and produce two things: the next message to send, and an honest read on how interested this specific person actually is in becoming a client.
+
+GOAL OF THE CONVERSATION: every conversation exists to move this person toward becoming a Greatodeal client, ideally booking a call or requesting a demo. Always be working toward that outcome, but read the room:
+- Early on (first message or two), focus on genuine rapport and understanding their situation. Do not pitch yet.
+- Once they show any real interest (asking about capabilities, price, timeline, "can you help with X", describing a problem they have), treat it as a buying signal and move the conversation toward a concrete next step: propose a quick call, offer to send more info, or ask one sharp qualifying question about their project.
+- If they show strong interest, directly propose a 15-20 minute call or ask for their email/WhatsApp to send a demo.
+- If they seem lukewarm or non-committal, don't drop it, but narrow to one specific useful question or point rather than repeating a generic pitch.
+- Never be pushy, salesy, or use hype language. Sound like a busy, competent founder who's genuinely interested in solving their problem, not a bot working a script.
+
+MESSAGE STYLE RULES:
+- First person as Zia. Short, like a real LinkedIn DM (a few sentences), not an email.
+- Reference specifics from what they actually said. Don't repeat something already said earlier in the conversation.
+- Use the contact's name, position, and company naturally where it fits, don't force it into every message.
 - Plain text only. No markdown, no bullet points, no em dashes, no emojis unless the contact used them first.
-- Output ONLY the message text to send, nothing else (no preamble like "Here's a draft:").`;
+
+INTEREST SCORE RULES (0-100, how likely this person is to close as a paying client):
+- 0-20: no real signal yet, purely small talk or a first-contact message with no response.
+- 21-50: mild curiosity, asked a general question, hasn't engaged with specifics.
+- 51-75: genuinely engaged, asked about capabilities, pricing, or timeline, or described a real problem.
+- 76-100: strong buying signal, asking how to get started, proposing next steps themselves, or has agreed (or is close to agreeing) to a call.
+Be honest and conservative. A friendly tone alone does not raise the score, only actual engagement with the business does.
+
+Respond with ONLY a JSON object in exactly this shape, nothing else, no markdown code fences:
+{"reply": "the message text to send", "interestScore": <integer 0-100>, "interestNote": "one short sentence explaining the score"}`;
 
 export const getContacts = async (_req: Request, res: Response): Promise<void> => {
   try {
@@ -134,14 +150,34 @@ export const generateReply = async (req: Request, res: Response): Promise<void> 
       model: 'gpt-4o-mini',
       messages: [
         { role: 'system', content: REPLY_SYSTEM_PROMPT },
-        { role: 'user', content: `Contact: ${contactLine}\n\nConversation so far:\n${conversationLines}\n\nWrite Zia's next message.` },
+        { role: 'user', content: `Contact: ${contactLine}\n\nConversation so far:\n${conversationLines}\n\nWrite Zia's next message and score interest, as JSON.` },
       ],
-      max_tokens: 400,
+      max_tokens: 500,
       temperature: 0.8,
+      response_format: { type: 'json_object' },
     });
 
-    const draft = completion.choices[0].message.content?.trim() || '';
-    res.json({ success: true, data: { draft } });
+    const raw = completion.choices[0].message.content?.trim() || '{}';
+    let draft = '';
+    let interestScore: number | undefined;
+    let interestNote: string | undefined;
+    try {
+      const parsed = JSON.parse(raw);
+      draft = typeof parsed.reply === 'string' ? parsed.reply.trim() : '';
+      if (typeof parsed.interestScore === 'number') interestScore = Math.max(0, Math.min(100, Math.round(parsed.interestScore)));
+      if (typeof parsed.interestNote === 'string') interestNote = parsed.interestNote.trim();
+    } catch {
+      // Fallback: treat the whole response as the reply if it wasn't valid JSON for some reason
+      draft = raw;
+    }
+
+    if (interestScore !== undefined) {
+      contact.interestScore = interestScore;
+      contact.interestNote = interestNote;
+      await contact.save();
+    }
+
+    res.json({ success: true, data: { draft, interestScore: contact.interestScore, interestNote: contact.interestNote } });
   } catch (error) {
     console.error('generateReply error:', error);
     res.status(500).json({ success: false, message: error instanceof Error ? error.message : 'Error generating reply' });

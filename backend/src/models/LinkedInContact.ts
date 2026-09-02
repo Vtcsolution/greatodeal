@@ -6,6 +6,8 @@ export interface ILinkedInContact extends Document {
   company?: string;
   profileUrl?: string;
   lastMessageAt: Date;
+  interestScore?: number;
+  interestNote?: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -17,6 +19,11 @@ const LinkedInContactSchema = new Schema<ILinkedInContact>(
     company: { type: String },
     profileUrl: { type: String },
     lastMessageAt: { type: Date, default: Date.now },
+    // AI's read on how likely this contact is to close as a client, 0-100,
+    // re-scored on every generated reply so it always reflects the latest
+    // conversation state.
+    interestScore: { type: Number, min: 0, max: 100 },
+    interestNote: { type: String },
   },
   { timestamps: true }
 );

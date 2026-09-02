@@ -8,6 +8,14 @@ import {
   ExternalLink, Trash2, MessageSquare, ArrowLeft,
 } from 'lucide-react';
 
+function interestColor(score?: number): string {
+  if (score === undefined) return 'text-white/30 bg-white/5 border-white/10';
+  if (score >= 76) return 'text-[#6EE7B7] bg-[#6EE7B7]/10 border-[#6EE7B7]/25';
+  if (score >= 51) return 'text-blue-300 bg-blue-400/10 border-blue-400/25';
+  if (score >= 21) return 'text-amber-300 bg-amber-400/10 border-amber-400/25';
+  return 'text-white/40 bg-white/5 border-white/10';
+}
+
 function timeAgo(iso: string): string {
   const diff = Date.now() - new Date(iso).getTime();
   const mins = Math.floor(diff / 60000);
@@ -135,6 +143,9 @@ export default function LinkedInAssistantPage() {
     try {
       const res = await linkedinApi.generateReply(id);
       setDraft(res.data.data?.draft || '');
+      const { interestScore, interestNote } = res.data.data || {};
+      setSelectedContact(prev => (prev ? { ...prev, interestScore, interestNote } : prev));
+      loadContacts();
     } catch { /* ignore */ } finally {
       setGenerating(false);
     }
@@ -190,9 +201,14 @@ export default function LinkedInAssistantPage() {
                     <span className="text-sm font-semibold text-white truncate">{c.name}</span>
                     <span className="text-[11px] text-white/30 shrink-0">{timeAgo(c.lastMessageAt)}</span>
                   </div>
-                  {(c.position || c.company) && (
-                    <div className="text-xs text-white/40 truncate mb-1">{[c.position, c.company].filter(Boolean).join(' at ')}</div>
-                  )}
+                  <div className="flex items-center gap-2 mb-1">
+                    {(c.position || c.company) && (
+                      <div className="text-xs text-white/40 truncate">{[c.position, c.company].filter(Boolean).join(' at ')}</div>
+                    )}
+                    {c.interestScore !== undefined && (
+                      <span className={`ml-auto shrink-0 px-1.5 py-0.5 rounded-md border text-[10px] font-bold ${interestColor(c.interestScore)}`}>{c.interestScore}%</span>
+                    )}
+                  </div>
                   {c.lastMessage && (
                     <div className="text-xs text-white/50 truncate">
                       {c.lastMessageRole === 'me' ? 'You: ' : ''}{c.lastMessage}
@@ -217,22 +233,33 @@ export default function LinkedInAssistantPage() {
             <div className="flex-1 flex items-center justify-center"><div className="w-8 h-8 border-4 border-[#6EE7B7] border-t-transparent rounded-full animate-spin" /></div>
           ) : selectedContact ? (
             <>
-              <div className="p-4 sm:p-5 border-b border-white/10 flex items-start gap-3">
-                <button onClick={() => setSelectedId(null)} className="lg:hidden p-1.5 rounded-lg text-white/50 hover:text-white hover:bg-white/10 transition-colors shrink-0">
-                  <ArrowLeft className="w-4 h-4" />
-                </button>
-                <div className="min-w-0 flex-1">
-                  <h3 className="font-bold text-white text-base truncate">{selectedContact.name}</h3>
-                  <p className="text-white/40 text-xs mt-0.5 truncate">{[selectedContact.position, selectedContact.company].filter(Boolean).join(' at ')}</p>
+              <div className="p-4 sm:p-5 border-b border-white/10">
+                <div className="flex items-start gap-3">
+                  <button onClick={() => setSelectedId(null)} className="lg:hidden p-1.5 rounded-lg text-white/50 hover:text-white hover:bg-white/10 transition-colors shrink-0">
+                    <ArrowLeft className="w-4 h-4" />
+                  </button>
+                  <div className="min-w-0 flex-1">
+                    <h3 className="font-bold text-white text-base truncate">{selectedContact.name}</h3>
+                    <p className="text-white/40 text-xs mt-0.5 truncate">{[selectedContact.position, selectedContact.company].filter(Boolean).join(' at ')}</p>
+                  </div>
+                  {selectedContact.interestScore !== undefined && (
+                    <div className={`shrink-0 px-3 py-1.5 rounded-xl border text-right ${interestColor(selectedContact.interestScore)}`}>
+                      <div className="text-sm font-bold leading-none">{selectedContact.interestScore}%</div>
+                      <div className="text-[10px] uppercase tracking-wide opacity-70 mt-0.5">interested</div>
+                    </div>
+                  )}
+                  {selectedContact.profileUrl && (
+                    <a href={selectedContact.profileUrl} target="_blank" rel="noopener noreferrer" className="p-2 text-white/40 hover:text-[#6EE7B7] hover:bg-white/5 rounded-lg transition-all shrink-0" title="Open LinkedIn profile">
+                      <ExternalLink className="w-4 h-4" />
+                    </a>
+                  )}
+                  <button onClick={() => removeContact(selectedContact._id)} className="p-2 text-white/40 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-all shrink-0" title="Delete contact">
+                    <Trash2 className="w-4 h-4" />
+                  </button>
                 </div>
-                {selectedContact.profileUrl && (
-                  <a href={selectedContact.profileUrl} target="_blank" rel="noopener noreferrer" className="p-2 text-white/40 hover:text-[#6EE7B7] hover:bg-white/5 rounded-lg transition-all shrink-0" title="Open LinkedIn profile">
-                    <ExternalLink className="w-4 h-4" />
-                  </a>
+                {selectedContact.interestNote && (
+                  <p className="text-xs text-white/40 mt-2.5 pl-0 lg:pl-9">{selectedContact.interestNote}</p>
                 )}
-                <button onClick={() => removeContact(selectedContact._id)} className="p-2 text-white/40 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-all shrink-0" title="Delete contact">
-                  <Trash2 className="w-4 h-4" />
-                </button>
               </div>
 
               <div className="flex-1 overflow-y-auto p-4 sm:p-5 space-y-3">

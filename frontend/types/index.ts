@@ -261,6 +261,8 @@ export interface LinkedInContact {
   lastMessage?: string | null;
   lastMessageRole?: 'me' | 'them' | null;
   messageCount?: number;
+  interestScore?: number;
+  interestNote?: string;
   createdAt: string;
   updatedAt: string;
 }
