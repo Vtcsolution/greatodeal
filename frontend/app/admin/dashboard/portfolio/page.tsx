@@ -95,7 +95,7 @@ export default function PortfolioPage() {
             <div key={p._id} className="bg-[#161616] rounded-2xl border border-white/10 overflow-hidden group">
               <div className="aspect-video bg-white/5 relative">
                 {p.images[0] ? (
-                  <img src={getImageUrl(p.images[0])} alt={p.title} className="w-full h-full object-cover" />
+                  <img src={getImageUrl(p.images[0])} alt={p.title} className="w-full h-full object-contain" />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center">
                     <ImageIcon className="w-8 h-8 text-white/15" />

@@ -107,9 +107,9 @@ export default function PortfolioDetailPage() {
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}
           className="bg-white/[0.02] border border-white/[0.08] rounded-2xl overflow-hidden mb-6">
           <div className="grid lg:grid-cols-2">
-            <div className="aspect-[16/10] lg:aspect-auto bg-white/[0.03] relative">
+            <div className="aspect-[16/10] lg:aspect-auto bg-white/[0.03] relative min-h-[220px] lg:min-h-[320px]">
               {project.images[0] ? (
-                <img src={getImageUrl(project.images[0])} alt={project.title} className="w-full h-full object-cover" />
+                <img src={getImageUrl(project.images[0])} alt={project.title} className="w-full h-full object-contain" />
               ) : (
                 <div className="w-full h-full flex items-center justify-center min-h-[220px]"><ImageOff className="w-8 h-8 text-white/10" /></div>
               )}
