@@ -50,8 +50,8 @@ export default function PortfolioPage() {
     <div className="p-4 sm:p-6 lg:p-8">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 sm:mb-8">
         <div>
-          <h1 className="text-xl sm:text-2xl font-bold text-white mb-1">Portfolio</h1>
-          <p className="text-white/50 text-sm">Projects shown on the public website's Portfolio page.</p>
+          <h1 className="text-xl sm:text-2xl font-bold text-white mb-1">Work</h1>
+          <p className="text-white/50 text-sm">Projects shown on the public website's Work page.</p>
         </div>
         <div className="flex items-center gap-3">
           <button
@@ -75,7 +75,7 @@ export default function PortfolioPage() {
 
       {!isVisible && (
         <div className="mb-6 px-4 py-3 bg-amber-500/10 border border-amber-500/20 rounded-xl text-sm text-amber-300">
-          The Portfolio section is currently hidden from the public website. Turn it on above once you're ready to show it.
+          The Work section is currently hidden from the public website. Turn it on above once you're ready to show it.
         </div>
       )}
 

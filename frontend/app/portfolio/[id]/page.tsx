@@ -70,7 +70,7 @@ export default function PortfolioDetailPage() {
       <div className="min-h-screen bg-[#090909] flex items-center justify-center text-center px-4">
         <div>
           <p className="text-white/50 text-lg font-medium mb-4">This project isn&apos;t available.</p>
-          <Link href="/portfolio" className="btn-primary inline-flex">Back to Portfolio</Link>
+          <Link href="/portfolio" className="btn-primary inline-flex">Back to Work</Link>
         </div>
       </div>
     );
@@ -87,7 +87,7 @@ export default function PortfolioDetailPage() {
           <div className="flex items-center gap-2 text-sm text-white/40">
             <Link href="/" className="hover:text-white transition-colors flex items-center gap-1"><HomeIcon className="w-3.5 h-3.5" /> Home</Link>
             <span>/</span>
-            <Link href="/portfolio" className="hover:text-white transition-colors">Portfolio</Link>
+            <Link href="/portfolio" className="hover:text-white transition-colors">Work</Link>
             <span>/</span>
             <span className="text-white/70 truncate max-w-[160px] sm:max-w-none">{project.title}</span>
           </div>

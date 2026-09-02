@@ -107,8 +107,8 @@ export default function PortfolioFormClient({ project }: { project?: PortfolioPr
           <ArrowLeft className="w-5 h-5" />
         </button>
         <div>
-          <h1 className="text-xl sm:text-2xl font-bold text-white">{isNew ? 'Add Portfolio Project' : 'Edit Portfolio Project'}</h1>
-          <p className="text-white/50 text-sm mt-0.5">Shown on the public /portfolio page when it's turned on.</p>
+          <h1 className="text-xl sm:text-2xl font-bold text-white">{isNew ? 'Add Work Project' : 'Edit Work Project'}</h1>
+          <p className="text-white/50 text-sm mt-0.5">Shown on the public Work page when it's turned on.</p>
         </div>
       </div>
 

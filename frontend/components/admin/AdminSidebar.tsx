@@ -10,7 +10,7 @@ const navItems = [
   { href: '/admin/dashboard/analytics', icon: BarChart3, label: 'Analytics' },
   { href: '/admin/dashboard/add-blog', icon: PlusCircle, label: 'Add Blog' },
   { href: '/admin/dashboard/manage-blogs', icon: FileText, label: 'Manage Blogs' },
-  { href: '/admin/dashboard/portfolio', icon: ImageIcon, label: 'Portfolio' },
+  { href: '/admin/dashboard/portfolio', icon: ImageIcon, label: 'Work' },
   { href: '/admin/dashboard/pricing', icon: Tag, label: 'Pricing' },
   { href: '/admin/dashboard/knowledge', icon: FolderOpen, label: 'AI Knowledge Base' },
   { href: '/admin/dashboard/linkedin', icon: Linkedin, label: 'LinkedIn Assistant' },

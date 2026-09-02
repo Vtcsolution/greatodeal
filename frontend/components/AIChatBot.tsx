@@ -70,7 +70,7 @@ export default function AIChatBot({ isOpen, onClose }: AIChatBotProps) {
 
   const quickButtons = [
     { label: 'Services', prompt: 'What services do you offer?' },
-    { label: 'Portfolio', prompt: 'Show me your portfolio' },
+    { label: 'Work', prompt: 'Show me your portfolio' },
     { label: 'Pricing', prompt: 'What are your pricing models?' },
     { label: 'Support', prompt: 'How can I contact your team?' },
   ];

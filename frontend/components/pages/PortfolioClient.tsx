@@ -114,7 +114,7 @@ export default function PortfolioClient() {
             <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-white/[0.04] border border-white/[0.08] rounded-full text-sm text-[#6EE7B7] mb-5">
               <Briefcase className="w-3.5 h-3.5" /><span className="font-medium">Our Work</span>
             </div>
-            <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-white">Portfolio</h1>
+            <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-white">Work</h1>
           </motion.div>
 
           {!loading && visible && projects.length > 0 && (

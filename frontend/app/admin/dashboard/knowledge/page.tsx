@@ -71,7 +71,7 @@ export default function PortfolioPage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 sm:mb-8">
         <div>
           <h1 className="text-xl sm:text-2xl font-bold text-white mb-1">AI Knowledge Base</h1>
-          <p className="text-white/50 text-sm">Reference categories and links AI Greato draws on when answering questions. The public Portfolio page is managed separately, under Portfolio in the sidebar.</p>
+          <p className="text-white/50 text-sm">Reference categories and links AI Greato draws on when answering questions. The public Work page is managed separately, under Work in the sidebar.</p>
         </div>
       </div>
 
