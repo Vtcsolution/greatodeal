@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Work | AI Automation & Software Projects | Greatodeal',
     description: 'A showcase of AI automation and software projects Greatodeal has delivered for clients across regulated industries.',
-    url: 'https://greatodeal.com/portfolio',
+    url: 'https://greatodeal.com/work',
     images: [{ url: 'https://greatodeal.com/images/logo.png', width: 512, height: 512, alt: 'Greatodeal Work' }],
   },
   twitter: {
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     images: ['https://greatodeal.com/images/logo.png'],
   },
   alternates: {
-    canonical: 'https://greatodeal.com/portfolio',
+    canonical: 'https://greatodeal.com/work',
   },
 };
 

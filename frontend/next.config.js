@@ -43,6 +43,8 @@ const nextConfig = {
       { source: '/industries/public-sector', destination: '/industries/government', permanent: true },
       { source: '/industries/education', destination: '/industries', permanent: true },
       { source: '/industries/supply-chain', destination: '/industries', permanent: true },
+      { source: '/portfolio', destination: '/work', permanent: true },
+      { source: '/portfolio/:path*', destination: '/work/:path*', permanent: true },
 
       // Legacy pre-rebuild URL scheme (/solutions/*, /focus-areas/*, /howwork, /blogs)
       { source: '/howwork', destination: '/about', permanent: true },

@@ -98,7 +98,7 @@ export default function Navbar() {
   const visibleNavItems = useMemo(() => {
     const items = [...navItems];
     if (showPricingLink) items.splice(2, 0, { name: 'Pricing', path: '/pricing' });
-    if (showPortfolioLink) items.splice(2, 0, { name: 'Work', path: '/portfolio' });
+    if (showPortfolioLink) items.splice(2, 0, { name: 'Work', path: '/work' });
     return items;
   }, [showPortfolioLink, showPricingLink]);
 

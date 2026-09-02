@@ -30,7 +30,7 @@ function ProjectCard({ project, index }: { project: PortfolioProject; index: num
   const copyLink = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    const url = `${window.location.origin}/portfolio/${project._id}`;
+    const url = `${window.location.origin}/work/${project._id}`;
     navigator.clipboard.writeText(url).then(() => {
       setCopied(true);
       setTimeout(() => setCopied(false), 1500);
@@ -44,7 +44,7 @@ function ProjectCard({ project, index }: { project: PortfolioProject; index: num
       viewport={{ once: true, margin: '-40px' }}
       transition={{ delay: (index % 9) * 0.05, duration: 0.5 }}
     >
-      <Link href={`/portfolio/${project._id}`} className="group block bg-white/[0.02] rounded-2xl border border-white/[0.06] hover:border-white/[0.14] overflow-hidden transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl hover:shadow-black/30 h-full flex flex-col">
+      <Link href={`/work/${project._id}`} className="group block bg-white/[0.02] rounded-2xl border border-white/[0.06] hover:border-white/[0.14] overflow-hidden transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl hover:shadow-black/30 h-full flex flex-col">
         <div className="aspect-[16/10] bg-white/[0.03] relative overflow-hidden shrink-0">
           {project.images[0] ? (
             <img src={getImageUrl(project.images[0])} alt={project.title} className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-700" loading="lazy" />

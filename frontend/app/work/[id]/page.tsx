@@ -70,7 +70,7 @@ export default function PortfolioDetailPage() {
       <div className="min-h-screen bg-[#090909] flex items-center justify-center text-center px-4">
         <div>
           <p className="text-white/50 text-lg font-medium mb-4">This project isn&apos;t available.</p>
-          <Link href="/portfolio" className="btn-primary inline-flex">Back to Work</Link>
+          <Link href="/work" className="btn-primary inline-flex">Back to Work</Link>
         </div>
       </div>
     );
@@ -87,17 +87,17 @@ export default function PortfolioDetailPage() {
           <div className="flex items-center gap-2 text-sm text-white/40">
             <Link href="/" className="hover:text-white transition-colors flex items-center gap-1"><HomeIcon className="w-3.5 h-3.5" /> Home</Link>
             <span>/</span>
-            <Link href="/portfolio" className="hover:text-white transition-colors">Work</Link>
+            <Link href="/work" className="hover:text-white transition-colors">Work</Link>
             <span>/</span>
             <span className="text-white/70 truncate max-w-[160px] sm:max-w-none">{project.title}</span>
           </div>
           {allProjects.length > 1 && index !== -1 && (
             <div className="flex items-center gap-1.5 shrink-0">
-              <button onClick={() => router.push(`/portfolio/${prev?._id}`)} className="p-1.5 rounded-lg text-white/40 hover:text-white hover:bg-white/5 transition-colors" aria-label="Previous project">
+              <button onClick={() => router.push(`/work/${prev?._id}`)} className="p-1.5 rounded-lg text-white/40 hover:text-white hover:bg-white/5 transition-colors" aria-label="Previous project">
                 <ChevronLeft className="w-4 h-4" />
               </button>
               <span className="text-xs font-mono text-white/30 w-12 text-center">{index + 1}/{allProjects.length}</span>
-              <button onClick={() => router.push(`/portfolio/${next?._id}`)} className="p-1.5 rounded-lg text-white/40 hover:text-white hover:bg-white/5 transition-colors" aria-label="Next project">
+              <button onClick={() => router.push(`/work/${next?._id}`)} className="p-1.5 rounded-lg text-white/40 hover:text-white hover:bg-white/5 transition-colors" aria-label="Next project">
                 <ChevronRight className="w-4 h-4" />
               </button>
             </div>
