@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useAdmin } from '@/context/AdminContext';
-import { LayoutDashboard, FileText, PlusCircle, MessageSquare, Mail, User, LogOut, X, FolderOpen, BarChart3, Zap, Inbox, Activity, Search, Briefcase, Image as ImageIcon, Tag } from 'lucide-react';
+import { LayoutDashboard, FileText, PlusCircle, MessageSquare, Mail, User, LogOut, X, FolderOpen, BarChart3, Zap, Inbox, Activity, Search, Briefcase, Image as ImageIcon, Tag, Linkedin } from 'lucide-react';
 
 const navItems = [
   { href: '/admin/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
@@ -13,6 +13,7 @@ const navItems = [
   { href: '/admin/dashboard/portfolio', icon: ImageIcon, label: 'Portfolio' },
   { href: '/admin/dashboard/pricing', icon: Tag, label: 'Pricing' },
   { href: '/admin/dashboard/knowledge', icon: FolderOpen, label: 'AI Knowledge Base' },
+  { href: '/admin/dashboard/linkedin', icon: Linkedin, label: 'LinkedIn Assistant' },
   { href: '/admin/dashboard/chats', icon: MessageSquare, label: 'AI Chats' },
   { href: '/admin/dashboard/emails', icon: Mail, label: 'Leads / Emails' },
   { href: '/admin/dashboard/lead-finder', icon: Search, label: 'Lead Finder' },

@@ -251,6 +251,28 @@ export interface MailMessage {
   lastOpenedAt?: string | null;
 }
 
+export interface LinkedInContact {
+  _id: string;
+  name: string;
+  position?: string;
+  company?: string;
+  profileUrl?: string;
+  lastMessageAt: string;
+  lastMessage?: string | null;
+  lastMessageRole?: 'me' | 'them' | null;
+  messageCount?: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface LinkedInMessage {
+  _id: string;
+  contactId: string;
+  role: 'me' | 'them';
+  content: string;
+  createdAt: string;
+}
+
 export interface PricingTier {
   _id: string;
   title: string;

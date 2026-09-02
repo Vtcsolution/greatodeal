@@ -47,6 +47,16 @@ export const pricingApi = {
   updateSettings: (isVisible: boolean) => api.put('/pricing/settings', { isVisible }),
 };
 
+export const linkedinApi = {
+  getAll: () => api.get('/linkedin'),
+  getById: (id: string) => api.get(`/linkedin/${id}`),
+  create: (data: Record<string, unknown>) => api.post('/linkedin', data),
+  update: (id: string, data: Record<string, unknown>) => api.put(`/linkedin/${id}`, data),
+  delete: (id: string) => api.delete(`/linkedin/${id}`),
+  addMessage: (id: string, role: 'me' | 'them', content: string) => api.post(`/linkedin/${id}/messages`, { role, content }),
+  generateReply: (id: string) => api.post(`/linkedin/${id}/generate-reply`),
+};
+
 export const contactApi = {
   send: (data: Record<string, unknown>) => api.post('/contact/send', data),
   getAll: () => api.get('/contact/all'),
