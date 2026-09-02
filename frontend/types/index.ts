@@ -295,16 +295,25 @@ export interface PricingTier {
   updatedAt: string;
 }
 
+export interface PortfolioFeature {
+  title: string;
+  description: string;
+}
+
 export interface PortfolioProject {
   _id: string;
   title: string;
   subtitle?: string;
   description: string;
+  strategicImpact?: string;
   images: string[];
   category?: string;
   year?: string;
-  highlights: string[];
+  status: 'active' | 'inactive';
+  techStack: string[];
+  keyFeatures: PortfolioFeature[];
   projectUrl?: string;
+  videoUrl?: string;
   order: number;
   createdAt: string;
   updatedAt: string;

@@ -110,8 +110,11 @@ export default function PortfolioPage() {
               <div className="p-4">
                 <div className="flex items-start justify-between gap-2 mb-1.5">
                   <h3 className="font-bold text-white text-sm leading-tight">{p.title}</h3>
-                  {p.category && <span className="shrink-0 px-2 py-0.5 bg-[#6EE7B7]/10 text-[#6EE7B7] text-[10px] font-semibold rounded-full">{p.category}</span>}
+                  <span className={`shrink-0 px-2 py-0.5 text-[10px] font-semibold rounded-full ${p.status === 'active' ? 'bg-[#6EE7B7]/10 text-[#6EE7B7]' : 'bg-white/10 text-white/40'}`}>
+                    {p.status === 'active' ? 'Active' : 'Inactive'}
+                  </span>
                 </div>
+                {p.category && <span className="inline-block mb-1.5 px-2 py-0.5 bg-white/5 text-white/50 text-[10px] font-semibold rounded-full">{p.category}</span>}
                 <p className="text-white/50 text-xs leading-relaxed line-clamp-2 mb-3">{p.description}</p>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-1">

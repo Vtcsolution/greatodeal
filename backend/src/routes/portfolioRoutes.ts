@@ -8,6 +8,7 @@ import {
   getPortfolioSettings,
   updatePortfolioSettings,
   getPublicPortfolio,
+  getPublicPortfolioProjectById,
 } from '../controllers/portfolioController';
 import { adminAuth } from '../middleware/adminAuth';
 import { upload } from '../middleware/upload';
@@ -15,6 +16,7 @@ import { upload } from '../middleware/upload';
 const router = Router();
 
 router.get('/public', getPublicPortfolio);
+router.get('/public/:id', getPublicPortfolioProjectById);
 
 router.use(adminAuth);
 router.get('/settings', getPortfolioSettings);

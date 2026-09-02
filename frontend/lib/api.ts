@@ -29,6 +29,7 @@ export const portfolioApi = {
   getAll: () => api.get('/portfolio'),
   getById: (id: string) => api.get(`/portfolio/${id}`),
   getPublic: () => api.get('/portfolio/public'),
+  getPublicById: (id: string) => api.get(`/portfolio/public/${id}`),
   create: (data: FormData) => api.post('/portfolio', data, { headers: { 'Content-Type': 'multipart/form-data' } }),
   update: (id: string, data: FormData) => api.put(`/portfolio/${id}`, data, { headers: { 'Content-Type': 'multipart/form-data' } }),
   delete: (id: string) => api.delete(`/portfolio/${id}`),

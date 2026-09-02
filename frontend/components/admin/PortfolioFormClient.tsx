@@ -3,7 +3,7 @@
 import { useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { portfolioApi, getImageUrl } from '@/lib/api';
-import type { PortfolioProject } from '@/types';
+import type { PortfolioProject, PortfolioFeature } from '@/types';
 import { Save, ArrowLeft, X, ImagePlus, Loader2, Plus } from 'lucide-react';
 
 const inputCls = 'w-full px-3 py-2.5 bg-[#0F0F0F] border border-white/10 rounded-xl text-sm text-white placeholder-white/25 outline-none focus:border-[#6EE7B7]/40 transition-all';
@@ -17,31 +17,39 @@ export default function PortfolioFormClient({ project }: { project?: PortfolioPr
   const [title, setTitle] = useState(project?.title || '');
   const [subtitle, setSubtitle] = useState(project?.subtitle || '');
   const [description, setDescription] = useState(project?.description || '');
+  const [strategicImpact, setStrategicImpact] = useState(project?.strategicImpact || '');
   const [category, setCategory] = useState(project?.category || '');
   const [year, setYear] = useState(project?.year || '');
+  const [status, setStatus] = useState<'active' | 'inactive'>(project?.status || 'active');
   const [projectUrl, setProjectUrl] = useState(project?.projectUrl || '');
+  const [videoUrl, setVideoUrl] = useState(project?.videoUrl || '');
   const [order, setOrder] = useState(project?.order ?? 0);
-  const [highlights, setHighlights] = useState<string[]>(project?.highlights || []);
-  const [newHighlight, setNewHighlight] = useState('');
+
+  const [techStack, setTechStack] = useState<string[]>(project?.techStack || []);
+  const [newTech, setNewTech] = useState('');
+
+  const [keyFeatures, setKeyFeatures] = useState<PortfolioFeature[]>(project?.keyFeatures || []);
+
   const [existingImages, setExistingImages] = useState<string[]>(project?.images || []);
   const [newFiles, setNewFiles] = useState<File[]>([]);
   const [newPreviews, setNewPreviews] = useState<string[]>([]);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
 
-  const addHighlight = () => {
-    if (!newHighlight.trim()) return;
-    setHighlights(prev => [...prev, newHighlight.trim()]);
-    setNewHighlight('');
+  const addTech = () => {
+    if (!newTech.trim()) return;
+    setTechStack(prev => [...prev, newTech.trim()]);
+    setNewTech('');
   };
+  const removeTech = (index: number) => setTechStack(prev => prev.filter((_, i) => i !== index));
 
-  const removeHighlight = (index: number) => {
-    setHighlights(prev => prev.filter((_, i) => i !== index));
+  const addFeature = () => setKeyFeatures(prev => [...prev, { title: '', description: '' }]);
+  const updateFeature = (index: number, field: 'title' | 'description', value: string) => {
+    setKeyFeatures(prev => prev.map((f, i) => (i === index ? { ...f, [field]: value } : f)));
   };
+  const removeFeature = (index: number) => setKeyFeatures(prev => prev.filter((_, i) => i !== index));
 
-  const removeExistingImage = (img: string) => {
-    setExistingImages(prev => prev.filter(i => i !== img));
-  };
+  const removeExistingImage = (img: string) => setExistingImages(prev => prev.filter(i => i !== img));
 
   const onSelectFiles = (files: FileList | null) => {
     if (!files) return;
@@ -67,11 +75,15 @@ export default function PortfolioFormClient({ project }: { project?: PortfolioPr
       fd.append('title', title.trim());
       fd.append('subtitle', subtitle.trim());
       fd.append('description', description.trim());
+      fd.append('strategicImpact', strategicImpact.trim());
       fd.append('category', category.trim());
       fd.append('year', year.trim());
+      fd.append('status', status);
       fd.append('projectUrl', projectUrl.trim());
+      fd.append('videoUrl', videoUrl.trim());
       fd.append('order', String(order));
-      highlights.forEach(h => fd.append('highlights', h));
+      techStack.forEach(t => fd.append('techStack', t));
+      fd.append('keyFeatures', JSON.stringify(keyFeatures.filter(f => f.title.trim())));
       existingImages.forEach(img => fd.append('keepImages', img));
       newFiles.forEach(f => fd.append('images', f));
 
@@ -106,33 +118,51 @@ export default function PortfolioFormClient({ project }: { project?: PortfolioPr
         <div className="grid sm:grid-cols-2 gap-4">
           <div>
             <label className={labelCls}>Title</label>
-            <input value={title} onChange={e => setTitle(e.target.value)} placeholder="e.g. NextFlow" className={inputCls} />
+            <input value={title} onChange={e => setTitle(e.target.value)} placeholder="e.g. UpTicker AI Coach" className={inputCls} />
           </div>
           <div>
             <label className={labelCls}>Subtitle (optional)</label>
-            <input value={subtitle} onChange={e => setSubtitle(e.target.value)} placeholder="e.g. CRM — shown in accent color next to the title" className={inputCls} />
+            <input value={subtitle} onChange={e => setSubtitle(e.target.value)} placeholder="e.g. Your AI Productivity Coach" className={inputCls} />
           </div>
         </div>
 
         <div>
-          <label className={labelCls}>Description</label>
-          <textarea value={description} onChange={e => setDescription(e.target.value)} rows={5} placeholder="What was built, for whom, and what it achieved." className={`${inputCls} resize-none`} />
+          <label className={labelCls}>Project Overview</label>
+          <textarea value={description} onChange={e => setDescription(e.target.value)} rows={4} placeholder="What was built, for whom, and what it does." className={`${inputCls} resize-none`} />
         </div>
 
-        <div className="grid sm:grid-cols-3 gap-4">
+        <div>
+          <label className={labelCls}>Strategic Impact (optional)</label>
+          <textarea value={strategicImpact} onChange={e => setStrategicImpact(e.target.value)} rows={3} placeholder="What outcome or result this project drove." className={`${inputCls} resize-none`} />
+        </div>
+
+        <div className="grid sm:grid-cols-4 gap-4">
           <div className="sm:col-span-2">
-            <label className={labelCls}>Category tags (optional)</label>
-            <input value={category} onChange={e => setCategory(e.target.value)} placeholder="e.g. CRM · Lead Management · Payments" className={inputCls} />
+            <label className={labelCls}>Category</label>
+            <input value={category} onChange={e => setCategory(e.target.value)} placeholder="e.g. Productivity & Wellness" className={inputCls} />
           </div>
           <div>
-            <label className={labelCls}>Year (optional)</label>
-            <input value={year} onChange={e => setYear(e.target.value)} placeholder="e.g. 2026" className={inputCls} />
+            <label className={labelCls}>Status</label>
+            <select value={status} onChange={e => setStatus(e.target.value as 'active' | 'inactive')} className={`${inputCls} cursor-pointer`}>
+              <option value="active">Active</option>
+              <option value="inactive">Inactive</option>
+            </select>
+          </div>
+          <div>
+            <label className={labelCls}>Year</label>
+            <input value={year} onChange={e => setYear(e.target.value)} placeholder="2026" className={inputCls} />
           </div>
         </div>
 
-        <div>
-          <label className={labelCls}>Project URL (optional)</label>
-          <input value={projectUrl} onChange={e => setProjectUrl(e.target.value)} placeholder="https://..." className={inputCls} />
+        <div className="grid sm:grid-cols-2 gap-4">
+          <div>
+            <label className={labelCls}>Demo URL (optional)</label>
+            <input value={projectUrl} onChange={e => setProjectUrl(e.target.value)} placeholder="https://..." className={inputCls} />
+          </div>
+          <div>
+            <label className={labelCls}>Video URL (optional)</label>
+            <input value={videoUrl} onChange={e => setVideoUrl(e.target.value)} placeholder="https://..." className={inputCls} />
+          </div>
         </div>
 
         <div className="w-40">
@@ -142,29 +172,45 @@ export default function PortfolioFormClient({ project }: { project?: PortfolioPr
         </div>
 
         <div>
-          <label className={labelCls}>Highlight pills (optional)</label>
+          <label className={labelCls}>Tech stack</label>
           <div className="flex flex-wrap gap-2 mb-3">
-            {highlights.map((h, i) => (
+            {techStack.map((t, i) => (
               <span key={i} className="flex items-center gap-1.5 px-3 py-1.5 bg-[#0F0F0F] border border-white/10 rounded-full text-sm text-white/80">
-                {h}
-                <button onClick={() => removeHighlight(i)} className="text-white/30 hover:text-red-400 transition-colors">
-                  <X className="w-3.5 h-3.5" />
-                </button>
+                {t}
+                <button onClick={() => removeTech(i)} className="text-white/30 hover:text-red-400 transition-colors"><X className="w-3.5 h-3.5" /></button>
               </span>
             ))}
           </div>
           <div className="flex gap-2">
             <input
-              value={newHighlight}
-              onChange={e => setNewHighlight(e.target.value)}
-              onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); addHighlight(); } }}
-              placeholder="e.g. AI Replies"
+              value={newTech}
+              onChange={e => setNewTech(e.target.value)}
+              onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); addTech(); } }}
+              placeholder="e.g. React Native"
               className={inputCls}
             />
-            <button onClick={addHighlight} className="px-4 py-2.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-white/70 text-sm font-semibold shrink-0 transition-colors flex items-center gap-1.5">
+            <button onClick={addTech} className="px-4 py-2.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-white/70 text-sm font-semibold shrink-0 transition-colors flex items-center gap-1.5">
               <Plus className="w-4 h-4" /> Add
             </button>
           </div>
+        </div>
+
+        <div>
+          <label className={labelCls}>Key features</label>
+          <div className="space-y-3 mb-3">
+            {keyFeatures.map((f, i) => (
+              <div key={i} className="p-3 bg-[#0F0F0F] border border-white/10 rounded-xl space-y-2">
+                <div className="flex gap-2">
+                  <input value={f.title} onChange={e => updateFeature(i, 'title', e.target.value)} placeholder="Feature title" className={inputCls} />
+                  <button onClick={() => removeFeature(i)} className="p-2.5 text-white/30 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-all shrink-0"><X className="w-4 h-4" /></button>
+                </div>
+                <textarea value={f.description} onChange={e => updateFeature(i, 'description', e.target.value)} rows={2} placeholder="One or two sentences describing it." className={`${inputCls} resize-none`} />
+              </div>
+            ))}
+          </div>
+          <button onClick={addFeature} className="px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-white/70 text-sm font-semibold transition-colors flex items-center gap-1.5">
+            <Plus className="w-4 h-4" /> Add Feature
+          </button>
         </div>
 
         <div>
