@@ -80,7 +80,8 @@ export default function PortfolioDetailPage() {
 
   return (
     <div className="min-h-screen bg-[#090909] text-white pt-28 pb-24">
-      <div className="container max-w-[1100px] px-4 sm:px-6">
+      <div className="container max-w-[1920px] px-4 sm:px-6">
+       <div className="max-w-[1600px] mx-auto">
         {/* Breadcrumb + pagination */}
         <div className="flex items-center justify-between gap-4 mb-6">
           <div className="flex items-center gap-2 text-sm text-white/40">
@@ -202,6 +203,7 @@ export default function PortfolioDetailPage() {
             Discuss a Project Like This <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-500" />
           </Link>
         </div>
+       </div>
       </div>
     </div>
   );
