@@ -13,6 +13,8 @@ const ease = [0.25, 0.1, 0.25, 1] as const;
 const PRICING_CONTENT_DEFAULTS = {
   heroBadge: 'Choose Your Starting Point',
   heroTitle: 'Start with what your business needs now. Launch something new, improve what you have, or add intelligence after launch.',
+  customBarText: 'Need something custom?',
+  customBarButtonText: 'Talk To Us',
 };
 
 export default function PricingClient() {
@@ -116,9 +118,9 @@ export default function PricingClient() {
               </div>
 
               <div className="border-t border-white/[0.08] py-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                <p className="italic font-serif text-xl text-white/70">Need something custom?</p>
+                <p className="italic font-serif text-xl text-white/70">{content.customBarText}</p>
                 <Link href="/contact" className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-[#6EE7B7] hover:gap-3 transition-all">
-                  Talk To Us <ArrowRight className="w-4 h-4" />
+                  {content.customBarButtonText} <ArrowRight className="w-4 h-4" />
                 </Link>
               </div>
             </>

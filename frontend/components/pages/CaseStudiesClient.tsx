@@ -15,6 +15,14 @@ const CASE_STUDIES_CONTENT_DEFAULTS = {
   heroTitle: 'Real Projects. Real Results.',
   heroSubtitle: "Explore how we've helped businesses across Pakistan, the Gulf, and Europe transform with custom software solutions.",
   ctaText: 'Discuss Your Project',
+  statProjectsLabel: 'Projects Completed',
+  statIndustriesLabel: 'Industries Served',
+  statSatisfactionLabel: 'Client Satisfaction',
+  statCountriesLabel: 'Countries Served',
+  finalCtaTitle: 'Your Success Story Starts Here',
+  finalCtaSubtitle: 'Join 200+ companies that have transformed their business with Greatodeal.',
+  finalCtaButtonText: 'Start Your Project',
+  finalCtaSecondaryButtonText: 'Request a Demo',
 };
 
 const caseStudies: Array<{ icon: LucideIcon; title: string; client: string; industry: string; services: string[]; challenge: string; solution: string; results: Array<{ metric: string; label: string }>; tech: string[]; accent: string }> = [
@@ -29,6 +37,7 @@ const caseStudies: Array<{ icon: LucideIcon; title: string; client: string; indu
 export default function CaseStudiesClient() {
   const content = usePageContent('case-studies', CASE_STUDIES_CONTENT_DEFAULTS);
   const heroTitleEdited = content.heroTitle !== CASE_STUDIES_CONTENT_DEFAULTS.heroTitle;
+  const finalCtaTitleEdited = content.finalCtaTitle !== CASE_STUDIES_CONTENT_DEFAULTS.finalCtaTitle;
   return (
     <div className="min-h-screen bg-[#090909] text-[#E5E7EB] overflow-x-hidden">
 
@@ -62,7 +71,7 @@ export default function CaseStudiesClient() {
       {/* ═══ STATS ═══ */}
       <section className="py-10 border-y border-white/[0.04] bg-[#060606]">
         <div className="container max-w-[1920px] grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-          {[{ target: 200, suffix: '+', label: 'Projects Completed' }, { target: 8, suffix: '', label: 'Industries Served' }, { target: 98, suffix: '%', label: 'Client Satisfaction' }, { target: 7, suffix: '', label: 'Countries Served' }].map(s => (
+          {[{ target: 200, suffix: '+', label: content.statProjectsLabel }, { target: 8, suffix: '', label: content.statIndustriesLabel }, { target: 98, suffix: '%', label: content.statSatisfactionLabel }, { target: 7, suffix: '', label: content.statCountriesLabel }].map(s => (
             <div key={s.label}>
               <div className="text-3xl font-bold text-white tracking-tight mb-1"><AnimatedCounter target={s.target} suffix={s.suffix} /></div>
               <div className="text-[#777] text-sm">{s.label}</div>
@@ -143,15 +152,17 @@ export default function CaseStudiesClient() {
         <div className="container max-w-[1920px] relative z-10">
           <motion.div className="text-center max-w-3xl mx-auto" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8, ease }}>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 leading-[1.15] tracking-tight">
-              Your Success Story{' '}<span className="bg-gradient-to-r from-[#6EE7B7] via-[#34D399] to-[#3B82F6] bg-clip-text text-transparent">Starts Here</span>
+              {finalCtaTitleEdited ? content.finalCtaTitle : (
+                <>Your Success Story{' '}<span className="bg-gradient-to-r from-[#6EE7B7] via-[#34D399] to-[#3B82F6] bg-clip-text text-transparent">Starts Here</span></>
+              )}
             </h2>
-            <p className="text-[17px] text-[#777] mb-12 max-w-xl mx-auto leading-[1.7]">Join 200+ companies that have transformed their business with Greatodeal.</p>
+            <p className="text-[17px] text-[#777] mb-12 max-w-xl mx-auto leading-[1.7]">{content.finalCtaSubtitle}</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/contact" className="btn-primary group">
-                Start Your Project <ArrowRight className="w-5 h-5 group-hover:translate-x-1.5 transition-transform duration-500" />
+                {content.finalCtaButtonText} <ArrowRight className="w-5 h-5 group-hover:translate-x-1.5 transition-transform duration-500" />
               </Link>
               <Link href="/contact" className="px-10 py-4 border border-white/[0.08] text-white rounded-xl font-bold text-[15px] hover:border-[#6EE7B7]/30 hover:bg-[#6EE7B7]/[0.03] transition-all duration-700 flex items-center justify-center gap-2">
-                Request a Demo
+                {content.finalCtaSecondaryButtonText}
               </Link>
             </div>
           </motion.div>

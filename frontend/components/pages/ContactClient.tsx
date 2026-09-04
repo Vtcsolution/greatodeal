@@ -15,6 +15,10 @@ const CONTACT_CONTENT_DEFAULTS = {
   heroTitle: 'Request a Demo',
   heroSubtitle: 'See how our AI SaaS and agentic automation work for your industry. Fill out the form below or reach us directly, and our team will get back to you within 24 hours.',
   ctaText: 'Request a Demo',
+  formTitle: 'Request a Demo',
+  sidebarTitle: 'Get In Touch',
+  whyContactTitle: 'Why Contact Us?',
+  whatsappTitle: 'Prefer WhatsApp?',
 };
 
 const trustPoints: Array<{ icon: typeof Shield; label: string }> = [
@@ -124,7 +128,7 @@ export default function ContactClient() {
                   <div className="w-11 h-11 bg-[#6EE7B7]/10 border border-[#6EE7B7]/15 rounded-xl flex items-center justify-center shrink-0">
                     <Send className="w-5 h-5 text-[#6EE7B7]" />
                   </div>
-                  <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">Request a Demo</h2>
+                  <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">{content.formTitle}</h2>
                 </div>
                 {isSuccess ? (
                   <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="text-center py-16">
@@ -226,7 +230,7 @@ export default function ContactClient() {
             {/* Sidebar */}
             <motion.div className="space-y-6" initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.7, ease }}>
               <div className="bg-white/[0.02] p-6 sm:p-7 rounded-2xl border border-white/[0.06]">
-                <h2 className="text-xl sm:text-2xl font-bold mb-6 tracking-tight">Get In Touch</h2>
+                <h2 className="text-xl sm:text-2xl font-bold mb-6 tracking-tight">{content.sidebarTitle}</h2>
                 <div className="space-y-4">
                   {contactInfo.map(({ icon: Icon, label, value, href }, i) => (
                     <a key={i} href={href} className="flex items-start gap-4 p-4 bg-[#090909] rounded-xl border border-white/[0.06] hover:border-[#6EE7B7]/20 transition-all duration-700 group">
@@ -243,7 +247,7 @@ export default function ContactClient() {
               </div>
 
               <div className="bg-white/[0.02] p-6 sm:p-7 rounded-2xl border border-white/[0.06]">
-                <h3 className="text-xl font-bold mb-5 tracking-tight">Why Contact Us?</h3>
+                <h3 className="text-xl font-bold mb-5 tracking-tight">{content.whyContactTitle}</h3>
                 <div className="space-y-3.5">
                   {['Personalized product demo', 'Response within 24 hours', 'NDA signing available', 'Dedicated project manager', 'Compliance & security walkthrough', 'Focused, hands-on team'].map((item, i) => (
                     <div key={i} className="flex items-center gap-3">
@@ -255,7 +259,7 @@ export default function ContactClient() {
               </div>
 
               <div className="bg-[#6EE7B7]/[0.04] p-6 sm:p-7 rounded-2xl border border-[#6EE7B7]/[0.1]">
-                <h3 className="text-xl font-bold mb-2 tracking-tight">Prefer WhatsApp?</h3>
+                <h3 className="text-xl font-bold mb-2 tracking-tight">{content.whatsappTitle}</h3>
                 <p className="text-white/60 text-base mb-5">Chat with us directly for quick responses.</p>
                 <a href="https://wa.me/923011060841?text=Hi%20Greatodeal!%20I%27d%20like%20to%20request%20a%20demo." target="_blank" rel="noopener noreferrer"
                   className="btn-primary w-full">

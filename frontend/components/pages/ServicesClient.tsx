@@ -18,6 +18,18 @@ const SERVICES_CONTENT_DEFAULTS = {
   heroTitle: 'From Startup to Fully Automated',
   heroSubtitle: 'Websites, software, AI-automation SaaS, ERP, AI tools, AI agents, and agentic AI, everything you need to build, run, and automate your business, delivered by one team.',
   ctaText: 'Request a Demo',
+  statServicesLabel: 'Core Services',
+  statIndustriesLabel: 'Industries Served',
+  statAuditLabel: 'Audit-Trail Coverage',
+  statCostLabel: 'Operational Cost Saved',
+  allServicesTitle: 'Every Piece, End to End',
+  howWeWorkTitle: 'How We Work',
+  howWeWorkSubtitle: 'The same process, whichever service you start with.',
+  techTitle: 'Built With Technology That Scales',
+  techSubtitle: 'No lock-in to a single stack, we use what fits the problem.',
+  finalCtaTitle: 'Not Sure Where to Start?',
+  finalCtaSubtitle: "Tell us what's slowing your business down. We'll tell you honestly which service actually solves it.",
+  finalCtaButtonText: 'Request a Demo',
 };
 
 function SplitText({ text, delay = 0, className = '' }: { text: string; delay?: number; className?: string }) {
@@ -127,6 +139,7 @@ export default function ServicesClient() {
   const heroInView = useInView(heroRef, { once: true });
   const content = usePageContent('services', SERVICES_CONTENT_DEFAULTS);
   const heroTitleEdited = content.heroTitle !== SERVICES_CONTENT_DEFAULTS.heroTitle;
+  const finalCtaTitleEdited = content.finalCtaTitle !== SERVICES_CONTENT_DEFAULTS.finalCtaTitle;
 
   return (
     <div className="min-h-screen bg-[#090909] text-white overflow-x-hidden">
@@ -168,10 +181,10 @@ export default function ServicesClient() {
       <section className="py-12 border-y border-white/[0.04] bg-[#060606]">
         <div className="container max-w-[1920px] px-4 sm:px-6 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
           {[
-            { target: 9, suffix: '', label: 'Core Services' },
-            { target: 8, suffix: '', label: 'Industries Served' },
-            { target: 100, suffix: '%', label: 'Audit-Trail Coverage' },
-            { target: 60, suffix: '%+', label: 'Operational Cost Saved' },
+            { target: 9, suffix: '', label: content.statServicesLabel },
+            { target: 8, suffix: '', label: content.statIndustriesLabel },
+            { target: 100, suffix: '%', label: content.statAuditLabel },
+            { target: 60, suffix: '%+', label: content.statCostLabel },
           ].map((s, i) => (
             <motion.div key={s.label} initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08, duration: 0.5 }}>
               <div className="text-3xl sm:text-4xl font-bold text-white tracking-tight mb-1"><AnimatedCounter target={s.target} suffix={s.suffix} /></div>
@@ -193,7 +206,7 @@ export default function ServicesClient() {
         <div className="container max-w-[1920px] px-4 sm:px-6">
           <motion.div className="text-center max-w-2xl mx-auto mb-14 sm:mb-16" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, ease }}>
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider mb-5 bg-white/[0.04] border border-white/[0.08] text-white/60">The Full Stack</div>
-            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-white">Every Piece, End to End</h2>
+            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-white">{content.allServicesTitle}</h2>
           </motion.div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {secondaryServices.map((s, i) => {
@@ -227,8 +240,8 @@ export default function ServicesClient() {
       <section className="py-20 sm:py-28 bg-[#060606] border-y border-white/[0.04]">
         <div className="container max-w-[1920px] px-4 sm:px-6">
           <motion.div className="text-center max-w-2xl mx-auto mb-16 sm:mb-20" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, ease }}>
-            <h2 className="text-3xl sm:text-4xl font-bold mb-4 tracking-tight text-white">How We Work</h2>
-            <p className="text-white/70 text-base sm:text-lg leading-relaxed">The same process, whichever service you start with.</p>
+            <h2 className="text-3xl sm:text-4xl font-bold mb-4 tracking-tight text-white">{content.howWeWorkTitle}</h2>
+            <p className="text-white/70 text-base sm:text-lg leading-relaxed">{content.howWeWorkSubtitle}</p>
           </motion.div>
           <div className="relative">
             <motion.div className="hidden lg:block absolute top-8 left-[12.5%] right-[12.5%] h-[2px] bg-gradient-to-r from-[#6EE7B7]/50 via-[#3B82F6]/50 to-[#6EE7B7]/50 origin-left" initial={{ scaleX: 0 }} whileInView={{ scaleX: 1 }} viewport={{ once: true }} transition={{ duration: 1.4, ease }} />
@@ -257,8 +270,8 @@ export default function ServicesClient() {
       <section className="py-20 sm:py-28 bg-[#090909]">
         <div className="container max-w-[1920px] px-4 sm:px-6">
           <motion.div className="text-center max-w-2xl mx-auto mb-14 sm:mb-16" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, ease }}>
-            <h2 className="text-3xl sm:text-4xl font-bold mb-4 tracking-tight text-white">Built With Technology That Scales</h2>
-            <p className="text-white/70 text-base sm:text-lg leading-relaxed">No lock-in to a single stack, we use what fits the problem.</p>
+            <h2 className="text-3xl sm:text-4xl font-bold mb-4 tracking-tight text-white">{content.techTitle}</h2>
+            <p className="text-white/70 text-base sm:text-lg leading-relaxed">{content.techSubtitle}</p>
           </motion.div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {techCategories.map((cat, i) => (
@@ -284,12 +297,13 @@ export default function ServicesClient() {
         <div className="container max-w-[1920px] px-4 sm:px-6 relative z-10">
           <motion.div className="text-center max-w-3xl mx-auto" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8, ease }}>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 leading-[1.15] tracking-tight">
-              Not Sure Where to{' '}
-              <span className="bg-gradient-to-r from-[#6EE7B7] via-[#34D399] to-[#3B82F6] bg-clip-text text-transparent">Start?</span>
+              {finalCtaTitleEdited ? content.finalCtaTitle : (
+                <>Not Sure Where to{' '}<span className="bg-gradient-to-r from-[#6EE7B7] via-[#34D399] to-[#3B82F6] bg-clip-text text-transparent">Start?</span></>
+              )}
             </h2>
-            <p className="text-lg sm:text-xl text-white/70 mb-12 max-w-xl mx-auto leading-[1.8]">Tell us what's slowing your business down. We'll tell you honestly which service actually solves it.</p>
+            <p className="text-lg sm:text-xl text-white/70 mb-12 max-w-xl mx-auto leading-[1.8]">{content.finalCtaSubtitle}</p>
             <Link href="/contact" className="btn-primary group text-lg">
-              Request a Demo <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-500" />
+              {content.finalCtaButtonText} <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-500" />
             </Link>
           </motion.div>
         </div>

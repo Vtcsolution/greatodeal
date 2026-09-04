@@ -19,14 +19,25 @@ const HOME_CONTENT_DEFAULTS = {
   heroTitle: 'Build the AI system your business deserves.',
   heroSubtitle: 'We build AI SaaS and agentic automation for government, healthcare, and other regulated industries, with compliance, security, and auditability engineered in from day one, not bolted on after a breach. We hold every system we ship to that same standard, whether the client is down the street or on the other side of the world.',
   ctaText: 'Get Free Analysis',
+  statAuditLabel: 'Audit-trail coverage',
+  statIndustriesLabel: 'Industries served',
+  statCostLabel: 'Operational cost saved',
+  whatWeBuildTitle: 'What We Build',
+  whatWeBuildSubtitle: 'Product capabilities, not a service-line menu, built for institutions that answer to regulators and auditors.',
+  industriesTitle: 'Industries We Serve',
+  whyUsTitle: 'Why Choose Us',
+  techStackTitle: 'Our Technology Stack',
+  techStackSubtitle: 'We work with a wide range of technologies to deliver the best solutions for your business needs.',
+  finalCtaTitle: 'Partner with Greatodeal for Your Next Project',
+  finalCtaButtonText: 'Request a Demo',
 };
 
 const ParticleSphere = dynamic(() => import('@/components/ui/ParticleSphere'), { ssr: false });
 
-const heroStats: Array<{ icon: LucideIcon; value: string; label: string }> = [
-  { icon: Shield, value: '100%', label: 'Audit-trail coverage' },
-  { icon: Building2, value: '8', label: 'Industries served' },
-  { icon: TrendingUp, value: '60%+', label: 'Operational cost saved' },
+const heroStats: Array<{ icon: LucideIcon; value: string; labelKey: keyof typeof HOME_CONTENT_DEFAULTS }> = [
+  { icon: Shield, value: '100%', labelKey: 'statAuditLabel' },
+  { icon: Building2, value: '8', labelKey: 'statIndustriesLabel' },
+  { icon: TrendingUp, value: '60%+', labelKey: 'statCostLabel' },
 ];
 
 const ease = [0.25, 0.1, 0.25, 1] as const;
@@ -268,7 +279,7 @@ export default function HomeClient() {
                       </div>
                       <div>
                         <div className="text-lg font-bold text-white leading-none">{stat.value}</div>
-                        <div className="text-xs text-white/45 mt-1">{stat.label}</div>
+                        <div className="text-xs text-white/45 mt-1">{content[stat.labelKey]}</div>
                       </div>
                     </div>
                   );
@@ -304,8 +315,8 @@ export default function HomeClient() {
       <section className="py-20 sm:py-28 bg-[#090909]">
         <div className="container max-w-[1920px] px-4 sm:px-6">
           <RevealText className="text-center max-w-2xl mx-auto mb-16 sm:mb-24">
-            <h2 className="text-3xl sm:text-4xl lg:text-[2.75rem] font-bold tracking-tight text-white mb-4">What We Build</h2>
-            <p className="text-white/80 text-base sm:text-lg leading-relaxed">Product capabilities, not a service-line menu, built for institutions that answer to regulators and auditors.</p>
+            <h2 className="text-3xl sm:text-4xl lg:text-[2.75rem] font-bold tracking-tight text-white mb-4">{content.whatWeBuildTitle}</h2>
+            <p className="text-white/80 text-base sm:text-lg leading-relaxed">{content.whatWeBuildSubtitle}</p>
           </RevealText>
 
           <div className="space-y-20 sm:space-y-28">
@@ -353,7 +364,7 @@ export default function HomeClient() {
       <section className="py-20 sm:py-28 bg-[#090909]">
         <div className="container max-w-[1920px] px-4 sm:px-6">
           <RevealText className="text-center mb-12 sm:mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold mb-5 tracking-tight text-white">Industries We Serve</h2>
+            <h2 className="text-3xl sm:text-4xl font-bold mb-5 tracking-tight text-white">{content.industriesTitle}</h2>
             <p className="text-white/80 max-w-2xl mx-auto text-base sm:text-lg leading-relaxed">We focus on <Link href="/industries" className="text-[#6EE7B7] hover:underline">eight industries</Link> where compliance, audit, and security aren&apos;t optional.</p>
           </RevealText>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
@@ -380,7 +391,7 @@ export default function HomeClient() {
         </div>
         <div className="container max-w-[1920px] px-4 sm:px-6 relative z-10">
           <RevealText className="mb-12 sm:mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-white">Why Choose Us</h2>
+            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-white">{content.whyUsTitle}</h2>
           </RevealText>
 
           <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center mb-16 sm:mb-20">
@@ -441,8 +452,8 @@ export default function HomeClient() {
       <section className="py-20 sm:py-28 bg-[#090909]">
         <div className="container max-w-[1920px] px-4 sm:px-6">
           <RevealText className="text-center mb-12 sm:mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold mb-5 tracking-tight text-white">Our Technology Stack</h2>
-            <p className="text-white/80 max-w-2xl mx-auto text-base sm:text-lg">We work with a wide range of technologies to deliver the best solutions for your business needs.</p>
+            <h2 className="text-3xl sm:text-4xl font-bold mb-5 tracking-tight text-white">{content.techStackTitle}</h2>
+            <p className="text-white/80 max-w-2xl mx-auto text-base sm:text-lg">{content.techStackSubtitle}</p>
           </RevealText>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
             {techCategories.map((cat, ci) => (
@@ -460,10 +471,10 @@ export default function HomeClient() {
         <div className="absolute inset-0"><div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[450px] bg-[#6EE7B7]/[0.04] rounded-full blur-[180px]" /><div className="absolute inset-0 bg-[linear-gradient(rgba(110,231,183,0.015)_1px,transparent_1px),linear-gradient(90deg,rgba(110,231,183,0.015)_1px,transparent_1px)] bg-[size:60px_60px]" /></div>
         <div className="container max-w-[1920px] px-4 sm:px-6 relative z-10">
           <motion.div className="text-center max-w-3xl mx-auto" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8, ease }}>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 leading-[1.15] tracking-tight text-white">Partner with Greatodeal for Your Next Project</h2>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 leading-[1.15] tracking-tight text-white">{content.finalCtaTitle}</h2>
             <p className="text-base sm:text-lg text-white/80 mb-10 sm:mb-12 max-w-xl mx-auto leading-[1.8]">We specialize in <strong className="text-white/80">agentic AI, compliance-grade infrastructure, and secure cloud systems</strong>. Whether you&apos;re modernizing legacy systems or launching a new platform, our team builds for the audit you&apos;ll face, not just the demo. Read more on <Link href="/blog" className="text-[#6EE7B7] hover:underline">our blog</Link>.</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/contact" className="btn-primary group">Request a Demo <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-500" /></Link>
+              <Link href="/contact" className="btn-primary group">{content.finalCtaButtonText} <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-500" /></Link>
             </div>
           </motion.div>
         </div>

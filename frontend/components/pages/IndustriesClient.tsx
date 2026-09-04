@@ -18,6 +18,16 @@ const INDUSTRIES_CONTENT_DEFAULTS = {
   heroTitle: 'Industries We Serve',
   heroSubtitle: "We focus on sectors where compliance, audit, and security aren't optional. Government and healthcare above all, with fintech, green tech, real estate, AI automation, business services, and e-commerce as our secondary focus.",
   ctaText: 'Request a Demo',
+  statFocusLabel: 'Focus Industries',
+  statYearsLabel: 'Years in Operation',
+  statAuditLabel: 'Audit-Trail Coverage',
+  statSatisfactionLabel: 'Client Satisfaction',
+  approachTitle: 'How We Approach Every Industry',
+  approachSubtitle: 'The same compliance-first process, whichever sector you operate in.',
+  allIndustriesTitle: 'Every Sector We Serve',
+  finalCtaTitle: 'Not Seeing Your Industry?',
+  finalCtaSubtitle: 'If your organization operates under regulatory or compliance requirements, we can likely help. Tell us about your use case.',
+  finalCtaButtonText: 'Request a Demo',
 };
 
 interface Industry {
@@ -119,6 +129,7 @@ export default function IndustriesClient() {
   const heroInView = useInView(heroRef, { once: true });
   const content = usePageContent('industries', INDUSTRIES_CONTENT_DEFAULTS);
   const heroTitleEdited = content.heroTitle !== INDUSTRIES_CONTENT_DEFAULTS.heroTitle;
+  const finalCtaTitleEdited = content.finalCtaTitle !== INDUSTRIES_CONTENT_DEFAULTS.finalCtaTitle;
 
   return (
     <div className="min-h-screen bg-[#090909] text-white overflow-x-hidden">
@@ -159,10 +170,10 @@ export default function IndustriesClient() {
       <section className="py-12 border-y border-white/[0.04] bg-[#060606]">
         <div className="container max-w-[1920px] px-4 sm:px-6 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
           {[
-            { target: 8, suffix: '', label: 'Focus Industries' },
-            { target: 6, suffix: '+', label: 'Years in Operation' },
-            { target: 100, suffix: '%', label: 'Audit-Trail Coverage' },
-            { target: 98, suffix: '%', label: 'Client Satisfaction' },
+            { target: 8, suffix: '', label: content.statFocusLabel },
+            { target: 6, suffix: '+', label: content.statYearsLabel },
+            { target: 100, suffix: '%', label: content.statAuditLabel },
+            { target: 98, suffix: '%', label: content.statSatisfactionLabel },
           ].map((s, i) => (
             <motion.div key={s.label} initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08, duration: 0.5 }}>
               <div className="text-3xl sm:text-4xl font-bold text-white tracking-tight mb-1"><AnimatedCounter target={s.target} suffix={s.suffix} /></div>
@@ -176,8 +187,8 @@ export default function IndustriesClient() {
       <section className="py-20 sm:py-28 bg-[#090909]">
         <div className="container max-w-[1920px] px-4 sm:px-6">
           <motion.div className="text-center max-w-2xl mx-auto mb-16 sm:mb-20" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, ease }}>
-            <h2 className="text-3xl sm:text-4xl font-bold mb-4 tracking-tight text-white">How We Approach Every Industry</h2>
-            <p className="text-white/70 text-base sm:text-lg leading-relaxed">The same compliance-first process, whichever sector you operate in.</p>
+            <h2 className="text-3xl sm:text-4xl font-bold mb-4 tracking-tight text-white">{content.approachTitle}</h2>
+            <p className="text-white/70 text-base sm:text-lg leading-relaxed">{content.approachSubtitle}</p>
           </motion.div>
           <div className="relative">
             <motion.div className="hidden lg:block absolute top-8 left-[12.5%] right-[12.5%] h-[2px] bg-gradient-to-r from-[#6EE7B7]/50 via-[#3B82F6]/50 to-[#6EE7B7]/50 origin-left" initial={{ scaleX: 0 }} whileInView={{ scaleX: 1 }} viewport={{ once: true }} transition={{ duration: 1.4, ease }} />
@@ -200,7 +211,7 @@ export default function IndustriesClient() {
         <div className="container max-w-[1920px] px-4 sm:px-6">
           <motion.div className="text-center max-w-2xl mx-auto mb-14 sm:mb-16" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, ease }}>
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider mb-5 bg-white/[0.04] border border-white/[0.08] text-white/60">All Industries</div>
-            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-white">Every Sector We Serve</h2>
+            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-white">{content.allIndustriesTitle}</h2>
           </motion.div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {industries.map((ind, i) => {
@@ -239,12 +250,13 @@ export default function IndustriesClient() {
         <div className="container max-w-[1920px] px-4 sm:px-6 relative z-10">
           <motion.div className="text-center max-w-3xl mx-auto" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8, ease }}>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 leading-[1.15] tracking-tight">
-              Not Seeing Your{' '}
-              <span className="bg-gradient-to-r from-[#6EE7B7] via-[#34D399] to-[#3B82F6] bg-clip-text text-transparent">Industry?</span>
+              {finalCtaTitleEdited ? content.finalCtaTitle : (
+                <>Not Seeing Your{' '}<span className="bg-gradient-to-r from-[#6EE7B7] via-[#34D399] to-[#3B82F6] bg-clip-text text-transparent">Industry?</span></>
+              )}
             </h2>
-            <p className="text-lg sm:text-xl text-white/70 mb-12 max-w-xl mx-auto leading-[1.8]">If your organization operates under regulatory or compliance requirements, we can likely help. Tell us about your use case.</p>
+            <p className="text-lg sm:text-xl text-white/70 mb-12 max-w-xl mx-auto leading-[1.8]">{content.finalCtaSubtitle}</p>
             <Link href="/contact" className="btn-primary group text-lg">
-              Request a Demo <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-500" />
+              {content.finalCtaButtonText} <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-500" />
             </Link>
           </motion.div>
         </div>

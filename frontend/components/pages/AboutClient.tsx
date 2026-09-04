@@ -14,13 +14,31 @@ const ease = [0.25, 0.1, 0.25, 1] as const;
 const ABOUT_CONTENT_DEFAULTS = {
   heroTitle: "AI Infrastructure for Institutions That Can't Afford to Get It Wrong",
   heroSubtitle: 'Greatodeal is an AI SaaS and agentic automation company headquartered in Lahore, Pakistan. Our team designs every system around the compliance, audit, and security requirements our clients are held to, not as an afterthought but as the starting point of the architecture.',
+  storyTitle: 'Our Story Driven by Innovation & Client Success',
+  missionTitle: 'Our Mission',
+  howWeWorkTitle: 'How We Work',
+  howWeWorkSubtitle: 'A compliance-first process, from discovery to audit-ready launch.',
+  whatWeBuildTitle: 'What We Build',
+  principlesTitle: 'Our Key Principles for Project Success',
+  principlesSubtitle: "We're committed to delivering successful projects that meet your goals and exceed your expectations. We achieve this through proven methodologies, best practices, and a collaborative approach.",
+  pricingModelsTitle: 'Pricing Models',
+  pricingModelsSubtitle: 'We understand that every project is unique, and your pricing model should reflect that. We offer flexible pricing options to ensure you get the best value for your investment.',
+  techStackTitle: 'Our Technology Stack',
+  techStackSubtitle: 'We leverage cutting-edge technologies and proven frameworks to build robust, scalable, and high-performance solutions.',
+  finalCtaTitle: 'Ready to Build Something Amazing?',
+  finalCtaSubtitle: "Let's collaborate to transform your ideas into powerful software solutions that drive growth, innovation, and lasting success.",
+  finalCtaButtonText: "Let's Start",
+  statAuditLabel: 'audit-trail coverage',
+  statIndustriesLabel: 'industries served',
+  statSatisfactionLabel: 'client satisfaction rate',
+  statCostLabel: 'cost saved',
 };
 
-const stats = [
-  { icon: Shield, target: 100, suffix: '%', label: 'audit-trail coverage' },
-  { icon: Building2, target: 8, suffix: '', label: 'industries served' },
-  { icon: Star, target: 98, suffix: '%', label: 'client satisfaction rate' },
-  { icon: DollarSign, target: 60, suffix: '%+', label: 'cost saved' },
+const stats: Array<{ icon: LucideIcon; target: number; suffix: string; labelKey: 'statAuditLabel' | 'statIndustriesLabel' | 'statSatisfactionLabel' | 'statCostLabel' }> = [
+  { icon: Shield, target: 100, suffix: '%', labelKey: 'statAuditLabel' },
+  { icon: Building2, target: 8, suffix: '', labelKey: 'statIndustriesLabel' },
+  { icon: Star, target: 98, suffix: '%', labelKey: 'statSatisfactionLabel' },
+  { icon: DollarSign, target: 60, suffix: '%+', labelKey: 'statCostLabel' },
 ];
 
 const principles = [
@@ -65,6 +83,10 @@ export default function AboutClient() {
   const [isDesktop, setIsDesktop] = useState(false);
   const content = usePageContent('about', ABOUT_CONTENT_DEFAULTS);
   const heroTitleEdited = content.heroTitle !== ABOUT_CONTENT_DEFAULTS.heroTitle;
+  const storyTitleEdited = content.storyTitle !== ABOUT_CONTENT_DEFAULTS.storyTitle;
+  const principlesTitleEdited = content.principlesTitle !== ABOUT_CONTENT_DEFAULTS.principlesTitle;
+  const pricingModelsTitleEdited = content.pricingModelsTitle !== ABOUT_CONTENT_DEFAULTS.pricingModelsTitle;
+  const finalCtaTitleEdited = content.finalCtaTitle !== ABOUT_CONTENT_DEFAULTS.finalCtaTitle;
 
   useEffect(() => {
     setIsDesktop(window.innerWidth >= 768);
@@ -105,7 +127,7 @@ export default function AboutClient() {
                 <div key={i} className="text-center p-6 rounded-xl bg-[#111827] border border-gray-700/50 hover:border-[#6EE7B7]/40 transition-all duration-500">
                   <SIcon className="w-7 h-7 text-[#6EE7B7] mx-auto mb-3" />
                   <div className="text-3xl lg:text-4xl font-bold text-[#6EE7B7] mb-1"><AnimatedCounter target={s.target} suffix={s.suffix} /></div>
-                  <div className="text-sm text-gray-400">{s.label}</div>
+                  <div className="text-sm text-gray-400">{content[s.labelKey]}</div>
                 </div>
               );
             })}
@@ -119,8 +141,9 @@ export default function AboutClient() {
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <RevealOnScroll direction="left">
               <h2 className="text-3xl md:text-4xl font-bold mb-8 leading-tight">
-                <span className="text-[#6EE7B7]">Our Story</span>
-                <br />Driven by Innovation & Client Success
+                {storyTitleEdited ? content.storyTitle : (
+                  <><span className="text-[#6EE7B7]">Our Story</span><br />Driven by Innovation & Client Success</>
+                )}
               </h2>
               <div className="space-y-5 text-gray-400 leading-relaxed">
                 <p>Greatodeal builds technology for organizations where failure isn&apos;t an inconvenience. It&apos;s a compliance incident. What began as a small engineering team has grown into a company focused specifically on <span className="text-white">AI infrastructure for regulated industries</span>.</p>
@@ -143,7 +166,7 @@ export default function AboutClient() {
               <div className="rounded-2xl overflow-hidden shadow-2xl"><Image src="/images/about2.png" alt="Greatodeal's mission: compliance-grade AI automation for regulated industries" width={800} height={450} className="w-full h-[400px] lg:h-[450px] object-cover" /></div>
             </motion.div>
             <RevealOnScroll direction="right" className="order-1 lg:order-2">
-              <h2 className="text-3xl md:text-4xl font-bold mb-8">Our Mission</h2>
+              <h2 className="text-3xl md:text-4xl font-bold mb-8">{content.missionTitle}</h2>
               <div className="space-y-5 text-gray-400 leading-relaxed">
                 <p>We build AI infrastructure for institutions that can&apos;t afford to get it wrong. That means every system we ship is designed around <span className="text-[#6EE7B7]">auditability, explainability, and security</span> from the first architecture decision, not features added after a compliance review flags a gap.</p>
                 <p>We&apos;re not a generalist vendor; we&apos;re a long-term technology partner to organizations operating under regulatory scrutiny. Our work spans agentic AI platforms, compliance-grade infrastructure, and industry-specific SaaS for government, healthcare, fintech, green tech, and real estate, built so our clients can adopt AI with confidence, not exposure.</p>
@@ -157,8 +180,8 @@ export default function AboutClient() {
       <section className="py-20">
         <div className="container max-w-[1920px]">
           <RevealOnScroll className="text-center mb-14">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">How We Work</h2>
-            <p className="text-gray-400 max-w-2xl mx-auto">A compliance-first process, from discovery to audit-ready launch.</p>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">{content.howWeWorkTitle}</h2>
+            <p className="text-gray-400 max-w-2xl mx-auto">{content.howWeWorkSubtitle}</p>
           </RevealOnScroll>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {processSteps.map((step, i) => {
@@ -182,7 +205,7 @@ export default function AboutClient() {
       <section className="py-20 bg-[#111827]/50">
         <div className="container max-w-[1920px]">
           <RevealOnScroll className="text-center mb-14">
-            <h2 className="text-3xl md:text-4xl font-bold">What We Build</h2>
+            <h2 className="text-3xl md:text-4xl font-bold">{content.whatWeBuildTitle}</h2>
           </RevealOnScroll>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 max-w-5xl mx-auto">
             {servicesList.map((s, i) => (
@@ -198,8 +221,12 @@ export default function AboutClient() {
       <section className="py-20">
         <div className="container max-w-[1920px]">
           <RevealOnScroll className="text-center mb-14">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Our Key Principles for <span className="text-[#6EE7B7]">Project Success</span></h2>
-            <p className="text-gray-400 max-w-2xl mx-auto">We&apos;re committed to delivering successful projects that meet your goals and exceed your expectations. We achieve this through proven methodologies, best practices, and a collaborative approach.</p>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+              {principlesTitleEdited ? content.principlesTitle : (
+                <>Our Key Principles for <span className="text-[#6EE7B7]">Project Success</span></>
+              )}
+            </h2>
+            <p className="text-gray-400 max-w-2xl mx-auto">{content.principlesSubtitle}</p>
           </RevealOnScroll>
           <div className="grid md:grid-cols-3 gap-6">
             {principles.map((p, i) => (
@@ -219,8 +246,12 @@ export default function AboutClient() {
       <section className="py-20 bg-[#111827]/50">
         <div className="container max-w-[1920px]">
           <RevealOnScroll className="text-center mb-14">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Pricing <span className="text-[#6EE7B7]">Models</span></h2>
-            <p className="text-gray-400 max-w-2xl mx-auto">We understand that every project is unique, and your pricing model should reflect that. We offer flexible pricing options to ensure you get the best value for your investment.</p>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+              {pricingModelsTitleEdited ? content.pricingModelsTitle : (
+                <>Pricing <span className="text-[#6EE7B7]">Models</span></>
+              )}
+            </h2>
+            <p className="text-gray-400 max-w-2xl mx-auto">{content.pricingModelsSubtitle}</p>
           </RevealOnScroll>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
             {pricingModels.map((m, i) => {
@@ -244,8 +275,8 @@ export default function AboutClient() {
       <section className="py-20">
         <div className="container max-w-[1920px]">
           <RevealOnScroll className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Our Technology Stack</h2>
-            <p className="text-gray-400 max-w-2xl mx-auto">We leverage cutting-edge technologies and proven frameworks to build robust, scalable, and high-performance solutions.</p>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">{content.techStackTitle}</h2>
+            <p className="text-gray-400 max-w-2xl mx-auto">{content.techStackSubtitle}</p>
           </RevealOnScroll>
           <div className="flex flex-wrap justify-center gap-2 mb-10">
             {techCategories.map((cat, i) => (
@@ -270,11 +301,13 @@ export default function AboutClient() {
         <div className="container max-w-[1920px]">
           <motion.div className="text-center max-w-2xl mx-auto" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8, ease }}>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 leading-tight">
-              Ready to Build Something<br /><span className="text-[#6EE7B7]">Amazing?</span>
+              {finalCtaTitleEdited ? content.finalCtaTitle : (
+                <>Ready to Build Something<br /><span className="text-[#6EE7B7]">Amazing?</span></>
+              )}
             </h2>
-            <p className="text-gray-400 mb-10 leading-relaxed">Let&apos;s collaborate to transform your ideas into powerful software solutions that drive growth, innovation, and lasting success.</p>
+            <p className="text-gray-400 mb-10 leading-relaxed">{content.finalCtaSubtitle}</p>
             <Link href="/contact" className="btn-primary group">
-              Let&apos;s Start <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-500" />
+              {content.finalCtaButtonText} <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-500" />
             </Link>
           </motion.div>
         </div>
