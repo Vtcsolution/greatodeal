@@ -62,58 +62,68 @@ export default function PageContentEditPage() {
     );
   }
 
+  const SaveButton = (
+    <button onClick={save} disabled={saving} className="btn-primary btn-primary-sm disabled:opacity-60 shrink-0">
+      {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : saved ? <Check className="w-4 h-4" /> : <Save className="w-4 h-4" />}
+      {saved ? 'Saved' : 'Save Changes'}
+    </button>
+  );
+
   return (
-    <div className="p-4 sm:p-6 lg:p-8 max-w-2xl">
-      <div className="flex items-center gap-3 mb-2">
-        <button onClick={() => router.push('/admin/dashboard/page-content')} className="p-2 rounded-xl text-white/50 hover:text-white hover:bg-white/5 transition-colors">
-          <ArrowLeft className="w-5 h-5" />
-        </button>
-        <div>
-          <h1 className="text-xl sm:text-2xl font-bold text-white">{schema.label} Page</h1>
-          <p className="text-white/50 text-sm mt-0.5">Edits go live immediately — no rebuild needed.</p>
+    <div className="p-4 sm:p-6 lg:p-8">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+        <div className="flex items-center gap-3 min-w-0">
+          <button onClick={() => router.push('/admin/dashboard/page-content')} className="p-2 rounded-xl text-white/50 hover:text-white hover:bg-white/5 transition-colors shrink-0">
+            <ArrowLeft className="w-5 h-5" />
+          </button>
+          <div className="min-w-0">
+            <h1 className="text-xl sm:text-2xl font-bold text-white">{schema.label} Page</h1>
+            <div className="flex items-center gap-3 mt-0.5">
+              <p className="text-white/50 text-sm">Edits go live immediately — no rebuild needed.</p>
+              <a href={schema.path} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-xs text-[#6EE7B7] hover:underline shrink-0">
+                View live page <ExternalLink className="w-3.5 h-3.5" />
+              </a>
+            </div>
+          </div>
+        </div>
+        <div className="hidden sm:block">{SaveButton}</div>
+      </div>
+
+      <div className="bg-[#161616] rounded-2xl border border-white/10 p-5 sm:p-8">
+        <div className="grid sm:grid-cols-2 gap-x-6 gap-y-5">
+          {schema.fields.map(field => (
+            <div key={field.key} className={field.type === 'textarea' ? 'sm:col-span-2' : ''}>
+              <div className="flex items-center justify-between mb-1.5">
+                <label className={labelCls + ' mb-0'}>{field.label}</label>
+                {fields[field.key]?.trim() && (
+                  <button onClick={() => resetField(field.key)} className="flex items-center gap-1 text-[11px] text-white/30 hover:text-white/60 transition-colors shrink-0">
+                    <RotateCcw className="w-3 h-3" /> Reset to default
+                  </button>
+                )}
+              </div>
+              {field.type === 'textarea' ? (
+                <textarea
+                  value={fields[field.key] || ''}
+                  onChange={e => setFields(f => ({ ...f, [field.key]: e.target.value }))}
+                  rows={3}
+                  placeholder="Leave blank to keep the site's default text"
+                  className={inputCls + ' resize-none'}
+                />
+              ) : (
+                <input
+                  value={fields[field.key] || ''}
+                  onChange={e => setFields(f => ({ ...f, [field.key]: e.target.value }))}
+                  placeholder="Leave blank to keep the site's default text"
+                  className={inputCls}
+                />
+              )}
+            </div>
+          ))}
         </div>
       </div>
 
-      <a href={schema.path} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-xs text-[#6EE7B7] hover:underline mb-6 mt-3">
-        View live page <ExternalLink className="w-3.5 h-3.5" />
-      </a>
-
-      <div className="bg-[#161616] rounded-2xl border border-white/10 p-5 sm:p-6 space-y-5">
-        {schema.fields.map(field => (
-          <div key={field.key}>
-            <div className="flex items-center justify-between mb-1.5">
-              <label className={labelCls + ' mb-0'}>{field.label}</label>
-              {fields[field.key]?.trim() && (
-                <button onClick={() => resetField(field.key)} className="flex items-center gap-1 text-[11px] text-white/30 hover:text-white/60 transition-colors">
-                  <RotateCcw className="w-3 h-3" /> Reset to default
-                </button>
-              )}
-            </div>
-            {field.type === 'textarea' ? (
-              <textarea
-                value={fields[field.key] || ''}
-                onChange={e => setFields(f => ({ ...f, [field.key]: e.target.value }))}
-                rows={3}
-                placeholder="Leave blank to keep the site's default text"
-                className={inputCls + ' resize-none'}
-              />
-            ) : (
-              <input
-                value={fields[field.key] || ''}
-                onChange={e => setFields(f => ({ ...f, [field.key]: e.target.value }))}
-                placeholder="Leave blank to keep the site's default text"
-                className={inputCls}
-              />
-            )}
-          </div>
-        ))}
-      </div>
-
-      <div className="flex items-center gap-3 mt-6">
-        <button onClick={save} disabled={saving} className="btn-primary btn-primary-sm disabled:opacity-60">
-          {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : saved ? <Check className="w-4 h-4" /> : <Save className="w-4 h-4" />}
-          {saved ? 'Saved' : 'Save Changes'}
-        </button>
+      <div className="flex sm:hidden items-center gap-3 mt-6">
+        {SaveButton}
       </div>
     </div>
   );
