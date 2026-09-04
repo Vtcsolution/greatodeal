@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useAdmin } from '@/context/AdminContext';
-import { LayoutDashboard, FileText, PlusCircle, MessageSquare, Mail, User, LogOut, X, FolderOpen, BarChart3, Zap, Inbox, Activity, Search, Briefcase, Image as ImageIcon, Tag, Linkedin, Users, Shield, UserCog } from 'lucide-react';
+import { LayoutDashboard, FileText, PlusCircle, MessageSquare, Mail, User, LogOut, X, FolderOpen, BarChart3, Zap, Inbox, Activity, Search, Briefcase, Image as ImageIcon, Tag, Linkedin, Users, Shield, UserCog, PenSquare } from 'lucide-react';
 
 // operatorVisible: shown to restricted "operator" accounts. Everything else (blog, Work,
 // Pricing, Knowledge Base, Analytics, Team) is full-admin only — the backend enforces this
@@ -24,6 +24,7 @@ export const navGroups = [
       { href: '/admin/dashboard/portfolio', icon: ImageIcon, label: 'Work', operatorVisible: false },
       { href: '/admin/dashboard/pricing', icon: Tag, label: 'Pricing', operatorVisible: false },
       { href: '/admin/dashboard/knowledge', icon: FolderOpen, label: 'AI Knowledge Base', operatorVisible: false },
+      { href: '/admin/dashboard/page-content', icon: PenSquare, label: 'Page Content', operatorVisible: false },
     ],
   },
   {

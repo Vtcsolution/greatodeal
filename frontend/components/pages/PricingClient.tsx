@@ -6,13 +6,20 @@ import { motion } from 'framer-motion';
 import { Tag, ArrowRight, ArrowUpRight } from 'lucide-react';
 import { pricingApi } from '@/lib/api';
 import type { PricingTier } from '@/types';
+import { usePageContent } from '@/hooks/usePageContent';
 
 const ease = [0.25, 0.1, 0.25, 1] as const;
+
+const PRICING_CONTENT_DEFAULTS = {
+  heroBadge: 'Choose Your Starting Point',
+  heroTitle: 'Start with what your business needs now. Launch something new, improve what you have, or add intelligence after launch.',
+};
 
 export default function PricingClient() {
   const [tiers, setTiers] = useState<PricingTier[]>([]);
   const [visible, setVisible] = useState(true);
   const [loading, setLoading] = useState(true);
+  const content = usePageContent('pricing', PRICING_CONTENT_DEFAULTS);
 
   useEffect(() => {
     pricingApi.getPublic()
@@ -31,10 +38,10 @@ export default function PricingClient() {
       <section className="relative pt-40 pb-16 overflow-hidden">
         <div className="container max-w-[1920px] relative z-10 px-4 sm:px-6">
           <motion.div className="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.2em] text-[#6EE7B7] mb-6" initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <Tag className="w-3.5 h-3.5" /> Choose Your Starting Point
+            <Tag className="w-3.5 h-3.5" /> {content.heroBadge}
           </motion.div>
           <motion.h1 className="italic font-serif text-2xl sm:text-3xl lg:text-4xl text-[#F5F0E6] max-w-2xl leading-snug" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.1, ease }}>
-            Start with what your business needs now. Launch something new, improve what you have, or add intelligence after launch.
+            {content.heroTitle}
           </motion.h1>
         </div>
       </section>

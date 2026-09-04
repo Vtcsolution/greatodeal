@@ -27,6 +27,7 @@ import projectRoutes from './routes/projectRoutes';
 import portfolioRoutes from './routes/portfolioRoutes';
 import pricingRoutes from './routes/pricingRoutes';
 import linkedinRoutes from './routes/linkedinRoutes';
+import pageContentRoutes from './routes/pageContentRoutes';
 import { initSocket } from './utils/socket';
 import { startFollowUpCron } from './services/followUpEngine';
 import { startImapPolling } from './services/imapService';
@@ -66,6 +67,7 @@ app.use('/api/projects', projectRoutes);
 app.use('/api/portfolio', portfolioRoutes);
 app.use('/api/pricing', pricingRoutes);
 app.use('/api/linkedin', linkedinRoutes);
+app.use('/api/page-content', pageContentRoutes);
 
 app.get('/api/health', (_req, res) => res.json({ status: 'OK', message: 'Greatodeal API running' }));
 

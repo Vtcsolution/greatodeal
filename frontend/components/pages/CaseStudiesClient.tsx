@@ -6,8 +6,16 @@ import { motion } from 'framer-motion';
 import { Scale, ShoppingCart, Banknote, Factory, GraduationCap, Activity, ArrowRight, Sparkles, BarChart3 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { RevealOnScroll, AnimatedCounter, SectionBadge } from '@/components/ui/Animations';
+import { usePageContent } from '@/hooks/usePageContent';
 
 const ease = [0.25, 0.1, 0.25, 1] as const;
+
+const CASE_STUDIES_CONTENT_DEFAULTS = {
+  heroBadge: 'Our Portfolio',
+  heroTitle: 'Real Projects. Real Results.',
+  heroSubtitle: "Explore how we've helped businesses across Pakistan, the Gulf, and Europe transform with custom software solutions.",
+  ctaText: 'Discuss Your Project',
+};
 
 const caseStudies: Array<{ icon: LucideIcon; title: string; client: string; industry: string; services: string[]; challenge: string; solution: string; results: Array<{ metric: string; label: string }>; tech: string[]; accent: string }> = [
   { icon: Scale, title: 'AI-Powered Legal Document Analysis', client: 'LegalTech Startup, Netherlands', industry: 'Legal Technology', services: ['Machine Learning', 'Web App', 'API'], challenge: 'A Netherlands-based firm needed to review thousands of contracts daily, requiring 50+ paralegal hours/week.', solution: 'Built a custom NLP platform using Python and OpenAI that extracts clauses, identifies risks, and summarizes contracts.', results: [{ metric: '94%', label: 'Time Reduction' }, { metric: '99.2%', label: 'Clause Accuracy' }, { metric: '€200K+', label: 'Annual Savings' }, { metric: '3 mo', label: 'Dev Time' }], tech: ['Python', 'FastAPI', 'OpenAI GPT-4', 'React', 'PostgreSQL', 'AWS'], accent: '#A78BFA' },
@@ -19,6 +27,8 @@ const caseStudies: Array<{ icon: LucideIcon; title: string; client: string; indu
 ];
 
 export default function CaseStudiesClient() {
+  const content = usePageContent('case-studies', CASE_STUDIES_CONTENT_DEFAULTS);
+  const heroTitleEdited = content.heroTitle !== CASE_STUDIES_CONTENT_DEFAULTS.heroTitle;
   return (
     <div className="min-h-screen bg-[#090909] text-[#E5E7EB] overflow-x-hidden">
 
@@ -31,17 +41,19 @@ export default function CaseStudiesClient() {
         </div>
         <div className="container max-w-[1920px] relative z-10 text-center">
           <motion.div className="inline-flex items-center gap-2 px-4 py-2 bg-white/[0.03] border border-white/[0.06] rounded-full text-sm text-[#6EE7B7] mb-8" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.2 }}>
-            <BarChart3 className="w-3.5 h-3.5" /><span className="text-[13px] font-medium">Our Portfolio</span>
+            <BarChart3 className="w-3.5 h-3.5" /><span className="text-[13px] font-medium">{content.heroBadge}</span>
           </motion.div>
           <motion.h1 className="text-4xl sm:text-5xl lg:text-[3.5rem] font-bold mb-6 leading-[1.1] tracking-tight" initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.4, ease }}>
-            Real Projects.{' '}<span className="bg-gradient-to-r from-[#6EE7B7] via-[#34D399] to-[#3B82F6] bg-clip-text text-transparent">Real Results.</span>
+            {heroTitleEdited ? content.heroTitle : (
+              <>Real Projects.{' '}<span className="bg-gradient-to-r from-[#6EE7B7] via-[#34D399] to-[#3B82F6] bg-clip-text text-transparent">Real Results.</span></>
+            )}
           </motion.h1>
           <motion.p className="text-[17px] text-[#888] max-w-2xl mx-auto leading-[1.7] mb-10" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.6, ease }}>
-            Explore how we&apos;ve helped businesses across Pakistan, the Gulf, and Europe transform with custom software solutions.
+            {content.heroSubtitle}
           </motion.p>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.8, ease }}>
             <Link href="/contact" className="btn-primary group">
-              Discuss Your Project <ArrowRight className="w-5 h-5 group-hover:translate-x-1.5 transition-transform duration-500" />
+              {content.ctaText} <ArrowRight className="w-5 h-5 group-hover:translate-x-1.5 transition-transform duration-500" />
             </Link>
           </motion.div>
         </div>

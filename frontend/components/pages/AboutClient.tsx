@@ -7,8 +7,14 @@ import { motion } from 'framer-motion';
 import { ArrowRight, Building2, Clock, DollarSign, Star, Shield, Zap, Settings, Award, CheckCircle, Target } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { RevealOnScroll, AnimatedCounter } from '@/components/ui/Animations';
+import { usePageContent } from '@/hooks/usePageContent';
 
 const ease = [0.25, 0.1, 0.25, 1] as const;
+
+const ABOUT_CONTENT_DEFAULTS = {
+  heroTitle: "AI Infrastructure for Institutions That Can't Afford to Get It Wrong",
+  heroSubtitle: 'Greatodeal is an AI SaaS and agentic automation company headquartered in Lahore, Pakistan. Our team designs every system around the compliance, audit, and security requirements our clients are held to, not as an afterthought but as the starting point of the architecture.',
+};
 
 const stats = [
   { icon: Shield, target: 100, suffix: '%', label: 'audit-trail coverage' },
@@ -57,6 +63,8 @@ const techCategories = [
 export default function AboutClient() {
   const [activeTech, setActiveTech] = useState(0);
   const [isDesktop, setIsDesktop] = useState(false);
+  const content = usePageContent('about', ABOUT_CONTENT_DEFAULTS);
+  const heroTitleEdited = content.heroTitle !== ABOUT_CONTENT_DEFAULTS.heroTitle;
 
   useEffect(() => {
     setIsDesktop(window.innerWidth >= 768);
@@ -78,11 +86,15 @@ export default function AboutClient() {
         <div className="container max-w-[1920px] relative z-10">
           <div className="text-center mb-16">
             <motion.h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight mb-8" initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.3, ease }}>
-              <span className="text-[#6EE7B7]">AI Infrastructure</span>
-              <br />for Institutions That Can&apos;t Afford to Get It Wrong
+              {heroTitleEdited ? content.heroTitle : (
+                <>
+                  <span className="text-[#6EE7B7]">AI Infrastructure</span>
+                  <br />for Institutions That Can&apos;t Afford to Get It Wrong
+                </>
+              )}
             </motion.h1>
             <motion.p className="text-gray-400 max-w-3xl mx-auto leading-relaxed" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.5, ease }}>
-              Greatodeal is an AI SaaS and agentic automation company headquartered in Lahore, Pakistan. Our team designs every system around the compliance, audit, and security requirements our clients are held to, not as an afterthought but as the starting point of the architecture.
+              {content.heroSubtitle}
             </motion.p>
           </div>
 

@@ -12,6 +12,14 @@ import {
   Sparkles, Building2, Search, Briefcase, ShoppingCart,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
+import { usePageContent } from '@/hooks/usePageContent';
+
+const HOME_CONTENT_DEFAULTS = {
+  heroBadge: 'AI Automation Agency',
+  heroTitle: 'Build the AI system your business deserves.',
+  heroSubtitle: 'We build AI SaaS and agentic automation for government, healthcare, and other regulated industries, with compliance, security, and auditability engineered in from day one, not bolted on after a breach. We hold every system we ship to that same standard, whether the client is down the street or on the other side of the world.',
+  ctaText: 'Get Free Analysis',
+};
 
 const ParticleSphere = dynamic(() => import('@/components/ui/ParticleSphere'), { ssr: false });
 
@@ -177,6 +185,8 @@ export default function HomeClient() {
   const [analyseQuery, setAnalyseQuery] = useState('');
   const videoRef = useRef<HTMLVideoElement>(null);
   const router = useRouter();
+  const content = usePageContent('home', HOME_CONTENT_DEFAULTS);
+  const heroTitleEdited = content.heroTitle !== HOME_CONTENT_DEFAULTS.heroTitle;
 
   useEffect(() => {
     setIsDesktop(window.innerWidth >= 768);
@@ -208,21 +218,27 @@ export default function HomeClient() {
             <div className="space-y-8">
               <motion.div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#6EE7B7]/20 bg-[#6EE7B7]/[0.06]" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.1, ease }}>
                 <Sparkles className="w-3.5 h-3.5 text-[#6EE7B7]" />
-                <span className="text-xs font-semibold text-[#6EE7B7] tracking-wide uppercase">AI Automation Agency</span>
+                <span className="text-xs font-semibold text-[#6EE7B7] tracking-wide uppercase">{content.heroBadge}</span>
               </motion.div>
 
               <div className="space-y-5">
                 <h1 className="text-4xl sm:text-6xl lg:text-[4.25rem] font-extrabold leading-[1.15] tracking-tight text-white">
-                  <SplitText text="Build the" delay={0.4} />{' '}
-                  <SplitText
-                    text="AI system"
-                    delay={0.6}
-                    className="bg-gradient-to-r from-[#6EE7B7] via-[#34D399] to-[#3B82F6] bg-clip-text text-transparent"
-                  />{' '}
-                  <SplitText text="your business deserves." delay={0.8} />
+                  {heroTitleEdited ? (
+                    <SplitText text={content.heroTitle} delay={0.4} />
+                  ) : (
+                    <>
+                      <SplitText text="Build the" delay={0.4} />{' '}
+                      <SplitText
+                        text="AI system"
+                        delay={0.6}
+                        className="bg-gradient-to-r from-[#6EE7B7] via-[#34D399] to-[#3B82F6] bg-clip-text text-transparent"
+                      />{' '}
+                      <SplitText text="your business deserves." delay={0.8} />
+                    </>
+                  )}
                 </h1>
                 <motion.p className="text-base sm:text-lg text-white/80 max-w-lg leading-[1.8]" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.9, ease }}>
-                  We build AI SaaS and agentic automation for government, healthcare, and other regulated industries, with compliance, security, and auditability engineered in from day one, not bolted on after a breach. We hold every system we ship to that same standard, whether the client is down the street or on the other side of the world.
+                  {content.heroSubtitle}
                 </motion.p>
               </div>
 
@@ -238,7 +254,7 @@ export default function HomeClient() {
                   />
                 </div>
                 <button type="submit" className="btn-primary shrink-0 justify-center">
-                  Get Free Analysis <ArrowRight className="w-4 h-4" />
+                  {content.ctaText} <ArrowRight className="w-4 h-4" />
                 </button>
               </motion.form>
 

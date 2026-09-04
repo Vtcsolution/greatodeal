@@ -149,6 +149,13 @@ export const leadFinderApi = {
   getProspects: () => api.get('/lead-finder/prospects'),
 };
 
+export const pageContentApi = {
+  getPublic: (page: string) => api.get(`/page-content/public/${page}`),
+  getAll: () => api.get('/page-content'),
+  getByPage: (page: string) => api.get(`/page-content/${page}`),
+  update: (page: string, fields: Record<string, string>) => api.put(`/page-content/${page}`, { fields }),
+};
+
 export const analyticsApi = {
   track: (data: Record<string, unknown>) => api.post('/analytics/track', data),
   getSummary: (range: string) => api.get('/analytics/summary', { params: { range } }),

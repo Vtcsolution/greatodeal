@@ -6,8 +6,16 @@ import { Mail, Phone, MapPin, Send, CheckCircle, ChevronDown, Search, X, Sparkle
 import { motion, AnimatePresence } from 'framer-motion';
 import { contactApi } from '@/lib/api';
 import { countryCodes as countries } from '@/lib/countryCodes';
+import { usePageContent } from '@/hooks/usePageContent';
 
 const ease = [0.25, 0.1, 0.25, 1] as const;
+
+const CONTACT_CONTENT_DEFAULTS = {
+  heroBadge: "Let's Talk",
+  heroTitle: 'Request a Demo',
+  heroSubtitle: 'See how our AI SaaS and agentic automation work for your industry. Fill out the form below or reach us directly, and our team will get back to you within 24 hours.',
+  ctaText: 'Request a Demo',
+};
 
 const trustPoints: Array<{ icon: typeof Shield; label: string }> = [
   { icon: Clock, label: 'Reply within 24 hours' },
@@ -35,6 +43,8 @@ export default function ContactClient() {
   const [focusedField, setFocusedField] = useState('');
   const [errors, setErrors] = useState<Record<string, string>>({});
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const content = usePageContent('contact', CONTACT_CONTENT_DEFAULTS);
+  const heroTitleEdited = content.heroTitle !== CONTACT_CONTENT_DEFAULTS.heroTitle;
 
   const filteredCountries = countries.filter(c => c.name.toLowerCase().includes(searchTerm.toLowerCase()) || c.code.includes(searchTerm));
   const selectedCountry = countries.find(c => c.code === formData.countryCode) || countries[0];
@@ -79,13 +89,15 @@ export default function ContactClient() {
         </div>
         <div className="container max-w-[1920px] relative z-10 px-4 sm:px-6 text-center">
           <motion.div className="inline-flex items-center gap-2 px-5 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-full text-base text-[#6EE7B7] mb-8" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.1 }}>
-            <Sparkles className="w-4 h-4" /><span className="font-mono uppercase tracking-wider text-xs">Let&apos;s Talk</span>
+            <Sparkles className="w-4 h-4" /><span className="font-mono uppercase tracking-wider text-xs">{content.heroBadge}</span>
           </motion.div>
           <motion.h1 className="text-4xl sm:text-6xl lg:text-[3.75rem] font-bold mb-6 leading-[1.1] tracking-tight" initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.3, ease }}>
-            Request a{' '}<span className="bg-gradient-to-r from-[#6EE7B7] via-[#34D399] to-[#3B82F6] bg-clip-text text-transparent">Demo</span>
+            {heroTitleEdited ? content.heroTitle : (
+              <>Request a{' '}<span className="bg-gradient-to-r from-[#6EE7B7] via-[#34D399] to-[#3B82F6] bg-clip-text text-transparent">Demo</span></>
+            )}
           </motion.h1>
           <motion.p className="text-lg sm:text-xl text-white/70 max-w-2xl mx-auto leading-[1.8] mb-8" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.5, ease }}>
-            See how our AI SaaS and agentic automation work for your industry. Fill out the form below or reach us directly, and our team will get back to you within 24 hours.
+            {content.heroSubtitle}
           </motion.p>
           <motion.div className="flex flex-wrap items-center justify-center gap-3 mb-10" initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.65 }}>
             {trustPoints.map(({ icon: Icon, label }) => (
@@ -94,7 +106,7 @@ export default function ContactClient() {
           </motion.div>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.8, ease }}>
             <a href="#contact-form" className="btn-primary group">
-              <Send className="w-5 h-5" /> Request a Demo
+              <Send className="w-5 h-5" /> {content.ctaText}
             </a>
           </motion.div>
         </div>

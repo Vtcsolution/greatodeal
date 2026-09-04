@@ -6,6 +6,12 @@ import { motion } from 'framer-motion';
 import { Briefcase, ExternalLink, Link2, Check, ArrowRight, Search, LayoutGrid } from 'lucide-react';
 import { portfolioApi, getImageUrl } from '@/lib/api';
 import type { PortfolioProject } from '@/types';
+import { usePageContent } from '@/hooks/usePageContent';
+
+const WORK_CONTENT_DEFAULTS = {
+  heroBadge: 'Our Work',
+  heroTitle: 'Work',
+};
 
 const CATEGORY_PALETTE = [
   { bg: 'bg-violet-500/15', text: 'text-violet-300' },
@@ -89,6 +95,7 @@ export default function PortfolioClient() {
   const [visible, setVisible] = useState(true);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
+  const content = usePageContent('work', WORK_CONTENT_DEFAULTS);
 
   useEffect(() => {
     portfolioApi.getPublic()
@@ -112,9 +119,9 @@ export default function PortfolioClient() {
         <div className="container max-w-[1920px] px-4 sm:px-6">
           <motion.div className="text-center max-w-2xl mx-auto mb-10" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
             <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-white/[0.04] border border-white/[0.08] rounded-full text-sm text-[#6EE7B7] mb-5">
-              <Briefcase className="w-3.5 h-3.5" /><span className="font-medium">Our Work</span>
+              <Briefcase className="w-3.5 h-3.5" /><span className="font-medium">{content.heroBadge}</span>
             </div>
-            <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-white">Work</h1>
+            <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-white">{content.heroTitle}</h1>
           </motion.div>
 
           {!loading && visible && projects.length > 0 && (

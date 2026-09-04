@@ -9,8 +9,16 @@ import {
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { AnimatedCounter } from '@/components/ui/Animations';
+import { usePageContent } from '@/hooks/usePageContent';
 
 const ease = [0.25, 0.1, 0.25, 1] as const;
+
+const INDUSTRIES_CONTENT_DEFAULTS = {
+  heroBadge: 'Built for Regulated Industries',
+  heroTitle: 'Industries We Serve',
+  heroSubtitle: "We focus on sectors where compliance, audit, and security aren't optional. Government and healthcare above all, with fintech, green tech, real estate, AI automation, business services, and e-commerce as our secondary focus.",
+  ctaText: 'Request a Demo',
+};
 
 interface Industry {
   icon: LucideIcon; name: string; desc: string; longDesc: string; path: string; tags: string[]; color: string; accent: string;
@@ -109,6 +117,8 @@ function PrimaryIndustryCard({ industry, index }: { industry: Industry; index: n
 export default function IndustriesClient() {
   const heroRef = useRef(null);
   const heroInView = useInView(heroRef, { once: true });
+  const content = usePageContent('industries', INDUSTRIES_CONTENT_DEFAULTS);
+  const heroTitleEdited = content.heroTitle !== INDUSTRIES_CONTENT_DEFAULTS.heroTitle;
 
   return (
     <div className="min-h-screen bg-[#090909] text-white overflow-x-hidden">
@@ -122,13 +132,15 @@ export default function IndustriesClient() {
         </div>
         <div className="container max-w-[1920px] relative z-10 text-center px-4 sm:px-6">
           <motion.div className="inline-flex items-center gap-2 px-5 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-full text-base text-[#6EE7B7] mb-8" initial={{ opacity: 0, y: 20 }} animate={heroInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6, delay: 0.2 }}>
-            <Sparkles className="w-4 h-4" /><span className="font-medium">Built for Regulated Industries</span>
+            <Sparkles className="w-4 h-4" /><span className="font-medium">{content.heroBadge}</span>
           </motion.div>
           <motion.h1 className="text-3xl sm:text-5xl lg:text-[3.5rem] font-bold mb-6 leading-[1.1] tracking-tight" initial={{ opacity: 0, y: 30 }} animate={heroInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7, delay: 0.4, ease }}>
-            Industries We{' '}<span className="bg-gradient-to-r from-[#6EE7B7] via-[#34D399] to-[#3B82F6] bg-clip-text text-transparent">Serve</span>
+            {heroTitleEdited ? content.heroTitle : (
+              <>Industries We{' '}<span className="bg-gradient-to-r from-[#6EE7B7] via-[#34D399] to-[#3B82F6] bg-clip-text text-transparent">Serve</span></>
+            )}
           </motion.h1>
           <motion.p className="text-lg sm:text-xl text-white/70 max-w-2xl mx-auto leading-[1.8] mb-8" initial={{ opacity: 0, y: 20 }} animate={heroInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7, delay: 0.6, ease }}>
-            We focus on sectors where compliance, audit, and security aren&apos;t optional. Government and healthcare above all, with fintech, green tech, real estate, AI automation, business services, and e-commerce as our secondary focus.
+            {content.heroSubtitle}
           </motion.p>
           <motion.div className="flex flex-wrap items-center justify-center gap-3 mb-10" initial={{ opacity: 0, y: 15 }} animate={heroInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6, delay: 0.75 }}>
             {trustPoints.map(({ icon: Icon, label }) => (
@@ -137,7 +149,7 @@ export default function IndustriesClient() {
           </motion.div>
           <motion.div className="flex flex-wrap gap-4 justify-center" initial={{ opacity: 0, y: 20 }} animate={heroInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7, delay: 0.9, ease }}>
             <Link href="/contact" className="btn-primary group">
-              Request a Demo <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-500" />
+              {content.ctaText} <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-500" />
             </Link>
           </motion.div>
         </div>

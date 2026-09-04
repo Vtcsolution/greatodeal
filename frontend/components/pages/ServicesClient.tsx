@@ -9,8 +9,16 @@ import {
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { AnimatedCounter } from '@/components/ui/Animations';
+import { usePageContent } from '@/hooks/usePageContent';
 
 const ease = [0.25, 0.1, 0.25, 1] as const;
+
+const SERVICES_CONTENT_DEFAULTS = {
+  heroBadge: 'What We Do',
+  heroTitle: 'From Startup to Fully Automated',
+  heroSubtitle: 'Websites, software, AI-automation SaaS, ERP, AI tools, AI agents, and agentic AI, everything you need to build, run, and automate your business, delivered by one team.',
+  ctaText: 'Request a Demo',
+};
 
 function SplitText({ text, delay = 0, className = '' }: { text: string; delay?: number; className?: string }) {
   return (
@@ -117,6 +125,8 @@ function PrimaryServiceCard({ service, index }: { service: Service; index: numbe
 export default function ServicesClient() {
   const heroRef = useRef(null);
   const heroInView = useInView(heroRef, { once: true });
+  const content = usePageContent('services', SERVICES_CONTENT_DEFAULTS);
+  const heroTitleEdited = content.heroTitle !== SERVICES_CONTENT_DEFAULTS.heroTitle;
 
   return (
     <div className="min-h-screen bg-[#090909] text-white overflow-x-hidden">
@@ -130,19 +140,25 @@ export default function ServicesClient() {
         </div>
         <div className="container max-w-[1920px] relative z-10 text-center px-4 sm:px-6">
           <motion.div className="inline-flex items-center gap-2 px-5 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-full text-base text-[#6EE7B7] mb-8" initial={{ opacity: 0, y: 20 }} animate={heroInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6, delay: 0.2 }}>
-            <Sparkles className="w-4 h-4" /><span className="font-medium">What We Do</span>
+            <Sparkles className="w-4 h-4" /><span className="font-medium">{content.heroBadge}</span>
           </motion.div>
           <h1 className="text-4xl sm:text-6xl lg:text-[4rem] font-bold mb-6 leading-[1.1] tracking-tight">
-            <SplitText text="From Startup to" delay={0.4} />
-            <br />
-            <SplitText text="Fully Automated" delay={0.65} className="bg-gradient-to-r from-[#6EE7B7] via-[#34D399] to-[#3B82F6] bg-clip-text text-transparent" />
+            {heroTitleEdited ? (
+              <SplitText text={content.heroTitle} delay={0.4} />
+            ) : (
+              <>
+                <SplitText text="From Startup to" delay={0.4} />
+                <br />
+                <SplitText text="Fully Automated" delay={0.65} className="bg-gradient-to-r from-[#6EE7B7] via-[#34D399] to-[#3B82F6] bg-clip-text text-transparent" />
+              </>
+            )}
           </h1>
           <motion.p className="text-lg sm:text-xl text-white/70 max-w-2xl mx-auto leading-[1.8] mb-10" initial={{ opacity: 0, y: 20 }} animate={heroInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7, delay: 0.9, ease }}>
-            Websites, software, AI-automation SaaS, ERP, AI tools, AI agents, and agentic AI, everything you need to build, run, and automate your business, delivered by one team.
+            {content.heroSubtitle}
           </motion.p>
           <motion.div className="flex flex-wrap gap-4 justify-center" initial={{ opacity: 0, y: 20 }} animate={heroInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7, delay: 1.1, ease }}>
             <Link href="/contact" className="btn-primary group">
-              Request a Demo <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-500" />
+              {content.ctaText} <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-500" />
             </Link>
           </motion.div>
         </div>
