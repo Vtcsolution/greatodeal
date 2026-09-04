@@ -73,7 +73,7 @@ export default function NotificationBell() {
       </button>
 
       {open && (
-        <div className="absolute right-0 mt-2 w-80 sm:w-96 max-h-[70vh] overflow-y-auto bg-[#161616] border border-white/10 rounded-2xl shadow-2xl z-50">
+        <div className="absolute right-0 mt-2 w-80 sm:w-96 max-h-[70vh] overflow-y-auto bg-[#161616] border border-white/10 rounded-2xl shadow-2xl shadow-black/50 ring-1 ring-white/[0.04] z-50">
           <div className="p-4 border-b border-white/10 flex items-center justify-between sticky top-0 bg-[#161616]">
             <div>
               <h3 className="font-semibold text-white text-sm">Activity</h3>
