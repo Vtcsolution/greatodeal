@@ -6,6 +6,7 @@ export interface IAdmin extends Document {
   password: string;
   name?: string;
   role: string;
+  accessLevel: 'admin' | 'operator';
   createdAt: Date;
   updatedAt: Date;
   comparePassword(candidate: string): Promise<boolean>;
@@ -17,6 +18,7 @@ const AdminSchema = new Schema<IAdmin>(
     password: { type: String, required: true, minlength: 6 },
     name: { type: String },
     role: { type: String, default: 'Administrator' },
+    accessLevel: { type: String, enum: ['admin', 'operator'], default: 'admin' },
   },
   { timestamps: true }
 );

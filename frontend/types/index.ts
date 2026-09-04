@@ -62,11 +62,14 @@ export interface PartnershipFormData {
   referralSource?: string;
 }
 
+export type AdminAccessLevel = 'admin' | 'operator';
+
 export interface AdminProfile {
   _id: string;
   email: string;
   name?: string;
   role: string;
+  accessLevel: AdminAccessLevel;
 }
 
 export type LeadStatus = 'cold' | 'warm' | 'urgent';

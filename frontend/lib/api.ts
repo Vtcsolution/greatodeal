@@ -106,6 +106,10 @@ export const adminApi = {
   updateProfile: (data: Record<string, unknown>) => api.put('/admin/profile', data),
   getStats: () => api.get('/admin/stats'),
   getBusinessOverview: () => api.get('/admin/business-overview'),
+  getTeam: () => api.get('/admin/team'),
+  createTeamMember: (data: Record<string, unknown>) => api.post('/admin/team', data),
+  updateTeamMember: (id: string, data: Record<string, unknown>) => api.put(`/admin/team/${id}`, data),
+  deleteTeamMember: (id: string) => api.delete(`/admin/team/${id}`),
 };
 
 export const commentApi = {

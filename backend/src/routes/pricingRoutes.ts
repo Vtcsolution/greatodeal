@@ -9,13 +9,13 @@ import {
   updatePricingSettings,
   getPublicPricing,
 } from '../controllers/pricingController';
-import { adminAuth } from '../middleware/adminAuth';
+import { adminAuth, requireFullAdmin } from '../middleware/adminAuth';
 
 const router = Router();
 
 router.get('/public', getPublicPricing);
 
-router.use(adminAuth);
+router.use(adminAuth, requireFullAdmin);
 router.get('/settings', getPricingSettings);
 router.put('/settings', updatePricingSettings);
 router.get('/', getPricingTiers);

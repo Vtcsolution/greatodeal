@@ -3,20 +3,42 @@
 import { useState } from 'react';
 import { useAdmin } from '@/context/AdminContext';
 import { NotificationProvider } from '@/context/NotificationContext';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { useEffect } from 'react';
 import AdminSidebar from '@/components/admin/AdminSidebar';
 import NotificationBell from '@/components/admin/NotificationBell';
 import { Menu } from 'lucide-react';
 
+// Paths an "operator" account is allowed on. Kept in sync with AdminSidebar's
+// operatorVisible flags; the backend's requireFullAdmin middleware is the real
+// security boundary — this is just so an operator isn't shown a broken/empty page.
+const OPERATOR_ALLOWED_PREFIXES = [
+  '/admin/dashboard/linkedin',
+  '/admin/dashboard/chats',
+  '/admin/dashboard/emails',
+  '/admin/dashboard/lead-finder',
+  '/admin/dashboard/followups',
+  '/admin/dashboard/projects',
+  '/admin/dashboard/mailbox',
+  '/admin/dashboard/activity',
+  '/admin/dashboard/profile',
+];
+
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const { admin, loading } = useAdmin();
   const router = useRouter();
+  const pathname = usePathname();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
     if (!loading && !admin) router.push('/admin/login');
   }, [admin, loading, router]);
+
+  useEffect(() => {
+    if (loading || !admin || admin.accessLevel !== 'operator') return;
+    const allowed = OPERATOR_ALLOWED_PREFIXES.some(prefix => pathname?.startsWith(prefix));
+    if (!allowed) router.replace('/admin/dashboard/linkedin');
+  }, [admin, loading, pathname, router]);
 
   if (loading) return (
     <div className="min-h-screen bg-[#0A0A0A] flex items-center justify-center">

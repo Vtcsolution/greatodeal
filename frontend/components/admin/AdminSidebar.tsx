@@ -3,25 +3,30 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useAdmin } from '@/context/AdminContext';
-import { LayoutDashboard, FileText, PlusCircle, MessageSquare, Mail, User, LogOut, X, FolderOpen, BarChart3, Zap, Inbox, Activity, Search, Briefcase, Image as ImageIcon, Tag, Linkedin } from 'lucide-react';
+import { LayoutDashboard, FileText, PlusCircle, MessageSquare, Mail, User, LogOut, X, FolderOpen, BarChart3, Zap, Inbox, Activity, Search, Briefcase, Image as ImageIcon, Tag, Linkedin, Users } from 'lucide-react';
 
+// operatorVisible: shown to restricted "operator" accounts (LinkedIn Assistant, AI Chats,
+// Leads/Emails, Lead Finder, Follow-Ups, Projects, Mailbox, Live Activity + their own Profile).
+// Everything else (blog, Work, Pricing, Knowledge Base, Analytics, Team) is full-admin only —
+// the backend enforces this too via requireFullAdmin, this is just the UI reflecting it.
 const navItems = [
-  { href: '/admin/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
-  { href: '/admin/dashboard/analytics', icon: BarChart3, label: 'Analytics' },
-  { href: '/admin/dashboard/add-blog', icon: PlusCircle, label: 'Add Blog' },
-  { href: '/admin/dashboard/manage-blogs', icon: FileText, label: 'Manage Blogs' },
-  { href: '/admin/dashboard/portfolio', icon: ImageIcon, label: 'Work' },
-  { href: '/admin/dashboard/pricing', icon: Tag, label: 'Pricing' },
-  { href: '/admin/dashboard/knowledge', icon: FolderOpen, label: 'AI Knowledge Base' },
-  { href: '/admin/dashboard/linkedin', icon: Linkedin, label: 'LinkedIn Assistant' },
-  { href: '/admin/dashboard/chats', icon: MessageSquare, label: 'AI Chats' },
-  { href: '/admin/dashboard/emails', icon: Mail, label: 'Leads / Emails' },
-  { href: '/admin/dashboard/lead-finder', icon: Search, label: 'Lead Finder' },
-  { href: '/admin/dashboard/followups', icon: Zap, label: 'Follow-Up Automation' },
-  { href: '/admin/dashboard/projects', icon: Briefcase, label: 'Projects' },
-  { href: '/admin/dashboard/mailbox', icon: Inbox, label: 'Mailbox' },
-  { href: '/admin/dashboard/activity', icon: Activity, label: 'Live Activity' },
-  { href: '/admin/dashboard/profile', icon: User, label: 'Profile' },
+  { href: '/admin/dashboard', icon: LayoutDashboard, label: 'Dashboard', operatorVisible: false },
+  { href: '/admin/dashboard/analytics', icon: BarChart3, label: 'Analytics', operatorVisible: false },
+  { href: '/admin/dashboard/add-blog', icon: PlusCircle, label: 'Add Blog', operatorVisible: false },
+  { href: '/admin/dashboard/manage-blogs', icon: FileText, label: 'Manage Blogs', operatorVisible: false },
+  { href: '/admin/dashboard/portfolio', icon: ImageIcon, label: 'Work', operatorVisible: false },
+  { href: '/admin/dashboard/pricing', icon: Tag, label: 'Pricing', operatorVisible: false },
+  { href: '/admin/dashboard/knowledge', icon: FolderOpen, label: 'AI Knowledge Base', operatorVisible: false },
+  { href: '/admin/dashboard/linkedin', icon: Linkedin, label: 'LinkedIn Assistant', operatorVisible: true },
+  { href: '/admin/dashboard/chats', icon: MessageSquare, label: 'AI Chats', operatorVisible: true },
+  { href: '/admin/dashboard/emails', icon: Mail, label: 'Leads / Emails', operatorVisible: true },
+  { href: '/admin/dashboard/lead-finder', icon: Search, label: 'Lead Finder', operatorVisible: true },
+  { href: '/admin/dashboard/followups', icon: Zap, label: 'Follow-Up Automation', operatorVisible: true },
+  { href: '/admin/dashboard/projects', icon: Briefcase, label: 'Projects', operatorVisible: true },
+  { href: '/admin/dashboard/mailbox', icon: Inbox, label: 'Mailbox', operatorVisible: true },
+  { href: '/admin/dashboard/activity', icon: Activity, label: 'Live Activity', operatorVisible: true },
+  { href: '/admin/dashboard/team', icon: Users, label: 'Team', operatorVisible: false },
+  { href: '/admin/dashboard/profile', icon: User, label: 'Profile', operatorVisible: true },
 ];
 
 interface AdminSidebarProps {
@@ -32,6 +37,8 @@ interface AdminSidebarProps {
 export default function AdminSidebar({ open, onClose }: AdminSidebarProps) {
   const pathname = usePathname();
   const { admin, logout } = useAdmin();
+  const isOperator = admin?.accessLevel === 'operator';
+  const visibleItems = navItems.filter(item => !isOperator || item.operatorVisible);
 
   return (
     <>
@@ -59,7 +66,7 @@ export default function AdminSidebar({ open, onClose }: AdminSidebarProps) {
 
         {/* Navigation */}
         <nav className="flex-1 p-3 space-y-1 overflow-y-auto">
-          {navItems.map(({ href, icon: Icon, label }) => {
+          {visibleItems.map(({ href, icon: Icon, label }) => {
             const active = pathname === href;
             return (
               <Link key={href} href={href} onClick={onClose}
@@ -78,7 +85,14 @@ export default function AdminSidebar({ open, onClose }: AdminSidebarProps) {
         {/* Footer */}
         <div className="p-4 border-t border-white/10">
           <div className="px-4 py-2.5 mb-2">
-            <div className="text-sm font-semibold text-white">{admin?.name || 'Admin'}</div>
+            <div className="flex items-center gap-2">
+              <span className="text-sm font-semibold text-white">{admin?.name || 'Admin'}</span>
+              {admin?.role && (
+                <span className={`px-1.5 py-0.5 rounded-md text-[10px] font-semibold ${isOperator ? 'bg-white/10 text-white/50' : 'bg-[#6EE7B7]/10 text-[#6EE7B7]'}`}>
+                  {admin.role}
+                </span>
+              )}
+            </div>
             <div className="text-xs text-white/40 mt-0.5 truncate">{admin?.email}</div>
           </div>
           <button onClick={logout} className="flex items-center gap-3 w-full px-4 py-3 rounded-xl text-sm font-medium text-red-400 hover:bg-red-500/10 transition-all">

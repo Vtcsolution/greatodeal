@@ -14,8 +14,8 @@ export const login = async (req: Request, res: Response): Promise<void> => {
     // "Remember me" keeps the session alive for 30 days instead of 1 day, so the
     // admin isn't asked to log in again on the next visit unless they log out.
     const expiresIn = rememberMe ? '30d' : '1d';
-    const token = jwt.sign({ id: admin._id }, process.env.JWT_SECRET as string, { expiresIn });
-    res.json({ success: true, token, admin: { id: admin._id, email: admin.email, name: admin.name, role: admin.role } });
+    const token = jwt.sign({ id: admin._id, accessLevel: admin.accessLevel }, process.env.JWT_SECRET as string, { expiresIn });
+    res.json({ success: true, token, admin: { id: admin._id, email: admin.email, name: admin.name, role: admin.role, accessLevel: admin.accessLevel } });
   } catch (error) {
     res.status(500).json({ success: false, message: 'Login error', error });
   }
@@ -42,6 +42,87 @@ export const updateProfile = async (req: AuthRequest, res: Response): Promise<vo
     res.json({ success: true, message: 'Profile updated', data: { email: admin.email, name: admin.name } });
   } catch (error) {
     res.status(500).json({ success: false, message: 'Error updating profile', error });
+  }
+};
+
+export const listTeam = async (_req: Request, res: Response): Promise<void> => {
+  try {
+    const team = await Admin.find().select('-password').sort({ createdAt: 1 });
+    res.json({ success: true, data: team });
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Error fetching team', error });
+  }
+};
+
+export const createTeamMember = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { email, password, name, role, accessLevel } = req.body;
+    if (!email || !password) {
+      res.status(400).json({ success: false, message: 'Email and password are required' });
+      return;
+    }
+    const existing = await Admin.findOne({ email: String(email).toLowerCase() });
+    if (existing) {
+      res.status(409).json({ success: false, message: 'An account with this email already exists' });
+      return;
+    }
+    const member = await Admin.create({
+      email,
+      password,
+      name,
+      role: role || 'Operator',
+      accessLevel: accessLevel === 'admin' ? 'admin' : 'operator',
+    });
+    res.status(201).json({ success: true, data: { id: member._id, email: member.email, name: member.name, role: member.role, accessLevel: member.accessLevel } });
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Error creating team member', error });
+  }
+};
+
+export const updateTeamMember = async (req: AuthRequest, res: Response): Promise<void> => {
+  try {
+    const member = await Admin.findById(req.params.id);
+    if (!member) { res.status(404).json({ success: false, message: 'Account not found' }); return; }
+
+    if (req.body.accessLevel && req.body.accessLevel !== member.accessLevel && member.accessLevel === 'admin') {
+      const adminCount = await Admin.countDocuments({ accessLevel: 'admin' });
+      if (adminCount <= 1) {
+        res.status(400).json({ success: false, message: 'At least one full admin account must remain' });
+        return;
+      }
+    }
+
+    if (req.body.email) member.email = req.body.email;
+    if (req.body.name !== undefined) member.name = req.body.name;
+    if (req.body.role !== undefined) member.role = req.body.role;
+    if (req.body.accessLevel) member.accessLevel = req.body.accessLevel === 'admin' ? 'admin' : 'operator';
+    if (req.body.password) member.password = req.body.password;
+    await member.save();
+    res.json({ success: true, data: { id: member._id, email: member.email, name: member.name, role: member.role, accessLevel: member.accessLevel } });
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Error updating team member', error });
+  }
+};
+
+export const deleteTeamMember = async (req: AuthRequest, res: Response): Promise<void> => {
+  try {
+    if (req.params.id === req.adminId) {
+      res.status(400).json({ success: false, message: 'You cannot delete your own account' });
+      return;
+    }
+    const member = await Admin.findById(req.params.id);
+    if (!member) { res.status(404).json({ success: false, message: 'Account not found' }); return; }
+    if (member.accessLevel === 'admin') {
+      const adminCount = await Admin.countDocuments({ accessLevel: 'admin' });
+      if (adminCount <= 1) {
+        res.status(400).json({ success: false, message: 'At least one full admin account must remain' });
+        return;
+      }
+    }
+    await Admin.findByIdAndDelete(req.params.id);
+    res.json({ success: true, message: 'Account deleted' });
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Error deleting team member', error });
   }
 };
 
