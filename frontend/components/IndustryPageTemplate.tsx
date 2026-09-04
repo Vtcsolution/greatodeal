@@ -2,10 +2,12 @@
 
 import React from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { ArrowRight, CheckCircle, Sparkles, AlertTriangle, Layers, Code, Landmark, Activity, Banknote, Leaf, Home, Bot, ArrowUpRight, Briefcase, ShoppingCart } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { RevealOnScroll, SectionBadge, StaggerContainer, StaggerItem } from '@/components/ui/Animations';
+import { usePageContent } from '@/hooks/usePageContent';
 
 const ease = [0.25, 0.1, 0.25, 1] as const;
 
@@ -41,6 +43,35 @@ export interface IndustryPageData {
 export default function IndustryPageTemplate({ data }: { data: IndustryPageData }) {
   const HeroIcon = data.heroIcon;
   const relatedIndustries = allIndustries.filter(ind => ind.name !== data.title);
+
+  const pathname = usePathname();
+  const pageKey = (pathname || '/industries/x').replace(/^\//, '').replace(/\/$/, '').replace(/\//g, '-');
+  const defaults = {
+    heroBadge: data.subtitle,
+    heroTitle: `${data.title} IT Solutions`,
+    heroDescription: data.description,
+    stat1Label: data.stats[0]?.label || '',
+    stat2Label: data.stats[1]?.label || '',
+    stat3Label: data.stats[2]?.label || '',
+    stat4Label: data.stats[3]?.label || '',
+    challengesTitle: 'Industry Challenges We Solve',
+    challengesSubtitle: 'We understand the unique challenges in your industry and build technology to overcome them.',
+    solutionsTitle: 'Our Technology Solutions',
+    solutionsSubtitle: "Custom IT solutions designed for your industry's needs.",
+    featuresTitle: 'Key Features We Deliver',
+    techTitle: 'Technologies We Use',
+    relatedTitle: 'Related Industries',
+    relatedSubtitle: 'We build compliance-grade AI automation for these sectors too.',
+    finalCtaTitle: `Transform Your ${data.title} Business`,
+    finalCtaSubtitle: `Join leading ${data.title.toLowerCase()} companies that trust Greatodeal for their technology needs.`,
+    finalCtaButtonText: 'Request a Demo',
+    finalCtaSecondaryButtonText: 'Become a Partner',
+  };
+  const content = usePageContent(pageKey, defaults);
+  const heroTitleEdited = content.heroTitle !== defaults.heroTitle;
+  const finalCtaTitleEdited = content.finalCtaTitle !== defaults.finalCtaTitle;
+  const statLabels = [content.stat1Label, content.stat2Label, content.stat3Label, content.stat4Label];
+
   return (
     <div className="min-h-screen bg-[#090909] text-[#E5E7EB] overflow-x-hidden">
 
@@ -55,14 +86,15 @@ export default function IndustryPageTemplate({ data }: { data: IndustryPageData 
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             <div>
               <motion.div className="inline-flex items-center gap-2 px-4 py-2 bg-white/[0.03] border border-white/[0.06] rounded-full text-sm text-[#6EE7B7] mb-8" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.2 }}>
-                <HeroIcon className="w-4 h-4" /> {data.subtitle}
+                <HeroIcon className="w-4 h-4" /> {content.heroBadge}
               </motion.div>
               <motion.h1 className="text-4xl sm:text-5xl font-bold mb-6 leading-[1.1] tracking-tight" initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.4, ease }}>
-                {data.title}{' '}
-                <span className="block mt-2 bg-gradient-to-r from-[#6EE7B7] via-[#34D399] to-[#3B82F6] bg-clip-text text-transparent">IT Solutions</span>
+                {heroTitleEdited ? content.heroTitle : (
+                  <>{data.title}{' '}<span className="block mt-2 bg-gradient-to-r from-[#6EE7B7] via-[#34D399] to-[#3B82F6] bg-clip-text text-transparent">IT Solutions</span></>
+                )}
               </motion.h1>
               <motion.p className="text-[17px] text-[#888] leading-[1.7] mb-10" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.6, ease }}>
-                {data.description}
+                {content.heroDescription}
               </motion.p>
               <motion.div className="flex flex-col sm:flex-row gap-4" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.8, ease }}>
                 <Link href="/contact" className="btn-primary group">
@@ -93,7 +125,7 @@ export default function IndustryPageTemplate({ data }: { data: IndustryPageData 
                     {data.stats.map((s, i) => (
                       <div key={i} className="text-center p-4 bg-[#090909] rounded-xl border border-white/[0.04]">
                         <div className="text-xl font-bold text-[#6EE7B7] tracking-tight">{s.value}</div>
-                        <div className="text-[11px] text-[#777] mt-1">{s.label}</div>
+                        <div className="text-[11px] text-[#777] mt-1">{statLabels[i] || s.label}</div>
                       </div>
                     ))}
                   </div>
@@ -109,8 +141,8 @@ export default function IndustryPageTemplate({ data }: { data: IndustryPageData 
         <div className="container max-w-[1920px]">
           <RevealOnScroll className="text-center mb-16">
             <SectionBadge icon={AlertTriangle} text="Pain Points" />
-            <h2 className="text-3xl sm:text-4xl font-bold mb-4 tracking-tight">Industry Challenges We Solve</h2>
-            <p className="text-[#777] max-w-2xl mx-auto text-[15px]">We understand the unique challenges in your industry and build technology to overcome them.</p>
+            <h2 className="text-3xl sm:text-4xl font-bold mb-4 tracking-tight">{content.challengesTitle}</h2>
+            <p className="text-[#777] max-w-2xl mx-auto text-[15px]">{content.challengesSubtitle}</p>
           </RevealOnScroll>
           <div className="grid md:grid-cols-2 gap-3">
             {data.challenges.map((c, i) => (
@@ -130,8 +162,8 @@ export default function IndustryPageTemplate({ data }: { data: IndustryPageData 
         <div className="container max-w-[1920px]">
           <RevealOnScroll className="text-center mb-16">
             <SectionBadge icon={Sparkles} text="Solutions" />
-            <h2 className="text-3xl sm:text-4xl font-bold mb-4 tracking-tight">Our Technology Solutions</h2>
-            <p className="text-[#777] max-w-2xl mx-auto text-[15px]">Custom IT solutions designed for your industry&apos;s needs.</p>
+            <h2 className="text-3xl sm:text-4xl font-bold mb-4 tracking-tight">{content.solutionsTitle}</h2>
+            <p className="text-[#777] max-w-2xl mx-auto text-[15px]">{content.solutionsSubtitle}</p>
           </RevealOnScroll>
           <StaggerContainer className="grid md:grid-cols-3 gap-5">
             {data.solutions.map((s, i) => {
@@ -157,7 +189,7 @@ export default function IndustryPageTemplate({ data }: { data: IndustryPageData 
         <div className="container max-w-[1920px]">
           <RevealOnScroll>
             <SectionBadge icon={Layers} text="Features" />
-            <h2 className="text-3xl sm:text-4xl font-bold mb-12 tracking-tight">Key Features We Deliver</h2>
+            <h2 className="text-3xl sm:text-4xl font-bold mb-12 tracking-tight">{content.featuresTitle}</h2>
           </RevealOnScroll>
           <div className="grid md:grid-cols-2 gap-3">
             {data.features.map((f, i) => (
@@ -175,7 +207,7 @@ export default function IndustryPageTemplate({ data }: { data: IndustryPageData 
         <div className="container max-w-[1920px]">
           <RevealOnScroll className="text-center mb-12">
             <SectionBadge icon={Code} text="Tech Stack" />
-            <h2 className="text-3xl sm:text-4xl font-bold mb-4 tracking-tight">Technologies We Use</h2>
+            <h2 className="text-3xl sm:text-4xl font-bold mb-4 tracking-tight">{content.techTitle}</h2>
           </RevealOnScroll>
           <div className="flex flex-wrap justify-center gap-2.5">
             {data.technologies.map((tech, i) => (
@@ -191,8 +223,8 @@ export default function IndustryPageTemplate({ data }: { data: IndustryPageData 
       <section className="py-20 bg-[#060606] border-t border-white/[0.04]">
         <div className="container max-w-[1920px]">
           <RevealOnScroll className="text-center mb-12">
-            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">Related Industries</h2>
-            <p className="text-[#777] text-[15px] mt-3">We build compliance-grade AI automation for these sectors too.</p>
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">{content.relatedTitle}</h2>
+            <p className="text-[#777] text-[15px] mt-3">{content.relatedSubtitle}</p>
           </RevealOnScroll>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
             {relatedIndustries.map(ind => {
@@ -219,15 +251,17 @@ export default function IndustryPageTemplate({ data }: { data: IndustryPageData 
         <div className="container max-w-[1920px] relative z-10">
           <motion.div className="text-center max-w-3xl mx-auto" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8, ease }}>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 leading-[1.15] tracking-tight">
-              Transform Your {data.title}{' '}<span className="bg-gradient-to-r from-[#6EE7B7] via-[#34D399] to-[#3B82F6] bg-clip-text text-transparent">Business</span>
+              {finalCtaTitleEdited ? content.finalCtaTitle : (
+                <>Transform Your {data.title}{' '}<span className="bg-gradient-to-r from-[#6EE7B7] via-[#34D399] to-[#3B82F6] bg-clip-text text-transparent">Business</span></>
+              )}
             </h2>
-            <p className="text-[17px] text-[#777] mb-12 max-w-xl mx-auto leading-[1.7]">Join leading {data.title.toLowerCase()} companies that trust Greatodeal for their technology needs.</p>
+            <p className="text-[17px] text-[#777] mb-12 max-w-xl mx-auto leading-[1.7]">{content.finalCtaSubtitle}</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/contact" className="btn-primary group">
-                Request a Demo <ArrowRight className="w-5 h-5 group-hover:translate-x-1.5 transition-transform duration-500" />
+                {content.finalCtaButtonText} <ArrowRight className="w-5 h-5 group-hover:translate-x-1.5 transition-transform duration-500" />
               </Link>
               <Link href="/partnership" className="px-10 py-4 border border-white/[0.08] text-white rounded-xl font-bold text-[15px] hover:border-[#6EE7B7]/30 hover:bg-[#6EE7B7]/[0.03] transition-all duration-700 flex items-center justify-center gap-2">
-                Become a Partner
+                {content.finalCtaSecondaryButtonText}
               </Link>
             </div>
           </motion.div>

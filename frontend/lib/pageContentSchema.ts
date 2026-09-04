@@ -11,6 +11,41 @@ export interface PageContentSchema {
   fields: PageContentField[];
 }
 
+// Shared by all 8 industry sub-pages, which render through one IndustryPageTemplate
+// component — field keys match the `defaults` object built there per page.
+const INDUSTRY_SUBPAGE_FIELDS: PageContentField[] = [
+  { key: 'heroBadge', label: 'Hero badge (small eyebrow text)', type: 'text' },
+  { key: 'heroTitle', label: 'Hero headline', type: 'text' },
+  { key: 'heroDescription', label: 'Hero description', type: 'textarea' },
+  { key: 'stat1Label', label: 'Hero stat 1 label', type: 'text' },
+  { key: 'stat2Label', label: 'Hero stat 2 label', type: 'text' },
+  { key: 'stat3Label', label: 'Hero stat 3 label', type: 'text' },
+  { key: 'stat4Label', label: 'Hero stat 4 label', type: 'text' },
+  { key: 'challengesTitle', label: '"Challenges" section title', type: 'text' },
+  { key: 'challengesSubtitle', label: '"Challenges" section subtitle', type: 'textarea' },
+  { key: 'solutionsTitle', label: '"Solutions" section title', type: 'text' },
+  { key: 'solutionsSubtitle', label: '"Solutions" section subtitle', type: 'textarea' },
+  { key: 'featuresTitle', label: '"Features" section title', type: 'text' },
+  { key: 'techTitle', label: '"Tech Stack" section title', type: 'text' },
+  { key: 'relatedTitle', label: '"Related Industries" section title', type: 'text' },
+  { key: 'relatedSubtitle', label: '"Related Industries" section subtitle', type: 'textarea' },
+  { key: 'finalCtaTitle', label: 'Bottom CTA headline', type: 'textarea' },
+  { key: 'finalCtaSubtitle', label: 'Bottom CTA description', type: 'textarea' },
+  { key: 'finalCtaButtonText', label: 'Bottom CTA primary button text', type: 'text' },
+  { key: 'finalCtaSecondaryButtonText', label: 'Bottom CTA secondary button text', type: 'text' },
+];
+
+const INDUSTRY_SUBPAGES: PageContentSchema[] = [
+  { page: 'industries-government', label: 'Industries — Government', path: '/industries/government', fields: INDUSTRY_SUBPAGE_FIELDS },
+  { page: 'industries-healthcare', label: 'Industries — Healthcare', path: '/industries/healthcare', fields: INDUSTRY_SUBPAGE_FIELDS },
+  { page: 'industries-fintech', label: 'Industries — Fintech', path: '/industries/fintech', fields: INDUSTRY_SUBPAGE_FIELDS },
+  { page: 'industries-green-tech', label: 'Industries — Green Tech', path: '/industries/green-tech', fields: INDUSTRY_SUBPAGE_FIELDS },
+  { page: 'industries-real-estate', label: 'Industries — Real Estate', path: '/industries/real-estate', fields: INDUSTRY_SUBPAGE_FIELDS },
+  { page: 'industries-ai-automation', label: 'Industries — AI Automation', path: '/industries/ai-automation', fields: INDUSTRY_SUBPAGE_FIELDS },
+  { page: 'industries-business', label: 'Industries — Business Services', path: '/industries/business', fields: INDUSTRY_SUBPAGE_FIELDS },
+  { page: 'industries-ecommerce', label: 'Industries — E-Commerce', path: '/industries/ecommerce', fields: INDUSTRY_SUBPAGE_FIELDS },
+];
+
 // Field keys must exactly match the defaults object each *Client.tsx page passes to
 // usePageContent() — this is what drives the generic admin edit form.
 export const PAGE_CONTENT_SCHEMAS: PageContentSchema[] = [
@@ -145,4 +180,5 @@ export const PAGE_CONTENT_SCHEMAS: PageContentSchema[] = [
       { key: 'finalCtaSecondaryButtonText', label: 'Bottom CTA secondary button text', type: 'text' },
     ],
   },
+  ...INDUSTRY_SUBPAGES,
 ];
