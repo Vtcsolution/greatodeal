@@ -4,7 +4,7 @@ import Content from './content';
 export const metadata: Metadata = {
   title: 'AI Automation for Healthcare | HIPAA-Compliant Systems | Greatodeal',
   description: 'HIPAA-compliant AI and agentic automation for healthcare providers, payers, and health-tech: interoperable health records, clinical workflow automation, and auditable AI clinical support.',
-  keywords: ['healthcare AI automation', 'HIPAA compliant software', 'clinical workflow automation', 'HL7 FHIR integration', 'telehealth platform development', 'health-tech AI', 'Greatodeal'],
+  keywords: ['healthcare AI automation', 'HIPAA compliant software', 'clinical workflow automation', 'HL7 FHIR integration', 'telehealth platform development', 'health-tech AI', 'Greatodeal', 'AI automation solutions', 'workflow automation', 'business process automation', 'AI integration services'],
   openGraph: {
     title: 'AI Automation for Healthcare | HIPAA-Compliant Systems | Greatodeal',
     description: 'HIPAA-compliant AI and agentic automation for healthcare: interoperable health records, clinical workflow automation, and auditable AI clinical support.',

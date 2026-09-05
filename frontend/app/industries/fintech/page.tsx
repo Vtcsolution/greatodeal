@@ -4,7 +4,7 @@ import Content from './content';
 export const metadata: Metadata = {
   title: 'AI Automation for Fintech | Compliance-Grade Infrastructure | Greatodeal',
   description: 'AI-driven automation for fintech and banking: KYC/AML compliance, real-time fraud detection, and auditable transaction infrastructure built for regulated financial operations.',
-  keywords: ['fintech AI automation', 'KYC AML automation', 'fraud detection AI', 'PCI DSS compliant software', 'open banking API development', 'Greatodeal'],
+  keywords: ['fintech AI automation', 'KYC AML automation', 'fraud detection AI', 'PCI DSS compliant software', 'open banking API development', 'Greatodeal', 'AI automation solutions', 'business process automation', 'workflow automation', 'AI integration services', 'API integration'],
   openGraph: {
     title: 'AI Automation for Fintech | Compliance-Grade Infrastructure | Greatodeal',
     description: 'AI-driven automation for fintech and banking: KYC/AML compliance, real-time fraud detection, and auditable transaction infrastructure.',

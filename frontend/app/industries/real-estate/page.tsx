@@ -4,7 +4,7 @@ import Content from './content';
 export const metadata: Metadata = {
   title: 'AI Automation for Real Estate | Compliance-Grade PropTech | Greatodeal',
   description: 'AI-driven platforms for real estate and PropTech: automated disclosure compliance, unified property data, portfolio reporting, and transaction fraud detection.',
-  keywords: ['real estate AI automation', 'PropTech software development', 'property management platform', 'transaction fraud detection real estate', 'Greatodeal'],
+  keywords: ['real estate AI automation', 'PropTech software development', 'property management platform', 'transaction fraud detection real estate', 'Greatodeal', 'AI automation solutions', 'workflow automation', 'business process automation', 'CRM software', 'lead management'],
   openGraph: {
     title: 'AI Automation for Real Estate | Compliance-Grade PropTech | Greatodeal',
     description: 'AI-driven platforms for real estate and PropTech: automated disclosure compliance, unified property data, and portfolio reporting.',

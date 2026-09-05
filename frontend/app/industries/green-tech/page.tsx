@@ -4,7 +4,7 @@ import Content from './content';
 export const metadata: Metadata = {
   title: 'AI Automation for Green Tech | Energy & Compliance Infrastructure | Greatodeal',
   description: 'AI-driven monitoring and automation for green-tech and energy operators: smart grid integration, predictive maintenance, and automated emissions & HSE compliance reporting.',
-  keywords: ['green tech AI automation', 'smart grid software', 'predictive maintenance AI', 'emissions reporting automation', 'HSE compliance software', 'Greatodeal'],
+  keywords: ['green tech AI automation', 'smart grid software', 'predictive maintenance AI', 'emissions reporting automation', 'HSE compliance software', 'Greatodeal', 'AI automation solutions', 'workflow automation', 'business process automation', 'operational efficiency'],
   openGraph: {
     title: 'AI Automation for Green Tech | Energy & Compliance Infrastructure | Greatodeal',
     description: 'AI-driven monitoring and automation for green-tech and energy operators: smart grid integration, predictive maintenance, and compliance reporting.',

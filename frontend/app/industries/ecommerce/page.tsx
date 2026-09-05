@@ -4,7 +4,7 @@ import Content from './content';
 export const metadata: Metadata = {
   title: 'AI Automation for E-Commerce | Inventory & Fulfillment Automation | Greatodeal',
   description: 'AI-driven automation for online retail: multi-channel inventory sync, order and fulfillment automation, returns workflows, and unified reporting dashboards.',
-  keywords: ['ecommerce automation', 'inventory management automation', 'order fulfillment automation', 'multi-channel inventory sync', 'Greatodeal'],
+  keywords: ['ecommerce automation', 'inventory management automation', 'order fulfillment automation', 'multi-channel inventory sync', 'Greatodeal', 'automation software', 'automation tools', 'process automation software', 'operational efficiency', 'customer service automation', 'customer support automation'],
   openGraph: {
     title: 'AI Automation for E-Commerce | Inventory & Fulfillment Automation | Greatodeal',
     description: 'AI-driven automation for online retail: multi-channel inventory sync, order and fulfillment automation, and unified reporting dashboards.',

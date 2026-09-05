@@ -4,7 +4,11 @@ import Content from './content';
 export const metadata: Metadata = {
   title: 'AI Automation for Business Services | Operations & Workflow Automation | Greatodeal',
   description: 'AI-driven automation for professional services firms: client onboarding, billing and invoicing, operational dashboards, and approval workflows with full audit trails.',
-  keywords: ['business process automation', 'professional services automation', 'client onboarding automation', 'billing and invoicing automation', 'Greatodeal'],
+  keywords: [
+    'business process automation', 'professional services automation', 'client onboarding automation', 'billing and invoicing automation', 'Greatodeal',
+    'business workflow automation', 'automated workflows', 'workflow optimization', 'workflow management', 'process optimization',
+    'operational efficiency', 'business efficiency', 'repetitive task automation', 'digital transformation', 'intelligent automation',
+  ],
   openGraph: {
     title: 'AI Automation for Business Services | Operations & Workflow Automation | Greatodeal',
     description: 'AI-driven automation for professional services firms: client onboarding, billing and invoicing, operational dashboards, and approval workflows.',

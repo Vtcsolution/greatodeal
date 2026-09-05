@@ -17,6 +17,8 @@ export const metadata: Metadata = {
     'AI automation company', 'Greatodeal', 'explainable AI', 'audit-ready AI systems',
     'AI agent development', 'agentic AI services', 'AI automation agency', 'AI automation Pakistan',
     'AI services Lahore', 'AI services Pakistan', 'AI agencies Pakistan', 'business process automation',
+    'AI agents', 'AI agent', 'workflow automation', 'digital transformation', 'AI automation solutions',
+    'AI-powered automation', 'intelligent automation', 'custom software development company',
   ],
   authors: [{ name: 'Greatodeal', url: 'https://greatodeal.com' }],
   creator: 'Greatodeal',

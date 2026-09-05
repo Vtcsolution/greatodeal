@@ -4,7 +4,7 @@ import IndustriesClient from '@/components/pages/IndustriesClient';
 export const metadata: Metadata = {
   title: 'Industries We Serve | AI SaaS & Agentic Automation | Greatodeal',
   description: 'Greatodeal builds AI SaaS and agentic automation for regulated industries: government, healthcare, fintech, green tech, and real estate, with compliance and audit built in.',
-  keywords: ['AI automation by industry', 'government AI solutions', 'healthcare AI compliance', 'fintech AI automation', 'green tech AI', 'real estate AI platform', 'regulated industry AI'],
+  keywords: ['AI automation by industry', 'government AI solutions', 'healthcare AI compliance', 'fintech AI automation', 'green tech AI', 'real estate AI platform', 'regulated industry AI', 'business process automation', 'digital transformation', 'AI automation solutions', 'AI integration services'],
   openGraph: {
     title: 'Industries We Serve | Greatodeal',
     description: 'AI SaaS and agentic automation for government, healthcare, fintech, green tech, and real estate.',
