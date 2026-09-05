@@ -44,7 +44,7 @@ export default function PrivacyClient() {
           <motion.h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 leading-[1.1] tracking-tight" initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.4, ease }}>
             <span className="bg-gradient-to-r from-[#6EE7B7] via-[#34D399] to-[#3B82F6] bg-clip-text text-transparent">Privacy Policy</span>
           </motion.h1>
-          <motion.p className="text-[17px] text-[#888] max-w-2xl leading-[1.7]" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.6, ease }}>
+          <motion.p className="text-lg text-[#999] max-w-2xl leading-[1.7]" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.6, ease }}>
             Your privacy is important to us. This policy explains how we collect, use, and protect your personal information.
           </motion.p>
         </div>
@@ -183,7 +183,7 @@ export default function PrivacyClient() {
                 ].map(item => (
                   <div key={item.title} className="p-5 rounded-2xl bg-white/[0.02] border border-white/[0.04] hover:border-purple-500/20 transition-all duration-700">
                     <h3 className="font-semibold text-white mb-2">{item.title}</h3>
-                    <p className="text-sm text-[#777]">{item.desc}</p>
+                    <p className="text-base text-[#999]">{item.desc}</p>
                   </div>
                 ))}
               </div>
@@ -224,7 +224,7 @@ export default function PrivacyClient() {
                 </table>
               </div>
               <div className="mt-4 p-4 bg-white/[0.02] rounded-xl border border-white/[0.04]">
-                <p className="text-sm text-[#888]"><strong className="text-orange-400">Manage Cookies:</strong> You can control cookie preferences through your browser settings. However, disabling certain cookies may affect website functionality.</p>
+                <p className="text-base text-[#999]"><strong className="text-orange-400">Manage Cookies:</strong> You can control cookie preferences through your browser settings. However, disabling certain cookies may affect website functionality.</p>
               </div>
             </RevealOnScroll>
           </section>
@@ -253,7 +253,7 @@ export default function PrivacyClient() {
                 })}
               </div>
               <div className="p-5 bg-white/[0.02] rounded-2xl border border-white/[0.04]">
-                <p className="text-sm text-[#888]">While we implement industry-standard security measures, no method of transmission over the Internet is 100% secure. We are committed to protecting your information to the best of our ability.</p>
+                <p className="text-base text-[#999]">While we implement industry-standard security measures, no method of transmission over the Internet is 100% secure. We are committed to protecting your information to the best of our ability.</p>
               </div>
             </RevealOnScroll>
           </section>
@@ -278,13 +278,13 @@ export default function PrivacyClient() {
                 ].map(right => (
                   <div key={right} className="flex items-center gap-2.5 p-3 rounded-xl bg-white/[0.02] border border-white/[0.04]">
                     <CheckCircle className="w-4 h-4 text-[#6EE7B7] shrink-0" />
-                    <span className="text-sm text-[#bbb]">{right}</span>
+                    <span className="text-base text-[#ccc]">{right}</span>
                   </div>
                 ))}
               </div>
               <div className="p-5 bg-[#6EE7B7]/[0.04] rounded-2xl border border-[#6EE7B7]/[0.1]">
                 <h3 className="font-semibold text-[#6EE7B7] mb-2">Exercising Your Rights</h3>
-                <p className="text-sm text-[#888]">To exercise any of your privacy rights, please contact us at <a href="mailto:sales@greatodeal.com" className="text-[#6EE7B7] hover:underline">sales@greatodeal.com</a>. We will respond to your request within 30 days.</p>
+                <p className="text-base text-[#999]">To exercise any of your privacy rights, please contact us at <a href="mailto:sales@greatodeal.com" className="text-[#6EE7B7] hover:underline">sales@greatodeal.com</a>. We will respond to your request within 30 days.</p>
                 <p className="text-xs text-[#666] mt-2">We may need to verify your identity before processing certain requests.</p>
               </div>
             </RevealOnScroll>
@@ -317,7 +317,7 @@ export default function PrivacyClient() {
         <div className="container max-w-[1920px] relative z-10">
           <motion.div className="text-center max-w-2xl mx-auto" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8, ease }}>
             <h2 className="text-2xl sm:text-3xl font-bold mb-4 tracking-tight">Have Questions About Your Privacy?</h2>
-            <p className="text-[15px] text-[#777] mb-8">Our data protection team is here to help. Contact us for any privacy concerns or data requests.</p>
+            <p className="text-base text-[#999] mb-8">Our data protection team is here to help. Contact us for any privacy concerns or data requests.</p>
             <Link href="/contact" className="btn-primary group">
               Contact Privacy Team <ArrowRight className="w-5 h-5 group-hover:translate-x-1.5 transition-transform duration-500" />
             </Link>

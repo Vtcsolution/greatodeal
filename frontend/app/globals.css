@@ -22,15 +22,15 @@
 
 html {
   scroll-behavior: smooth;
-  font-size: 19px;
+  font-size: 21px;
 }
 
 @media (max-width: 640px) {
-  html { font-size: 16px; }
+  html { font-size: 17px; }
 }
 
 @media (min-width: 1536px) {
-  html { font-size: 20px; }
+  html { font-size: 22px; }
 }
 
 body {

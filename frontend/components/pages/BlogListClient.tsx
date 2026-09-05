@@ -116,7 +116,7 @@ export default function BlogListClient({ initialBlogs = [] }: { initialBlogs?: B
           <motion.h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 leading-[1.1] tracking-tight" initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.4, ease }}>
             Blog &{' '}<span className="bg-gradient-to-r from-[#6EE7B7] via-[#34D399] to-[#3B82F6] bg-clip-text text-transparent">Insights</span>
           </motion.h1>
-          <motion.p className="text-[17px] text-[#888] max-w-2xl mx-auto leading-[1.7] mb-10" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.6, ease }}>
+          <motion.p className="text-lg text-[#999] max-w-2xl mx-auto leading-[1.7] mb-10" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.6, ease }}>
             Expert articles on AI, software development, cloud, and technology trends from Greatodeal&apos;s engineering team.
           </motion.p>
           <motion.div className="max-w-xl mx-auto relative" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.8, ease }}>
@@ -203,7 +203,7 @@ export default function BlogListClient({ initialBlogs = [] }: { initialBlogs?: B
                       <div className="p-8 flex flex-col justify-center">
                         <span className="text-xs font-bold tracking-[0.15em] uppercase mb-3" style={{ color: categoryColor(featuredBlog.category) }}>{featuredBlog.category}</span>
                         <h2 className="text-2xl font-bold mb-3 group-hover:text-[#6EE7B7] transition-colors duration-500 tracking-tight leading-tight">{featuredBlog.title}</h2>
-                        <p className="text-[#777] text-[15px] leading-relaxed mb-6 line-clamp-3">{featuredBlog.excerpt}</p>
+                        <p className="text-[#999] text-base leading-relaxed mb-6 line-clamp-3">{featuredBlog.excerpt}</p>
                         <div className="flex items-center gap-4 text-xs text-[#555] mb-5">
                           <span className="flex items-center gap-1"><Clock className="w-3 h-3" />{featuredBlog.readTime}</span>
                           <span className="flex items-center gap-1"><Eye className="w-3 h-3" />{featuredBlog.views} views</span>

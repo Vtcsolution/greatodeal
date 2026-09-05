@@ -94,7 +94,7 @@ export default function IndustryPageTemplate({ data }: { data: IndustryPageData 
                   <>{data.title}{' '}<span className="block mt-2 bg-gradient-to-r from-[#6EE7B7] via-[#34D399] to-[#3B82F6] bg-clip-text text-transparent">IT Solutions</span></>
                 )}
               </motion.h1>
-              <motion.p className="text-[17px] text-[#888] leading-[1.7] mb-10" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.6, ease }}>
+              <motion.p className="text-lg text-[#999] leading-[1.7] mb-10" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.6, ease }}>
                 {content.heroDescription}
               </motion.p>
               <motion.div className="flex flex-col sm:flex-row gap-4" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.8, ease }}>
@@ -143,13 +143,13 @@ export default function IndustryPageTemplate({ data }: { data: IndustryPageData 
           <RevealOnScroll className="text-center mb-16">
             <SectionBadge icon={AlertTriangle} text="Pain Points" />
             <h2 className="text-3xl sm:text-4xl font-bold mb-4 tracking-tight">{content.challengesTitle}</h2>
-            <p className="text-[#777] max-w-2xl mx-auto text-[15px]">{content.challengesSubtitle}</p>
+            <p className="text-[#999] max-w-2xl mx-auto text-base">{content.challengesSubtitle}</p>
           </RevealOnScroll>
           <div className="grid md:grid-cols-2 gap-3">
             {data.challenges.map((c, i) => (
               <motion.div key={i} className="flex items-start gap-3 p-4 bg-white/[0.02] rounded-xl border border-white/[0.04] hover:border-red-500/15 transition-all duration-700" initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.04, duration: 0.5 }}>
                 <div className="w-5 h-5 rounded-full bg-red-500/10 border border-red-500/20 flex items-center justify-center shrink-0 mt-0.5"><div className="w-1.5 h-1.5 rounded-full bg-red-400" /></div>
-                <span className="text-sm text-[#999]">{c}</span>
+                <span className="text-base text-white/80">{c}</span>
               </motion.div>
             ))}
           </div>
@@ -164,7 +164,7 @@ export default function IndustryPageTemplate({ data }: { data: IndustryPageData 
           <RevealOnScroll className="text-center mb-16">
             <SectionBadge icon={Sparkles} text="Solutions" />
             <h2 className="text-3xl sm:text-4xl font-bold mb-4 tracking-tight">{content.solutionsTitle}</h2>
-            <p className="text-[#777] max-w-2xl mx-auto text-[15px]">{content.solutionsSubtitle}</p>
+            <p className="text-[#999] max-w-2xl mx-auto text-base">{content.solutionsSubtitle}</p>
           </RevealOnScroll>
           <StaggerContainer className="grid md:grid-cols-3 gap-5">
             {data.solutions.map((s, i) => {
@@ -176,7 +176,7 @@ export default function IndustryPageTemplate({ data }: { data: IndustryPageData 
                       <SIcon className="w-5 h-5 text-[#6EE7B7]" />
                     </div>
                     <h3 className="font-bold text-white mb-2 tracking-tight">{s.title}</h3>
-                    <p className="text-sm text-[#777] leading-relaxed">{s.desc}</p>
+                    <p className="text-base text-[#999] leading-relaxed">{s.desc}</p>
                   </motion.div>
                 </StaggerItem>
               );
@@ -196,7 +196,7 @@ export default function IndustryPageTemplate({ data }: { data: IndustryPageData 
             {data.features.map((f, i) => (
               <motion.div key={i} className="flex items-center gap-3 p-3 rounded-xl" initial={{ opacity: 0, x: -10 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.04, duration: 0.4 }}>
                 <CheckCircle className="w-4 h-4 text-[#6EE7B7] shrink-0" />
-                <span className="text-sm text-[#bbb]">{f}</span>
+                <span className="text-base text-[#ccc]">{f}</span>
               </motion.div>
             ))}
           </div>
@@ -225,7 +225,7 @@ export default function IndustryPageTemplate({ data }: { data: IndustryPageData 
         <div className="container max-w-[1920px]">
           <RevealOnScroll className="text-center mb-12">
             <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">{content.relatedTitle}</h2>
-            <p className="text-[#777] text-[15px] mt-3">{content.relatedSubtitle}</p>
+            <p className="text-[#999] text-base mt-3">{content.relatedSubtitle}</p>
           </RevealOnScroll>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
             {relatedIndustries.map(ind => {
@@ -256,7 +256,7 @@ export default function IndustryPageTemplate({ data }: { data: IndustryPageData 
                 <>Transform Your {data.title}{' '}<span className="bg-gradient-to-r from-[#6EE7B7] via-[#34D399] to-[#3B82F6] bg-clip-text text-transparent">Business</span></>
               )}
             </h2>
-            <p className="text-[17px] text-[#777] mb-12 max-w-xl mx-auto leading-[1.7]">{content.finalCtaSubtitle}</p>
+            <p className="text-lg text-[#999] mb-12 max-w-xl mx-auto leading-[1.7]">{content.finalCtaSubtitle}</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/contact" className="btn-primary group">
                 {content.finalCtaButtonText} <ArrowRight className="w-5 h-5 group-hover:translate-x-1.5 transition-transform duration-500" />

@@ -57,7 +57,7 @@ export default function CaseStudiesClient() {
               <>Real Projects.{' '}<span className="bg-gradient-to-r from-[#6EE7B7] via-[#34D399] to-[#3B82F6] bg-clip-text text-transparent">Real Results.</span></>
             )}
           </motion.h1>
-          <motion.p className="text-[17px] text-[#888] max-w-2xl mx-auto leading-[1.7] mb-10" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.6, ease }}>
+          <motion.p className="text-lg text-[#999] max-w-2xl mx-auto leading-[1.7] mb-10" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.6, ease }}>
             {content.heroSubtitle}
           </motion.p>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.8, ease }}>
@@ -112,8 +112,8 @@ export default function CaseStudiesClient() {
                       ))}
                     </div>
                     <div className="space-y-4">
-                      <div><h3 className="text-xs font-semibold text-[#bbb] uppercase tracking-wider mb-2">Challenge</h3><p className="text-sm text-[#777] leading-relaxed">{cs.challenge}</p></div>
-                      <div><h3 className="text-xs font-semibold text-[#bbb] uppercase tracking-wider mb-2">Solution</h3><p className="text-sm text-[#777] leading-relaxed">{cs.solution}</p></div>
+                      <div><h3 className="text-xs font-semibold text-[#bbb] uppercase tracking-wider mb-2">Challenge</h3><p className="text-base text-[#999] leading-relaxed">{cs.challenge}</p></div>
+                      <div><h3 className="text-xs font-semibold text-[#bbb] uppercase tracking-wider mb-2">Solution</h3><p className="text-base text-[#999] leading-relaxed">{cs.solution}</p></div>
                     </div>
                   </div>
                   <div className="space-y-6">
@@ -156,7 +156,7 @@ export default function CaseStudiesClient() {
                 <>Your Success Story{' '}<span className="bg-gradient-to-r from-[#6EE7B7] via-[#34D399] to-[#3B82F6] bg-clip-text text-transparent">Starts Here</span></>
               )}
             </h2>
-            <p className="text-[17px] text-[#777] mb-12 max-w-xl mx-auto leading-[1.7]">{content.finalCtaSubtitle}</p>
+            <p className="text-lg text-[#999] mb-12 max-w-xl mx-auto leading-[1.7]">{content.finalCtaSubtitle}</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/contact" className="btn-primary group">
                 {content.finalCtaButtonText} <ArrowRight className="w-5 h-5 group-hover:translate-x-1.5 transition-transform duration-500" />

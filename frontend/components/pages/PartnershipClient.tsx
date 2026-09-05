@@ -72,7 +72,7 @@ export default function PartnershipClient() {
           <motion.h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 leading-[1.1] tracking-tight" initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.4, ease }}>
             Build the Future{' '}<span className="bg-gradient-to-r from-[#6EE7B7] via-[#34D399] to-[#3B82F6] bg-clip-text text-transparent">Together</span>
           </motion.h1>
-          <motion.p className="text-[17px] text-[#888] max-w-2xl mx-auto leading-[1.7]" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.6, ease }}>
+          <motion.p className="text-lg text-[#999] max-w-2xl mx-auto leading-[1.7]" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.6, ease }}>
             Join Greatodeal&apos;s growing network. We offer white-label development, co-development, and technology licensing for agencies, consultants, and enterprises.
           </motion.p>
         </div>
