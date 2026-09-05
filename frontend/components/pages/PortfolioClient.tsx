@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { Briefcase, ExternalLink, Link2, Check, ArrowRight, Search, LayoutGrid } from 'lucide-react';
 import { portfolioApi, getImageUrl } from '@/lib/api';
@@ -53,7 +54,7 @@ function ProjectCard({ project, index }: { project: PortfolioProject; index: num
       <Link href={`/work/${project._id}`} className="group block bg-white/[0.02] rounded-2xl border border-white/[0.06] hover:border-white/[0.14] overflow-hidden transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl hover:shadow-black/30 h-full flex flex-col">
         <div className="aspect-[16/10] bg-white/[0.03] relative overflow-hidden shrink-0">
           {project.images[0] ? (
-            <img src={getImageUrl(project.images[0])} alt={project.title} className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-700" loading="lazy" />
+            <Image src={getImageUrl(project.images[0])} alt={project.title} fill sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" className="object-contain group-hover:scale-105 transition-transform duration-700" />
           ) : (
             <div className="w-full h-full flex items-center justify-center"><LayoutGrid className="w-8 h-8 text-white/10" /></div>
           )}

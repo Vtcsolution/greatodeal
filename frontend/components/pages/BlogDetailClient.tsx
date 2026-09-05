@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { motion, useScroll, useSpring } from 'framer-motion';
 import { Clock, Eye, ArrowLeft, Heart, Send, FileText, ArrowRight, ArrowUpRight, BookOpen, Link2, Check, List, RefreshCw } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
@@ -185,7 +186,9 @@ export default function BlogDetailClient({ id }: { id: string }) {
       {blog.image && (
         <motion.div className="container max-w-[1400px] mx-auto px-4 sm:px-6 py-8" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.7, ease }}>
           <div className="rounded-2xl overflow-hidden border border-white/[0.06] shadow-2xl shadow-black/40">
-            <motion.img src={getImageUrl(blog.image)} alt={blog.title} className="w-full h-auto aspect-video object-cover" initial={{ scale: 1.12 }} animate={{ scale: 1 }} transition={{ duration: 1.4, ease }} />
+            <motion.div className="relative w-full aspect-video" initial={{ scale: 1.12 }} animate={{ scale: 1 }} transition={{ duration: 1.4, ease }}>
+              <Image src={getImageUrl(blog.image)} alt={blog.title} fill sizes="(max-width: 1400px) 100vw, 1400px" className="object-cover" priority />
+            </motion.div>
           </div>
         </motion.div>
       )}
@@ -305,7 +308,7 @@ export default function BlogDetailClient({ id }: { id: string }) {
                     <motion.div key={r._id} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08, duration: 0.5, ease }}>
                       <Link href={`/blog/${r._id}`} className="group bg-white/[0.02] rounded-2xl overflow-hidden border border-white/[0.06] hover:border-white/[0.12] transition-all duration-500 flex flex-col h-full block hover:-translate-y-1">
                         <div className="relative h-40 overflow-hidden bg-white/[0.04]">
-                          {r.image && <img src={getImageUrl(r.image)} alt={r.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" loading="lazy" />}
+                          {r.image && <Image src={getImageUrl(r.image)} alt={r.title} fill sizes="(max-width: 640px) 100vw, 25vw" className="object-cover group-hover:scale-110 transition-transform duration-700" />}
                         </div>
                         <div className="p-5 flex flex-col flex-grow">
                           <span className="text-[11px] font-semibold uppercase tracking-wider mb-2" style={{ color: rAccent }}>{r.category}</span>

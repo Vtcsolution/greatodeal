@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Clock, Eye, TrendingUp, Star, FileText, ArrowRight, ArrowUpRight, Sparkles, X, RotateCcw, Layers } from 'lucide-react';
 import { blogApi, getImageUrl } from '@/lib/api';
@@ -29,7 +30,7 @@ function BlogCard({ blog, index }: { blog: Blog; index: number }) {
       <Link href={`/blog/${blog._id}`} className="group relative bg-white/[0.02] rounded-2xl overflow-hidden border border-white/[0.06] hover:border-white/[0.12] transition-all duration-500 flex flex-col h-full block hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-black/40">
         <div className="relative h-52 overflow-hidden bg-white/[0.04]">
           {blog.image ? (
-            <img src={getImageUrl(blog.image)} alt={blog.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out" loading="lazy" />
+            <Image src={getImageUrl(blog.image)} alt={blog.title} fill sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out" />
           ) : (
             <div className="w-full h-full flex items-center justify-center" style={{ background: `linear-gradient(135deg, ${accent}15, transparent)` }}>
               <FileText className="w-10 h-10" style={{ color: accent + '60' }} />
@@ -193,7 +194,7 @@ export default function BlogListClient({ initialBlogs = [] }: { initialBlogs?: B
                   <motion.div key={featuredBlog._id} className="mb-10" initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.6, ease }}>
                     <Link href={`/blog/${featuredBlog._id}`} className="group grid md:grid-cols-2 gap-0 bg-white/[0.02] rounded-2xl overflow-hidden border border-white/[0.06] hover:border-[#6EE7B7]/25 transition-all duration-700">
                       <div className="relative h-64 md:h-auto overflow-hidden bg-white/[0.04]">
-                        {featuredBlog.image && <img src={getImageUrl(featuredBlog.image)} alt={featuredBlog.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-[1200ms] ease-out" loading="lazy" />}
+                        {featuredBlog.image && <Image src={getImageUrl(featuredBlog.image)} alt={featuredBlog.title} fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover group-hover:scale-105 transition-transform duration-[1200ms] ease-out" />}
                         <div className="absolute top-4 left-4 flex gap-2">
                           <span className="px-3 py-1 bg-[#6EE7B7] text-[#090909] text-xs font-bold rounded-lg flex items-center gap-1.5"><Star className="w-3 h-3" />Featured</span>
                           {featuredBlog.trending && <span className="px-3 py-1 bg-[#3B82F6] text-white text-xs font-bold rounded-lg">Trending</span>}

@@ -1,5 +1,11 @@
 import type { Metadata } from 'next';
 import PricingClient from '@/components/pages/PricingClient';
+import { breadcrumbSchema } from '@/lib/schema';
+
+const breadcrumbs = breadcrumbSchema([
+  { name: 'Home', url: 'https://greatodeal.com' },
+  { name: 'Pricing', url: 'https://greatodeal.com/pricing' },
+]);
 
 export const metadata: Metadata = {
   title: 'Pricing | Websites, AI Agents & Software Development | Greatodeal',
@@ -16,5 +22,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <PricingClient />;
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbs) }} />
+      <PricingClient />
+    </>
+  );
 }

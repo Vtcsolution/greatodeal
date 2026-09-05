@@ -1,5 +1,12 @@
 import type { Metadata } from 'next';
 import Content from './content';
+import { breadcrumbSchema } from '@/lib/schema';
+
+const breadcrumbs = breadcrumbSchema([
+  { name: 'Home', url: 'https://greatodeal.com' },
+  { name: 'Industries', url: 'https://greatodeal.com/industries' },
+  { name: 'Fintech', url: 'https://greatodeal.com/industries/fintech' },
+]);
 
 export const metadata: Metadata = {
   title: 'AI Automation for Fintech | Compliance-Grade Infrastructure | Greatodeal',
@@ -56,6 +63,7 @@ const faqSchema = {
 export default function Page() {
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbs) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <Content />

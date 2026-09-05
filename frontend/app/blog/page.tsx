@@ -1,6 +1,12 @@
 import type { Metadata } from 'next';
 import BlogListClient from '@/components/pages/BlogListClient';
 import type { Blog } from '@/types';
+import { breadcrumbSchema } from '@/lib/schema';
+
+const breadcrumbs = breadcrumbSchema([
+  { name: 'Home', url: 'https://greatodeal.com' },
+  { name: 'Blog', url: 'https://greatodeal.com/blog' },
+]);
 
 export const metadata: Metadata = {
   title: 'Blog & Insights | AI, Software Development, Technology Trends | Greatodeal',
@@ -33,5 +39,10 @@ async function getInitialBlogs(): Promise<Blog[]> {
 
 export default async function Page() {
   const initialBlogs = await getInitialBlogs();
-  return <BlogListClient initialBlogs={initialBlogs} />;
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbs) }} />
+      <BlogListClient initialBlogs={initialBlogs} />
+    </>
+  );
 }

@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { ArrowRight, CheckCircle, Sparkles, AlertTriangle, Layers, Code, Landmark, Activity, Banknote, Leaf, Home, Bot, ArrowUpRight, Briefcase, ShoppingCart } from 'lucide-react';
@@ -114,7 +115,7 @@ export default function IndustryPageTemplate({ data }: { data: IndustryPageData 
                 </div>
               ) : data.heroImage ? (
                 <div className="relative w-full h-[400px] sm:h-[500px] rounded-2xl overflow-hidden shadow-2xl shadow-black/30">
-                  <img src={data.heroImage} alt={`${data.title} AI automation solutions by Greatodeal`} className="w-full h-full object-cover" />
+                  <Image src={data.heroImage} alt={`${data.title} AI automation solutions by Greatodeal`} fill sizes="(max-width: 1024px) 100vw, 50vw" className="object-cover" priority />
                 </div>
               ) : (
                 <div className="bg-white/[0.02] p-8 rounded-2xl border border-white/[0.04]">

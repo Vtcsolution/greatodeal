@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import PortfolioDetailClient from '@/components/pages/PortfolioDetailClient';
+import { breadcrumbSchema } from '@/lib/schema';
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001';
 
@@ -45,6 +46,44 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
   };
 }
 
-export default function Page() {
-  return <PortfolioDetailClient />;
+// Next.js deduplicates identical fetch() calls (same URL + options) made during
+// the same render pass, so this doesn't cost a second network round trip beyond
+// the one generateMetadata already makes above.
+async function getProject(id: string) {
+  try {
+    const res = await fetch(`${API_BASE}/api/portfolio/public/${id}`, { next: { revalidate: 3600 } });
+    const data = await res.json();
+    return data.success ? data.data : null;
+  } catch {
+    return null;
+  }
+}
+
+export default async function Page({ params }: { params: { id: string } }) {
+  const project = await getProject(params.id);
+
+  const schema = project ? {
+    '@context': 'https://schema.org',
+    '@type': 'CreativeWork',
+    name: project.title,
+    description: project.subtitle || project.description,
+    creator: { '@id': 'https://greatodeal.com/#organization' },
+    url: `https://greatodeal.com/work/${params.id}`,
+    ...(project.category ? { about: project.category } : {}),
+    ...(Array.isArray(project.techStack) && project.techStack.length ? { keywords: project.techStack.join(', ') } : {}),
+  } : null;
+
+  const breadcrumbs = breadcrumbSchema([
+    { name: 'Home', url: 'https://greatodeal.com' },
+    { name: 'Work', url: 'https://greatodeal.com/work' },
+    { name: project?.title || 'Project', url: `https://greatodeal.com/work/${params.id}` },
+  ]);
+
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbs) }} />
+      {schema && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />}
+      <PortfolioDetailClient />
+    </>
+  );
 }

@@ -6,17 +6,17 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: '*',
         allow: '/',
-        disallow: ['/admin/', '/api/', '/_next/', '/images/*.mp4', '/product/*', '/cart/*', '/checkout/*'],
+        disallow: ['/admin/', '/api/', '/_next/', '/images/*.mp4'],
       },
       {
         userAgent: 'Googlebot',
         allow: '/',
-        disallow: ['/admin/', '/api/', '/product/*', '/cart/*', '/checkout/*'],
+        disallow: ['/admin/', '/api/'],
       },
       {
         userAgent: 'Bingbot',
         allow: '/',
-        disallow: ['/admin/', '/api/', '/product/*', '/cart/*', '/checkout/*'],
+        disallow: ['/admin/', '/api/'],
       },
     ],
     sitemap: 'https://greatodeal.com/sitemap.xml',

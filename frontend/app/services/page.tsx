@@ -1,5 +1,27 @@
 import type { Metadata } from 'next';
 import ServicesClient from '@/components/pages/ServicesClient';
+import { breadcrumbSchema } from '@/lib/schema';
+
+const breadcrumbs = breadcrumbSchema([
+  { name: 'Home', url: 'https://greatodeal.com' },
+  { name: 'Services', url: 'https://greatodeal.com/services' },
+]);
+
+const serviceSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  serviceType: 'AI Automation, Custom Software & SaaS Development',
+  provider: { '@id': 'https://greatodeal.com/#organization' },
+  areaServed: 'Worldwide',
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'Greatodeal Services',
+    itemListElement: [
+      'Custom Software Development', 'AI Agents & Agentic Automation', 'AI-Automation SaaS Platforms',
+      'ERP Systems', 'Website Development', 'Mobile App Development', 'Cloud & DevOps', 'API Integration',
+    ].map(name => ({ '@type': 'Offer', itemOffered: { '@type': 'Service', name } })),
+  },
+};
 
 export const metadata: Metadata = {
   title: 'Services | Websites, Software, AI SaaS, ERP & AI Agents | Greatodeal',
@@ -33,5 +55,11 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <ServicesClient />;
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbs) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }} />
+      <ServicesClient />
+    </>
+  );
 }

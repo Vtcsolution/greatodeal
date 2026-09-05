@@ -1,5 +1,27 @@
 import type { Metadata } from 'next';
 import IndustriesClient from '@/components/pages/IndustriesClient';
+import { breadcrumbSchema } from '@/lib/schema';
+
+const breadcrumbs = breadcrumbSchema([
+  { name: 'Home', url: 'https://greatodeal.com' },
+  { name: 'Industries', url: 'https://greatodeal.com/industries' },
+]);
+
+const industryListSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'Industries Greatodeal Serves',
+  itemListElement: [
+    { name: 'Government', url: 'https://greatodeal.com/industries/government' },
+    { name: 'Healthcare', url: 'https://greatodeal.com/industries/healthcare' },
+    { name: 'Fintech', url: 'https://greatodeal.com/industries/fintech' },
+    { name: 'Green Tech', url: 'https://greatodeal.com/industries/green-tech' },
+    { name: 'Real Estate', url: 'https://greatodeal.com/industries/real-estate' },
+    { name: 'AI Automation', url: 'https://greatodeal.com/industries/ai-automation' },
+    { name: 'Business Services', url: 'https://greatodeal.com/industries/business' },
+    { name: 'E-Commerce', url: 'https://greatodeal.com/industries/ecommerce' },
+  ].map((item, i) => ({ '@type': 'ListItem', position: i + 1, name: item.name, url: item.url })),
+};
 
 export const metadata: Metadata = {
   title: 'Industries We Serve | AI SaaS & Agentic Automation | Greatodeal',
@@ -15,5 +37,11 @@ export const metadata: Metadata = {
 };
 
 export default function IndustriesPage() {
-  return <IndustriesClient />;
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbs) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(industryListSchema) }} />
+      <IndustriesClient />
+    </>
+  );
 }

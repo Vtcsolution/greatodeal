@@ -1,5 +1,11 @@
 import type { Metadata } from 'next';
 import PartnershipClient from '@/components/pages/PartnershipClient';
+import { breadcrumbSchema } from '@/lib/schema';
+
+const breadcrumbs = breadcrumbSchema([
+  { name: 'Home', url: 'https://greatodeal.com' },
+  { name: 'Partnership', url: 'https://greatodeal.com/partnership' },
+]);
 
 export const metadata: Metadata = {
   title: 'Partner With Us | White-Label & Co-Development | Greatodeal',
@@ -21,5 +27,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <PartnershipClient />;
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbs) }} />
+      <PartnershipClient />
+    </>
+  );
 }

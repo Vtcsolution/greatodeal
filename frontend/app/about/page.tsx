@@ -1,5 +1,11 @@
 import type { Metadata } from 'next';
 import AboutClient from '@/components/pages/AboutClient';
+import { breadcrumbSchema } from '@/lib/schema';
+
+const breadcrumbs = breadcrumbSchema([
+  { name: 'Home', url: 'https://greatodeal.com' },
+  { name: 'About', url: 'https://greatodeal.com/about' },
+]);
 
 export const metadata: Metadata = {
   title: 'About Greatodeal | AI Infrastructure for Regulated Industries',
@@ -16,5 +22,10 @@ export const metadata: Metadata = {
 };
 
 export default function AboutPage() {
-  return <AboutClient />;
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbs) }} />
+      <AboutClient />
+    </>
+  );
 }

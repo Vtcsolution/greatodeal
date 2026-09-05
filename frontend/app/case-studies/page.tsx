@@ -1,5 +1,11 @@
 import type { Metadata } from 'next';
 import CaseStudiesClient from '@/components/pages/CaseStudiesClient';
+import { breadcrumbSchema } from '@/lib/schema';
+
+const breadcrumbs = breadcrumbSchema([
+  { name: 'Home', url: 'https://greatodeal.com' },
+  { name: 'Case Studies', url: 'https://greatodeal.com/case-studies' },
+]);
 
 export const metadata: Metadata = {
   title: 'Case Studies & Portfolio | Software Development Success Stories | Greatodeal',
@@ -21,5 +27,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <CaseStudiesClient />;
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbs) }} />
+      <CaseStudiesClient />
+    </>
+  );
 }

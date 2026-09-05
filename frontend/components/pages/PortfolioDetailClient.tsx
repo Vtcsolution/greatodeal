@@ -3,6 +3,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import {
   ChevronLeft, ChevronRight, ExternalLink, PlayCircle, Layers, FileText,
@@ -110,7 +111,7 @@ export default function PortfolioDetailClient() {
           <div className="grid lg:grid-cols-2">
             <div className="aspect-[16/10] lg:aspect-auto bg-white/[0.03] relative min-h-[220px] lg:min-h-[320px]">
               {project.images[0] ? (
-                <img src={getImageUrl(project.images[0])} alt={project.title} className="w-full h-full object-contain" />
+                <Image src={getImageUrl(project.images[0])} alt={project.title} fill sizes="(max-width: 1024px) 100vw, 50vw" className="object-contain" />
               ) : (
                 <div className="w-full h-full flex items-center justify-center min-h-[220px]"><ImageOff className="w-8 h-8 text-white/10" /></div>
               )}
