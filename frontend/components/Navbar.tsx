@@ -287,7 +287,7 @@ export default function Navbar() {
                                 key={sub.path}
                                 href={sub.path}
                                 onClick={() => setActiveDropdown(null)}
-                                className="block px-4 py-3 text-[15px] text-white/80 hover:text-[#6EE7B7] hover:bg-white/[0.04] rounded-lg transition-all"
+                                className="block px-4 py-3 text-base font-medium text-white/80 hover:text-[#6EE7B7] hover:bg-white/[0.04] rounded-lg transition-all"
                               >
                                 {sub.name}
                               </Link>
