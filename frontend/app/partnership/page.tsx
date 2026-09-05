@@ -4,7 +4,7 @@ import PartnershipClient from '@/components/pages/PartnershipClient';
 export const metadata: Metadata = {
   title: 'Partner With Us | White-Label & Co-Development | Greatodeal',
   description: 'Apply to become a Greatodeal partner. We offer white-label software development, co-development, and technology licensing for agencies, consultants, and enterprises worldwide.',
-  keywords: ['partnership', 'white-label development', 'co-development', 'technology licensing', 'software partner', 'outsourcing partner', 'agency partnership', 'development partner Pakistan', 'Greatodeal partner', 'reseller program'],
+  keywords: ['partnership', 'white-label development', 'co-development', 'technology licensing', 'software partner', 'outsourcing partner', 'agency partnership', 'development partner Pakistan', 'Greatodeal partner', 'reseller program', 'AI automation agency', 'custom software development company', 'AI integration services'],
   openGraph: {
     title: 'Partner With Us | White-Label & Co-Development | Greatodeal',
     description: 'Apply to become a Greatodeal partner. We offer white-label software development, co-development, and technology licensing for agencies and enterprises.',

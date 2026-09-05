@@ -5,7 +5,7 @@ import type { Blog } from '@/types';
 export const metadata: Metadata = {
   title: 'Blog & Insights | AI, Software Development, Technology Trends | Greatodeal',
   description: 'Read Greatodeal\'s tech blog: expert insights on AI, machine learning, software development, SaaS, cloud computing, UI/UX, blockchain, and digital transformation trends.',
-  keywords: ['tech blog', 'AI insights', 'software development blog', 'machine learning articles', 'SaaS trends', 'cloud computing', 'UI/UX design blog', 'digital transformation', 'technology trends', 'developer blog', 'Greatodeal blog'],
+  keywords: ['tech blog', 'AI insights', 'software development blog', 'machine learning articles', 'SaaS trends', 'cloud computing', 'UI/UX design blog', 'digital transformation', 'technology trends', 'developer blog', 'Greatodeal blog', 'AI automation', 'AI agents', 'business process automation', 'intelligent automation'],
   openGraph: {
     title: 'Blog & Insights | AI, Software Development, Technology Trends | Greatodeal',
     description: 'Read Greatodeal\'s tech blog: expert insights on AI, machine learning, software development, SaaS, cloud computing, and digital transformation trends.',

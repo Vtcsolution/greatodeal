@@ -11,7 +11,7 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
       return {
         title: `${blog.title} | Greatodeal Blog`,
         description: blog.excerpt,
-        keywords: [blog.category, blog.author, 'Greatodeal blog', 'technology insights', 'AI', 'software development', 'tech articles'],
+        keywords: [blog.category, blog.author, 'Greatodeal blog', 'technology insights', 'AI', 'software development', 'tech articles', 'AI automation', 'business process automation'],
         openGraph: {
           title: blog.title,
           description: blog.excerpt,
