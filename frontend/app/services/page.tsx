@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     'CRM software', 'all-in-one business software', 'business operating system', 'custom dashboard',
     'business workflows', 'business operations automation', 'unified business dashboard', 'AI workflow',
     'AI workflow automation', 'SaaS automation', 'marketing automation software', 'workflow management',
-    'marketing workflow automation',
+    'marketing workflow automation', 'all-in-one business system', 'custom business software',
   ],
   openGraph: {
     title: 'Services | Websites, Software, AI SaaS, ERP & AI Agents | Greatodeal',
