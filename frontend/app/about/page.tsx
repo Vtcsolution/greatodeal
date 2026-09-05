@@ -7,6 +7,33 @@ const breadcrumbs = breadcrumbSchema([
   { name: 'About', url: 'https://greatodeal.com/about' },
 ]);
 
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'When was Greatodeal founded and where is it based?',
+      acceptedAnswer: { '@type': 'Answer', text: 'Greatodeal was founded in 2020 and is headquartered in Lahore, Pakistan, serving clients internationally.' },
+    },
+    {
+      '@type': 'Question',
+      name: "What is Greatodeal's engineering process?",
+      acceptedAnswer: { '@type': 'Answer', text: 'Greatodeal follows a compliance-first process: discovery and compliance mapping, compliance-first architecture, agile build with continuous security review, and an audit-ready launch with documentation and ongoing support.' },
+    },
+    {
+      '@type': 'Question',
+      name: 'What industries does Greatodeal serve?',
+      acceptedAnswer: { '@type': 'Answer', text: 'Greatodeal serves government and healthcare as its primary industries, with fintech, green tech, real estate, AI automation, business services, and e-commerce as secondary focus areas, eight industries in total.' },
+    },
+    {
+      '@type': 'Question',
+      name: 'What pricing models does Greatodeal offer?',
+      acceptedAnswer: { '@type': 'Answer', text: 'Greatodeal offers time and materials, capped time and materials, fixed price, subscription-based, per-ticket, and mixed pricing models, chosen based on project scope and requirements.' },
+    },
+  ],
+};
+
 export const metadata: Metadata = {
   title: 'About Greatodeal | AI Infrastructure for Regulated Industries',
   description: 'Greatodeal builds AI SaaS and agentic automation for regulated industries. A small, focused team delivering compliance-grade AI for government, healthcare, and fintech.',
@@ -25,6 +52,7 @@ export default function AboutPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbs) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <AboutClient />
     </>
   );

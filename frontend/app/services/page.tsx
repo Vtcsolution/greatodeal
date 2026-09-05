@@ -23,6 +23,33 @@ const serviceSchema = {
   },
 };
 
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'What services does Greatodeal offer?',
+      acceptedAnswer: { '@type': 'Answer', text: 'Greatodeal offers custom software development, AI agents and agentic automation, AI-automation SaaS platforms, ERP systems, website development, mobile app development, cloud and DevOps, and API integration.' },
+    },
+    {
+      '@type': 'Question',
+      name: 'Does Greatodeal build custom AI agents?',
+      acceptedAnswer: { '@type': 'Answer', text: 'Yes. Greatodeal builds custom AI agents and agentic automation that execute multi-step operational workflows within defined guardrails, with human-in-the-loop review for decisions that matter.' },
+    },
+    {
+      '@type': 'Question',
+      name: 'Can Greatodeal integrate AI automation into an existing system?',
+      acceptedAnswer: { '@type': 'Answer', text: 'Yes. Greatodeal builds secure API integrations and custom software that connect new AI automation to your existing tools, databases, and workflows rather than requiring a full replacement.' },
+    },
+    {
+      '@type': 'Question',
+      name: 'Does Greatodeal build ERP systems?',
+      acceptedAnswer: { '@type': 'Answer', text: 'Yes. Greatodeal builds custom ERP systems covering procurement, production, inventory, HR, payroll, and financial reporting, tailored to the client\'s operations.' },
+    },
+  ],
+};
+
 export const metadata: Metadata = {
   title: 'Services | Websites, Software, AI SaaS, ERP & AI Agents | Greatodeal',
   description: 'Websites, custom software, AI-automation SaaS, ERP systems, AI agents, and workflow automation, everything you need to build, run, and automate your business.',
@@ -59,6 +86,7 @@ export default function Page() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbs) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <ServicesClient />
     </>
   );
