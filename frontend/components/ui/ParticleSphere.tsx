@@ -1,8 +1,48 @@
 'use client';
 
-import React, { useRef, useMemo, useState } from 'react';
+import React, { useRef, useMemo, useState, useEffect } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
+
+function canCreateWebGL(): boolean {
+  try {
+    const canvas = document.createElement('canvas');
+    return !!(canvas.getContext('webgl2') || canvas.getContext('webgl') || canvas.getContext('experimental-webgl'));
+  } catch {
+    return false;
+  }
+}
+
+// Some environments (GPU disabled, sandboxed browser contexts, certain VMs/
+// remote sessions) can't create a WebGL context at all. @react-three/fiber's
+// Canvas throws in that case with no built-in fallback, so we feature-detect
+// up front and skip mounting it entirely rather than let it crash/spam errors.
+class WebGLErrorBoundary extends React.Component<{ children: React.ReactNode; fallback: React.ReactNode }, { hasError: boolean }> {
+  constructor(props: { children: React.ReactNode; fallback: React.ReactNode }) {
+    super(props);
+    this.state = { hasError: false };
+  }
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+  render() {
+    return this.state.hasError ? this.props.fallback : this.props.children;
+  }
+}
+
+function StaticGlowFallback() {
+  return (
+    <div
+      className="rounded-full"
+      style={{
+        width: '70%',
+        height: '70%',
+        background: 'radial-gradient(circle, rgba(209,250,229,0.5) 0%, rgba(110,231,183,0.35) 35%, rgba(34,197,139,0.18) 70%, rgba(59,130,246,0) 100%)',
+        filter: 'blur(2px)',
+      }}
+    />
+  );
+}
 
 function SphereField({ count = 1400, radius = 1.7 }: { count?: number; radius?: number }) {
   const points = useRef<THREE.Points>(null!);
@@ -108,6 +148,11 @@ function Scene({ hovered }: { hovered: boolean }) {
 
 export default function ParticleSphere() {
   const [hovered, setHovered] = useState(false);
+  const [webglOk, setWebglOk] = useState(true);
+
+  useEffect(() => {
+    setWebglOk(canCreateWebGL());
+  }, []);
 
   return (
     <div
@@ -121,12 +166,18 @@ export default function ParticleSphere() {
           browsers fail to apply consistently to a WebGL canvas) forces the
           hard circular boundary at the compositor level. */}
       <div
-        className="relative w-[320px] h-[320px] sm:w-[440px] sm:h-[440px] lg:w-[640px] lg:h-[640px] rounded-full overflow-hidden"
+        className="relative w-[320px] h-[320px] sm:w-[440px] sm:h-[440px] lg:w-[640px] lg:h-[640px] rounded-full overflow-hidden flex items-center justify-center"
         style={{ clipPath: 'circle(50% at 50% 50%)', WebkitClipPath: 'circle(50% at 50% 50%)' }}
       >
-        <Canvas camera={{ position: [0, 0, 6.5], fov: 42 }} dpr={[1, 1.75]} gl={{ antialias: true, alpha: true }} style={{ background: 'transparent' }}>
-          <Scene hovered={hovered} />
-        </Canvas>
+        {webglOk ? (
+          <WebGLErrorBoundary fallback={<StaticGlowFallback />}>
+            <Canvas camera={{ position: [0, 0, 6.5], fov: 42 }} dpr={[1, 1.75]} gl={{ antialias: true, alpha: true }} style={{ background: 'transparent' }}>
+              <Scene hovered={hovered} />
+            </Canvas>
+          </WebGLErrorBoundary>
+        ) : (
+          <StaticGlowFallback />
+        )}
       </div>
     </div>
   );
