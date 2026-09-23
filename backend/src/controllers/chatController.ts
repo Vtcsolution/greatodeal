@@ -1,7 +1,8 @@
 import { Request, Response } from 'express';
 import OpenAI from 'openai';
 import Chat from '../models/ChatModel';
-import Knowledge from '../models/Knowledge';
+import PortfolioProject from '../models/PortfolioProject';
+import PortfolioSettings from '../models/PortfolioSettings';
 
 // Lazy-initialize so dotenv loads first before the client is created
 let _openai: OpenAI | null = null;
@@ -63,7 +64,18 @@ STRICT RULES YOU MUST FOLLOW:
 4. Always respond professionally and concisely.
 5. For pricing, mention cost ranges only if asked. Always suggest contacting sales@greatodeal.com or WhatsApp +92 301 1060841 for detailed quotes.
 6. When showing portfolio/projects, list ALL items. Never skip or summarize.
-7. Never use an em dash (—) anywhere in your replies. Use a comma, period, colon, or parentheses instead.`;
+7. Never use an em dash (—) anywhere in your replies. Use a comma, period, colon, or parentheses instead.
+
+SALES METHODOLOGY (this is your real purpose, not just answering questions, it's moving the visitor toward becoming a client):
+- After answering the user's question, ask ONE natural, relevant follow-up question that moves the conversation forward. Never just answer and stop. Tailor the follow-up to what they asked:
+  - If they ask about a service or capability: ask what they're trying to build, or what problem they're currently facing.
+  - If they ask about the portfolio or a specific project: ask if they're looking for something similar, or what industry/use case they have in mind.
+  - If they ask about pricing: ask about their project scope, timeline, or budget range so you can point them to the right next step.
+  - If they've already shared real details about their need (their business, their problem, their timeline): that's the moment to invite them to request a demo, share their email or WhatsApp so the team can follow up, or contact sales@greatodeal.com directly. Don't keep asking generic questions once they've clearly signaled interest, move them to the next step.
+- Ask only ONE question per reply. Never stack multiple questions in the same message, it reads as an interrogation, not a conversation.
+- Vary your follow-up questions. Never repeat the same question you already asked earlier in this conversation.
+- Stay warm and consultative, never pushy or scripted-sounding. The goal is to understand their business well enough to genuinely help, not to extract information for its own sake.
+- If the user gives short or low-effort answers, don't force it, just answer their question plainly and offer to connect them with the team instead of continuing to probe.`;
 
 export const startChat = async (req: Request, res: Response): Promise<void> => {
   try {
@@ -94,23 +106,28 @@ export const sendMessage = async (req: Request, res: Response): Promise<void> =>
     let systemContent = SYSTEM_PROMPT;
 
     try {
-      const knowledge = await Knowledge.findOne();
-      if (knowledge && knowledge.categories.length > 0) {
-        const portfolioData = knowledge.categories.map(cat => {
-          const links = cat.links.map(l => `  - ${l.description}: ${l.url}${l.previewImage ? ` (Preview image: ${l.previewImage})` : ''}`).join('\n');
-          return `**${cat.name}:**\n${links}`;
-        }).join('\n\n');
+      const settings = await PortfolioSettings.findOne();
+      if (settings?.isVisible) {
+        const projects = await PortfolioProject.find({ status: 'active' }).sort({ order: 1, createdAt: -1 });
+        if (projects.length > 0) {
+          const portfolioData = projects.map((p, i) => {
+            const tech = p.techStack.length ? `\n   Tech stack: ${p.techStack.join(', ')}` : '';
+            const features = p.keyFeatures.length ? `\n   Key features: ${p.keyFeatures.map(f => f.title).join(', ')}` : '';
+            const link = p.projectUrl ? `\n   Live at: ${p.projectUrl}` : '';
+            return `${i + 1}. ${p.title}${p.category ? ` (${p.category})` : ''}: ${p.description}${tech}${features}${link}`;
+          }).join('\n\n');
 
-        systemContent += `\n\nPORTFOLIO / PROJECT DATA (this is Greatodeal's real portfolio, use it whenever the user asks about portfolio, projects, work, specific services like mobile apps, websites, AI, automation, SaaS, etc.):
+          systemContent += `\n\nGREATODEAL'S REAL PORTFOLIO / WORK (this is our actual client work, use it whenever the user asks about the portfolio, projects, work, case studies, or "what have you built"):
 
 RULES FOR PORTFOLIO RESPONSES:
-- When user asks about ALL portfolio/projects: show EVERY project from ALL categories. Do NOT skip or summarize.
-- When user asks about a SPECIFIC service (e.g. "mobile app portfolio", "AI projects", "website work", "SaaS projects"): show ONLY the projects from the matching category. If no exact match, show the closest relevant ones.
-- Always format as a numbered list with description and clickable link for each project.
-- If preview images are available, mention them.
-- After listing, invite them to contact sales@greatodeal.com for more details.
+- When asked about ALL portfolio/projects: list EVERY project below as a numbered list. Do NOT skip or summarize.
+- When asked about a specific kind of project (e.g. "AI projects", "CRM work", "government projects", "mobile apps"): show only the matching ones, or the closest relevant ones if nothing matches exactly.
+- Mention the tech stack or key features when they're relevant to what the user asked.
+- Include the live link when one exists.
+- Point them to greatodeal.com/work to see the full portfolio with screenshots.
 
 ${portfolioData}`;
+        }
       }
     } catch { /* continue without portfolio data */ }
 

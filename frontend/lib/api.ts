@@ -119,15 +119,6 @@ export const commentApi = {
   delete: (commentId: string) => api.delete(`/comments/${commentId}`),
 };
 
-export const knowledgeApi = {
-  getPortfolio: () => api.get('/knowledge/portfolio'),
-  getAll: () => api.get('/knowledge'),
-  update: (data: Record<string, unknown>) => api.put('/knowledge', data),
-  addCategory: (data: Record<string, unknown>) => api.post('/knowledge/category', data),
-  addLink: (categoryName: string, data: Record<string, unknown>) => api.post(`/knowledge/category/${categoryName}/link`, data),
-  deleteCategory: (categoryName: string) => api.delete(`/knowledge/category/${categoryName}`),
-};
-
 export const partnershipApi = {
   submit: (data: Record<string, unknown>) => api.post('/partnership/submit', data),
   getAll: (params?: Record<string, unknown>) => api.get('/partnership/applications', { params }),

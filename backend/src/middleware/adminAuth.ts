@@ -23,7 +23,7 @@ export const adminAuth = (req: AuthRequest, res: Response, next: NextFunction): 
 };
 
 // Blocks operator-level accounts from admin-only sections (Blog, Work, Pricing,
-// Knowledge Base, Analytics, Team management, financial stats). Must run after adminAuth.
+// Analytics, Team management, financial stats). Must run after adminAuth.
 export const requireFullAdmin = (req: AuthRequest, res: Response, next: NextFunction): void => {
   if (req.accessLevel === 'operator') {
     res.status(403).json({ success: false, message: 'This section requires full admin access' });
