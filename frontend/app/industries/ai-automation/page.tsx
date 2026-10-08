@@ -25,7 +25,12 @@ export const metadata: Metadata = {
     url: 'https://greatodeal.com/industries/ai-automation',
     images: [{ url: 'https://greatodeal.com/images/logo.png', width: 512, height: 512, alt: 'Greatodeal AI Automation Solutions' }],
   },
-  twitter: { card: 'summary', images: ['https://greatodeal.com/images/logo.png'] },
+  twitter: {
+    card: 'summary',
+    title: 'AI Automation Solutions | Agentic Workflows | Greatodeal',
+    description: 'Agentic AI automation that connects scattered tools into one operational system, with full audit logging on every automated action.',
+    images: ['https://greatodeal.com/images/logo.png'],
+  },
   alternates: { canonical: 'https://greatodeal.com/industries/ai-automation' },
 };
 

@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     url: 'https://greatodeal.com/pricing',
     images: [{ url: 'https://greatodeal.com/images/logo.png', width: 512, height: 512, alt: 'Greatodeal Pricing' }],
   },
-  twitter: { card: 'summary', images: ['https://greatodeal.com/images/logo.png'] },
+  twitter: { card: 'summary', title: 'Pricing | Greatodeal', description: 'Transparent pricing for websites, AI agents, and custom software development.', images: ['https://greatodeal.com/images/logo.png'] },
   alternates: { canonical: 'https://greatodeal.com/pricing' },
 };
 

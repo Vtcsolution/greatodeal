@@ -18,7 +18,12 @@ export const metadata: Metadata = {
     url: 'https://greatodeal.com/industries/healthcare',
     images: [{ url: 'https://greatodeal.com/images/logo.png', width: 512, height: 512, alt: 'Greatodeal Healthcare AI Solutions' }],
   },
-  twitter: { card: 'summary', images: ['https://greatodeal.com/images/logo.png'] },
+  twitter: {
+    card: 'summary',
+    title: 'AI Automation for Healthcare | HIPAA-Compliant Systems | Greatodeal',
+    description: 'HIPAA-compliant AI and agentic automation for healthcare: interoperable health records, clinical workflow automation, and auditable AI clinical support.',
+    images: ['https://greatodeal.com/images/logo.png'],
+  },
   alternates: { canonical: 'https://greatodeal.com/industries/healthcare' },
 };
 

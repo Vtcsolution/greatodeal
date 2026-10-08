@@ -101,6 +101,9 @@ export default function IndustryPageTemplate({ data }: { data: IndustryPageData 
                 <Link href="/contact" className="btn-primary group">
                   Request a Demo <ArrowRight className="w-5 h-5 group-hover:translate-x-1.5 transition-transform duration-500" />
                 </Link>
+                <Link href="/work" className="px-8 py-4 border border-white/[0.08] text-[#E5E7EB] rounded-xl font-bold text-[15px] hover:border-[#6EE7B7]/30 hover:bg-[#6EE7B7]/[0.03] transition-all duration-700 flex items-center justify-center gap-2">
+                  See Our Work
+                </Link>
                 <Link href="/industries" className="px-8 py-4 border border-white/[0.08] text-[#E5E7EB] rounded-xl font-bold text-[15px] hover:border-[#6EE7B7]/30 hover:bg-[#6EE7B7]/[0.03] transition-all duration-700 flex items-center justify-center gap-2">
                   All Industries
                 </Link>

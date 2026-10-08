@@ -51,6 +51,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary',
+    title: 'Request a Demo | Contact Greatodeal',
+    description: 'Request a demo of Greatodeal\'s AI SaaS and agentic automation for government, healthcare, fintech, green tech, and real estate.',
     images: ['https://greatodeal.com/images/logo.png'],
   },
   alternates: {

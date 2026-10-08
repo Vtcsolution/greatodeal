@@ -62,6 +62,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary',
+    title: 'Work & Case Studies | Greatodeal',
+    description: 'Real case studies and projects: AI automation, CRM, and AI receptionist/chatbot systems built for clients across regulated industries.',
     images: ['https://greatodeal.com/images/logo.png'],
   },
   alternates: {

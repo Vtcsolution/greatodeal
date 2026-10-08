@@ -255,9 +255,14 @@ export default function IndustriesClient() {
               )}
             </h2>
             <p className="text-lg sm:text-xl text-white/70 mb-12 max-w-xl mx-auto leading-[1.8]">{content.finalCtaSubtitle}</p>
-            <Link href="/contact" className="btn-primary group text-lg">
-              {content.finalCtaButtonText} <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-500" />
-            </Link>
+            <div className="flex flex-wrap gap-4 justify-center">
+              <Link href="/contact" className="btn-primary group text-lg">
+                {content.finalCtaButtonText} <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-500" />
+              </Link>
+              <Link href="/services" className="px-8 py-4 border border-white/[0.08] text-white rounded-xl font-bold text-[15px] hover:border-[#6EE7B7]/30 hover:bg-[#6EE7B7]/[0.03] transition-all duration-700 flex items-center justify-center gap-2">
+                See Our Services
+              </Link>
+            </div>
           </motion.div>
         </div>
       </section>

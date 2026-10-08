@@ -110,6 +110,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary',
+    title: 'Services | Greatodeal',
+    description: 'Custom software, AI agents, SaaS, ERP, mobile apps, and workflow automation, everything you need to build and automate your business.',
     images: ['https://greatodeal.com/images/logo.png'],
   },
   alternates: {

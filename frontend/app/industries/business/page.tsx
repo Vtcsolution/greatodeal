@@ -22,7 +22,12 @@ export const metadata: Metadata = {
     url: 'https://greatodeal.com/industries/business',
     images: [{ url: 'https://greatodeal.com/images/logo.png', width: 512, height: 512, alt: 'Greatodeal Business Services AI Solutions' }],
   },
-  twitter: { card: 'summary', images: ['https://greatodeal.com/images/logo.png'] },
+  twitter: {
+    card: 'summary',
+    title: 'AI Automation for Business Services | Operations & Workflow Automation | Greatodeal',
+    description: 'AI-driven automation for professional services firms: client onboarding, billing and invoicing, operational dashboards, and approval workflows.',
+    images: ['https://greatodeal.com/images/logo.png'],
+  },
   alternates: { canonical: 'https://greatodeal.com/industries/business' },
 };
 

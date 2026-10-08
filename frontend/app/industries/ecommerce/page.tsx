@@ -18,7 +18,12 @@ export const metadata: Metadata = {
     url: 'https://greatodeal.com/industries/ecommerce',
     images: [{ url: 'https://greatodeal.com/images/logo.png', width: 512, height: 512, alt: 'Greatodeal E-Commerce AI Solutions' }],
   },
-  twitter: { card: 'summary', images: ['https://greatodeal.com/images/logo.png'] },
+  twitter: {
+    card: 'summary',
+    title: 'AI Automation for E-Commerce | Inventory & Fulfillment Automation | Greatodeal',
+    description: 'AI-driven automation for online retail: multi-channel inventory sync, order and fulfillment automation, and unified reporting dashboards.',
+    images: ['https://greatodeal.com/images/logo.png'],
+  },
   alternates: { canonical: 'https://greatodeal.com/industries/ecommerce' },
 };
 

@@ -49,7 +49,7 @@ const howToSchema = {
 
 export const metadata: Metadata = {
   title: 'About Greatodeal | AI Software Development Company in Lahore',
-  description: 'Greatodeal is a software development company and AI development partner in Lahore, Pakistan, building custom software and compliance-grade AI for government, healthcare, fintech, and enterprise clients internationally.',
+  description: 'Founded in 2020, Greatodeal is a Lahore, Pakistan-based engineering team delivering compliance-grade software and AI for government, healthcare, fintech, and enterprise clients around the world.',
   keywords: [
     'about Greatodeal', 'AI infrastructure company', 'agentic automation company', 'compliance AI company',
     'AI development company', 'regulated industry AI partner', 'AI automation agency Lahore', 'AI agency Pakistan',
@@ -62,11 +62,16 @@ export const metadata: Metadata = {
   ],
   openGraph: {
     title: 'About Greatodeal | AI Software Development Company in Lahore',
-    description: 'Greatodeal is a software development company and AI development partner in Lahore, Pakistan, building custom software and compliance-grade AI for enterprise clients internationally.',
+    description: 'A Lahore, Pakistan-based engineering team delivering compliance-grade software and AI for enterprise clients around the world since 2020.',
     url: 'https://greatodeal.com/about',
     images: [{ url: 'https://greatodeal.com/images/logo.png', width: 512, height: 512, alt: 'About Greatodeal' }],
   },
-  twitter: { card: 'summary', images: ['https://greatodeal.com/images/logo.png'] },
+  twitter: {
+    card: 'summary',
+    title: 'About Greatodeal | AI Software Development Company in Lahore',
+    description: 'A Lahore, Pakistan-based engineering team delivering compliance-grade software and AI for clients around the world since 2020.',
+    images: ['https://greatodeal.com/images/logo.png'],
+  },
   alternates: { canonical: 'https://greatodeal.com/about' },
 };
 

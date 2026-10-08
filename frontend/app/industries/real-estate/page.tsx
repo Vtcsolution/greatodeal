@@ -18,7 +18,12 @@ export const metadata: Metadata = {
     url: 'https://greatodeal.com/industries/real-estate',
     images: [{ url: 'https://greatodeal.com/images/logo.png', width: 512, height: 512, alt: 'Greatodeal Real Estate AI Solutions' }],
   },
-  twitter: { card: 'summary', images: ['https://greatodeal.com/images/logo.png'] },
+  twitter: {
+    card: 'summary',
+    title: 'AI Automation for Real Estate | Compliance-Grade PropTech | Greatodeal',
+    description: 'AI-driven platforms for real estate and PropTech: automated disclosure compliance, unified property data, and portfolio reporting.',
+    images: ['https://greatodeal.com/images/logo.png'],
+  },
   alternates: { canonical: 'https://greatodeal.com/industries/real-estate' },
 };
 

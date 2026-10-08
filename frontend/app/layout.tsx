@@ -10,7 +10,7 @@ const spaceMono = Space_Mono({ subsets: ['latin'], variable: '--font-space-mono'
 export const metadata: Metadata = {
   metadataBase: new URL('https://greatodeal.com'),
   title: 'Greatodeal | AI Software Development Company for Regulated Industries',
-  description: 'Greatodeal is an AI software development company building custom software, AI SaaS, and agentic automation for regulated industries: government, healthcare, fintech, green tech, and real estate. Founded 2020 in Lahore, Pakistan, serving clients internationally.',
+  description: 'Since 2020, Greatodeal has built AI SaaS platforms and agentic automation for regulated industries — government, healthcare, fintech, green tech, and real estate — from its Lahore, Pakistan headquarters, serving clients internationally.',
   keywords: [
     'AI SaaS for regulated industries', 'agentic automation company', 'compliance-grade AI infrastructure',
     'government AI automation', 'healthcare AI HIPAA compliant', 'fintech AI compliance',
@@ -344,6 +344,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="me" href="https://www.youtube.com/@GreatodealAI" />
         <link rel="preconnect" href="https://www.googletagmanager.com" />
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+        <link rel="preconnect" href="https://api.greatodeal.com" />
+        <link rel="dns-prefetch" href="https://api.greatodeal.com" />
       </head>
       <body className={`min-h-screen bg-[#090909] text-[#E5E7EB] ${fraunces.variable} ${spaceMono.variable}`} suppressHydrationWarning>
         <LayoutWrapper>{children}</LayoutWrapper>
