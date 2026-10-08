@@ -283,6 +283,9 @@ export default function BlogDetailClient({ id }: { id: string }) {
                   <Link href="/contact" className="btn-primary w-full mt-6">
                     Request a Demo
                   </Link>
+                  <Link href="/services" className="block text-center text-sm text-white/40 hover:text-white/70 transition-colors mt-3">
+                    Explore our services →
+                  </Link>
                 </div>
               </div>
             </motion.aside>
@@ -292,9 +295,14 @@ export default function BlogDetailClient({ id }: { id: string }) {
           <motion.div className="mt-16 sm:mt-20 p-8 sm:p-12 bg-white/[0.02] rounded-2xl border border-white/[0.06] text-center" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7, ease }}>
             <h3 className="text-2xl sm:text-3xl font-bold mb-4 tracking-tight text-white">Need Help With Your Project?</h3>
             <p className="text-white/60 mb-8 text-lg">Get a personalized demo from Greatodeal&apos;s expert team.</p>
-            <Link href="/contact" className="btn-primary group text-lg">
-              Request a Demo <ArrowRight className="w-5 h-5 group-hover:translate-x-1.5 transition-transform duration-500" />
-            </Link>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <Link href="/contact" className="btn-primary group text-lg">
+                Request a Demo <ArrowRight className="w-5 h-5 group-hover:translate-x-1.5 transition-transform duration-500" />
+              </Link>
+              <Link href="/work" className="px-8 py-4 border border-white/[0.08] text-white rounded-xl font-bold text-[15px] hover:border-[#6EE7B7]/30 hover:bg-[#6EE7B7]/[0.03] transition-all duration-700 flex items-center justify-center gap-2">
+                See Our Work
+              </Link>
+            </div>
           </motion.div>
 
           {/* ═══ RELATED ARTICLES ═══ */}

@@ -23,6 +23,28 @@ const industryListSchema = {
   ].map((item, i) => ({ '@type': 'ListItem', position: i + 1, name: item.name, url: item.url })),
 };
 
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'Which industries does Greatodeal build software for?',
+      acceptedAnswer: { '@type': 'Answer', text: 'Government and healthcare are Greatodeal\'s primary focus, with fintech, green tech, real estate, AI automation, business services, and e-commerce as secondary focus areas, eight industries in total.' },
+    },
+    {
+      '@type': 'Question',
+      name: 'Why does Greatodeal specialize in regulated industries?',
+      acceptedAnswer: { '@type': 'Answer', text: 'Regulated industries require compliance, audit trails, and security to be built into a system from day one rather than retrofitted. Greatodeal designs every system around those requirements as the starting point of the architecture, not an afterthought.' },
+    },
+    {
+      '@type': 'Question',
+      name: 'Does Greatodeal provide enterprise software development for each industry?',
+      acceptedAnswer: { '@type': 'Answer', text: 'Yes. Each industry page covers the specific enterprise software, AI automation, and compliance requirements Greatodeal builds for that sector, from government case management to HIPAA-compliant healthcare systems to KYC/AML fintech infrastructure.' },
+    },
+  ],
+};
+
 export const metadata: Metadata = {
   title: 'Industries We Serve | AI SaaS & Agentic Automation | Greatodeal',
   description: 'Greatodeal builds AI SaaS and agentic automation for regulated industries: government, healthcare, fintech, green tech, and real estate, with compliance and audit built in.',
@@ -41,6 +63,7 @@ export default function IndustriesPage() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbs) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(industryListSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <IndustriesClient />
     </>
   );

@@ -161,8 +161,8 @@ export default function CaseStudiesClient() {
               <Link href="/contact" className="btn-primary group">
                 {content.finalCtaButtonText} <ArrowRight className="w-5 h-5 group-hover:translate-x-1.5 transition-transform duration-500" />
               </Link>
-              <Link href="/contact" className="px-10 py-4 border border-white/[0.08] text-white rounded-xl font-bold text-[15px] hover:border-[#6EE7B7]/30 hover:bg-[#6EE7B7]/[0.03] transition-all duration-700 flex items-center justify-center gap-2">
-                {content.finalCtaSecondaryButtonText}
+              <Link href="/work" className="px-10 py-4 border border-white/[0.08] text-white rounded-xl font-bold text-[15px] hover:border-[#6EE7B7]/30 hover:bg-[#6EE7B7]/[0.03] transition-all duration-700 flex items-center justify-center gap-2">
+                See Our Work
               </Link>
             </div>
           </motion.div>

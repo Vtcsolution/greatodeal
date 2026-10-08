@@ -39,10 +39,24 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
       };
     }
   } catch { /* fallback below */ }
+  // Keep canonical/OG populated even on a transient fetch failure (e.g. a crawler
+  // hitting this URL while the API is briefly down) so the page never serves as a
+  // metadata-less duplicate of every other failed project page.
+  const fallbackTitle = 'Project Case Study | Greatodeal';
+  const fallbackDescription = 'A software and AI automation project delivered by Greatodeal.';
   return {
-    title: 'Project Case Study | Greatodeal',
-    description: 'A software and AI automation project delivered by Greatodeal.',
-    twitter: { card: 'summary', images: ['https://greatodeal.com/images/logo.png'] },
+    title: fallbackTitle,
+    description: fallbackDescription,
+    openGraph: {
+      title: fallbackTitle,
+      description: fallbackDescription,
+      type: 'article',
+      url: `https://greatodeal.com/work/${params.id}`,
+      images: [{ url: 'https://greatodeal.com/images/logo.png', width: 512, height: 512, alt: 'Greatodeal' }],
+      siteName: 'Greatodeal',
+    },
+    twitter: { card: 'summary', title: fallbackTitle, description: fallbackDescription, images: ['https://greatodeal.com/images/logo.png'] },
+    alternates: { canonical: `https://greatodeal.com/work/${params.id}` },
   };
 }
 

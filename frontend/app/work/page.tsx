@@ -15,6 +15,28 @@ const collectionSchema = {
   url: 'https://greatodeal.com/work',
 };
 
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'What has Greatodeal actually built for clients?',
+      acceptedAnswer: { '@type': 'Answer', text: 'Real projects delivered for clients, including an AI-powered lead-generation CRM, a government contracting SaaS platform, an AI and human hybrid consultation platform, and federal IT and hardware procurement websites. Every project listed here is live client work, not a mockup.' },
+    },
+    {
+      '@type': 'Question',
+      name: 'Does Greatodeal build SaaS platforms?',
+      acceptedAnswer: { '@type': 'Answer', text: 'Yes. Several projects on this page are custom SaaS platforms built for specific client use cases, from CRM and lead automation to government procurement workflows.' },
+    },
+    {
+      '@type': 'Question',
+      name: 'Can I see a demo or live link for a project?',
+      acceptedAnswer: { '@type': 'Answer', text: 'Where a project is publicly accessible, its live demo URL is listed on that project\'s detail page. For internal tools without a public URL, contact Greatodeal to request a walkthrough.' },
+    },
+  ],
+};
+
 export const metadata: Metadata = {
   title: 'Work | AI Automation & Software Projects | Greatodeal',
   description: 'A showcase of AI automation, CRM, and AI receptionist/chatbot projects Greatodeal has delivered for clients across regulated industries.',
@@ -51,6 +73,7 @@ export default function Page() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbs) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <PortfolioClient />
     </>
   );

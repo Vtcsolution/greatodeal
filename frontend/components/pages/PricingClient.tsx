@@ -141,9 +141,14 @@ export default function PricingClient() {
                 <span className="bg-gradient-to-r from-[#6EE7B7] via-[#34D399] to-[#3B82F6] bg-clip-text text-transparent">Tier Fits?</span>
               </h2>
               <p className="text-lg sm:text-xl text-white/70 mb-12 max-w-xl mx-auto leading-[1.8]">Tell us what you&apos;re building. We&apos;ll tell you honestly what it takes and what it costs.</p>
-              <Link href="/contact" className="btn-primary group text-lg">
-                Request a Demo <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-500" />
-              </Link>
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <Link href="/contact" className="btn-primary group text-lg">
+                  Request a Demo <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-500" />
+                </Link>
+                <Link href="/work" className="px-8 py-4 border border-white/[0.08] text-white rounded-xl font-bold text-[15px] hover:border-[#6EE7B7]/30 hover:bg-[#6EE7B7]/[0.03] transition-all duration-700 flex items-center justify-center gap-2">
+                  See Our Work
+                </Link>
+              </div>
             </motion.div>
           </div>
         </section>

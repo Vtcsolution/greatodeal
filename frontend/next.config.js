@@ -56,7 +56,7 @@ const nextConfig = {
       { source: '/focus-areas/construction', destination: '/industries/real-estate', permanent: true },
       { source: '/focus-areas/public-sector', destination: '/industries/government', permanent: true },
       { source: '/focus-areas/education', destination: '/industries', permanent: true },
-      { source: '/focus-areas/ecommerce', destination: '/industries', permanent: true },
+      { source: '/focus-areas/ecommerce', destination: '/industries/ecommerce', permanent: true },
       { source: '/focus-areas/logistics', destination: '/industries', permanent: true },
       { source: '/focus-areas/:path*', destination: '/industries', permanent: true },
 

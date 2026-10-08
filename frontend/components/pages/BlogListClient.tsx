@@ -226,6 +226,22 @@ export default function BlogListClient({ initialBlogs = [] }: { initialBlogs?: B
           )}
         </div>
       </section>
+
+      {/* ═══ CTA ═══ */}
+      <section className="py-20 border-t border-white/[0.04]">
+        <div className="container max-w-[1920px] px-4 sm:px-6 text-center">
+          <h2 className="text-2xl sm:text-3xl font-bold mb-4 tracking-tight text-white">Need a Technical Partner, Not Just an Article?</h2>
+          <p className="text-[#999] max-w-xl mx-auto mb-8">See what Greatodeal actually builds, or talk to us about your project.</p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Link href="/services" className="btn-primary group">
+              Explore Services <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-500" />
+            </Link>
+            <Link href="/work" className="px-8 py-4 border border-white/[0.08] text-white rounded-xl font-bold text-[15px] hover:border-[#6EE7B7]/30 hover:bg-[#6EE7B7]/[0.03] transition-all duration-700 flex items-center justify-center gap-2">
+              See Our Work
+            </Link>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
