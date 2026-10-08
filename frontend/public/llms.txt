@@ -17,7 +17,6 @@
 - [Industries](https://greatodeal.com/industries): The 8 sectors Greatodeal serves — Government, Healthcare, Fintech, Green Tech, Real Estate, AI Automation, Business Services, E-Commerce — each with its own dedicated page covering that sector's challenges, solutions, and compliance requirements.
 - [Work](https://greatodeal.com/work): Case studies of AI automation, CRM, and AI agent projects Greatodeal has delivered for real clients, including an AI-powered lead-generation CRM, a government contracting SaaS platform, and an AI/human hybrid consultation platform.
 - [Pricing](https://greatodeal.com/pricing): Pricing tiers for websites, AI agents, and custom software development.
-- [Case Studies](https://greatodeal.com/case-studies): Detailed project write-ups with measurable outcomes.
 - [Blog](https://greatodeal.com/blog): Articles on AI, automation, software development, and technology trends.
 - [Contact](https://greatodeal.com/contact): Request a demo or get in touch.
 

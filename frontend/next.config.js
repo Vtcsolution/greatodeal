@@ -45,6 +45,10 @@ const nextConfig = {
       { source: '/industries/supply-chain', destination: '/industries', permanent: true },
       { source: '/portfolio', destination: '/work', permanent: true },
       { source: '/portfolio/:path*', destination: '/work/:path*', permanent: true },
+      // Case Studies folded into Work: /work is the single source of truth for real,
+      // admin-managed client projects, so this preserves any existing SEO equity on
+      // /case-studies by pointing it straight at /work (no intermediate hop/chain).
+      { source: '/case-studies', destination: '/work', permanent: true },
 
       // Legacy pre-rebuild URL scheme (/solutions/*, /focus-areas/*, /howwork, /blogs)
       { source: '/howwork', destination: '/about', permanent: true },

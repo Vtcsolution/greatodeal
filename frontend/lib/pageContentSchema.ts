@@ -163,22 +163,5 @@ export const PAGE_CONTENT_SCHEMAS: PageContentSchema[] = [
       { key: 'customBarButtonText', label: '"Need something custom?" button text', type: 'text' },
     ],
   },
-  {
-    page: 'case-studies', label: 'Case Studies', path: '/case-studies',
-    fields: [
-      { key: 'heroBadge', label: 'Hero badge (small eyebrow text)', type: 'text' },
-      { key: 'heroTitle', label: 'Hero headline', type: 'text' },
-      { key: 'heroSubtitle', label: 'Hero description', type: 'textarea' },
-      { key: 'ctaText', label: 'Hero button text', type: 'text' },
-      { key: 'statProjectsLabel', label: 'Stat label — projects completed', type: 'text' },
-      { key: 'statIndustriesLabel', label: 'Stat label — industries', type: 'text' },
-      { key: 'statSatisfactionLabel', label: 'Stat label — client satisfaction', type: 'text' },
-      { key: 'statCountriesLabel', label: 'Stat label — countries served', type: 'text' },
-      { key: 'finalCtaTitle', label: 'Bottom CTA headline', type: 'textarea' },
-      { key: 'finalCtaSubtitle', label: 'Bottom CTA description (currently claims "200+ companies")', type: 'textarea' },
-      { key: 'finalCtaButtonText', label: 'Bottom CTA primary button text', type: 'text' },
-      { key: 'finalCtaSecondaryButtonText', label: 'Bottom CTA secondary button text', type: 'text' },
-    ],
-  },
   ...INDUSTRY_SUBPAGES,
 ];

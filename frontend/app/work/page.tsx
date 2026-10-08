@@ -10,8 +10,8 @@ const breadcrumbs = breadcrumbSchema([
 const collectionSchema = {
   '@context': 'https://schema.org',
   '@type': 'CollectionPage',
-  name: 'Greatodeal Work',
-  description: 'A showcase of AI automation, CRM, and AI receptionist/chatbot projects Greatodeal has delivered for clients across regulated industries.',
+  name: 'Greatodeal Work & Case Studies',
+  description: 'Real case studies and projects: AI automation, CRM, and AI receptionist/chatbot systems Greatodeal has delivered for clients across regulated industries.',
   url: 'https://greatodeal.com/work',
 };
 
@@ -38,10 +38,11 @@ const faqSchema = {
 };
 
 export const metadata: Metadata = {
-  title: 'Work | AI Automation & Software Projects | Greatodeal',
-  description: 'A showcase of AI automation, CRM, and AI receptionist/chatbot projects Greatodeal has delivered for clients across regulated industries.',
+  title: 'Work & Case Studies | AI Automation & Software Projects | Greatodeal',
+  description: 'Real case studies and projects Greatodeal has delivered for clients: AI automation, CRM, and AI receptionist/chatbot systems built across regulated industries.',
   keywords: [
     'portfolio', 'work', 'AI automation projects', 'software development portfolio', 'Greatodeal projects',
+    'case studies', 'software development success stories', 'client projects', 'success stories',
     'CRM software', 'CRM integration', 'CRM workflow automation', 'custom CRM', 'lead automation',
     'lead qualification automation', 'lead routing automation', 'lead management',
     'sales automation', 'sales automation software', 'sales workflow automation', 'AI sales agent', 'follow-up automation',
@@ -54,8 +55,8 @@ export const metadata: Metadata = {
     'web application development portfolio', 'ERP development portfolio',
   ],
   openGraph: {
-    title: 'Work | AI Automation & Software Projects | Greatodeal',
-    description: 'A showcase of AI automation, CRM, and AI receptionist/chatbot projects Greatodeal has delivered for clients across regulated industries.',
+    title: 'Work & Case Studies | AI Automation & Software Projects | Greatodeal',
+    description: 'Real case studies and projects Greatodeal has delivered for clients: AI automation, CRM, and AI receptionist/chatbot systems built across regulated industries.',
     url: 'https://greatodeal.com/work',
     images: [{ url: 'https://greatodeal.com/images/logo.png', width: 512, height: 512, alt: 'Greatodeal Work' }],
   },

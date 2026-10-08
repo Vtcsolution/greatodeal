@@ -56,7 +56,6 @@ const footerLinks = {
     { name: 'About Us', path: '/about' },
     { name: 'Services', path: '/services' },
     { name: 'Work', path: '/work' },
-    { name: 'Case Studies', path: '/case-studies' },
     { name: 'Partnership', path: '/partnership' },
     { name: 'Contact', path: '/contact' },
     { name: 'Blogs', path: '/blog' },
