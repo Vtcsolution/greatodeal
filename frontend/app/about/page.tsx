@@ -34,6 +34,19 @@ const faqSchema = {
   ],
 };
 
+const howToSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  name: "Greatodeal's Compliance-First Development Process",
+  description: 'How Greatodeal builds AI SaaS and agentic automation systems for regulated industries, from discovery to audit-ready launch.',
+  step: [
+    { '@type': 'HowToStep', position: 1, name: 'Discovery & Compliance Mapping', text: 'We map your regulatory requirements and operational workflow before writing a line of code, so compliance is a design input, not a retrofit.' },
+    { '@type': 'HowToStep', position: 2, name: 'Compliance-First Architecture', text: 'Audit logging, access control, and encryption are built into the system architecture from the outset, not layered on before launch.' },
+    { '@type': 'HowToStep', position: 3, name: 'Agile Build & Continuous Review', text: 'Development runs in agile sprints with security and compliance review gates at every milestone, not just at the end.' },
+    { '@type': 'HowToStep', position: 4, name: 'Audit-Ready Launch & Support', text: 'We deliver with documentation and audit trails ready for regulatory review, plus ongoing monitoring and support post-launch.' },
+  ],
+};
+
 export const metadata: Metadata = {
   title: 'About Greatodeal | AI Infrastructure for Regulated Industries',
   description: 'Greatodeal builds AI SaaS and agentic automation for regulated industries. A small, focused team delivering compliance-grade AI for government, healthcare, and fintech.',
@@ -53,6 +66,7 @@ export default function AboutPage() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbs) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }} />
       <AboutClient />
     </>
   );

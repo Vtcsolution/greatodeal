@@ -155,6 +155,8 @@ const organizationSchema = {
     'SaaS Development', 'Cloud Computing', 'DevOps', 'Regulatory Compliance', 'Explainable AI',
     'API Development', 'HIPAA Compliance', 'Government Technology', 'AI Agents', 'AI Agent Development',
     'Agentic AI Services', 'AI Automation Agency Services', 'Business Process Automation',
+    'CRM Software', 'Lead Generation Automation', 'AI Chatbot Development', 'Workflow Automation',
+    'Sales Automation', 'Customer Service Automation', 'Custom Software Development',
   ],
   areaServed: {
     '@type': 'GeoCircle',
@@ -214,7 +216,7 @@ const localBusinessSchema = {
   aggregateRating: { '@type': 'AggregateRating', ratingValue: '5.0', ratingCount: '10', bestRating: '5', worstRating: '1' },
   hasMap: 'https://maps.google.com/?cid=13357701166578108019',
   additionalType: 'https://schema.org/SoftwareApplication',
-  serviceType: ['Agentic AI Platforms', 'AI Agent Development', 'Agentic AI Services', 'AI Automation Agency Services', 'Compliance-Grade Infrastructure', 'Government AI Automation', 'Healthcare AI (HIPAA)', 'Fintech AI Automation', 'Secure Integration & Data Pipelines'],
+  serviceType: ['Agentic AI Platforms', 'AI Agent Development', 'Agentic AI Services', 'AI Automation Agency Services', 'Compliance-Grade Infrastructure', 'Government AI Automation', 'Healthcare AI (HIPAA)', 'Fintech AI Automation', 'Secure Integration & Data Pipelines', 'CRM Software Development', 'AI Chatbot Development', 'Workflow & Sales Automation'],
   areaServed: [
     { '@type': 'Country', name: 'Pakistan' },
     { '@type': 'Country', name: 'United States' },
