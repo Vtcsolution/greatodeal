@@ -20,6 +20,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary',
+    title: 'Blog & Insights | Greatodeal',
+    description: 'Expert insights on AI, machine learning, software development, SaaS, cloud computing, and digital transformation trends.',
     images: ['https://greatodeal.com/images/logo.png'],
   },
   alternates: {

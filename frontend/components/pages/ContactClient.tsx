@@ -35,7 +35,7 @@ const contactInfo = [
   { icon: Mail, label: 'Sales', value: 'sales@greatodeal.com', href: 'mailto:sales@greatodeal.com' },
   { icon: Mail, label: 'General & Support', value: 'hello@greatodeal.com', href: 'mailto:hello@greatodeal.com' },
   { icon: Phone, label: 'Pakistan', value: '+92 301 1060841', href: 'tel:+923011060841' },
-  { icon: MapPin, label: 'HQ Address', value: '16 Jail Rd, Shadman 2, Lahore, Pakistan', href: '#' },
+  { icon: MapPin, label: 'HQ Address', value: '16 Jail Rd, Shadman 2, Lahore, Pakistan', href: 'https://maps.google.com/?cid=13357701166578108019' },
 ];
 
 export default function ContactClient() {
@@ -233,7 +233,7 @@ export default function ContactClient() {
                 <h2 className="text-xl sm:text-2xl font-bold mb-6 tracking-tight">{content.sidebarTitle}</h2>
                 <div className="space-y-4">
                   {contactInfo.map(({ icon: Icon, label, value, href }, i) => (
-                    <a key={i} href={href} className="flex items-start gap-4 p-4 bg-[#090909] rounded-xl border border-white/[0.06] hover:border-[#6EE7B7]/20 transition-all duration-700 group">
+                    <a key={i} href={href} {...(href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})} className="flex items-start gap-4 p-4 bg-[#090909] rounded-xl border border-white/[0.06] hover:border-[#6EE7B7]/20 transition-all duration-700 group">
                       <div className="w-11 h-11 bg-[#6EE7B7]/[0.06] border border-[#6EE7B7]/[0.08] rounded-lg flex items-center justify-center shrink-0 group-hover:shadow-[0_0_12px_rgba(110,231,183,0.1)] transition-all duration-700">
                         <Icon className="w-5 h-5 text-[#6EE7B7]" />
                       </div>

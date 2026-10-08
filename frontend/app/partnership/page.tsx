@@ -1,37 +1,24 @@
 import type { Metadata } from 'next';
 import PartnershipClient from '@/components/pages/PartnershipClient';
 import { breadcrumbSchema } from '@/lib/schema';
+import FaqSection from '@/components/ui/FaqSection';
 
 const breadcrumbs = breadcrumbSchema([
   { name: 'Home', url: 'https://greatodeal.com' },
   { name: 'Partnership', url: 'https://greatodeal.com/partnership' },
 ]);
 
+const faqs = [
+  { question: "What does Greatodeal's partnership program offer?", answer: 'White-label software development, co-development, and technology licensing for agencies, consultants, and enterprises worldwide.' },
+  { question: 'What partnership tiers does Greatodeal offer?', answer: 'Three tiers: Standard Partner (project-based, 1-2 projects per quarter), Silver Partner ($5K-$15K/month, 3-5 projects per quarter with a dedicated project manager), and Gold Partner ($15K+/month, unlimited projects with a dedicated development team and co-branding opportunities).' },
+  { question: 'Does Greatodeal sign an NDA for partnership applicants?', answer: 'Yes. Every partnership application includes an NDA agreement, and all information shared is treated as strictly confidential and used only to evaluate the partnership.' },
+  { question: 'How long does it take to hear back after submitting a partnership application?', answer: "Greatodeal's partnerships team reaches out within 48 hours of a submitted application." },
+];
+
 const faqSchema = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
-  mainEntity: [
-    {
-      '@type': 'Question',
-      name: "What does Greatodeal's partnership program offer?",
-      acceptedAnswer: { '@type': 'Answer', text: 'White-label software development, co-development, and technology licensing for agencies, consultants, and enterprises worldwide.' },
-    },
-    {
-      '@type': 'Question',
-      name: 'What partnership tiers does Greatodeal offer?',
-      acceptedAnswer: { '@type': 'Answer', text: 'Three tiers: Standard Partner (project-based, 1-2 projects per quarter), Silver Partner ($5K-$15K/month, 3-5 projects per quarter with a dedicated project manager), and Gold Partner ($15K+/month, unlimited projects with a dedicated development team and co-branding opportunities).' },
-    },
-    {
-      '@type': 'Question',
-      name: 'Does Greatodeal sign an NDA for partnership applicants?',
-      acceptedAnswer: { '@type': 'Answer', text: 'Yes. Every partnership application includes an NDA agreement, and all information shared is treated as strictly confidential and used only to evaluate the partnership.' },
-    },
-    {
-      '@type': 'Question',
-      name: 'How long does it take to hear back after submitting a partnership application?',
-      acceptedAnswer: { '@type': 'Answer', text: "Greatodeal's partnerships team reaches out within 48 hours of a submitted application." },
-    },
-  ],
+  mainEntity: faqs.map(f => ({ '@type': 'Question', name: f.question, acceptedAnswer: { '@type': 'Answer', text: f.answer } })),
 };
 
 export const metadata: Metadata = {
@@ -61,6 +48,7 @@ export default function Page() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbs) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <PartnershipClient />
+      <FaqSection faqs={faqs} />
     </>
   );
 }

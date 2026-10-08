@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import IndustriesClient from '@/components/pages/IndustriesClient';
 import { breadcrumbSchema } from '@/lib/schema';
+import FaqSection from '@/components/ui/FaqSection';
 
 const breadcrumbs = breadcrumbSchema([
   { name: 'Home', url: 'https://greatodeal.com' },
@@ -23,26 +24,16 @@ const industryListSchema = {
   ].map((item, i) => ({ '@type': 'ListItem', position: i + 1, name: item.name, url: item.url })),
 };
 
+const faqs = [
+  { question: 'Which industries does Greatodeal build software for?', answer: 'Government and healthcare are Greatodeal\'s primary focus, with fintech, green tech, real estate, AI automation, business services, and e-commerce as secondary focus areas, eight industries in total.' },
+  { question: 'Why does Greatodeal specialize in regulated industries?', answer: 'Regulated industries require compliance, audit trails, and security to be built into a system from day one rather than retrofitted. Greatodeal designs every system around those requirements as the starting point of the architecture, not an afterthought.' },
+  { question: 'Does Greatodeal provide enterprise software development for each industry?', answer: 'Yes. Each industry page covers the specific enterprise software, AI automation, and compliance requirements Greatodeal builds for that sector, from government case management to HIPAA-compliant healthcare systems to KYC/AML fintech infrastructure.' },
+];
+
 const faqSchema = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
-  mainEntity: [
-    {
-      '@type': 'Question',
-      name: 'Which industries does Greatodeal build software for?',
-      acceptedAnswer: { '@type': 'Answer', text: 'Government and healthcare are Greatodeal\'s primary focus, with fintech, green tech, real estate, AI automation, business services, and e-commerce as secondary focus areas, eight industries in total.' },
-    },
-    {
-      '@type': 'Question',
-      name: 'Why does Greatodeal specialize in regulated industries?',
-      acceptedAnswer: { '@type': 'Answer', text: 'Regulated industries require compliance, audit trails, and security to be built into a system from day one rather than retrofitted. Greatodeal designs every system around those requirements as the starting point of the architecture, not an afterthought.' },
-    },
-    {
-      '@type': 'Question',
-      name: 'Does Greatodeal provide enterprise software development for each industry?',
-      acceptedAnswer: { '@type': 'Answer', text: 'Yes. Each industry page covers the specific enterprise software, AI automation, and compliance requirements Greatodeal builds for that sector, from government case management to HIPAA-compliant healthcare systems to KYC/AML fintech infrastructure.' },
-    },
-  ],
+  mainEntity: faqs.map(f => ({ '@type': 'Question', name: f.question, acceptedAnswer: { '@type': 'Answer', text: f.answer } })),
 };
 
 export const metadata: Metadata = {
@@ -53,8 +44,14 @@ export const metadata: Metadata = {
     title: 'Industries We Serve | Greatodeal',
     description: 'AI SaaS and agentic automation for government, healthcare, fintech, green tech, and real estate.',
     url: 'https://greatodeal.com/industries',
+    images: [{ url: 'https://greatodeal.com/images/logo.png', width: 512, height: 512, alt: 'Greatodeal Industries' }],
   },
-  twitter: { card: 'summary', title: 'Industries We Serve | Greatodeal', images: ['https://greatodeal.com/images/logo.png'] },
+  twitter: {
+    card: 'summary',
+    title: 'Industries We Serve | Greatodeal',
+    description: 'AI SaaS and agentic automation for government, healthcare, fintech, green tech, and real estate.',
+    images: ['https://greatodeal.com/images/logo.png'],
+  },
   alternates: { canonical: 'https://greatodeal.com/industries' },
 };
 
@@ -65,6 +62,7 @@ export default function IndustriesPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(industryListSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <IndustriesClient />
+      <FaqSection faqs={faqs} />
     </>
   );
 }

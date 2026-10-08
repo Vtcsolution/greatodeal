@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Facebook, Linkedin, Instagram, Youtube, MapPin, Mail } from 'lucide-react';
+import { Facebook, Linkedin, Instagram, Youtube, MapPin, Mail, Star } from 'lucide-react';
 
 function XIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
@@ -99,6 +99,15 @@ export default function Footer() {
               AI SaaS and agentic automation for government, healthcare, and other regulated industries.{' '}
               <span className="text-[#6EE7B7]">greatodeal.com</span>
             </p>
+            <a
+              href="https://share.google/YhrMvJp0M0Q2fxsV1"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 text-white/60 hover:text-[#6EE7B7] transition-colors text-sm"
+            >
+              <Star className="w-4 h-4 fill-current text-[#6EE7B7]" />
+              <span>5.0 rating on Google (10 reviews)</span>
+            </a>
             <div className="flex flex-wrap gap-1.5">
               {socials.map(({ Icon, href, label }) => (
                 <a key={label} href={href} target="_blank" rel="noopener noreferrer" aria-label={label} title={label}

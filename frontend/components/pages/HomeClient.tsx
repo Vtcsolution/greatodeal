@@ -475,6 +475,7 @@ export default function HomeClient() {
             <p className="text-base sm:text-lg text-white/80 mb-10 sm:mb-12 max-w-xl mx-auto leading-[1.8]">We specialize in <strong className="text-white/80">agentic AI, compliance-grade infrastructure, and secure cloud systems</strong>. Whether you&apos;re modernizing legacy systems or launching a new platform, our team builds for the audit you&apos;ll face, not just the demo. Read more on <Link href="/blog" className="text-[#6EE7B7] hover:underline">our blog</Link>.</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/contact" className="btn-primary group">{content.finalCtaButtonText} <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-500" /></Link>
+              <Link href="/pricing" className="px-8 py-4 border border-white/[0.08] text-white rounded-xl font-bold text-[15px] hover:border-[#6EE7B7]/30 hover:bg-[#6EE7B7]/[0.03] transition-all duration-700 flex items-center justify-center gap-2">View Pricing</Link>
             </div>
           </motion.div>
         </div>

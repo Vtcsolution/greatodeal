@@ -179,6 +179,11 @@ export default function ServicesClient() {
               {content.ctaText} <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-500" />
             </Link>
           </motion.div>
+          <motion.div initial={{ opacity: 0, y: 15 }} animate={heroInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7, delay: 1.25, ease }}>
+            <Link href="/about" className="inline-flex items-center gap-1.5 mt-5 text-sm font-medium text-white/50 hover:text-white/80 transition-colors duration-500">
+              Learn more about Greatodeal <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+          </motion.div>
         </div>
       </section>
 

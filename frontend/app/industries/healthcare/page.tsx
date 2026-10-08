@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Content from './content';
 import { breadcrumbSchema } from '@/lib/schema';
+import FaqSection from '@/components/ui/FaqSection';
 
 const breadcrumbs = breadcrumbSchema([
   { name: 'Home', url: 'https://greatodeal.com' },
@@ -38,31 +39,17 @@ const serviceSchema = {
   url: 'https://greatodeal.com/industries/healthcare',
 };
 
+const faqs = [
+  { question: "Is Greatodeal's AI HIPAA compliant?", answer: 'Yes. Our healthcare systems are built with HIPAA and HITECH compliance from the architecture up, including encrypted PHI storage, access-controlled APIs, and immutable PHI access audit logs.' },
+  { question: 'What healthcare workflows can Greatodeal automate?', answer: 'We automate scheduling, care coordination, and administrative workflows, plus AI-assisted clinical triage and diagnostic support that logs its reasoning for clinician review.' },
+  { question: 'Does Greatodeal support interoperability with existing EHR systems?', answer: 'Yes. We build on HL7/FHIR standards to connect patient records across EHRs, labs, and specialist systems without replacing what a hospital already runs.' },
+  { question: 'Can Greatodeal build telehealth or remote monitoring platforms?', answer: 'Yes, and we hold them to the same HIPAA and audit standards as in-person care, not a lighter compliance bar.' },
+];
+
 const faqSchema = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
-  mainEntity: [
-    {
-      '@type': 'Question',
-      name: "Is Greatodeal's AI HIPAA compliant?",
-      acceptedAnswer: { '@type': 'Answer', text: 'Yes. Our healthcare systems are built with HIPAA and HITECH compliance from the architecture up, including encrypted PHI storage, access-controlled APIs, and immutable PHI access audit logs.' },
-    },
-    {
-      '@type': 'Question',
-      name: 'What healthcare workflows can Greatodeal automate?',
-      acceptedAnswer: { '@type': 'Answer', text: 'We automate scheduling, care coordination, and administrative workflows, plus AI-assisted clinical triage and diagnostic support that logs its reasoning for clinician review.' },
-    },
-    {
-      '@type': 'Question',
-      name: 'Does Greatodeal support interoperability with existing EHR systems?',
-      acceptedAnswer: { '@type': 'Answer', text: 'Yes. We build on HL7/FHIR standards to connect patient records across EHRs, labs, and specialist systems without replacing what a hospital already runs.' },
-    },
-    {
-      '@type': 'Question',
-      name: 'Can Greatodeal build telehealth or remote monitoring platforms?',
-      acceptedAnswer: { '@type': 'Answer', text: 'Yes, and we hold them to the same HIPAA and audit standards as in-person care, not a lighter compliance bar.' },
-    },
-  ],
+  mainEntity: faqs.map(f => ({ '@type': 'Question', name: f.question, acceptedAnswer: { '@type': 'Answer', text: f.answer } })),
 };
 
 export default function Page() {
@@ -72,6 +59,7 @@ export default function Page() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <Content />
+      <FaqSection faqs={faqs} />
     </>
   );
 }

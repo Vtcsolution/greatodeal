@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Content from './content';
 import { breadcrumbSchema } from '@/lib/schema';
+import FaqSection from '@/components/ui/FaqSection';
 
 const breadcrumbs = breadcrumbSchema([
   { name: 'Home', url: 'https://greatodeal.com' },
@@ -38,31 +39,17 @@ const serviceSchema = {
   url: 'https://greatodeal.com/industries/green-tech',
 };
 
+const faqs = [
+  { question: 'What does Greatodeal build for green tech and energy operators?', answer: 'We build AI-driven monitoring and automation for energy operators, including smart grid integration, predictive maintenance, and automated emissions and HSE compliance reporting.' },
+  { question: 'Can Greatodeal integrate with existing SCADA or field infrastructure?', answer: 'Yes. We layer cloud-connected monitoring on top of existing SCADA and field systems rather than requiring a rip-and-replace.' },
+  { question: 'Does Greatodeal automate emissions and regulatory reporting?', answer: 'Yes. We generate emissions and energy-usage reports automatically from live sensor data, with an audit trail mapped to the relevant regulatory framework.' },
+  { question: 'Can Greatodeal help reduce equipment downtime?', answer: 'Yes. Our predictive maintenance models flag equipment anomalies before failure, reducing unplanned downtime and safety incidents.' },
+];
+
 const faqSchema = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
-  mainEntity: [
-    {
-      '@type': 'Question',
-      name: 'What does Greatodeal build for green tech and energy operators?',
-      acceptedAnswer: { '@type': 'Answer', text: 'We build AI-driven monitoring and automation for energy operators, including smart grid integration, predictive maintenance, and automated emissions and HSE compliance reporting.' },
-    },
-    {
-      '@type': 'Question',
-      name: 'Can Greatodeal integrate with existing SCADA or field infrastructure?',
-      acceptedAnswer: { '@type': 'Answer', text: 'Yes. We layer cloud-connected monitoring on top of existing SCADA and field systems rather than requiring a rip-and-replace.' },
-    },
-    {
-      '@type': 'Question',
-      name: 'Does Greatodeal automate emissions and regulatory reporting?',
-      acceptedAnswer: { '@type': 'Answer', text: 'Yes. We generate emissions and energy-usage reports automatically from live sensor data, with an audit trail mapped to the relevant regulatory framework.' },
-    },
-    {
-      '@type': 'Question',
-      name: 'Can Greatodeal help reduce equipment downtime?',
-      acceptedAnswer: { '@type': 'Answer', text: 'Yes. Our predictive maintenance models flag equipment anomalies before failure, reducing unplanned downtime and safety incidents.' },
-    },
-  ],
+  mainEntity: faqs.map(f => ({ '@type': 'Question', name: f.question, acceptedAnswer: { '@type': 'Answer', text: f.answer } })),
 };
 
 export default function Page() {
@@ -72,6 +59,7 @@ export default function Page() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <Content />
+      <FaqSection faqs={faqs} />
     </>
   );
 }

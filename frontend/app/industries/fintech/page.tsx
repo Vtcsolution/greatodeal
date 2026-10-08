@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Content from './content';
 import { breadcrumbSchema } from '@/lib/schema';
+import FaqSection from '@/components/ui/FaqSection';
 
 const breadcrumbs = breadcrumbSchema([
   { name: 'Home', url: 'https://greatodeal.com' },
@@ -38,31 +39,17 @@ const serviceSchema = {
   url: 'https://greatodeal.com/industries/fintech',
 };
 
+const faqs = [
+  { question: "Is Greatodeal's fintech infrastructure PCI DSS compliant?", answer: 'Yes. Our payment and transaction systems are built to PCI DSS requirements with end-to-end encryption and immutable transaction audit logs.' },
+  { question: 'Can Greatodeal automate KYC and AML compliance?', answer: 'Yes. We build automated identity verification and AML screening workflows that log every compliance decision for audit and regulatory review.' },
+  { question: 'Does Greatodeal offer real-time fraud detection?', answer: 'Yes. Our machine-learning fraud detection flags and can block suspicious transactions in real time, with explainable alerts for compliance teams to review.' },
+  { question: 'Can Greatodeal integrate with core banking and open banking APIs?', answer: 'Yes. We build PSD2-compliant open banking APIs and integrate directly with core banking systems, card networks, and payment rails.' },
+];
+
 const faqSchema = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
-  mainEntity: [
-    {
-      '@type': 'Question',
-      name: "Is Greatodeal's fintech infrastructure PCI DSS compliant?",
-      acceptedAnswer: { '@type': 'Answer', text: 'Yes. Our payment and transaction systems are built to PCI DSS requirements with end-to-end encryption and immutable transaction audit logs.' },
-    },
-    {
-      '@type': 'Question',
-      name: 'Can Greatodeal automate KYC and AML compliance?',
-      acceptedAnswer: { '@type': 'Answer', text: 'Yes. We build automated identity verification and AML screening workflows that log every compliance decision for audit and regulatory review.' },
-    },
-    {
-      '@type': 'Question',
-      name: 'Does Greatodeal offer real-time fraud detection?',
-      acceptedAnswer: { '@type': 'Answer', text: 'Yes. Our machine-learning fraud detection flags and can block suspicious transactions in real time, with explainable alerts for compliance teams to review.' },
-    },
-    {
-      '@type': 'Question',
-      name: 'Can Greatodeal integrate with core banking and open banking APIs?',
-      acceptedAnswer: { '@type': 'Answer', text: 'Yes. We build PSD2-compliant open banking APIs and integrate directly with core banking systems, card networks, and payment rails.' },
-    },
-  ],
+  mainEntity: faqs.map(f => ({ '@type': 'Question', name: f.question, acceptedAnswer: { '@type': 'Answer', text: f.answer } })),
 };
 
 export default function Page() {
@@ -72,6 +59,7 @@ export default function Page() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <Content />
+      <FaqSection faqs={faqs} />
     </>
   );
 }

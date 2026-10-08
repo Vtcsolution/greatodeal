@@ -1,27 +1,22 @@
 import type { Metadata } from 'next';
 import PricingClient from '@/components/pages/PricingClient';
 import { breadcrumbSchema } from '@/lib/schema';
+import FaqSection from '@/components/ui/FaqSection';
 
 const breadcrumbs = breadcrumbSchema([
   { name: 'Home', url: 'https://greatodeal.com' },
   { name: 'Pricing', url: 'https://greatodeal.com/pricing' },
 ]);
 
+const faqs = [
+  { question: 'How does Greatodeal price a project?', answer: 'Pricing depends on project scope — whether it is a website, an AI agent, or a full custom software build. Greatodeal offers time and materials, capped time and materials, fixed price, subscription-based, per-ticket, and mixed pricing models depending on what fits the project.' },
+  { question: 'Does Greatodeal offer a free consultation before pricing a project?', answer: 'Yes. Greatodeal reviews project requirements during a free initial consultation before proposing a pricing model and estimate.' },
+];
+
 const faqSchema = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
-  mainEntity: [
-    {
-      '@type': 'Question',
-      name: 'How does Greatodeal price a project?',
-      acceptedAnswer: { '@type': 'Answer', text: 'Pricing depends on project scope — whether it is a website, an AI agent, or a full custom software build. Greatodeal offers time and materials, capped time and materials, fixed price, subscription-based, per-ticket, and mixed pricing models depending on what fits the project.' },
-    },
-    {
-      '@type': 'Question',
-      name: 'Does Greatodeal offer a free consultation before pricing a project?',
-      acceptedAnswer: { '@type': 'Answer', text: 'Yes. Greatodeal reviews project requirements during a free initial consultation before proposing a pricing model and estimate.' },
-    },
-  ],
+  mainEntity: faqs.map(f => ({ '@type': 'Question', name: f.question, acceptedAnswer: { '@type': 'Answer', text: f.answer } })),
 };
 
 export const metadata: Metadata = {
@@ -44,6 +39,7 @@ export default function Page() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbs) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <PricingClient />
+      <FaqSection faqs={faqs} />
     </>
   );
 }

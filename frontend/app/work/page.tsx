@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import PortfolioClient from '@/components/pages/PortfolioClient';
 import { breadcrumbSchema } from '@/lib/schema';
+import FaqSection from '@/components/ui/FaqSection';
 
 const breadcrumbs = breadcrumbSchema([
   { name: 'Home', url: 'https://greatodeal.com' },
@@ -15,26 +16,16 @@ const collectionSchema = {
   url: 'https://greatodeal.com/work',
 };
 
+const faqs = [
+  { question: 'What has Greatodeal actually built for clients?', answer: 'Real projects delivered for clients, including an AI-powered lead-generation CRM, a government contracting SaaS platform, an AI and human hybrid consultation platform, and federal IT and hardware procurement websites. Every project listed here is live client work, not a mockup.' },
+  { question: 'Does Greatodeal build SaaS platforms?', answer: 'Yes. Several projects on this page are custom SaaS platforms built for specific client use cases, from CRM and lead automation to government procurement workflows.' },
+  { question: 'Can I see a demo or live link for a project?', answer: 'Where a project is publicly accessible, its live demo URL is listed on that project\'s detail page. For internal tools without a public URL, contact Greatodeal to request a walkthrough.' },
+];
+
 const faqSchema = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
-  mainEntity: [
-    {
-      '@type': 'Question',
-      name: 'What has Greatodeal actually built for clients?',
-      acceptedAnswer: { '@type': 'Answer', text: 'Real projects delivered for clients, including an AI-powered lead-generation CRM, a government contracting SaaS platform, an AI and human hybrid consultation platform, and federal IT and hardware procurement websites. Every project listed here is live client work, not a mockup.' },
-    },
-    {
-      '@type': 'Question',
-      name: 'Does Greatodeal build SaaS platforms?',
-      acceptedAnswer: { '@type': 'Answer', text: 'Yes. Several projects on this page are custom SaaS platforms built for specific client use cases, from CRM and lead automation to government procurement workflows.' },
-    },
-    {
-      '@type': 'Question',
-      name: 'Can I see a demo or live link for a project?',
-      acceptedAnswer: { '@type': 'Answer', text: 'Where a project is publicly accessible, its live demo URL is listed on that project\'s detail page. For internal tools without a public URL, contact Greatodeal to request a walkthrough.' },
-    },
-  ],
+  mainEntity: faqs.map(f => ({ '@type': 'Question', name: f.question, acceptedAnswer: { '@type': 'Answer', text: f.answer } })),
 };
 
 export const metadata: Metadata = {
@@ -78,6 +69,7 @@ export default function Page() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <PortfolioClient />
+      <FaqSection faqs={faqs} />
     </>
   );
 }

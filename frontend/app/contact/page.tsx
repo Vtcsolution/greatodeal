@@ -1,37 +1,24 @@
 import type { Metadata } from 'next';
 import ContactClient from '@/components/pages/ContactClient';
 import { breadcrumbSchema } from '@/lib/schema';
+import FaqSection from '@/components/ui/FaqSection';
 
 const breadcrumbs = breadcrumbSchema([
   { name: 'Home', url: 'https://greatodeal.com' },
   { name: 'Contact', url: 'https://greatodeal.com/contact' },
 ]);
 
+const faqs = [
+  { question: 'How quickly does Greatodeal respond to inquiries?', answer: 'Greatodeal replies within 24 hours to every demo request or inquiry submitted through the contact form, email, or WhatsApp.' },
+  { question: 'Does Greatodeal sign NDAs?', answer: 'Yes, an NDA is available for clients who want confidentiality in place before discussing project details.' },
+  { question: 'How can I reach Greatodeal?', answer: 'You can reach Greatodeal via the contact form at greatodeal.com/contact, by email at sales@greatodeal.com, or via WhatsApp at +92-301-1060841.' },
+  { question: 'Where is Greatodeal located?', answer: 'Greatodeal is headquartered at 16 Jail Rd, Shadman 2, Lahore, Pakistan, and serves clients internationally, including in the United States, United Kingdom, United Arab Emirates, Netherlands, Saudi Arabia, and Germany.' },
+];
+
 const faqSchema = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
-  mainEntity: [
-    {
-      '@type': 'Question',
-      name: 'How quickly does Greatodeal respond to inquiries?',
-      acceptedAnswer: { '@type': 'Answer', text: 'Greatodeal replies within 24 hours to every demo request or inquiry submitted through the contact form, email, or WhatsApp.' },
-    },
-    {
-      '@type': 'Question',
-      name: 'Does Greatodeal sign NDAs?',
-      acceptedAnswer: { '@type': 'Answer', text: 'Yes, an NDA is available for clients who want confidentiality in place before discussing project details.' },
-    },
-    {
-      '@type': 'Question',
-      name: 'How can I reach Greatodeal?',
-      acceptedAnswer: { '@type': 'Answer', text: 'You can reach Greatodeal via the contact form at greatodeal.com/contact, by email at sales@greatodeal.com, or via WhatsApp at +92-301-1060841.' },
-    },
-    {
-      '@type': 'Question',
-      name: 'Where is Greatodeal located?',
-      acceptedAnswer: { '@type': 'Answer', text: 'Greatodeal is headquartered at 16 Jail Rd, Shadman 2, Lahore, Pakistan, and serves clients internationally, including in the United States, United Kingdom, United Arab Emirates, Netherlands, Saudi Arabia, and Germany.' },
-    },
-  ],
+  mainEntity: faqs.map(f => ({ '@type': 'Question', name: f.question, acceptedAnswer: { '@type': 'Answer', text: f.answer } })),
 };
 
 export const metadata: Metadata = {
@@ -66,6 +53,7 @@ export default function Page() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbs) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <ContactClient />
+      <FaqSection faqs={faqs} />
     </>
   );
 }

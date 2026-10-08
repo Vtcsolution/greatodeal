@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Content from './content';
 import { breadcrumbSchema } from '@/lib/schema';
+import FaqSection from '@/components/ui/FaqSection';
 
 const breadcrumbs = breadcrumbSchema([
   { name: 'Home', url: 'https://greatodeal.com' },
@@ -42,31 +43,17 @@ const serviceSchema = {
   url: 'https://greatodeal.com/industries/business',
 };
 
+const faqs = [
+  { question: 'What does Greatodeal build for business and professional services firms?', answer: 'We build client onboarding automation, billing and invoicing systems, operational dashboards, and approval workflows tailored to how your firm actually operates.' },
+  { question: 'Can Greatodeal automate client onboarding?', answer: 'Yes. We build structured intake workflows that move a new client from signed contract to active engagement without manual chasing.' },
+  { question: 'Does Greatodeal integrate with tools we already use, like our CRM or accounting software?', answer: 'Yes. We build an integration layer connecting your CRM, accounting, and project management tools so data flows automatically instead of being re-entered by hand.' },
+  { question: 'Can Greatodeal automate billing and invoicing?', answer: 'Yes. We build automated time tracking, invoice generation, and payment reconciliation tied directly to your project data.' },
+];
+
 const faqSchema = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
-  mainEntity: [
-    {
-      '@type': 'Question',
-      name: 'What does Greatodeal build for business and professional services firms?',
-      acceptedAnswer: { '@type': 'Answer', text: 'We build client onboarding automation, billing and invoicing systems, operational dashboards, and approval workflows tailored to how your firm actually operates.' },
-    },
-    {
-      '@type': 'Question',
-      name: 'Can Greatodeal automate client onboarding?',
-      acceptedAnswer: { '@type': 'Answer', text: 'Yes. We build structured intake workflows that move a new client from signed contract to active engagement without manual chasing.' },
-    },
-    {
-      '@type': 'Question',
-      name: 'Does Greatodeal integrate with tools we already use, like our CRM or accounting software?',
-      acceptedAnswer: { '@type': 'Answer', text: 'Yes. We build an integration layer connecting your CRM, accounting, and project management tools so data flows automatically instead of being re-entered by hand.' },
-    },
-    {
-      '@type': 'Question',
-      name: 'Can Greatodeal automate billing and invoicing?',
-      acceptedAnswer: { '@type': 'Answer', text: 'Yes. We build automated time tracking, invoice generation, and payment reconciliation tied directly to your project data.' },
-    },
-  ],
+  mainEntity: faqs.map(f => ({ '@type': 'Question', name: f.question, acceptedAnswer: { '@type': 'Answer', text: f.answer } })),
 };
 
 export default function Page() {
@@ -76,6 +63,7 @@ export default function Page() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <Content />
+      <FaqSection faqs={faqs} />
     </>
   );
 }

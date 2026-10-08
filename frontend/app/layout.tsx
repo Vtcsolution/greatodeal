@@ -90,9 +90,6 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://greatodeal.com',
     languages: {
-      'en-US': 'https://greatodeal.com',
-      'en-GB': 'https://greatodeal.com',
-      'en-AU': 'https://greatodeal.com',
       'en': 'https://greatodeal.com',
       'x-default': 'https://greatodeal.com',
     },

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import HomeClient from '@/components/pages/HomeClient';
+import FaqSection from '@/components/ui/FaqSection';
 
 export const metadata: Metadata = {
   title: 'Greatodeal | AI Software Development Company in Lahore, Pakistan',
@@ -37,9 +38,8 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://greatodeal.com',
     languages: {
-      'en-US': 'https://greatodeal.com',
-      'en-GB': 'https://greatodeal.com',
       'en': 'https://greatodeal.com',
+      'x-default': 'https://greatodeal.com',
     },
   },
 };
@@ -60,46 +60,20 @@ const homePageSchema = {
   },
 };
 
+const faqs = [
+  { question: 'What does Greatodeal build?', answer: 'Greatodeal builds AI SaaS platforms and agentic automation, including autonomous AI agents, compliance-grade infrastructure, industry-specific software, and secure integrations, for institutions operating under regulatory and audit requirements.' },
+  { question: 'Which industries does Greatodeal focus on?', answer: 'Greatodeal focuses on government and healthcare as its primary industries, with fintech, green tech, real estate, and AI automation as secondary areas of focus. These are all sectors where compliance, audit, and security are core requirements, not optional extras.' },
+  { question: 'How does Greatodeal handle compliance and audit requirements?', answer: 'Compliance is built into the architecture from the start: immutable audit trails, zero-trust access control, encryption at rest and in transit, and explainable AI decisions that can be reviewed and appealed rather than treated as a black box.' },
+  { question: 'Does Greatodeal build agentic AI systems?', answer: 'Yes. Greatodeal builds agentic AI systems that execute multi-step operational workflows within defined guardrails, with human-in-the-loop review for decisions that affect people, and full logging of every automated action.' },
+  { question: 'How can I request a demo from Greatodeal?', answer: 'You can request a demo via the contact form at greatodeal.com/contact, by email at sales@greatodeal.com, or via WhatsApp. Our team responds within 24 hours.' },
+  { question: 'Is Greatodeal an AI automation agency based in Lahore, Pakistan?', answer: 'Yes. Greatodeal is an AI automation agency headquartered in Lahore, Pakistan, providing AI agent development, agentic automation, and AI services to clients in Pakistan and internationally.' },
+  { question: 'What is an AI agent, and does Greatodeal build them?', answer: 'An AI agent is a system that can plan and execute multi-step tasks toward a goal, rather than just responding to a single prompt. Greatodeal builds AI agents and agentic automation that connect a business\'s tools and workflows into one operational system, with human review built in for actions that matter.' },
+];
+
 const faqSchema = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
-  mainEntity: [
-    {
-      '@type': 'Question',
-      name: 'What does Greatodeal build?',
-      acceptedAnswer: { '@type': 'Answer', text: 'Greatodeal builds AI SaaS platforms and agentic automation, including autonomous AI agents, compliance-grade infrastructure, industry-specific software, and secure integrations, for institutions operating under regulatory and audit requirements.' },
-    },
-    {
-      '@type': 'Question',
-      name: 'Which industries does Greatodeal focus on?',
-      acceptedAnswer: { '@type': 'Answer', text: 'Greatodeal focuses on government and healthcare as its primary industries, with fintech, green tech, real estate, and AI automation as secondary areas of focus. These are all sectors where compliance, audit, and security are core requirements, not optional extras.' },
-    },
-    {
-      '@type': 'Question',
-      name: 'How does Greatodeal handle compliance and audit requirements?',
-      acceptedAnswer: { '@type': 'Answer', text: 'Compliance is built into the architecture from the start: immutable audit trails, zero-trust access control, encryption at rest and in transit, and explainable AI decisions that can be reviewed and appealed rather than treated as a black box.' },
-    },
-    {
-      '@type': 'Question',
-      name: 'Does Greatodeal build agentic AI systems?',
-      acceptedAnswer: { '@type': 'Answer', text: 'Yes. Greatodeal builds agentic AI systems that execute multi-step operational workflows within defined guardrails, with human-in-the-loop review for decisions that affect people, and full logging of every automated action.' },
-    },
-    {
-      '@type': 'Question',
-      name: 'How can I request a demo from Greatodeal?',
-      acceptedAnswer: { '@type': 'Answer', text: 'You can request a demo via the contact form at greatodeal.com/contact, by email at sales@greatodeal.com, or via WhatsApp. Our team responds within 24 hours.' },
-    },
-    {
-      '@type': 'Question',
-      name: 'Is Greatodeal an AI automation agency based in Lahore, Pakistan?',
-      acceptedAnswer: { '@type': 'Answer', text: 'Yes. Greatodeal is an AI automation agency headquartered in Lahore, Pakistan, providing AI agent development, agentic automation, and AI services to clients in Pakistan and internationally.' },
-    },
-    {
-      '@type': 'Question',
-      name: 'What is an AI agent, and does Greatodeal build them?',
-      acceptedAnswer: { '@type': 'Answer', text: 'An AI agent is a system that can plan and execute multi-step tasks toward a goal, rather than just responding to a single prompt. Greatodeal builds AI agents and agentic automation that connect a business\'s tools and workflows into one operational system, with human review built in for actions that matter.' },
-    },
-  ],
+  mainEntity: faqs.map(f => ({ '@type': 'Question', name: f.question, acceptedAnswer: { '@type': 'Answer', text: f.answer } })),
 };
 
 const serviceSchema = {
@@ -127,6 +101,7 @@ export default function HomePage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }} />
       <HomeClient />
+      <FaqSection faqs={faqs} />
     </>
   );
 }
