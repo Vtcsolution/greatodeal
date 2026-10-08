@@ -26,7 +26,7 @@ const industryListSchema = {
 export const metadata: Metadata = {
   title: 'Industries We Serve | AI SaaS & Agentic Automation | Greatodeal',
   description: 'Greatodeal builds AI SaaS and agentic automation for regulated industries: government, healthcare, fintech, green tech, and real estate, with compliance and audit built in.',
-  keywords: ['AI automation by industry', 'government AI solutions', 'healthcare AI compliance', 'fintech AI automation', 'green tech AI', 'real estate AI platform', 'regulated industry AI', 'business process automation', 'digital transformation', 'AI automation solutions', 'AI integration services'],
+  keywords: ['AI automation by industry', 'government AI solutions', 'healthcare AI compliance', 'fintech AI automation', 'green tech AI', 'real estate AI platform', 'regulated industry AI', 'business process automation', 'digital transformation', 'AI automation solutions', 'AI integration services', 'enterprise software by industry', 'custom software by industry', 'software development company for enterprises'],
   openGraph: {
     title: 'Industries We Serve | Greatodeal',
     description: 'AI SaaS and agentic automation for government, healthcare, fintech, green tech, and real estate.',

@@ -2,8 +2,8 @@ import type { Metadata } from 'next';
 import HomeClient from '@/components/pages/HomeClient';
 
 export const metadata: Metadata = {
-  title: 'Greatodeal | AI Automation Agency in Lahore, Pakistan',
-  description: 'Greatodeal is an AI automation agency building AI agents, workflow automation, and SaaS for government, healthcare, and fintech in Lahore, Pakistan.',
+  title: 'Greatodeal | AI Software Development Company in Lahore, Pakistan',
+  description: 'Greatodeal is an AI software development company building custom software, AI agents, SaaS, and enterprise automation for government, healthcare, and fintech, headquartered in Lahore, Pakistan, serving clients internationally.',
   keywords: [
     'AI SaaS for regulated industries', 'agentic automation', 'compliance-grade AI infrastructure',
     'government AI automation', 'healthcare AI HIPAA compliant', 'fintech AI compliance',
@@ -13,18 +13,25 @@ export const metadata: Metadata = {
     'AI agents', 'AI agent', 'AI automation agency', 'AI automation', 'workflow automation',
     'business process automation', 'custom software development company', 'digital transformation',
     'AI-powered automation', 'intelligent automation', 'AI automation solutions',
+    'software company', 'software development company', 'software development company in Lahore',
+    'software company in Lahore', 'software house in Lahore', 'AI development company',
+    'AI software development company', 'AI software development', 'enterprise software development company',
+    'enterprise software solutions', 'technology solutions company', 'software engineering company',
+    'full stack development company', 'custom software company', 'digital transformation company',
+    'AI product studio', 'software development company Netherlands', 'software development company UK',
+    'software development company USA', 'software development company UAE', 'software development company Canada',
   ],
   openGraph: {
-    title: 'Greatodeal | AI Automation Agency in Lahore, Pakistan',
-    description: 'Greatodeal is an AI automation agency building AI agents, workflow automation, and SaaS for government, healthcare, and fintech in Lahore, Pakistan.',
+    title: 'Greatodeal | AI Software Development Company in Lahore, Pakistan',
+    description: 'Greatodeal is an AI software development company building custom software, AI agents, SaaS, and enterprise automation for government, healthcare, and fintech, headquartered in Lahore, Pakistan, serving clients internationally.',
     url: 'https://greatodeal.com',
     type: 'website',
     images: [{ url: 'https://greatodeal.com/images/logo.png', width: 512, height: 512, alt: 'Greatodeal' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Greatodeal | AI Automation Agency in Lahore, Pakistan',
-    description: 'Greatodeal is an AI automation agency building AI agents, workflow automation, and SaaS for government, healthcare, and fintech in Lahore, Pakistan.',
+    title: 'Greatodeal | AI Software Development Company in Lahore, Pakistan',
+    description: 'Greatodeal is an AI software development company building custom software, AI agents, SaaS, and enterprise automation, headquartered in Lahore, Pakistan, serving clients internationally.',
     images: ['https://greatodeal.com/images/logo.png'],
   },
   alternates: {

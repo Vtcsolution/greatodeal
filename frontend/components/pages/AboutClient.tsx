@@ -214,6 +214,11 @@ export default function AboutClient() {
               </motion.div>
             ))}
           </div>
+          <div className="text-center mt-10">
+            <Link href="/services" className="inline-flex items-center gap-2 font-semibold text-[#6EE7B7] hover:gap-3 transition-all duration-500">
+              See our full range of services <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
         </div>
       </section>
 

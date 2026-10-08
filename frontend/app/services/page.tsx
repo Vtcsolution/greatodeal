@@ -47,6 +47,31 @@ const faqSchema = {
       name: 'Does Greatodeal build ERP systems?',
       acceptedAnswer: { '@type': 'Answer', text: 'Yes. Greatodeal builds custom ERP systems covering procurement, production, inventory, HR, payroll, and financial reporting, tailored to the client\'s operations.' },
     },
+    {
+      '@type': 'Question',
+      name: 'Does Greatodeal build mobile apps?',
+      acceptedAnswer: { '@type': 'Answer', text: 'Yes. Greatodeal builds custom mobile applications for Android, iOS, and cross-platform using React Native, connected to the same backend and AI automation as a client\'s web and enterprise systems.' },
+    },
+    {
+      '@type': 'Question',
+      name: 'What technologies does Greatodeal use?',
+      acceptedAnswer: { '@type': 'Answer', text: 'Greatodeal builds primarily on the MERN stack (MongoDB, Express.js, React, Node.js) and Next.js, along with Python, TypeScript, PostgreSQL, REST APIs, and cloud infrastructure on AWS and Azure, choosing the stack that fits each project rather than a one-size-fits-all template.' },
+    },
+    {
+      '@type': 'Question',
+      name: 'How much does custom software or AI development cost with Greatodeal?',
+      acceptedAnswer: { '@type': 'Answer', text: 'Cost depends on project scope, from a single AI agent integration to a full enterprise platform. Greatodeal reviews requirements in a free initial consultation before proposing a pricing model, time and materials, fixed price, subscription, or milestone-based, that fits the project.' },
+    },
+    {
+      '@type': 'Question',
+      name: 'Who is Greatodeal\'s software development and AI development suited for?',
+      acceptedAnswer: { '@type': 'Answer', text: 'Startups, SMEs, and enterprises that need custom software, AI automation, or digital transformation, particularly organizations in regulated industries like government, healthcare, and fintech that need compliance and audit requirements built into the system from the start.' },
+    },
+    {
+      '@type': 'Question',
+      name: 'Why choose Greatodeal over another software development company?',
+      acceptedAnswer: { '@type': 'Answer', text: 'Greatodeal combines software engineering, AI development, and compliance-grade architecture in one team, rather than treating AI as a bolt-on. Systems are built to hold up under audit and regulatory review from day one, not retrofitted after the fact.' },
+    },
   ],
 };
 
@@ -65,6 +90,17 @@ export const metadata: Metadata = {
     'business workflows', 'business operations automation', 'unified business dashboard', 'AI workflow',
     'AI workflow automation', 'SaaS automation', 'marketing automation software', 'workflow management',
     'marketing workflow automation', 'all-in-one business system', 'custom business software',
+    'software development company', 'software development services', 'software development agency',
+    'enterprise software development', 'enterprise application development', 'enterprise solutions',
+    'ERP development', 'ERP software development', 'custom ERP development', 'CRM development',
+    'custom CRM development', 'CRM software development', 'mobile app development company',
+    'mobile application development', 'Android app development', 'iOS app development',
+    'cross-platform app development', 'React Native development', 'custom web application development',
+    'web application development company', 'website development services', 'eCommerce development',
+    'API development', 'backend development', 'frontend development', 'full stack web development',
+    'MERN stack development', 'React.js development', 'Next.js development', 'Node.js development',
+    'generative AI development', 'LLM integration', 'machine learning solutions', 'AI consulting services',
+    'software development company in Lahore', 'software house in Lahore',
   ],
   openGraph: {
     title: 'Services | Websites, Software, AI SaaS, ERP & AI Agents | Greatodeal',

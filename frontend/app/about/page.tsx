@@ -48,12 +48,21 @@ const howToSchema = {
 };
 
 export const metadata: Metadata = {
-  title: 'About Greatodeal | AI Infrastructure for Regulated Industries',
-  description: 'Greatodeal builds AI SaaS and agentic automation for regulated industries. A small, focused team delivering compliance-grade AI for government, healthcare, and fintech.',
-  keywords: ['about Greatodeal', 'AI infrastructure company', 'agentic automation company', 'compliance AI company', 'AI development company', 'regulated industry AI partner', 'AI automation agency Lahore', 'AI agency Pakistan', 'AI agent development team', 'AI automation agency', 'AI consulting services', 'AI implementation services', 'AI integration services', 'digital transformation', 'custom software development company'],
+  title: 'About Greatodeal | AI Software Development Company in Lahore',
+  description: 'Greatodeal is a software development company and AI development partner in Lahore, Pakistan, building custom software and compliance-grade AI for government, healthcare, fintech, and enterprise clients internationally.',
+  keywords: [
+    'about Greatodeal', 'AI infrastructure company', 'agentic automation company', 'compliance AI company',
+    'AI development company', 'regulated industry AI partner', 'AI automation agency Lahore', 'AI agency Pakistan',
+    'AI agent development team', 'AI automation agency', 'AI consulting services', 'AI implementation services',
+    'AI integration services', 'digital transformation', 'custom software development company',
+    'software development company', 'software development company in Lahore', 'software company in Lahore',
+    'software development agency in Lahore', 'software house Lahore', 'technology company in Lahore',
+    'enterprise software development company', 'AI development partner', 'AI product studio',
+    'digital transformation company', 'software development company Netherlands', 'software development company Europe',
+  ],
   openGraph: {
-    title: 'About Greatodeal | AI Infrastructure for Regulated Industries',
-    description: 'Greatodeal: AI SaaS and agentic automation for regulated industries. A small, focused team building compliance-grade AI infrastructure.',
+    title: 'About Greatodeal | AI Software Development Company in Lahore',
+    description: 'Greatodeal is a software development company and AI development partner in Lahore, Pakistan, building custom software and compliance-grade AI for enterprise clients internationally.',
     url: 'https://greatodeal.com/about',
     images: [{ url: 'https://greatodeal.com/images/logo.png', width: 512, height: 512, alt: 'About Greatodeal' }],
   },

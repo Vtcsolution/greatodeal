@@ -105,9 +105,14 @@ function PrimaryServiceCard({ service, index }: { service: Service; index: numbe
             <span key={tag} className="px-3 py-1.5 bg-white/[0.04] border border-white/[0.06] rounded-lg text-sm text-white/60 font-medium">{tag}</span>
           ))}
         </div>
-        <Link href="/contact" className="inline-flex items-center gap-2 font-semibold text-base group hover:gap-3 transition-all duration-500" style={{ color: service.accent }}>
-          Discuss This Project <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-500" />
-        </Link>
+        <div className="flex items-center flex-wrap gap-x-6 gap-y-2">
+          <Link href="/contact" className="inline-flex items-center gap-2 font-semibold text-base group hover:gap-3 transition-all duration-500" style={{ color: service.accent }}>
+            Discuss This Project <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-500" />
+          </Link>
+          <Link href="/work" className="inline-flex items-center gap-1.5 font-medium text-sm text-white/50 hover:text-white/80 transition-colors duration-500">
+            See examples of our work
+          </Link>
+        </div>
       </motion.div>
 
       <motion.div className={`relative ${reverse ? 'lg:order-1' : ''}`} initial={{ opacity: 0, scale: 0.94 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true, margin: '-60px' }} transition={{ duration: 0.8, ease }}>
@@ -302,9 +307,14 @@ export default function ServicesClient() {
               )}
             </h2>
             <p className="text-lg sm:text-xl text-white/70 mb-12 max-w-xl mx-auto leading-[1.8]">{content.finalCtaSubtitle}</p>
-            <Link href="/contact" className="btn-primary group text-lg">
-              {content.finalCtaButtonText} <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-500" />
-            </Link>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <Link href="/contact" className="btn-primary group text-lg">
+                {content.finalCtaButtonText} <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-500" />
+              </Link>
+              <Link href="/pricing" className="px-8 py-4 border border-white/[0.08] text-white rounded-xl font-bold text-[15px] hover:border-[#6EE7B7]/30 hover:bg-[#6EE7B7]/[0.03] transition-all duration-700 flex items-center justify-center gap-2">
+                View Pricing
+              </Link>
+            </div>
           </motion.div>
         </div>
       </section>

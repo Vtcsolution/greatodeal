@@ -28,6 +28,8 @@ export const metadata: Metadata = {
     'appointment booking automation', 'appointment scheduling automation', 'calendar automation',
     'AI chatbot', 'conversational AI', 'AI customer service', 'customer service AI', 'AI customer support',
     'customer support automation', 'customer service automation', 'API integration', 'software integration',
+    'enterprise software projects', 'custom software development company portfolio', 'mobile app development portfolio',
+    'web application development portfolio', 'ERP development portfolio',
   ],
   openGraph: {
     title: 'Work | AI Automation & Software Projects | Greatodeal',
