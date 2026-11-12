@@ -2,6 +2,10 @@ import type { Metadata } from 'next';
 import AboutClient from '@/components/pages/AboutClient';
 import { breadcrumbSchema } from '@/lib/schema';
 import FaqSection from '@/components/ui/FaqSection';
+import Image from 'next/image';
+import Link from 'next/link';
+import { ArrowUpRight } from 'lucide-react';
+import { founder } from '@/lib/founder';
 
 const breadcrumbs = breadcrumbSchema([
   { name: 'Home', url: 'https://greatodeal.com' },
@@ -10,6 +14,7 @@ const breadcrumbs = breadcrumbSchema([
 
 const faqs = [
   { question: 'When was Greatodeal founded and where is it based?', answer: 'Greatodeal was founded in 2020 and is headquartered in Lahore, Pakistan, serving clients internationally.' },
+  { question: 'Who is the founder and CEO of Greatodeal?', answer: 'Greatodeal was founded by Zia Shafique (Muhammad Zia ul Rehman), who serves as its CEO. He is an AI automation expert, business analyst, and critical thinker who leads the company\'s strategy and AI automation work.' },
   { question: "What is Greatodeal's engineering process?", answer: 'Greatodeal follows a compliance-first process: discovery and compliance mapping, compliance-first architecture, agile build with continuous security review, and an audit-ready launch with documentation and ongoing support.' },
   { question: 'What industries does Greatodeal serve?', answer: 'Greatodeal serves government and healthcare as its primary industries, with fintech, green tech, real estate, AI automation, business services, and e-commerce as secondary focus areas, eight industries in total.' },
   { question: 'What pricing models does Greatodeal offer?', answer: 'Greatodeal offers time and materials, capped time and materials, fixed price, subscription-based, per-ticket, and mixed pricing models, chosen based on project scope and requirements.' },
@@ -70,6 +75,24 @@ export default function AboutPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }} />
       <AboutClient />
+      <section className="py-20 bg-[#060606] border-t border-white/[0.04]">
+        <div className="container max-w-[1920px] px-4 sm:px-6">
+          <div className="max-w-4xl mx-auto grid sm:grid-cols-[180px_1fr] gap-8 items-center">
+            <Image src="/images/zia-shafique.jpg" alt="Zia Shafique, CEO & Founder of Greatodeal" width={180} height={180} className="rounded-2xl border border-white/[0.06]" />
+            <div>
+              <p className="text-sm text-[#6EE7B7] mb-2">Founder &amp; CEO</p>
+              <h2 className="text-3xl font-bold tracking-tight text-white mb-3">Zia Shafique (Muhammad Zia ul Rehman)</h2>
+              <p className="text-[#999] text-base leading-relaxed mb-4">
+                Greatodeal was founded in 2020 by Zia Shafique, an AI automation expert, business analyst, and critical thinker
+                who leads the company&apos;s strategy and the AI systems it builds for clients worldwide.
+              </p>
+              <Link href={founder.path} className="inline-flex items-center gap-1.5 font-semibold text-[#6EE7B7] hover:underline">
+                Read Zia&apos;s full profile <ArrowUpRight className="w-4 h-4" />
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
       <FaqSection faqs={faqs} />
     </>
   );

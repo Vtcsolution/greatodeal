@@ -1,0 +1,61 @@
+const BASE_URL = 'https://greatodeal.com';
+
+export const founder = {
+  name: 'Zia Shafique',
+  legalName: 'Muhammad Zia ul Rehman',
+  alternateNames: ['Muhammad Zia ul Rehman', 'Zia ul Rehman', 'Rana Zia', 'Zia Shafique'],
+  jobTitle: 'CEO & Founder, Greatodeal',
+  headline: 'CEO & Founder of Greatodeal | AI Automation Expert',
+  path: '/zia-shafique',
+  url: `${BASE_URL}/zia-shafique`,
+  personId: `${BASE_URL}/zia-shafique#person`,
+  image: `${BASE_URL}/images/zia-shafique.jpg`,
+  roles: [
+    'CEO & Founder of Greatodeal',
+    'AI Automation Expert',
+    'AI Agent Developer',
+    'Business Analyst',
+    'Business Analytics & Data-Driven Strategy',
+    'Critical Thinker & Problem Solver',
+    'Full-Stack Software Engineer',
+  ],
+  expertise: [
+    'AI Automation', 'AI Agents', 'Agentic AI', 'Business Process Automation', 'Business Analytics',
+    'Business Analysis', 'Critical Thinking', 'Generative AI', 'Large Language Models', 'SaaS Development',
+    'Custom Software Development', 'CRM Development', 'Workflow Automation', 'Digital Transformation',
+    'MERN Stack', 'Next.js',
+  ],
+  sameAs: [
+    'https://www.instagram.com/ziashafique.dev/',
+    'https://www.youtube.com/@ZiaShafiqueOfficial',
+    'https://www.upwork.com/freelancers/~01d2cc5e15c0d2e4f1',
+    'https://www.fiverr.com/ziadesignr',
+    'https://www.skool.com/@rana-zia-5682',
+  ],
+};
+
+export const founderSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  '@id': founder.personId,
+  name: founder.name,
+  alternateName: founder.alternateNames.filter(n => n !== founder.name),
+  givenName: 'Zia',
+  familyName: 'Shafique',
+  jobTitle: founder.jobTitle,
+  description: `${founder.name} (${founder.legalName}) is the CEO and Founder of Greatodeal, an AI automation and software development company founded in 2020 in Lahore, Pakistan. He is an AI automation expert, business analyst, and critical thinker who builds AI agents, automation systems, and SaaS platforms for businesses worldwide.`,
+  url: founder.url,
+  image: founder.image,
+  worksFor: { '@id': `${BASE_URL}/#organization` },
+  founder: { '@id': `${BASE_URL}/#organization` },
+  homeLocation: { '@type': 'Place', name: 'Lahore, Pakistan' },
+  nationality: { '@type': 'Country', name: 'Pakistan' },
+  knowsAbout: founder.expertise,
+  hasOccupation: {
+    '@type': 'Occupation',
+    name: 'Chief Executive Officer',
+    occupationalCategory: '11-1011.00 Chief Executives',
+    skills: founder.expertise.join(', '),
+  },
+  sameAs: founder.sameAs,
+};

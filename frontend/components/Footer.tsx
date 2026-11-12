@@ -55,6 +55,7 @@ function GoogleIcon(props: React.SVGProps<SVGSVGElement>) {
 const footerLinks = {
   company: [
     { name: 'About Us', path: '/about' },
+    { name: 'Founder & CEO', path: '/zia-shafique' },
     { name: 'Services', path: '/services' },
     { name: 'Work', path: '/work' },
     { name: 'Partnership', path: '/partnership' },

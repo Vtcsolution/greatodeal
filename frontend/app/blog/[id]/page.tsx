@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import BlogDetailClient from '@/components/pages/BlogDetailClient';
 import { breadcrumbSchema } from '@/lib/schema';
+import { founder } from '@/lib/founder';
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001';
 
@@ -68,7 +69,9 @@ export default async function BlogDetailPage({ params }: { params: { id: string 
     headline: blog.title,
     description: blog.excerpt,
     image: blog.image ? `${API_BASE}/uploads/${blog.image}` : 'https://greatodeal.com/images/logo.png',
-    author: { '@type': 'Person', name: blog.author },
+    author: /^(zia|muhammad zia|rana zia)/i.test(blog.author || '')
+      ? { '@type': 'Person', '@id': founder.personId, name: founder.name, url: founder.url }
+      : { '@type': 'Person', name: blog.author },
     publisher: { '@id': 'https://greatodeal.com/#organization' },
     datePublished: blog.date,
     dateModified: blog.updatedAt || blog.date,

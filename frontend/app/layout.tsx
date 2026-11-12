@@ -3,6 +3,7 @@ import Script from 'next/script';
 import { Fraunces, Space_Mono } from 'next/font/google';
 import './globals.css';
 import LayoutWrapper from '@/components/LayoutWrapper';
+import { founder } from '@/lib/founder';
 
 const fraunces = Fraunces({ subsets: ['latin'], variable: '--font-fraunces', weight: ['400', '500', '600', '700'], style: ['normal', 'italic'], display: 'swap' });
 const spaceMono = Space_Mono({ subsets: ['latin'], variable: '--font-space-mono', weight: ['400', '700'], display: 'swap' });
@@ -125,6 +126,16 @@ const organizationSchema = {
   description: 'Greatodeal is an AI software development company building custom software, enterprise applications, AI SaaS, and agentic automation for regulated industries: government, healthcare, fintech, green tech, and real estate. Headquartered in Lahore, Pakistan, serving clients internationally.',
   foundingDate: '2020',
   foundingLocation: { '@type': 'Place', name: 'Lahore, Pakistan' },
+  founder: {
+    '@type': 'Person',
+    '@id': founder.personId,
+    name: founder.name,
+    alternateName: founder.legalName,
+    jobTitle: founder.jobTitle,
+    url: founder.url,
+    image: founder.image,
+    sameAs: founder.sameAs,
+  },
   numberOfEmployees: { '@type': 'QuantitativeValue', minValue: 2, maxValue: 10 },
   address: [
     {
