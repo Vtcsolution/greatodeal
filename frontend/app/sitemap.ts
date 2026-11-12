@@ -1,6 +1,14 @@
 import { MetadataRoute } from 'next';
+import { servicePages } from '@/lib/servicePages';
 
 const BASE_URL = 'https://greatodeal.com';
+
+const serviceRoutes: MetadataRoute.Sitemap = servicePages.map(p => ({
+  url: `${BASE_URL}/services/${p.slug}`,
+  lastModified: new Date(),
+  changeFrequency: 'monthly',
+  priority: 0.9,
+}));
 
 const staticRoutes: MetadataRoute.Sitemap = [
   { url: BASE_URL, lastModified: new Date(), changeFrequency: 'daily', priority: 1.0 },
@@ -53,5 +61,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }
   } catch { /* fallback to static only */ }
 
-  return [...staticRoutes, ...blogRoutes, ...workRoutes];
+  return [...staticRoutes, ...serviceRoutes, ...blogRoutes, ...workRoutes];
 }

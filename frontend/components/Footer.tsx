@@ -2,6 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Facebook, Linkedin, Instagram, Youtube, MapPin, Mail, Star } from 'lucide-react';
+import { servicePages } from '@/lib/servicePages';
 
 function XIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
@@ -89,7 +90,7 @@ export default function Footer() {
   return (
     <footer className="relative z-20 bg-[#060606] text-white/90" itemScope itemType="https://schema.org/Organization">
       <div className="container max-w-[1920px] py-14 sm:py-16 px-4 sm:px-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 sm:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 sm:gap-8">
           {/* Brand */}
           <div className="space-y-5">
             <Link href="/">
@@ -125,6 +126,20 @@ export default function Footer() {
               {footerLinks.company.map(({ name, path }) => (
                 <li key={path}>
                   <Link href={path} className="text-white/70 hover:text-[#6EE7B7] transition-colors duration-300 text-base">
+                    {name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Services */}
+          <div className="space-y-5">
+            <h3 className="text-lg font-bold text-white">Services</h3>
+            <ul className="space-y-3">
+              {servicePages.map(({ slug, name }) => (
+                <li key={slug}>
+                  <Link href={`/services/${slug}`} className="text-white/70 hover:text-[#6EE7B7] transition-colors duration-300 text-base">
                     {name}
                   </Link>
                 </li>

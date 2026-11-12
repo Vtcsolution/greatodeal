@@ -9,7 +9,7 @@ const spaceMono = Space_Mono({ subsets: ['latin'], variable: '--font-space-mono'
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://greatodeal.com'),
-  title: 'Greatodeal | AI Software Development Company for Regulated Industries',
+  title: 'Greatodeal | AI Agent Development & Custom Software Company',
   description: 'Since 2020, Greatodeal has built AI SaaS platforms and agentic automation for regulated industries — government, healthcare, fintech, green tech, and real estate — from its Lahore, Pakistan headquarters, serving clients internationally.',
   keywords: [
     'AI SaaS for regulated industries', 'agentic automation company', 'compliance-grade AI infrastructure',
@@ -67,7 +67,7 @@ export const metadata: Metadata = {
     locale: 'en_US',
     url: 'https://greatodeal.com',
     siteName: 'Greatodeal',
-    title: 'Greatodeal | AI Software Development Company for Regulated Industries',
+    title: 'Greatodeal | AI Agent Development & Custom Software Company',
     description: 'AI software development company building custom software, AI SaaS, and agentic automation for government, healthcare, fintech, green tech, and real estate, serving clients globally since 2020.',
     images: [
       {

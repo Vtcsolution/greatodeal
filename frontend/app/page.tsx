@@ -1,11 +1,15 @@
 import type { Metadata } from 'next';
 import HomeClient from '@/components/pages/HomeClient';
 import FaqSection from '@/components/ui/FaqSection';
+import { servicePages } from '@/lib/servicePages';
 
 export const metadata: Metadata = {
-  title: 'Greatodeal | AI Software Development Company in Lahore, Pakistan',
-  description: 'Custom software, AI agents, SaaS, and enterprise automation for government, healthcare, and fintech — built from Greatodeal\'s Lahore, Pakistan headquarters for clients worldwide.',
+  title: 'Greatodeal | AI Agent Development & Custom Software Company',
+  description: 'Custom AI agents, AI automation, voice agents, SaaS, and custom software for US and global businesses. Compliance-grade engineering for healthcare, fintech, and government since 2020.',
   keywords: [
+    'AI agent development company', 'AI automation agency', 'AI voice agents', 'AI receptionist',
+    'AI chatbot development company', 'generative AI development services', 'MCP server development',
+    'SaaS development company', 'hire AI developers', 'autonomous AI agents', 'AI agents for business',
     'AI SaaS for regulated industries', 'agentic automation', 'compliance-grade AI infrastructure',
     'government AI automation', 'healthcare AI HIPAA compliant', 'fintech AI compliance',
     'AI automation company', 'explainable AI', 'audit-ready AI systems', 'Greatodeal',
@@ -23,16 +27,16 @@ export const metadata: Metadata = {
     'software development company USA', 'software development company UAE', 'software development company Canada',
   ],
   openGraph: {
-    title: 'Greatodeal | AI Software Development Company in Lahore, Pakistan',
-    description: 'Custom software, AI agents, SaaS, and enterprise automation for government, healthcare, and fintech — built from Greatodeal\'s Lahore, Pakistan headquarters for clients worldwide.',
+    title: 'Greatodeal | AI Agent Development & Custom Software Company',
+    description: 'Custom AI agents, AI automation, voice agents, SaaS, and custom software for US and global businesses. Compliance-grade engineering for healthcare, fintech, and government since 2020.',
     url: 'https://greatodeal.com',
     type: 'website',
     images: [{ url: 'https://greatodeal.com/images/logo.png', width: 512, height: 512, alt: 'Greatodeal' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Greatodeal | AI Software Development Company in Lahore, Pakistan',
-    description: 'Greatodeal is an AI software development company building custom software, AI agents, SaaS, and enterprise automation, headquartered in Lahore, Pakistan, serving clients internationally.',
+    title: 'Greatodeal | AI Agent Development & Custom Software Company',
+    description: 'Greatodeal builds custom AI agents, AI automation, voice agents, SaaS, and custom software for businesses in the US, UK, and worldwide.',
     images: ['https://greatodeal.com/images/logo.png'],
   },
   alternates: {
@@ -81,11 +85,8 @@ const serviceSchema = {
   '@type': 'ItemList',
   name: 'What Greatodeal Builds',
   itemListElement: [
-    { '@type': 'ListItem', position: 1, name: 'Agentic AI Platforms', url: 'https://greatodeal.com' },
-    { '@type': 'ListItem', position: 2, name: 'AI Agent Development', url: 'https://greatodeal.com/industries/ai-automation' },
-    { '@type': 'ListItem', position: 3, name: 'Compliance-Grade Infrastructure', url: 'https://greatodeal.com' },
-    { '@type': 'ListItem', position: 4, name: 'Industry-Specific SaaS', url: 'https://greatodeal.com/industries' },
-    { '@type': 'ListItem', position: 5, name: 'Secure Integration & Data Pipelines', url: 'https://greatodeal.com' },
+    ...servicePages.map((p, i) => ({ '@type': 'ListItem', position: i + 1, name: p.name, url: `https://greatodeal.com/services/${p.slug}` })),
+    { '@type': 'ListItem', position: servicePages.length + 1, name: 'Industry-Specific SaaS', url: 'https://greatodeal.com/industries' },
   ],
 };
 

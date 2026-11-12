@@ -2,6 +2,9 @@ import type { Metadata } from 'next';
 import ServicesClient from '@/components/pages/ServicesClient';
 import { breadcrumbSchema } from '@/lib/schema';
 import FaqSection from '@/components/ui/FaqSection';
+import Link from 'next/link';
+import { ArrowUpRight } from 'lucide-react';
+import { servicePages } from '@/lib/servicePages';
 
 const breadcrumbs = breadcrumbSchema([
   { name: 'Home', url: 'https://greatodeal.com' },
@@ -93,6 +96,21 @@ export default function Page() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <ServicesClient />
+      <section className="py-20 bg-[#090909] border-t border-white/[0.04]">
+        <div className="container max-w-[1920px] px-4 sm:px-6">
+          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-white text-center mb-10">Explore Our Services in Detail</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {servicePages.map(p => (
+              <Link key={p.slug} href={`/services/${p.slug}`} className="group bg-white/[0.02] p-6 rounded-2xl border border-white/[0.04] hover:border-[#6EE7B7]/20 transition-all duration-500">
+                <span className="flex items-center justify-between font-semibold text-white/90 group-hover:text-white">
+                  {p.name} <ArrowUpRight className="w-4 h-4 text-[#6EE7B7]" />
+                </span>
+                <span className="block text-sm text-[#888] mt-2">{p.h1Accent}</span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
       <FaqSection faqs={faqs} />
     </>
   );

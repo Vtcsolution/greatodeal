@@ -14,6 +14,15 @@
 - [Home](https://greatodeal.com/): Overview of what Greatodeal builds and who it serves.
 - [About](https://greatodeal.com/about): Company background, mission, engineering process, and pricing models.
 - [Services](https://greatodeal.com/services): Custom software development, AI agents & agentic automation, AI-automation SaaS platforms, ERP systems, websites, mobile apps, cloud & DevOps, API integration.
+- [AI Agent Development](https://greatodeal.com/services/ai-agent-development): Custom AI agents and multi-agent systems that run real business workflows, with human review and audit logs.
+- [AI Automation Agency](https://greatodeal.com/services/ai-automation-agency): AI workflow automation, RPA, n8n/Make/Zapier automation, document processing, and automated reporting.
+- [AI Voice Agents](https://greatodeal.com/services/ai-voice-agents): AI receptionists and phone agents that answer calls 24/7, book appointments, and qualify leads.
+- [AI Chatbot Development](https://greatodeal.com/services/ai-chatbot-development): Custom chatbots trained on company data (RAG) for websites, WhatsApp, and support.
+- [Generative AI Development](https://greatodeal.com/services/generative-ai-development): LLM integration, RAG systems, custom GPTs, and Model Context Protocol (MCP) server development.
+- [Custom Software Development](https://greatodeal.com/services/custom-software-development): Web apps, CRMs, ERPs, APIs, and legacy modernization as an offshore development partner.
+- [SaaS Development](https://greatodeal.com/services/saas-development): MVP development, multi-tenant architecture, subscription billing, and AI-native SaaS.
+- [Mobile App Development](https://greatodeal.com/services/mobile-app-development): iOS, Android, and React Native apps with AI features.
+- [Hire AI Developers](https://greatodeal.com/services/hire-ai-developers): Dedicated AI/LLM engineers and full-stack developers on monthly engagements.
 - [Industries](https://greatodeal.com/industries): The 8 sectors Greatodeal serves — Government, Healthcare, Fintech, Green Tech, Real Estate, AI Automation, Business Services, E-Commerce — each with its own dedicated page covering that sector's challenges, solutions, and compliance requirements.
 - [Work](https://greatodeal.com/work): Case studies of AI automation, CRM, and AI agent projects Greatodeal has delivered for real clients, including an AI-powered lead-generation CRM, a government contracting SaaS platform, and an AI/human hybrid consultation platform.
 - [Pricing](https://greatodeal.com/pricing): Pricing tiers for websites, AI agents, and custom software development.
