@@ -314,7 +314,7 @@ export default function BlogDetailClient({ id }: { id: string }) {
                   const rAccent = categoryColor(r.category);
                   return (
                     <motion.div key={r._id} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08, duration: 0.5, ease }}>
-                      <Link href={`/blog/${r._id}`} className="group bg-white/[0.02] rounded-2xl overflow-hidden border border-white/[0.06] hover:border-white/[0.12] transition-all duration-500 flex flex-col h-full block hover:-translate-y-1">
+                      <Link href={`/blog/${r.slug || r._id}`} className="group bg-white/[0.02] rounded-2xl overflow-hidden border border-white/[0.06] hover:border-white/[0.12] transition-all duration-500 flex flex-col h-full block hover:-translate-y-1">
                         <div className="relative h-40 overflow-hidden bg-white/[0.04]">
                           {r.image && <Image src={getImageUrl(r.image)} alt={r.title} fill sizes="(max-width: 640px) 100vw, 25vw" className="object-cover group-hover:scale-110 transition-transform duration-700" />}
                         </div>

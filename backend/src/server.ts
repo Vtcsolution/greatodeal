@@ -10,6 +10,7 @@ import path from 'path';
 import rateLimit from 'express-rate-limit';
 import multer from 'multer';
 import connectDB from './config/db';
+import { ensureBlogSlugs } from './models/Blog';
 import blogRoutes from './routes/blogRoutes';
 import contactRoutes from './routes/contactRoutes';
 import chatRoutes from './routes/chatRoutes';
@@ -37,7 +38,7 @@ const PORT = process.env.PORT || 5001;
 
 app.set('trust proxy', 1);
 
-connectDB();
+connectDB().then(() => ensureBlogSlugs()).catch(err => console.error('ensureBlogSlugs error:', err));
 
 app.use(helmet({ crossOriginResourcePolicy: { policy: 'cross-origin' } }));
 app.use(cors({ origin: process.env.CLIENT_URL || 'http://localhost:3000', credentials: true }));

@@ -39,8 +39,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const res = await fetch(`${API_BASE}/api/blogs?limit=500`, { next: { revalidate: 3600 } });
     const data = await res.json();
     if (data.success && data.data) {
-      blogRoutes = data.data.map((blog: { _id: string; updatedAt: string }) => ({
-        url: `${BASE_URL}/blog/${blog._id}`,
+      blogRoutes = data.data.map((blog: { _id: string; slug?: string; updatedAt: string }) => ({
+        url: `${BASE_URL}/blog/${blog.slug || blog._id}`,
         lastModified: new Date(blog.updatedAt),
         changeFrequency: 'weekly' as const,
         priority: 0.7,

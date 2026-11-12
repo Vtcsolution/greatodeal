@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import mongoose from 'mongoose';
 import Blog from '../models/Blog';
 
 export const createBlog = async (req: Request, res: Response): Promise<void> => {
@@ -40,7 +41,10 @@ export const getBlogs = async (req: Request, res: Response): Promise<void> => {
 
 export const getBlogById = async (req: Request, res: Response): Promise<void> => {
   try {
-    const blog = await Blog.findByIdAndUpdate(req.params.id, { $inc: { views: 1 } }, { new: true });
+    // Public URLs use the slug; older links (and admin/comment calls) still pass the Mongo id.
+    const key = req.params.id;
+    const filter = mongoose.isValidObjectId(key) ? { _id: key } : { slug: key };
+    const blog = await Blog.findOneAndUpdate(filter, { $inc: { views: 1 } }, { new: true });
     if (!blog) { res.status(404).json({ success: false, message: 'Blog not found' }); return; }
     res.json({ success: true, data: blog });
   } catch (error) {

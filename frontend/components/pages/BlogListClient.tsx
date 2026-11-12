@@ -27,7 +27,7 @@ function BlogCard({ blog, index }: { blog: Blog; index: number }) {
   const accent = categoryColor(blog.category);
   return (
     <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-40px' }} transition={{ delay: (index % 6) * 0.06, duration: 0.55, ease }}>
-      <Link href={`/blog/${blog._id}`} className="group relative bg-white/[0.02] rounded-2xl overflow-hidden border border-white/[0.06] hover:border-white/[0.12] transition-all duration-500 flex flex-col h-full block hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-black/40">
+      <Link href={`/blog/${blog.slug || blog._id}`} className="group relative bg-white/[0.02] rounded-2xl overflow-hidden border border-white/[0.06] hover:border-white/[0.12] transition-all duration-500 flex flex-col h-full block hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-black/40">
         <div className="relative h-52 overflow-hidden bg-white/[0.04]">
           {blog.image ? (
             <Image src={getImageUrl(blog.image)} alt={blog.title} fill sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out" />
@@ -192,7 +192,7 @@ export default function BlogListClient({ initialBlogs = [] }: { initialBlogs?: B
               <AnimatePresence mode="wait">
                 {featuredBlog && filter !== 'trending' && (
                   <motion.div key={featuredBlog._id} className="mb-10" initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.6, ease }}>
-                    <Link href={`/blog/${featuredBlog._id}`} className="group grid md:grid-cols-2 gap-0 bg-white/[0.02] rounded-2xl overflow-hidden border border-white/[0.06] hover:border-[#6EE7B7]/25 transition-all duration-700">
+                    <Link href={`/blog/${featuredBlog.slug || featuredBlog._id}`} className="group grid md:grid-cols-2 gap-0 bg-white/[0.02] rounded-2xl overflow-hidden border border-white/[0.06] hover:border-[#6EE7B7]/25 transition-all duration-700">
                       <div className="relative h-64 md:h-auto overflow-hidden bg-white/[0.04]">
                         {featuredBlog.image && <Image src={getImageUrl(featuredBlog.image)} alt={featuredBlog.title} fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover group-hover:scale-105 transition-transform duration-[1200ms] ease-out" />}
                         <div className="absolute top-4 left-4 flex gap-2">
