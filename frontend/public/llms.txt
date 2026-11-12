@@ -45,7 +45,7 @@ Q: What does Greatodeal do?
 A: Greatodeal builds AI SaaS platforms and agentic automation, including autonomous AI agents, compliance-grade infrastructure, industry-specific software, and secure integrations, for institutions operating under regulatory and audit requirements.
 
 Q: Where is Greatodeal based, and who does it serve?
-A: Greatodeal is headquartered in Lahore, Pakistan, and serves clients internationally, including in the United States, United Kingdom, United Arab Emirates, Netherlands, Saudi Arabia, and Germany.
+A: Greatodeal is headquartered in Lahore, Pakistan, and serves clients internationally, including in the United States, United Kingdom, United Arab Emirates, Netherlands, Saudi Arabia, Kuwait, and Germany.
 
 Q: What industries does Greatodeal focus on?
 A: Government and healthcare are Greatodeal's primary focus, with fintech, green tech, real estate, AI automation, business services, and e-commerce as secondary focus areas, eight industries in total.

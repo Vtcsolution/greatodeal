@@ -6,6 +6,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
 import { founder } from '@/lib/founder';
+import { markets, marketsFaq } from '@/lib/markets';
 
 const breadcrumbs = breadcrumbSchema([
   { name: 'Home', url: 'https://greatodeal.com' },
@@ -14,6 +15,7 @@ const breadcrumbs = breadcrumbSchema([
 
 const faqs = [
   { question: 'When was Greatodeal founded and where is it based?', answer: 'Greatodeal was founded in 2020 and is headquartered in Lahore, Pakistan, serving clients internationally.' },
+  marketsFaq,
   { question: 'Who is the founder and CEO of Greatodeal?', answer: 'Greatodeal was founded by Zia Shafique (Muhammad Zia ul Rehman), who serves as its CEO. He is an AI automation expert, business analyst, and critical thinker who leads the company\'s strategy and AI automation work.' },
   { question: "What is Greatodeal's engineering process?", answer: 'Greatodeal follows a compliance-first process: discovery and compliance mapping, compliance-first architecture, agile build with continuous security review, and an audit-ready launch with documentation and ongoing support.' },
   { question: 'What industries does Greatodeal serve?', answer: 'Greatodeal serves government and healthcare as its primary industries, with fintech, green tech, real estate, AI automation, business services, and e-commerce as secondary focus areas, eight industries in total.' },
@@ -75,6 +77,26 @@ export default function AboutPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }} />
       <AboutClient />
+      <section className="py-20 bg-[#090909] border-t border-white/[0.04]">
+        <div className="container max-w-[1920px] px-4 sm:px-6">
+          <div className="text-center max-w-2xl mx-auto mb-12">
+            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-white mb-4">Clients We Serve Worldwide</h2>
+            <p className="text-[#999] text-base">
+              From our Lahore headquarters, Greatodeal has delivered AI automation and software projects for clients across
+              North America, Europe, and the Middle East.
+            </p>
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {markets.map(m => (
+              <div key={m.country} className="bg-white/[0.02] p-6 rounded-2xl border border-white/[0.04]">
+                <p className="text-xs uppercase tracking-wider text-[#6EE7B7] mb-2">{m.region}</p>
+                <h3 className="font-bold text-white text-lg mb-2">{m.country}</h3>
+                <p className="text-sm text-[#999] leading-relaxed">{m.note}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
       <section className="py-20 bg-[#060606] border-t border-white/[0.04]">
         <div className="container max-w-[1920px] px-4 sm:px-6">
           <div className="max-w-4xl mx-auto grid sm:grid-cols-[180px_1fr] gap-8 items-center">

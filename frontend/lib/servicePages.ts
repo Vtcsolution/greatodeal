@@ -4,6 +4,7 @@ import {
   Brain, Database, ShieldCheck, Plug, LineChart, Search, Headphones, CalendarCheck, FileText,
   Rocket, RefreshCw, Cloud, Lock, Gauge, Cpu, Globe, CreditCard, Bell, Wrench,
 } from 'lucide-react';
+import { marketsFaq } from '@/lib/markets';
 
 export interface ServiceOffering { icon: LucideIcon; title: string; desc: string }
 export interface ServiceFaq { question: string; answer: string }
@@ -29,7 +30,7 @@ export interface ServicePage {
   industries: Array<{ name: string; path: string }>;
 }
 
-export const servicePages: ServicePage[] = [
+const pages: ServicePage[] = [
   {
     slug: 'ai-agent-development',
     name: 'AI Agent Development',
@@ -74,7 +75,6 @@ export const servicePages: ServicePage[] = [
       { question: 'How long does it take to build a custom AI agent?', answer: 'A focused agent for one workflow can often go live in a few weeks. Multi-agent systems with many integrations and approval flows take longer. We start with a narrow, high-value workflow, prove it in production, and expand from there.' },
       { question: 'Can AI agents work with our existing software?', answer: 'Yes. We connect agents to the tools you already use, including CRMs like HubSpot and Salesforce, email, calendars, ERPs, databases, and custom internal APIs, rather than asking you to replace them.' },
       { question: 'How do you keep AI agents safe and accurate?', answer: 'We limit each agent to the permissions it needs, add human approval for sensitive actions, test against real examples before launch, and log every action. Monitoring after launch catches drift, errors, and cost spikes early.' },
-      { question: 'Do you work with US companies?', answer: 'Yes. Greatodeal works with clients in the United States, the UK, Europe, and the Middle East, collaborating remotely from our Lahore engineering team with regular calls scheduled around your business hours.' },
     ],
     related: ['ai-automation-agency', 'generative-ai-development', 'ai-voice-agents', 'ai-chatbot-development'],
     industries: [
@@ -500,6 +500,9 @@ export const servicePages: ServicePage[] = [
     ],
   },
 ];
+
+// Every service page answers the "do you work with my country?" question the same way.
+export const servicePages: ServicePage[] = pages.map(p => ({ ...p, faqs: [...p.faqs, marketsFaq] }));
 
 export function getServicePage(slug: string) {
   return servicePages.find(p => p.slug === slug);

@@ -251,6 +251,7 @@ const localBusinessSchema = {
     { '@type': 'Country', name: 'United Arab Emirates' },
     { '@type': 'Country', name: 'Netherlands' },
     { '@type': 'Country', name: 'Saudi Arabia' },
+    { '@type': 'Country', name: 'Kuwait' },
     { '@type': 'Country', name: 'Germany' },
   ],
   sameAs: [
