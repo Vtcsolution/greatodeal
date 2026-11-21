@@ -91,7 +91,7 @@ export default function ContactClient() {
           <div className="absolute bottom-20 -right-40 w-[400px] h-[400px] bg-[#3B82F6]/[0.05] rounded-full blur-[150px]" />
           <div className="absolute inset-0 bg-[linear-gradient(rgba(110,231,183,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(110,231,183,0.02)_1px,transparent_1px)] bg-[size:72px_72px]" />
         </div>
-        <div className="container max-w-[1920px] relative z-10 px-4 sm:px-6 text-center">
+        <div className="container max-w-[1920px] relative z-10 text-center">
           <motion.div className="inline-flex items-center gap-2 px-5 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-full text-base text-[#6EE7B7] mb-8" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.1 }}>
             <Sparkles className="w-4 h-4" /><span className="font-mono uppercase tracking-wider text-xs">{content.heroBadge}</span>
           </motion.div>
@@ -118,7 +118,7 @@ export default function ContactClient() {
 
       {/* ═══ FORM + SIDEBAR ═══ */}
       <section id="contact-form" className="pb-28">
-        <div className="container max-w-[1920px] px-4 sm:px-6">
+        <div className="container max-w-[1920px]">
           <div className="grid lg:grid-cols-3 gap-8">
             {/* Form */}
             <motion.div className="lg:col-span-2 relative" initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.5, ease }}>

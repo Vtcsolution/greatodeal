@@ -9,9 +9,12 @@ const config: Config = {
   theme: {
     container: {
       center: true,
+      // Side gutter for every page section; lines section edges up under the
+      // navbar logo (the navbar pins its own container to the narrower gutter).
       padding: {
-        DEFAULT: '1rem',
-        lg: '1.5rem',
+        DEFAULT: '1.5rem',
+        sm: '2.5rem',
+        lg: '60px',
       },
     },
     extend: {

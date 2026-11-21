@@ -130,7 +130,7 @@ export default function BlogDetailClient({ id }: { id: string }) {
         <div className="absolute inset-0">
           <div className="absolute top-20 -left-40 w-[500px] h-[500px] rounded-full blur-[150px]" style={{ backgroundColor: accent + '0A' }} />
         </div>
-        <div className="container max-w-[1920px] relative z-10 px-4 sm:px-6">
+        <div className="container max-w-[1920px] relative z-10">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
             <Link href="/blog" className="inline-flex items-center gap-2 text-[#6EE7B7] hover:gap-3 transition-all duration-500 mb-8 text-base font-medium">
               <ArrowLeft className="w-5 h-5" /> Back to Blog
@@ -195,7 +195,7 @@ export default function BlogDetailClient({ id }: { id: string }) {
 
       {/* ═══ CONTENT ═══ */}
       <article className="py-8 sm:py-12">
-        <div className="container max-w-[1920px] px-4 sm:px-6">
+        <div className="container max-w-[1920px]">
           <div className="grid lg:grid-cols-[1fr_300px] gap-12 lg:gap-16">
             {/* Main content */}
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.6 }}>
@@ -335,7 +335,7 @@ export default function BlogDetailClient({ id }: { id: string }) {
 
       {/* ═══ COMMENTS ═══ */}
       <section className="py-16 sm:py-20 bg-[#060606] border-t border-white/[0.06]">
-        <div className="container max-w-[1920px] px-4 sm:px-6">
+        <div className="container max-w-[1920px]">
           <div className="max-w-3xl mx-auto">
             <h2 className="text-2xl sm:text-3xl font-bold mb-8 tracking-tight text-white">Comments ({comments.length})</h2>
 

@@ -78,7 +78,7 @@ export default function AboutPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }} />
       <AboutClient />
       <section className="py-20 bg-[#090909] border-t border-white/[0.04]">
-        <div className="container max-w-[1920px] px-4 sm:px-6">
+        <div className="container max-w-[1920px]">
           <div className="text-center max-w-2xl mx-auto mb-12">
             <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-white mb-4">Clients We Serve Worldwide</h2>
             <p className="text-[#999] text-base">
@@ -98,7 +98,7 @@ export default function AboutPage() {
         </div>
       </section>
       <section className="py-20 bg-[#060606] border-t border-white/[0.04]">
-        <div className="container max-w-[1920px] px-4 sm:px-6">
+        <div className="container max-w-[1920px]">
           <div className="max-w-4xl mx-auto grid sm:grid-cols-[180px_1fr] gap-8 items-center">
             <Image src="/images/zia-shafique.jpg" alt="Zia Shafique, CEO & Founder of Greatodeal" width={180} height={180} className="rounded-2xl border border-white/[0.06]" />
             <div>

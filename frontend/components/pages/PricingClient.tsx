@@ -38,7 +38,7 @@ export default function PricingClient() {
 
       {/* ═══ HERO ═══ */}
       <section className="relative pt-40 pb-16 overflow-hidden">
-        <div className="container max-w-[1920px] relative z-10 px-4 sm:px-6">
+        <div className="container max-w-[1920px] relative z-10">
           <motion.div className="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.2em] text-[#6EE7B7] mb-6" initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
             <Tag className="w-3.5 h-3.5" /> {content.heroBadge}
           </motion.div>
@@ -50,7 +50,7 @@ export default function PricingClient() {
 
       {/* ═══ TIERS ═══ */}
       <section className="relative pb-16">
-        <div className="container max-w-[1920px] px-4 sm:px-6">
+        <div className="container max-w-[1920px]">
           {loading ? (
             <div className="flex justify-center py-16">
               <div className="w-8 h-8 border-4 border-[#6EE7B7] border-t-transparent rounded-full animate-spin" />
@@ -134,7 +134,7 @@ export default function PricingClient() {
           <div className="absolute inset-0">
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[450px] bg-[#6EE7B7]/[0.04] rounded-full blur-[180px]" />
           </div>
-          <div className="container max-w-[1920px] px-4 sm:px-6 relative z-10">
+          <div className="container max-w-[1920px] relative z-10">
             <motion.div className="text-center max-w-3xl mx-auto" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8, ease }}>
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 leading-[1.15] tracking-tight">
                 Not Sure Which{' '}

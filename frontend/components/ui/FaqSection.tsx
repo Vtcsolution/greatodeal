@@ -8,7 +8,7 @@ export default function FaqSection({ title = 'Frequently Asked Questions', faqs 
 
   return (
     <section className="py-20 sm:py-24 bg-[#060606] border-y border-white/[0.04]">
-      <div className="container max-w-[1920px] px-4 sm:px-6">
+      <div className="container max-w-[1920px]">
         <div className="text-center max-w-2xl mx-auto mb-12">
           <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-white">{title}</h2>
         </div>

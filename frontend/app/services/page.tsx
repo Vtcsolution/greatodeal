@@ -97,7 +97,7 @@ export default function Page() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <ServicesClient />
       <section className="py-20 bg-[#090909] border-t border-white/[0.04]">
-        <div className="container max-w-[1920px] px-4 sm:px-6">
+        <div className="container max-w-[1920px]">
           <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-white text-center mb-10">Explore Our Services in Detail</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {servicePages.map(p => (

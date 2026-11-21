@@ -156,7 +156,7 @@ export default function ServicesClient() {
           <motion.div className="absolute bottom-20 -right-40 w-[400px] h-[400px] bg-[#3B82F6]/[0.05] rounded-full blur-[150px]" animate={{ opacity: [1, 0.6, 1] }} transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut' }} />
           <div className="absolute inset-0 bg-[linear-gradient(rgba(110,231,183,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(110,231,183,0.02)_1px,transparent_1px)] bg-[size:72px_72px]" />
         </div>
-        <div className="container max-w-[1920px] relative z-10 text-center px-4 sm:px-6">
+        <div className="container max-w-[1920px] relative z-10 text-center">
           <motion.div className="inline-flex items-center gap-2 px-5 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-full text-base text-[#6EE7B7] mb-8" initial={{ opacity: 0, y: 20 }} animate={heroInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6, delay: 0.2 }}>
             <Sparkles className="w-4 h-4" /><span className="font-medium">{content.heroBadge}</span>
           </motion.div>
@@ -189,7 +189,7 @@ export default function ServicesClient() {
 
       {/* ═══ STATS ═══ */}
       <section className="py-12 border-y border-white/[0.04] bg-[#060606]">
-        <div className="container max-w-[1920px] px-4 sm:px-6 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+        <div className="container max-w-[1920px] grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
           {[
             { target: 9, suffix: '', label: content.statServicesLabel },
             { target: 8, suffix: '', label: content.statIndustriesLabel },
@@ -206,14 +206,14 @@ export default function ServicesClient() {
 
       {/* ═══ FLAGSHIP SERVICES ═══ */}
       <section className="py-20 sm:py-28 bg-[#060606] border-b border-white/[0.04]">
-        <div className="container max-w-[1920px] px-4 sm:px-6 space-y-24 sm:space-y-32">
+        <div className="container max-w-[1920px] space-y-24 sm:space-y-32">
           {primaryServices.map((service, i) => <PrimaryServiceCard key={service.name} service={service} index={i} />)}
         </div>
       </section>
 
       {/* ═══ ALL SERVICES ═══ */}
       <section className="py-20 sm:py-28 bg-[#090909]">
-        <div className="container max-w-[1920px] px-4 sm:px-6">
+        <div className="container max-w-[1920px]">
           <motion.div className="text-center max-w-2xl mx-auto mb-14 sm:mb-16" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, ease }}>
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider mb-5 bg-white/[0.04] border border-white/[0.08] text-white/60">The Full Stack</div>
             <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-white">{content.allServicesTitle}</h2>
@@ -248,7 +248,7 @@ export default function ServicesClient() {
 
       {/* ═══ HOW WE WORK ═══ */}
       <section className="py-20 sm:py-28 bg-[#060606] border-y border-white/[0.04]">
-        <div className="container max-w-[1920px] px-4 sm:px-6">
+        <div className="container max-w-[1920px]">
           <motion.div className="text-center max-w-2xl mx-auto mb-16 sm:mb-20" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, ease }}>
             <h2 className="text-3xl sm:text-4xl font-bold mb-4 tracking-tight text-white">{content.howWeWorkTitle}</h2>
             <p className="text-white/70 text-base sm:text-lg leading-relaxed">{content.howWeWorkSubtitle}</p>
@@ -278,7 +278,7 @@ export default function ServicesClient() {
 
       {/* ═══ TECH STACK ═══ */}
       <section className="py-20 sm:py-28 bg-[#090909]">
-        <div className="container max-w-[1920px] px-4 sm:px-6">
+        <div className="container max-w-[1920px]">
           <motion.div className="text-center max-w-2xl mx-auto mb-14 sm:mb-16" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, ease }}>
             <h2 className="text-3xl sm:text-4xl font-bold mb-4 tracking-tight text-white">{content.techTitle}</h2>
             <p className="text-white/70 text-base sm:text-lg leading-relaxed">{content.techSubtitle}</p>
@@ -304,7 +304,7 @@ export default function ServicesClient() {
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[450px] bg-[#6EE7B7]/[0.04] rounded-full blur-[180px]" />
           <div className="absolute inset-0 bg-[linear-gradient(rgba(110,231,183,0.015)_1px,transparent_1px),linear-gradient(90deg,rgba(110,231,183,0.015)_1px,transparent_1px)] bg-[size:60px_60px]" />
         </div>
-        <div className="container max-w-[1920px] px-4 sm:px-6 relative z-10">
+        <div className="container max-w-[1920px] relative z-10">
           <motion.div className="text-center max-w-3xl mx-auto" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8, ease }}>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 leading-[1.15] tracking-tight">
               {finalCtaTitleEdited ? content.finalCtaTitle : (

@@ -117,7 +117,7 @@ export default function PortfolioClient() {
   return (
     <div className="min-h-screen bg-[#090909] text-white overflow-x-hidden">
       <section className="relative pt-32 pb-20">
-        <div className="container max-w-[1920px] px-4 sm:px-6">
+        <div className="container max-w-[1920px]">
           <motion.div className="text-center max-w-2xl mx-auto mb-10" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
             <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-white/[0.04] border border-white/[0.08] rounded-full text-sm text-[#6EE7B7] mb-5">
               <Briefcase className="w-3.5 h-3.5" /><span className="font-medium">{content.heroBadge}</span>

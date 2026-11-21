@@ -81,7 +81,7 @@ export default function PortfolioDetailClient() {
 
   return (
     <div className="min-h-screen bg-[#090909] text-white pt-28 pb-24">
-      <div className="container max-w-[1920px] px-4 sm:px-6">
+      <div className="container max-w-[1920px]">
        <div className="max-w-[1600px] mx-auto">
         {/* Breadcrumb + pagination */}
         <div className="flex items-center justify-between gap-4 mb-6">

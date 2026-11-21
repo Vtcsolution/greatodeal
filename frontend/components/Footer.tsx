@@ -90,7 +90,7 @@ const socials = [
 export default function Footer() {
   return (
     <footer className="relative z-20 bg-[#060606] text-white/90" itemScope itemType="https://schema.org/Organization">
-      <div className="container max-w-[1920px] py-14 sm:py-16 px-4 sm:px-6">
+      <div className="container max-w-[1920px] py-14 sm:py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 sm:gap-8">
           {/* Brand */}
           <div className="space-y-5">
