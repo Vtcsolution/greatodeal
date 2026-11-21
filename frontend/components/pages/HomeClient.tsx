@@ -1,99 +1,106 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import dynamic from 'next/dynamic';
 import { motion, useInView } from 'framer-motion';
 import {
-  Database, CheckCircle, ArrowRight,
-  Zap, Cpu, Shield, Users, Rocket, Lightbulb, Clock,
-  TrendingUp, Layers, Play, Landmark, Activity, Banknote, Leaf, Home, Bot,
-  Sparkles, Building2, Search, Briefcase, ShoppingCart,
+  CheckCircle, ArrowRight, ArrowUpRight, Star, Globe2, CalendarCheck, PhoneCall, MessageSquare,
+  Database, Workflow, LineChart, RefreshCw, Landmark, Activity, Banknote, Leaf, Home, Bot,
+  Sparkles, Briefcase, ShoppingCart, Search, Brain, Target, Map as MapIcon, Rocket, Lightbulb, Mail,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { usePageContent } from '@/hooks/usePageContent';
+import { servicePages } from '@/lib/servicePages';
+import { markets } from '@/lib/markets';
+import { founder } from '@/lib/founder';
+import { getImageUrl } from '@/lib/api';
 
 const HOME_CONTENT_DEFAULTS = {
-  heroBadge: 'AI Automation Agency',
-  heroTitle: 'Build the AI system your business deserves.',
-  heroSubtitle: 'We build AI SaaS and agentic automation for government, healthcare, and other regulated industries, with compliance, security, and auditability engineered in from day one, not bolted on after a breach. We hold every system we ship to that same standard, whether the client is down the street or on the other side of the world.',
-  ctaText: 'Get Free Analysis',
-  statAuditLabel: 'Audit-trail coverage',
-  statIndustriesLabel: 'Industries served',
-  statCostLabel: 'Operational cost saved',
+  heroBadge: 'AI Automation Agency · Since 2020',
+  heroTitle: 'We build AI agents that do the work your team shouldn’t have to.',
+  heroSubtitle: 'Greatodeal is an AI automation agency and custom software company. We automate your calls, leads, follow-ups, data entry and reporting with AI agents, AI voice agents, chatbots and custom software, so your team can focus on growth. Trusted by businesses in the USA, UK, Europe and the Middle East.',
+  ctaText: 'Book a Free Consultation',
   whatWeBuildTitle: 'What We Build',
-  whatWeBuildSubtitle: 'Product capabilities, not a service-line menu, built for institutions that answer to regulators and auditors.',
+  whatWeBuildSubtitle: 'One team for the AI automation and the software behind it, from a single AI agent to a complete SaaS platform.',
+  workTitle: 'Real Projects. Real Results.',
+  processTitle: 'How We Work',
   industriesTitle: 'Industries We Serve',
-  whyUsTitle: 'Why Choose Us',
-  techStackTitle: 'Our Technology Stack',
-  techStackSubtitle: 'We work with a wide range of technologies to deliver the best solutions for your business needs.',
-  finalCtaTitle: 'Partner with Greatodeal for Your Next Project',
-  finalCtaButtonText: 'Request a Demo',
+  whyUsTitle: 'Why Businesses Choose Greatodeal',
+  finalCtaTitle: 'Tell us what’s slowing your business down.',
+  finalCtaSubtitle: 'In a free 30-minute consultation we map your workflow, find the real pain points, and show you exactly what to automate first, with a clear roadmap, timeline and price. No obligation.',
+  finalCtaButtonText: 'Book a Free Consultation',
 };
 
 const ParticleSphere = dynamic(() => import('@/components/ui/ParticleSphere'), { ssr: false });
 
-const heroStats: Array<{ icon: LucideIcon; value: string; labelKey: keyof typeof HOME_CONTENT_DEFAULTS }> = [
-  { icon: Shield, value: '100%', labelKey: 'statAuditLabel' },
-  { icon: Building2, value: '8', labelKey: 'statIndustriesLabel' },
-  { icon: TrendingUp, value: '60%+', labelKey: 'statCostLabel' },
-];
-
 const ease = [0.25, 0.1, 0.25, 1] as const;
-const mockupLabels = ['workflow.agent', 'access_log.audit', 'dashboard.gov', 'pipeline.sync'];
+const WHATSAPP_URL = 'https://wa.me/923011060841';
 
 /* ═══ DATA ═══ */
 
-const whatWeBuild = [
-  { icon: Cpu, title: 'Agentic AI Platforms', accent: '#6EE7B7', description: 'Autonomous agents that execute multi-step operational workflows inside the guardrails your industry requires, not generic chatbots.', features: ['Multi-step task automation with human-in-the-loop review', 'Explainable, evidence-backed AI decisions', 'Integration with existing case-management & records systems', 'Continuous monitoring and rollback controls'] },
-  { icon: Shield, title: 'Compliance-Grade Infrastructure', accent: '#60A5FA', description: 'Security, audit logging, and access control built into the architecture from the start, engineered to satisfy regulatory review, not just pass a demo.', features: ['Immutable audit trails on every automated action', 'Zero-trust access control & encryption at rest and in transit', 'Compliance reporting mapped to your regulatory framework', 'HIPAA / PCI DSS / FOIA-aligned data handling'] },
-  { icon: Database, title: 'Industry-Specific SaaS', accent: '#A78BFA', description: 'Purpose-built platforms for government, healthcare, fintech, green tech, and real estate operations, not a generic template stretched to fit.', features: ['Multi-tenant, API-first architecture', 'Interoperability with legacy systems (HL7/FHIR, SCADA, core banking)', 'Role-based access for regulated user hierarchies', 'Built for audit, not just uptime'] },
-  { icon: Layers, title: 'Secure Integration & Data Pipelines', accent: '#FB923C', description: 'API and data infrastructure that keeps sensitive records compliant end-to-end, connecting the systems your institution already depends on.', features: ['Secure API development & third-party integration', 'Consent-aware data sharing between systems', 'Cloud-native, scalable infrastructure on AWS, Azure, GCP', 'CI/CD with security review gates'] },
+const trustPoints: Array<{ icon: LucideIcon; text: string }> = [
+  { icon: Star, text: '5.0 rating on Google' },
+  { icon: CalendarCheck, text: 'Building AI & software since 2020' },
+  { icon: Globe2, text: 'Clients in 6 countries' },
+];
+
+const painPoints: Array<{ icon: LucideIcon; pain: string; fix: string }> = [
+  { icon: MessageSquare, pain: 'Leads go cold because nobody followed up in time.', fix: 'AI follow-ups on WhatsApp, email and SMS that run until the lead replies.' },
+  { icon: PhoneCall, pain: 'Hours lost listening back to sales calls.', fix: 'Every call transcribed, summarized and scored by AI, with hot leads flagged instantly.' },
+  { icon: Bot, pain: 'Calls and chats after hours go unanswered.', fix: 'AI voice agents and chatbots that answer, qualify and book appointments 24/7.' },
+  { icon: Database, pain: 'Data copied between tools by hand.', fix: 'Your CRM, email, calendar and apps connected into one automated workflow.' },
+  { icon: LineChart, pain: 'Reports rebuilt in spreadsheets every week.', fix: 'Live dashboards that show what is happening right now, not last month.' },
+  { icon: RefreshCw, pain: 'Old software that is slow and hard to change.', fix: 'A modern, scalable rebuild with AI built in, without stopping your operations.' },
+];
+
+const caseStudies: Array<{ id: string; title: string; market: string; result: string; tags: string[] }> = [
+  { id: '6a984ba6a6cc6374a91338bf', title: 'Omnira Valet: AI Call Intelligence CRM', market: 'Saudi Arabia', result: 'Every sales call is transcribed, summarized and lead-scored by AI. Hot leads trigger instant alerts and follow-ups run on autopilot, cutting the gap from call to next action from hours to minutes.', tags: ['AI Voice & Calls', 'CRM', 'Automation'] },
+  { id: '6a894f15e4e8d631e90c3bc5', title: 'Sambid: AI Government Contracting SaaS', market: 'United States', result: 'US federal contractors find SAM.gov opportunities, score their fit and draft proposals and capability statements with AI, replacing days of manual research.', tags: ['AI SaaS', 'GovTech', 'OpenAI'] },
+  { id: '6ab3798886a2e724501633ad', title: 'TryOnU: AI Virtual Try-On Platform', market: 'Global', result: 'Shoppers try clothes, shoes and watches on their own photo with AI, then buy from Amazon, eBay, AliExpress, Flipkart, Daraz and local stores.', tags: ['Generative AI', 'E-Commerce', 'SaaS'] },
+  { id: '6a98214f351a05723e730385', title: 'Lead Finder: AI Lead Generation CRM', market: 'Global', result: 'Finds companies by industry and city, imports them into the CRM in one click, drafts outreach with GPT and follows up automatically until they reply.', tags: ['AI Agents', 'Lead Generation', 'CRM'] },
+];
+
+const processSteps: Array<{ icon: LucideIcon; title: string; desc: string }> = [
+  { icon: Search, title: 'Understand', desc: 'We learn how your business actually runs and build on the idea you already have.' },
+  { icon: Brain, title: 'Think Critically', desc: 'We question what really needs to change, instead of automating a broken process.' },
+  { icon: LineChart, title: 'Analyze', desc: 'We study your data, tools and workflows to see where time and money are lost.' },
+  { icon: Target, title: 'Find the Pain Points', desc: 'We pinpoint the few problems that, once solved, make the biggest difference.' },
+  { icon: MapIcon, title: 'Complete Roadmap', desc: 'You get a clear plan with scope, timeline and price before any code is written.' },
+  { icon: Rocket, title: 'Build & Support', desc: 'We build in short sprints with demos, launch, and keep improving after go-live.' },
 ];
 
 const industries: Array<{ name: string; icon: LucideIcon; color: string; desc: string; path: string }> = [
-  { name: 'Government', icon: Landmark, color: 'text-emerald-300', desc: 'Citizen services automation with audit-ready, explainable AI decisions.', path: '/industries/government' },
-  { name: 'Healthcare', icon: Activity, color: 'text-rose-400', desc: 'HIPAA-compliant clinical and operational AI for providers and payers.', path: '/industries/healthcare' },
-  { name: 'Fintech', icon: Banknote, color: 'text-blue-400', desc: 'KYC/AML automation and auditable transaction infrastructure.', path: '/industries/fintech' },
-  { name: 'Green Tech', icon: Leaf, color: 'text-lime-400', desc: 'Smart grid monitoring and automated emissions compliance reporting.', path: '/industries/green-tech' },
-  { name: 'Real Estate', icon: Home, color: 'text-cyan-400', desc: 'Automated disclosure compliance and auditable transaction data.', path: '/industries/real-estate' },
-  { name: 'AI Automation', icon: Bot, color: 'text-violet-400', desc: 'Agentic workflow automation that connects scattered tools into one system.', path: '/industries/ai-automation' },
-  { name: 'Business Services', icon: Briefcase, color: 'text-amber-400', desc: 'Client onboarding, billing, and operational workflow automation.', path: '/industries/business' },
-  { name: 'E-Commerce', icon: ShoppingCart, color: 'text-pink-400', desc: 'Inventory, order, and fulfillment automation for online retail.', path: '/industries/ecommerce' },
+  { name: 'Healthcare', icon: Activity, color: 'text-rose-400', desc: 'AI receptionists, patient booking and HIPAA-aware automation.', path: '/industries/healthcare' },
+  { name: 'Real Estate', icon: Home, color: 'text-cyan-400', desc: 'Lead follow-up, property inquiries and deal tracking on autopilot.', path: '/industries/real-estate' },
+  { name: 'Fintech', icon: Banknote, color: 'text-blue-400', desc: 'KYC automation, fraud signals and auditable transaction systems.', path: '/industries/fintech' },
+  { name: 'Government', icon: Landmark, color: 'text-emerald-300', desc: 'GovTech platforms and contracting tools with audit-ready AI.', path: '/industries/government' },
+  { name: 'E-Commerce', icon: ShoppingCart, color: 'text-pink-400', desc: 'Abandoned-cart recovery, order automation and AI shopping tools.', path: '/industries/ecommerce' },
+  { name: 'Business Services', icon: Briefcase, color: 'text-amber-400', desc: 'Client onboarding, billing and operations workflows automated.', path: '/industries/business' },
+  { name: 'Green Tech', icon: Leaf, color: 'text-lime-400', desc: 'Monitoring dashboards and automated compliance reporting.', path: '/industries/green-tech' },
+  { name: 'AI Automation', icon: Workflow, color: 'text-violet-400', desc: 'Agentic workflows that connect scattered tools into one system.', path: '/industries/ai-automation' },
 ];
 
-const whyUs: Array<{ icon: LucideIcon; title: string; description: string }> = [
-  { icon: Shield, title: 'Compliance by Design', description: 'Audit trails, access control, and regulatory alignment are built into the architecture from day one, not retrofitted after a review flags them.' },
-  { icon: Lightbulb, title: 'Client-First Approach', description: 'We place client satisfaction at the heart of everything we do, ensuring transparent communication, timely delivery, and measurable results.' },
-  { icon: Zap, title: 'Agentic, Not Generic', description: 'We build autonomous agents that execute real operational workflows within your guardrails, not chatbots wrapped around a generic model.' },
-  { icon: Users, title: 'Trusted Partnerships', description: 'We build long-term partnerships, offering ongoing support and maintenance so your systems remain secure, reliable, and up to date.' },
-  { icon: Clock, title: 'Security & Reliability', description: 'We follow strict development standards and best practices to ensure your data is always safe and your systems are always reliable.' },
-  { icon: Rocket, title: 'Proven Track Record', description: 'With a high client retention rate and successful projects across regulated industries, we deliver results institutions can stand behind.' },
+const whyUs: Array<{ title: string; desc: string }> = [
+  { title: 'Business first, code second', desc: 'We start with your goals and pain points, not with a tech stack.' },
+  { title: 'Real AI systems, not chatbot wrappers', desc: 'Agents that take action in your CRM, inbox and tools, with human review where it matters.' },
+  { title: 'Clear scope, timeline and price', desc: 'You know exactly what you get and what it costs before we start.' },
+  { title: 'Secure and compliance-ready', desc: 'Access control, audit logs and HIPAA/GDPR-aware data handling built in.' },
+  { title: 'You own 100% of the code', desc: 'All source code, designs and documentation are yours.' },
+  { title: 'Support after launch', desc: 'Monitoring, improvements and new features as your business grows.' },
 ];
 
-const techCategories = [
-  { label: 'Languages', items: ['Java', 'Python', '.NET', 'JavaScript', 'PHP', 'Ruby'] },
-  { label: 'Mobile & Native', items: ['Swift', 'Kotlin', 'Golang', 'Node.js', 'CSS', 'HTML5'] },
-  { label: 'Cloud & DevOps', items: ['AWS', 'Azure', 'GCP', 'Docker', 'Kubernetes', 'Terraform'] },
-  { label: 'AI & Data', items: ['TensorFlow', 'PyTorch', 'OpenAI', 'LangChain', 'MongoDB', 'PostgreSQL'] },
-];
+const techStack = ['OpenAI', 'Anthropic Claude', 'LangChain', 'n8n', 'Python', 'Node.js', 'Next.js', 'React', 'React Native', 'TypeScript', 'MongoDB', 'PostgreSQL', 'Twilio', 'WhatsApp API', 'AWS', 'Docker'];
 
-const marqueeItems = [
-  'Website Development', 'AI Agents', 'B2B Platforms', 'SaaS Development',
-  'Agentic Automation', 'ERP Systems', 'AI Tools', 'Custom Software',
-];
+const marqueeItems = ['AI Agents', 'AI Voice Agents', 'AI Chatbots', 'Workflow Automation', 'Custom Software', 'SaaS Development', 'CRM & ERP', 'Mobile Apps'];
 
 /* ═══ HELPERS ═══ */
 
 function MarqueeStrip() {
   return (
     <div className="relative py-10 sm:py-14 border-y border-white/[0.08] overflow-hidden bg-[#090909]">
-      <motion.div
-        className="flex items-center gap-8 sm:gap-12 whitespace-nowrap w-max"
-        animate={{ x: ['0%', '-50%'] }}
-        transition={{ duration: 26, repeat: Infinity, ease: 'linear' }}
-      >
+      <motion.div className="flex items-center gap-8 sm:gap-12 whitespace-nowrap w-max" animate={{ x: ['0%', '-50%'] }} transition={{ duration: 26, repeat: Infinity, ease: 'linear' }}>
         {[...marqueeItems, ...marqueeItems].map((item, i) => (
           <span key={i} className="flex items-center gap-8 sm:gap-12 shrink-0">
             <span className="font-serif italic text-3xl sm:text-5xl text-[#F5F0E6]">{item}</span>
@@ -115,116 +122,37 @@ function SplitText({ text, delay = 0, className = '' }: { text: string; delay?: 
   return (<span className={className}>{text.split(' ').map((word, i) => (<span key={i} className="inline-block overflow-hidden"><motion.span className="inline-block" initial={{ y: '100%', opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.6, delay: delay + i * 0.04, ease: [0.33, 1, 0.68, 1] }}>{word}&nbsp;</motion.span></span>))}</span>);
 }
 
-function FeatureVisual({ index, accent }: { index: number; accent: string }) {
-  if (index === 0) {
-    const steps = ['Case intake received', 'Compliance check (automated)', 'Agent recommendation drafted', 'Human review & approval'];
-    return (
-      <div className="p-6 sm:p-7 space-y-4">
-        {steps.map((step, i) => (
-          <div key={i} className="flex items-center gap-3">
-            <div className="w-7 h-7 rounded-full flex items-center justify-center shrink-0" style={{ backgroundColor: accent + '20', color: accent }}>
-              {i < 2 ? <CheckCircle className="w-4 h-4" /> : <div className="w-2 h-2 rounded-full" style={{ background: accent }} />}
-            </div>
-            <span className={`text-sm ${i < 2 ? 'text-white/70' : 'text-white/40'}`}>{step}</span>
-          </div>
-        ))}
-      </div>
-    );
-  }
-  if (index === 1) {
-    const rows = [{ u: 'agent.svc', a: 'Read case #4471' }, { u: 'reviewer.k', a: 'Approved decision' }, { u: 'system', a: 'Audit entry written' }];
-    return (
-      <div className="p-6 sm:p-7 space-y-3">
-        <div className="flex items-center justify-between mb-1">
-          <span className="text-xs text-white/40 uppercase tracking-wider">Access Log</span>
-          <span className="px-2.5 py-1 rounded-full text-[11px] font-semibold" style={{ backgroundColor: accent + '15', color: accent }}>Zero-Trust</span>
-        </div>
-        {rows.map((row, i) => (
-          <div key={i} className="flex items-center justify-between gap-3 px-3 py-2.5 rounded-lg bg-[#090909] border border-white/[0.05]">
-            <span className="text-xs text-white/60 font-mono">{row.u}</span>
-            <span className="text-xs text-white/40 flex-1 text-right">{row.a}</span>
-            <CheckCircle className="w-3.5 h-3.5 shrink-0" style={{ color: accent }} />
-          </div>
-        ))}
-      </div>
-    );
-  }
-  if (index === 2) {
-    const bars = [40, 65, 45, 80, 55, 90, 70];
-    return (
-      <div className="p-6 sm:p-7">
-        <div className="grid grid-cols-2 gap-3 mb-5">
-          <div className="p-4 rounded-xl bg-[#090909] border border-white/[0.06]">
-            <div className="text-2xl font-bold text-white">1,204</div>
-            <div className="text-xs text-white/40 mt-1">Cases Processed</div>
-          </div>
-          <div className="p-4 rounded-xl bg-[#090909] border border-white/[0.06]">
-            <div className="text-2xl font-bold" style={{ color: accent }}>100%</div>
-            <div className="text-xs text-white/40 mt-1">Audit Coverage</div>
-          </div>
-        </div>
-        <div className="flex items-end gap-1.5 h-16">
-          {bars.map((h, i) => (<div key={i} className="flex-1 rounded-t-sm" style={{ height: `${h}%`, backgroundColor: accent + '40' }} />))}
-        </div>
-      </div>
-    );
-  }
-  const satellites: Array<{ Icon: LucideIcon; pos: string }> = [
-    { Icon: Landmark, pos: 'top-0 left-6' },
-    { Icon: Activity, pos: 'top-0 right-6' },
-    { Icon: Banknote, pos: 'bottom-0 left-1/2 -translate-x-1/2' },
-  ];
+function SectionHeading({ eyebrow, title, subtitle }: { eyebrow: string; title: string; subtitle?: React.ReactNode }) {
   return (
-    <div className="p-8">
-      <div className="relative h-40 flex items-center justify-center">
-        <div className="w-16 h-16 rounded-2xl flex items-center justify-center z-10" style={{ backgroundColor: accent + '15', border: `1px solid ${accent}40` }}>
-          <Layers className="w-7 h-7" style={{ color: accent }} />
-        </div>
-        {satellites.map(({ Icon, pos }, i) => (
-          <div key={i} className={`absolute ${pos} w-11 h-11 rounded-xl bg-[#090909] border border-white/[0.08] flex items-center justify-center`}><Icon className="w-5 h-5 text-white/50" /></div>
-        ))}
-      </div>
-    </div>
+    <RevealText className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
+      <p className="text-xs font-semibold tracking-[0.2em] uppercase text-[#6EE7B7] mb-4">{eyebrow}</p>
+      <h2 className="text-3xl sm:text-4xl lg:text-[2.75rem] font-bold tracking-tight text-white mb-4">{title}</h2>
+      {subtitle && <p className="text-white/75 text-base sm:text-lg leading-relaxed">{subtitle}</p>}
+    </RevealText>
+  );
+}
+
+function SecondaryButton({ href, children }: { href: string; children: React.ReactNode }) {
+  return (
+    <Link href={href} className="px-8 py-4 border border-white/[0.1] text-white rounded-xl font-bold text-[15px] hover:border-[#6EE7B7]/30 hover:bg-[#6EE7B7]/[0.03] transition-all duration-700 flex items-center justify-center gap-2">
+      {children}
+    </Link>
   );
 }
 
 /* ═══ HOME ═══ */
 
-export default function HomeClient() {
-  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
-  const [isDesktop, setIsDesktop] = useState(false);
-  const [analyseQuery, setAnalyseQuery] = useState('');
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const router = useRouter();
+export default function HomeClient({ projectImages = {} }: { projectImages?: Record<string, string> }) {
   const content = usePageContent('home', HOME_CONTENT_DEFAULTS);
   const heroTitleEdited = content.heroTitle !== HOME_CONTENT_DEFAULTS.heroTitle;
-
-  useEffect(() => {
-    setIsDesktop(window.innerWidth >= 768);
-  }, []);
-
-  const handleAnalyseSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    router.push('/contact');
-  };
-
-  const handlePlayVideo = () => {
-    if (videoRef.current) {
-      if (isVideoPlaying) { videoRef.current.pause(); setIsVideoPlaying(false); }
-      else { videoRef.current.play(); setIsVideoPlaying(true); }
-    }
-  };
 
   return (
     <div className="min-h-screen bg-[#090909] text-white/90 overflow-x-hidden">
 
-      {/* ═══ HERO ═══ */}
+      {/* ═══ HERO: the whole message in one screen ═══ */}
       <section className="relative min-h-screen flex items-start overflow-hidden">
-        <div className="absolute inset-0 z-0">
-          <div className="absolute inset-0 bg-gradient-to-b from-[#090909]/60 via-transparent to-[#090909]" />
-        </div>
-
-        <motion.div className="container max-w-[1920px] relative z-10 pt-24 sm:pt-28 pb-20 px-4 sm:px-6">
+        <div className="absolute inset-0 z-0"><div className="absolute inset-0 bg-gradient-to-b from-[#090909]/60 via-transparent to-[#090909]" /></div>
+        <div className="container max-w-[1920px] relative z-10 pt-24 sm:pt-28 pb-20 px-4 sm:px-6">
           <div className="grid lg:grid-cols-2 gap-14 lg:gap-20 items-center">
             <div className="space-y-8">
               <motion.div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#6EE7B7]/20 bg-[#6EE7B7]/[0.06]" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.1, ease }}>
@@ -233,214 +161,87 @@ export default function HomeClient() {
               </motion.div>
 
               <div className="space-y-5">
-                <h1 className="text-4xl sm:text-6xl lg:text-[4.25rem] font-extrabold leading-[1.15] tracking-tight text-white">
+                <h1 className="text-4xl sm:text-6xl lg:text-[4rem] font-extrabold leading-[1.12] tracking-tight text-white">
                   {heroTitleEdited ? (
-                    <SplitText text={content.heroTitle} delay={0.4} />
+                    <SplitText text={content.heroTitle} delay={0.3} />
                   ) : (
                     <>
-                      <SplitText text="Build the" delay={0.4} />{' '}
-                      <SplitText
-                        text="AI system"
-                        delay={0.6}
-                        className="bg-gradient-to-r from-[#6EE7B7] via-[#34D399] to-[#3B82F6] bg-clip-text text-transparent"
-                      />{' '}
-                      <SplitText text="your business deserves." delay={0.8} />
+                      <SplitText text="We build" delay={0.3} />{' '}
+                      <SplitText text="AI agents" delay={0.45} className="bg-gradient-to-r from-[#6EE7B7] via-[#34D399] to-[#3B82F6] bg-clip-text text-transparent" />{' '}
+                      <SplitText text="that do the work your team shouldn’t have to." delay={0.6} />
                     </>
                   )}
                 </h1>
-                <motion.p className="text-base sm:text-lg text-white/80 max-w-lg leading-[1.8]" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.9, ease }}>
+                <motion.p className="text-base sm:text-lg text-white/80 max-w-xl leading-[1.8]" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.9, ease }}>
                   {content.heroSubtitle}
                 </motion.p>
               </div>
 
-              <motion.form onSubmit={handleAnalyseSubmit} className="flex flex-col sm:flex-row items-stretch gap-3 max-w-lg p-2 rounded-2xl bg-white/[0.03] border border-white/[0.08] backdrop-blur-sm" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 1, ease }}>
-                <div className="flex items-center gap-2.5 flex-1 px-3">
-                  <Search className="w-4 h-4 text-white/30 shrink-0" />
-                  <input
-                    type="text"
-                    value={analyseQuery}
-                    onChange={e => setAnalyseQuery(e.target.value)}
-                    placeholder="What does your business need automated?"
-                    className="w-full bg-transparent text-sm text-white placeholder-white/35 outline-none py-2.5"
-                  />
-                </div>
-                <button type="submit" className="btn-primary shrink-0 justify-center">
-                  {content.ctaText} <ArrowRight className="w-4 h-4" />
-                </button>
-              </motion.form>
-
-              <motion.div className="flex flex-wrap gap-x-8 gap-y-5 pt-2" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 1.1, ease }}>
-                {heroStats.map((stat, i) => {
-                  const Icon = stat.icon;
-                  return (
-                    <div key={i} className="flex items-center gap-3">
-                      <div className="w-9 h-9 rounded-lg bg-[#6EE7B7]/10 border border-[#6EE7B7]/15 flex items-center justify-center shrink-0">
-                        <Icon className="w-4 h-4 text-[#6EE7B7]" />
-                      </div>
-                      <div>
-                        <div className="text-lg font-bold text-white leading-none">{stat.value}</div>
-                        <div className="text-xs text-white/45 mt-1">{content[stat.labelKey]}</div>
-                      </div>
-                    </div>
-                  );
-                })}
+              <motion.div className="flex flex-col sm:flex-row gap-4" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 1, ease }}>
+                <Link href="/contact" className="btn-primary group justify-center">
+                  {content.ctaText} <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-500" />
+                </Link>
+                <SecondaryButton href="#work">See Real Projects</SecondaryButton>
               </motion.div>
+
+              <motion.ul className="flex flex-wrap gap-x-7 gap-y-3 pt-1" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 1.1, ease }}>
+                {trustPoints.map(({ icon: Icon, text }) => (
+                  <li key={text} className="flex items-center gap-2 text-sm text-white/70">
+                    <Icon className="w-4 h-4 text-[#6EE7B7]" /> {text}
+                  </li>
+                ))}
+              </motion.ul>
             </div>
 
-            {/* Particle sphere */}
             <motion.div className="relative hidden lg:block" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 1, delay: 0.5, ease }}>
               <ParticleSphere />
-
-              <motion.div className="hidden sm:block absolute left-0 top-[8%] px-4 py-3 bg-[#0D0D0D]/90 border border-white/[0.08] rounded-xl shadow-xl backdrop-blur-md" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0, y: [0, -8, 0] }} transition={{ opacity: { delay: 1.5, duration: 0.6 }, y: { delay: 2, duration: 4, repeat: Infinity, ease: 'easeInOut' } }}>
-                <div className="flex items-center gap-3"><div className="w-9 h-9 rounded-lg bg-[#6EE7B7]/10 flex items-center justify-center"><Shield className="w-4 h-4 text-[#6EE7B7]" /></div><div><div className="text-sm font-bold text-white">100% Audit Coverage</div><div className="text-xs text-white/40">Every action logged</div></div></div>
+              <motion.div className="absolute left-0 top-[8%] px-4 py-3 bg-[#0D0D0D]/90 border border-white/[0.08] rounded-xl shadow-xl backdrop-blur-md" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0, y: [0, -8, 0] }} transition={{ opacity: { delay: 1.5, duration: 0.6 }, y: { delay: 2, duration: 4, repeat: Infinity, ease: 'easeInOut' } }}>
+                <div className="flex items-center gap-3"><div className="w-9 h-9 rounded-lg bg-[#6EE7B7]/10 flex items-center justify-center"><PhoneCall className="w-4 h-4 text-[#6EE7B7]" /></div><div><div className="text-sm font-bold text-white">Call summarized by AI</div><div className="text-xs text-white/40">Intent: high · Budget: confirmed</div></div></div>
               </motion.div>
-              <motion.div className="hidden sm:block absolute right-0 bottom-[10%] px-4 py-3 bg-[#0D0D0D]/90 border border-white/[0.08] rounded-xl shadow-xl backdrop-blur-md" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0, y: [0, 8, 0] }} transition={{ opacity: { delay: 1.8, duration: 0.6 }, y: { delay: 2.5, duration: 5, repeat: Infinity, ease: 'easeInOut' } }}>
-                <div className="flex items-center gap-3"><div className="w-9 h-9 rounded-lg bg-[#3B82F6]/10 flex items-center justify-center"><TrendingUp className="w-4 h-4 text-[#3B82F6]" /></div><div><div className="text-sm font-bold text-white">60%+ Cost Saved</div><div className="text-xs text-white/40">Through automation</div></div></div>
+              <motion.div className="absolute right-0 bottom-[10%] px-4 py-3 bg-[#0D0D0D]/90 border border-white/[0.08] rounded-xl shadow-xl backdrop-blur-md" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0, y: [0, 8, 0] }} transition={{ opacity: { delay: 1.8, duration: 0.6 }, y: { delay: 2.5, duration: 5, repeat: Infinity, ease: 'easeInOut' } }}>
+                <div className="flex items-center gap-3"><div className="w-9 h-9 rounded-lg bg-[#3B82F6]/10 flex items-center justify-center"><MessageSquare className="w-4 h-4 text-[#3B82F6]" /></div><div><div className="text-sm font-bold text-white">WhatsApp follow-up sent</div><div className="text-xs text-white/40">Hot lead · 2 minutes after the call</div></div></div>
               </motion.div>
-              <motion.div className="hidden sm:block absolute right-4 top-0 px-4 py-2.5 bg-[#0D0D0D]/90 border border-white/[0.08] rounded-xl shadow-xl backdrop-blur-md max-w-[220px]" initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 2.1, duration: 0.6 }}>
-                <div className="flex items-center gap-2.5">
-                  <div className="w-8 h-8 rounded-lg bg-[#6EE7B7]/10 flex items-center justify-center shrink-0"><Cpu className="w-4 h-4 text-[#6EE7B7]" /></div>
-                  <span className="text-xs text-white/70 leading-tight">Agent verifying case #4471</span>
-                </div>
+              <motion.div className="absolute right-4 top-0 px-4 py-2.5 bg-[#0D0D0D]/90 border border-white/[0.08] rounded-xl shadow-xl backdrop-blur-md max-w-[230px]" initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 2.1, duration: 0.6 }}>
+                <div className="flex items-center gap-2.5"><div className="w-8 h-8 rounded-lg bg-[#6EE7B7]/10 flex items-center justify-center shrink-0"><Database className="w-4 h-4 text-[#6EE7B7]" /></div><span className="text-xs text-white/70 leading-tight">CRM updated automatically</span></div>
               </motion.div>
             </motion.div>
           </div>
-        </motion.div>
+        </div>
       </section>
 
-      {/* ═══ MARQUEE ═══ */}
       <MarqueeStrip />
 
-      {/* ═══ WHAT WE BUILD ═══ */}
+      {/* ═══ PROBLEM → FIX ═══ */}
       <section className="py-20 sm:py-28 bg-[#090909]">
         <div className="container max-w-[1920px] px-4 sm:px-6">
-          <RevealText className="text-center max-w-2xl mx-auto mb-16 sm:mb-24">
-            <h2 className="text-3xl sm:text-4xl lg:text-[2.75rem] font-bold tracking-tight text-white mb-4">{content.whatWeBuildTitle}</h2>
-            <p className="text-white/80 text-base sm:text-lg leading-relaxed">{content.whatWeBuildSubtitle}</p>
-          </RevealText>
-
-          <div className="space-y-20 sm:space-y-28">
-            {whatWeBuild.map((item, i) => {
-              const Icon = item.icon;
-              const reverse = i % 2 === 1;
-              return (
-                <div key={i} className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
-                  <RevealText className={reverse ? 'lg:order-2' : ''}>
-                    <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-6" style={{ backgroundColor: item.accent + '15' }}>
-                      <Icon className="w-6 h-6" style={{ color: item.accent }} />
-                    </div>
-                    <h3 className="text-2xl sm:text-3xl font-bold text-white mb-4 tracking-tight">{item.title}</h3>
-                    <p className="text-white/80 text-base sm:text-lg leading-relaxed mb-6">{item.description}</p>
-                    <div className="space-y-3 mb-8">
-                      {item.features.map((f, fi) => (
-                        <div key={fi} className="flex items-start gap-2.5">
-                          <CheckCircle className="w-5 h-5 shrink-0 mt-0.5" style={{ color: item.accent }} />
-                          <span className="text-sm sm:text-base text-white/70">{f}</span>
-                        </div>
-                      ))}
-                    </div>
-                    <Link href="/contact" className="inline-flex items-center gap-2 font-semibold text-base group hover:gap-3 transition-all duration-500" style={{ color: item.accent }}>
-                      Request a Demo <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-500" />
-                    </Link>
-                  </RevealText>
-                  <motion.div className={`relative ${reverse ? 'lg:order-1' : ''}`} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7, ease }}>
-                    <div className="absolute -inset-6 rounded-[2rem] blur-[70px] opacity-40" style={{ background: `linear-gradient(135deg, ${item.accent}30, transparent)` }} />
-                    <div className="relative bg-[#0D0D0D]/80 backdrop-blur-xl rounded-2xl border border-white/[0.08] overflow-hidden shadow-2xl shadow-black/40">
-                      <div className="flex items-center gap-2 px-5 py-3.5 border-b border-white/[0.06] bg-[#0A0A0A]/80">
-                        <div className="flex gap-1.5"><div className="w-2.5 h-2.5 rounded-full bg-[#FF5F57]" /><div className="w-2.5 h-2.5 rounded-full bg-[#FEBC2E]" /><div className="w-2.5 h-2.5 rounded-full bg-[#28C840]" /></div>
-                        <span className="text-white/30 text-sm ml-3 font-mono">{mockupLabels[i]}</span>
-                      </div>
-                      <FeatureVisual index={i} accent={item.accent} />
-                    </div>
-                  </motion.div>
-                </div>
-              );
-            })}
+          <SectionHeading eyebrow="Sound familiar?" title="Most businesses don’t need more people. They need fewer manual steps." subtitle="These are the problems we solve every week with AI automation and custom software." />
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
+            {painPoints.map(({ icon: Icon, pain, fix }, i) => (
+              <motion.div key={pain} className="bg-white/[0.02] p-6 sm:p-7 rounded-2xl border border-white/[0.05] hover:border-[#6EE7B7]/15 transition-all duration-700" initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.06, duration: 0.5, ease }}>
+                <div className="w-11 h-11 rounded-xl bg-red-500/[0.08] border border-red-500/15 flex items-center justify-center mb-5"><Icon className="w-5 h-5 text-red-300" /></div>
+                <h3 className="text-base sm:text-lg font-bold text-white mb-3">{pain}</h3>
+                <p className="flex items-start gap-2 text-sm sm:text-base text-white/75 leading-relaxed"><CheckCircle className="w-4 h-4 text-[#6EE7B7] shrink-0 mt-1" /> {fix}</p>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* ═══ INDUSTRIES ═══ */}
-      <section className="py-20 sm:py-28 bg-[#090909]">
+      {/* ═══ SERVICES ═══ */}
+      <section className="py-20 sm:py-28 bg-[#060606] border-y border-white/[0.04]">
         <div className="container max-w-[1920px] px-4 sm:px-6">
-          <RevealText className="text-center mb-12 sm:mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold mb-5 tracking-tight text-white">{content.industriesTitle}</h2>
-            <p className="text-white/80 max-w-2xl mx-auto text-base sm:text-lg leading-relaxed">We focus on <Link href="/industries" className="text-[#6EE7B7] hover:underline">eight industries</Link> where compliance, audit, and security aren&apos;t optional.</p>
-          </RevealText>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
-            {industries.map((ind, i) => {
-              const IIcon = ind.icon;
-              return (
-                <Link key={i} href={ind.path} className="group bg-white/[0.03] p-5 sm:p-6 rounded-2xl border border-white/[0.05] hover:border-[#6EE7B7]/20 transition-all duration-500 block">
-                  <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-white/[0.04] flex items-center justify-center mb-4 group-hover:bg-[#6EE7B7]/[0.06] transition-all duration-500"><IIcon className={`w-6 h-6 ${ind.color}`} /></div>
-                  <div className="text-base font-semibold text-white/90 group-hover:text-white transition-colors duration-500 mb-1.5">{ind.name}</div>
-                  <p className="text-sm text-white/60 leading-relaxed mb-3">{ind.desc}</p>
-                  <div className="flex items-center gap-1.5 text-sm font-semibold text-[#6EE7B7] group-hover:gap-2.5 transition-all duration-500">Learn more <ArrowRight className="w-4 h-4" /></div>
-                </Link>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* ═══ WHY CHOOSE US ═══ */}
-      <section className="py-20 sm:py-28 bg-[#060606] relative overflow-hidden">
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-[#6EE7B7]/[0.03] blur-[100px]" />
-          <div className="absolute bottom-1/3 right-1/3 w-96 h-96 rounded-full bg-[#3B82F6]/[0.03] blur-[100px]" />
-        </div>
-        <div className="container max-w-[1920px] px-4 sm:px-6 relative z-10">
-          <RevealText className="mb-12 sm:mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-white">{content.whyUsTitle}</h2>
-          </RevealText>
-
-          <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center mb-16 sm:mb-20">
-            {/* Video Section */}
-            <motion.div className="relative group" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7, ease }}>
-              <div className="bg-white/[0.02] p-2 sm:p-3 rounded-2xl border border-white/[0.06] hover:border-[#6EE7B7]/20 transition-all duration-700 overflow-hidden relative">
-                <div className="aspect-video rounded-xl overflow-hidden relative bg-black">
-                  {isDesktop ? (
-                    <video ref={videoRef} className="w-full h-full object-cover" loop muted playsInline autoPlay preload="none" aria-hidden="true">
-                      <source src="/images/video_home.webm" type="video/webm" />
-                    </video>
-                  ) : (
-                    <div className="w-full h-full bg-gradient-to-br from-[#6EE7B7]/10 to-[#3B82F6]/10" />
-                  )}
-                  <div className={`absolute inset-0 flex items-center justify-center bg-black/30 backdrop-blur-[2px] transition-opacity duration-500 cursor-pointer ${isVideoPlaying ? 'opacity-0 hover:opacity-100' : 'opacity-100'}`} onClick={handlePlayVideo}>
-                    <div className="w-16 h-16 bg-[#6EE7B7] rounded-full flex items-center justify-center shadow-[0_0_30px_rgba(110,231,183,0.3)] hover:scale-110 transition-transform duration-500">
-                      <Play className="w-7 h-7 text-[#090909] ml-0.5" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* Text */}
-            <RevealText delay={0.2}>
-              <h3 className="text-2xl sm:text-3xl font-bold mb-5 tracking-tight text-white">AI Infrastructure for Institutions That Can&apos;t Afford to Get It Wrong</h3>
-              <p className="text-white/80 leading-[1.8] text-base sm:text-lg mb-6">
-                <span className="text-xl sm:text-2xl font-semibold text-[#6EE7B7]">Greatodeal</span> builds AI SaaS and agentic automation for government, healthcare, and other regulated sectors, where a broken audit trail or an unexplainable AI decision is a compliance failure, not just a bug. We combine technical depth with a compliance-first engineering process, so every system we ship is ready for the scrutiny it will face.
-              </p>
-              <p className="text-white/80 leading-[1.8] text-base sm:text-lg mb-6">
-                Based in Lahore, Pakistan, we&apos;ve grown from a <Link href="/about" className="text-[#6EE7B7] hover:underline">local engineering team</Link> into an AI automation agency in Pakistan trusted by institutions that answer to regulators, not just customers. The location hasn&apos;t changed the bar: every system still has to survive the audit it will eventually face.
-              </p>
-              <div className="flex flex-wrap gap-2.5">
-                {['Agentic Automation', 'Compliance-Grade Infrastructure', 'Audit-Ready AI', 'Secure Integrations', 'Cloud & DevOps'].map(tag => (
-                  <span key={tag} className="px-4 py-2 bg-white/[0.04] border border-white/[0.08] rounded-full text-sm text-white/80 hover:text-[#6EE7B7] hover:border-[#6EE7B7]/20 transition-all duration-500 cursor-default">{tag}</span>
-                ))}
-              </div>
-            </RevealText>
-          </div>
-
-          {/* Cards */}
+          <SectionHeading eyebrow="AI automation & software services" title={content.whatWeBuildTitle} subtitle={content.whatWeBuildSubtitle} />
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
-            {whyUs.map((item, i) => {
-              const WIcon = item.icon;
+            {servicePages.map((p, i) => {
+              const Icon = p.offerings[0].icon;
               return (
-                <motion.div key={i} className="group bg-white/[0.02] p-6 sm:p-7 rounded-2xl border border-white/[0.05] hover:border-[#6EE7B7]/15 transition-all duration-700" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08, duration: 0.6, ease }} whileHover={{ y: -4, transition: { duration: 0.4 } }}>
-                  <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-[#6EE7B7]/[0.06] border border-[#6EE7B7]/[0.08] flex items-center justify-center mb-5 group-hover:shadow-[0_0_20px_rgba(110,231,183,0.08)] transition-all duration-700"><WIcon className="w-6 h-6 text-[#6EE7B7]" /></div>
-                  <h3 className="text-base sm:text-lg font-bold text-white mb-2">{item.title}</h3>
-                  <p className="text-sm sm:text-base text-white/80 leading-relaxed">{item.description}</p>
+                <motion.div key={p.slug} initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.05, duration: 0.5, ease }}>
+                  <Link href={`/services/${p.slug}`} className="group block h-full bg-white/[0.02] p-6 sm:p-7 rounded-2xl border border-white/[0.05] hover:border-[#6EE7B7]/20 hover:-translate-y-1 transition-all duration-500">
+                    <div className="w-11 h-11 rounded-xl bg-[#6EE7B7]/[0.06] border border-[#6EE7B7]/[0.1] flex items-center justify-center mb-5"><Icon className="w-5 h-5 text-[#6EE7B7]" /></div>
+                    <h3 className="text-lg font-bold text-white mb-2">{p.name}</h3>
+                    <p className="text-sm sm:text-base text-white/70 leading-relaxed mb-4">{p.h1Accent}</p>
+                    <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#6EE7B7] group-hover:gap-2.5 transition-all duration-500">Learn more <ArrowRight className="w-4 h-4" /></span>
+                  </Link>
                 </motion.div>
               );
             })}
@@ -448,35 +249,141 @@ export default function HomeClient() {
         </div>
       </section>
 
-      {/* ═══ TECH STACK ═══ */}
+      {/* ═══ PROOF ═══ */}
+      <section id="work" className="py-20 sm:py-28 bg-[#090909] scroll-mt-24">
+        <div className="container max-w-[1920px] px-4 sm:px-6">
+          <SectionHeading eyebrow="Client work" title={content.workTitle} subtitle="AI systems we have built and shipped for clients in the USA, the Middle East, Europe and beyond." />
+          <div className="grid md:grid-cols-2 gap-5 sm:gap-6">
+            {caseStudies.map((c, i) => (
+              <motion.div key={c.id} initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08, duration: 0.6, ease }}>
+                <Link href={`/work/${c.id}`} className="group block h-full bg-white/[0.02] rounded-2xl border border-white/[0.06] hover:border-[#6EE7B7]/20 overflow-hidden transition-all duration-500">
+                  <div className="relative aspect-video bg-gradient-to-br from-[#6EE7B7]/10 to-[#3B82F6]/10">
+                    {projectImages[c.id] && (
+                      <Image src={getImageUrl(projectImages[c.id])} alt={`${c.title} — built by Greatodeal`} fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover group-hover:scale-[1.03] transition-transform duration-700" />
+                    )}
+                  </div>
+                  <div className="p-6 sm:p-7">
+                    <p className="text-xs uppercase tracking-wider text-[#6EE7B7] mb-2">{c.market}</p>
+                    <h3 className="text-lg sm:text-xl font-bold text-white mb-3">{c.title}</h3>
+                    <p className="text-sm sm:text-base text-white/75 leading-relaxed mb-5">{c.result}</p>
+                    <div className="flex flex-wrap items-center gap-2">
+                      {c.tags.map(t => <span key={t} className="px-3 py-1 rounded-full bg-white/[0.04] border border-white/[0.08] text-xs text-white/70">{t}</span>)}
+                      <span className="ml-auto inline-flex items-center gap-1 text-sm font-semibold text-[#6EE7B7]">Case study <ArrowUpRight className="w-4 h-4" /></span>
+                    </div>
+                  </div>
+                </Link>
+              </motion.div>
+            ))}
+          </div>
+          <div className="text-center mt-10">
+            <Link href="/work" className="inline-flex items-center gap-2 font-semibold text-[#6EE7B7] hover:gap-3 transition-all duration-500">View all projects <ArrowRight className="w-4 h-4" /></Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ MID-PAGE CTA ═══ */}
+      <section className="py-14 sm:py-16 bg-[#6EE7B7]/[0.04] border-y border-[#6EE7B7]/10">
+        <div className="container max-w-[1920px] px-4 sm:px-6 flex flex-col lg:flex-row items-center justify-between gap-6 text-center lg:text-left">
+          <div>
+            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-2">Want results like these for your business?</h2>
+            <p className="text-white/75 text-base">Book a free consultation. We reply within 24 hours.</p>
+          </div>
+          <Link href="/contact" className="btn-primary group shrink-0">{content.ctaText} <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-500" /></Link>
+        </div>
+      </section>
+
+      {/* ═══ PROCESS ═══ */}
       <section className="py-20 sm:py-28 bg-[#090909]">
         <div className="container max-w-[1920px] px-4 sm:px-6">
-          <RevealText className="text-center mb-12 sm:mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold mb-5 tracking-tight text-white">{content.techStackTitle}</h2>
-            <p className="text-white/80 max-w-2xl mx-auto text-base sm:text-lg">{content.techStackSubtitle}</p>
-          </RevealText>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
-            {techCategories.map((cat, ci) => (
-              <motion.div key={ci} className="bg-white/[0.02] rounded-2xl border border-white/[0.05] p-5 sm:p-6" initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: ci * 0.1, duration: 0.5, ease }}>
-                <h3 className="text-xs sm:text-sm font-bold text-[#6EE7B7] uppercase tracking-[0.15em] mb-5">{cat.label}</h3>
-                <div className="flex flex-wrap gap-2.5">{cat.items.map((item, ii) => (<motion.span key={ii} className="px-3.5 py-2 bg-[#090909] border border-white/[0.06] rounded-lg text-sm text-white/80 font-medium hover:border-[#6EE7B7]/20 hover:text-[#6EE7B7] transition-all duration-500 cursor-default" initial={{ opacity: 0, scale: 0.9 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ delay: ci * 0.1 + ii * 0.04 }}>{item}</motion.span>))}</div>
-              </motion.div>
+          <SectionHeading eyebrow="Our process" title={content.processTitle} subtitle="We don’t start with code. We start with your business." />
+          <ol className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
+            {processSteps.map(({ icon: Icon, title, desc }, i) => (
+              <motion.li key={title} className="relative bg-white/[0.02] p-6 sm:p-7 rounded-2xl border border-white/[0.05]" initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.07, duration: 0.5, ease }}>
+                <div className="flex items-center justify-between mb-5">
+                  <div className="w-11 h-11 rounded-xl bg-[#6EE7B7]/[0.06] border border-[#6EE7B7]/[0.1] flex items-center justify-center"><Icon className="w-5 h-5 text-[#6EE7B7]" /></div>
+                  <span className="font-mono text-3xl font-bold text-white/10">0{i + 1}</span>
+                </div>
+                <h3 className="text-lg font-bold text-white mb-2">{title}</h3>
+                <p className="text-sm sm:text-base text-white/70 leading-relaxed">{desc}</p>
+              </motion.li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      {/* ═══ INDUSTRIES ═══ */}
+      <section className="py-20 sm:py-28 bg-[#060606] border-y border-white/[0.04]">
+        <div className="container max-w-[1920px] px-4 sm:px-6">
+          <SectionHeading eyebrow="Industries" title={content.industriesTitle} subtitle={<>AI automation built around how your industry works. <Link href="/industries" className="text-[#6EE7B7] hover:underline">See all industries</Link>.</>} />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+            {industries.map(({ name, icon: Icon, color, desc, path }) => (
+              <Link key={name} href={path} className="group bg-white/[0.03] p-5 sm:p-6 rounded-2xl border border-white/[0.05] hover:border-[#6EE7B7]/20 transition-all duration-500 block">
+                <div className="w-12 h-12 rounded-xl bg-white/[0.04] flex items-center justify-center mb-4 group-hover:bg-[#6EE7B7]/[0.06] transition-all duration-500"><Icon className={`w-6 h-6 ${color}`} /></div>
+                <h3 className="text-base font-semibold text-white mb-1.5">{name}</h3>
+                <p className="text-sm text-white/60 leading-relaxed">{desc}</p>
+              </Link>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ═══ CTA ═══ */}
-      <section className="relative py-24 sm:py-32 overflow-hidden">
-        <div className="absolute inset-0"><div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[450px] bg-[#6EE7B7]/[0.04] rounded-full blur-[180px]" /><div className="absolute inset-0 bg-[linear-gradient(rgba(110,231,183,0.015)_1px,transparent_1px),linear-gradient(90deg,rgba(110,231,183,0.015)_1px,transparent_1px)] bg-[size:60px_60px]" /></div>
+      {/* ═══ FOUNDER + WHY US ═══ */}
+      <section className="py-20 sm:py-28 bg-[#090909]">
+        <div className="container max-w-[1920px] px-4 sm:px-6">
+          <SectionHeading eyebrow="Why Greatodeal" title={content.whyUsTitle} />
+          <div className="grid lg:grid-cols-[380px_1fr] gap-10 lg:gap-16 items-start">
+            <RevealText className="bg-white/[0.02] rounded-2xl border border-white/[0.06] overflow-hidden">
+              <Image src="/images/zia-shafique.jpg" alt="Zia Shafique, CEO & Founder of Greatodeal" width={400} height={400} className="w-full h-auto" />
+              <div className="p-6 sm:p-7">
+                <p className="text-xs uppercase tracking-wider text-[#6EE7B7] mb-2">Work directly with the founder</p>
+                <h3 className="text-xl font-bold text-white">{founder.name}</h3>
+                <p className="text-sm text-white/60 mb-4">CEO &amp; Founder · AI Automation Expert</p>
+                <blockquote className="text-white/80 leading-relaxed italic mb-5">
+                  “Before we write a line of code, we understand your business, think critically about what really needs to change, and only then automate it.”
+                </blockquote>
+                <Link href={founder.path} className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#6EE7B7] hover:underline">Read Zia’s profile <ArrowUpRight className="w-4 h-4" /></Link>
+              </div>
+            </RevealText>
+
+            <div>
+              <ul className="grid sm:grid-cols-2 gap-4 sm:gap-5 mb-10">
+                {whyUs.map(({ title, desc }, i) => (
+                  <motion.li key={title} className="bg-white/[0.02] p-6 rounded-2xl border border-white/[0.05]" initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.06, duration: 0.5, ease }}>
+                    <h3 className="flex items-start gap-2 font-bold text-white mb-2"><CheckCircle className="w-5 h-5 text-[#6EE7B7] shrink-0 mt-0.5" /> {title}</h3>
+                    <p className="text-sm sm:text-base text-white/70 leading-relaxed">{desc}</p>
+                  </motion.li>
+                ))}
+              </ul>
+              <h3 className="text-sm font-semibold uppercase tracking-wider text-white/60 mb-3">Clients we serve</h3>
+              <div className="flex flex-wrap gap-2.5 mb-8">
+                {markets.map(m => <span key={m.country} className="px-4 py-2 bg-white/[0.04] border border-white/[0.08] rounded-full text-sm text-white/80">{m.country}</span>)}
+              </div>
+              <h3 className="text-sm font-semibold uppercase tracking-wider text-white/60 mb-3">Built with</h3>
+              <div className="flex flex-wrap gap-2">
+                {techStack.map(t => <span key={t} className="px-3 py-1.5 bg-[#0D0D0D] border border-white/[0.06] rounded-lg text-sm text-white/70">{t}</span>)}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ FINAL CTA: repeat the whole message ═══ */}
+      <section className="relative py-24 sm:py-32 overflow-hidden border-t border-white/[0.04]">
+        <div className="absolute inset-0"><div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[450px] bg-[#6EE7B7]/[0.05] rounded-full blur-[180px]" /></div>
         <div className="container max-w-[1920px] px-4 sm:px-6 relative z-10">
           <motion.div className="text-center max-w-3xl mx-auto" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8, ease }}>
+            <Lightbulb className="w-10 h-10 text-[#6EE7B7] mx-auto mb-6" />
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 leading-[1.15] tracking-tight text-white">{content.finalCtaTitle}</h2>
-            <p className="text-base sm:text-lg text-white/80 mb-10 sm:mb-12 max-w-xl mx-auto leading-[1.8]">We specialize in <strong className="text-white/80">agentic AI, compliance-grade infrastructure, and secure cloud systems</strong>. Whether you&apos;re modernizing legacy systems or launching a new platform, our team builds for the audit you&apos;ll face, not just the demo. Read more on <Link href="/blog" className="text-[#6EE7B7] hover:underline">our blog</Link>.</p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <p className="text-base sm:text-lg text-white/80 mb-10 leading-[1.8]">{content.finalCtaSubtitle}</p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
               <Link href="/contact" className="btn-primary group">{content.finalCtaButtonText} <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-500" /></Link>
-              <Link href="/pricing" className="px-8 py-4 border border-white/[0.08] text-white rounded-xl font-bold text-[15px] hover:border-[#6EE7B7]/30 hover:bg-[#6EE7B7]/[0.03] transition-all duration-700 flex items-center justify-center gap-2">View Pricing</Link>
+              <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="px-8 py-4 border border-white/[0.1] text-white rounded-xl font-bold text-[15px] hover:border-[#6EE7B7]/30 hover:bg-[#6EE7B7]/[0.03] transition-all duration-700 flex items-center justify-center gap-2">
+                <MessageSquare className="w-5 h-5" /> Chat on WhatsApp
+              </a>
             </div>
+            <p className="text-sm text-white/55">
+              Or email <a href="mailto:sales@greatodeal.com" className="inline-flex items-center gap-1 text-[#6EE7B7] hover:underline"><Mail className="w-3.5 h-3.5" />sales@greatodeal.com</a> · We reply within 24 hours
+            </p>
           </motion.div>
         </div>
       </section>

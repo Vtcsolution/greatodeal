@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import HomeClient from '@/components/pages/HomeClient';
 import FaqSection from '@/components/ui/FaqSection';
 import { servicePages } from '@/lib/servicePages';
+import { marketsFaq } from '@/lib/markets';
 
 export const metadata: Metadata = {
   title: 'Greatodeal | AI Agent Development & Custom Software Company',
@@ -53,25 +54,27 @@ const homePageSchema = {
   '@type': 'WebPage',
   '@id': 'https://greatodeal.com/#webpage',
   url: 'https://greatodeal.com',
-  name: 'Greatodeal | AI SaaS & Agentic Automation for Regulated Industries',
-  description: 'AI SaaS and agentic automation for government, healthcare, fintech, green tech, and real estate, built with compliance, security, and auditability from day one.',
+  name: 'Greatodeal | AI Agent Development & Custom Software Company',
+  description: 'Greatodeal is an AI automation agency building AI agents, AI voice agents, chatbots, SaaS and custom software for businesses in the USA, UK, Europe and the Middle East.',
   isPartOf: { '@id': 'https://greatodeal.com/#website' },
   about: { '@id': 'https://greatodeal.com/#organization' },
   breadcrumb: { '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: 'Home', item: 'https://greatodeal.com' }] },
   speakable: {
     '@type': 'SpeakableSpecification',
-    cssSelector: ['h1', 'h2', '.hero-description'],
+    cssSelector: ['h1', 'h2'],
   },
 };
 
 const faqs = [
-  { question: 'What does Greatodeal build?', answer: 'Greatodeal builds AI SaaS platforms and agentic automation, including autonomous AI agents, compliance-grade infrastructure, industry-specific software, and secure integrations, for institutions operating under regulatory and audit requirements.' },
-  { question: 'Which industries does Greatodeal focus on?', answer: 'Greatodeal focuses on government and healthcare as its primary industries, with fintech, green tech, real estate, and AI automation as secondary areas of focus. These are all sectors where compliance, audit, and security are core requirements, not optional extras.' },
-  { question: 'How does Greatodeal handle compliance and audit requirements?', answer: 'Compliance is built into the architecture from the start: immutable audit trails, zero-trust access control, encryption at rest and in transit, and explainable AI decisions that can be reviewed and appealed rather than treated as a black box.' },
-  { question: 'Does Greatodeal build agentic AI systems?', answer: 'Yes. Greatodeal builds agentic AI systems that execute multi-step operational workflows within defined guardrails, with human-in-the-loop review for decisions that affect people, and full logging of every automated action.' },
-  { question: 'How can I request a demo from Greatodeal?', answer: 'You can request a demo via the contact form at greatodeal.com/contact, by email at sales@greatodeal.com, or via WhatsApp. Our team responds within 24 hours.' },
-  { question: 'Is Greatodeal an AI automation agency based in Lahore, Pakistan?', answer: 'Yes. Greatodeal is an AI automation agency headquartered in Lahore, Pakistan, providing AI agent development, agentic automation, and AI services to clients in Pakistan and internationally.' },
-  { question: 'What is an AI agent, and does Greatodeal build them?', answer: 'An AI agent is a system that can plan and execute multi-step tasks toward a goal, rather than just responding to a single prompt. Greatodeal builds AI agents and agentic automation that connect a business\'s tools and workflows into one operational system, with human review built in for actions that matter.' },
+  { question: 'What does Greatodeal do?', answer: 'Greatodeal is an AI automation agency and custom software company. We build AI agents, AI voice agents and receptionists, AI chatbots, workflow automation, SaaS platforms, CRMs and mobile apps that take repetitive work off your team, from call follow-ups and lead qualification to data entry and reporting.' },
+  { question: 'What is an AI automation agency?', answer: 'An AI automation agency finds the manual, repetitive work in a business and replaces it with automated systems, using AI for steps that need reading, writing or judgment, and integrations to move data between your tools. The goal is fewer manual steps, faster response times and lower operating costs.' },
+  { question: 'What is an AI agent?', answer: 'An AI agent is software that plans and carries out multi-step tasks toward a goal, such as qualifying a lead, updating your CRM and sending a follow-up, instead of only answering one question like a chatbot. We build AI agents with human review for actions that matter and a full log of everything they do.' },
+  { question: 'How much does AI automation cost?', answer: 'It depends on how many systems are connected and how complex the workflow is. A single automated workflow costs far less than a full AI platform. In a free consultation we map your workflow and give you a clear roadmap with scope, timeline and a fixed or milestone-based price before any work starts.' },
+  { question: 'How long does it take to build?', answer: 'A focused AI agent or automation for one workflow can often go live in a few weeks. Larger platforms are delivered in phases, so you start seeing results early instead of waiting for everything to be finished.' },
+  { question: 'Will AI automation replace my team?', answer: 'No. It removes the repetitive work so your team can spend time on clients, sales and decisions. Every system we build keeps a human in control of the actions that matter.' },
+  marketsFaq,
+  { question: 'Who founded Greatodeal?', answer: 'Greatodeal was founded in 2020 by Zia Shafique (Muhammad Zia ul Rehman), who leads the company as CEO. He is an AI automation expert and business analyst who works directly with clients on strategy and roadmaps.' },
+  { question: 'How do I get started?', answer: 'Book a free 30-minute consultation at greatodeal.com/contact, message us on WhatsApp, or email sales@greatodeal.com. We reply within 24 hours.' },
 ];
 
 const faqSchema = {
@@ -95,13 +98,27 @@ const serviceSchema = {
 // less complete copy here just gives Google two conflicting descriptions of
 // the same business, which hurts entity recognition rather than helping it.
 
-export default function HomePage() {
+// First image of each public portfolio project, keyed by project id, for the home
+// page case-study cards. Cards still render (without a screenshot) if this fails.
+async function getProjectImages(): Promise<Record<string, string>> {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001'}/api/portfolio/public`, { next: { revalidate: 3600 } });
+    const data = await res.json();
+    const projects: Array<{ _id: string; images?: string[] }> = data?.data?.projects || [];
+    return Object.fromEntries(projects.filter(p => p.images?.[0]).map(p => [p._id, p.images![0]]));
+  } catch {
+    return {};
+  }
+}
+
+export default async function HomePage() {
+  const projectImages = await getProjectImages();
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(homePageSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }} />
-      <HomeClient />
+      <HomeClient projectImages={projectImages} />
       <FaqSection faqs={faqs} />
     </>
   );
