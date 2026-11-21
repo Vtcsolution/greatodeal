@@ -253,23 +253,23 @@ export default function HomeClient({ projectImages = {} }: { projectImages?: Rec
       <section id="work" className="py-20 sm:py-28 bg-[#090909] scroll-mt-24">
         <div className="container max-w-[1920px] px-4 sm:px-6">
           <SectionHeading eyebrow="Client work" title={content.workTitle} subtitle="AI systems we have built and shipped for clients in the USA, the Middle East, Europe and beyond." />
-          <div className="grid md:grid-cols-2 gap-5 sm:gap-6">
+          <div className="grid sm:grid-cols-2 xl:grid-cols-4 gap-5">
             {caseStudies.map((c, i) => (
               <motion.div key={c.id} initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08, duration: 0.6, ease }}>
-                <Link href={`/work/${c.id}`} className="group block h-full bg-white/[0.02] rounded-2xl border border-white/[0.06] hover:border-[#6EE7B7]/20 overflow-hidden transition-all duration-500">
-                  <div className="relative aspect-video bg-gradient-to-br from-[#6EE7B7]/10 to-[#3B82F6]/10">
+                <Link href={`/work/${c.id}`} className="group flex flex-col h-full bg-white/[0.02] rounded-2xl border border-white/[0.06] hover:border-[#6EE7B7]/20 overflow-hidden transition-all duration-500">
+                  <div className="relative aspect-[16/10] bg-[#0D0D0D] border-b border-white/[0.06]">
                     {projectImages[c.id] && (
-                      <Image src={getImageUrl(projectImages[c.id])} alt={`${c.title} — built by Greatodeal`} fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover group-hover:scale-[1.03] transition-transform duration-700" />
+                      <Image src={getImageUrl(projectImages[c.id])} alt={`${c.title} — built by Greatodeal`} fill sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 25vw" className="object-contain group-hover:scale-[1.02] transition-transform duration-700" />
                     )}
                   </div>
-                  <div className="p-6 sm:p-7">
-                    <p className="text-xs uppercase tracking-wider text-[#6EE7B7] mb-2">{c.market}</p>
-                    <h3 className="text-lg sm:text-xl font-bold text-white mb-3">{c.title}</h3>
-                    <p className="text-sm sm:text-base text-white/75 leading-relaxed mb-5">{c.result}</p>
-                    <div className="flex flex-wrap items-center gap-2">
-                      {c.tags.map(t => <span key={t} className="px-3 py-1 rounded-full bg-white/[0.04] border border-white/[0.08] text-xs text-white/70">{t}</span>)}
-                      <span className="ml-auto inline-flex items-center gap-1 text-sm font-semibold text-[#6EE7B7]">Case study <ArrowUpRight className="w-4 h-4" /></span>
+                  <div className="flex flex-col flex-1 p-5">
+                    <p className="text-[11px] uppercase tracking-wider text-[#6EE7B7] mb-1.5">{c.market}</p>
+                    <h3 className="text-base font-bold text-white mb-2 leading-snug">{c.title}</h3>
+                    <p className="text-sm text-white/70 leading-relaxed mb-4">{c.result}</p>
+                    <div className="mt-auto flex flex-wrap items-center gap-1.5">
+                      {c.tags.map(t => <span key={t} className="px-2.5 py-0.5 rounded-full bg-white/[0.04] border border-white/[0.08] text-[11px] text-white/65">{t}</span>)}
                     </div>
+                    <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-[#6EE7B7]">Case study <ArrowUpRight className="w-4 h-4" /></span>
                   </div>
                 </Link>
               </motion.div>
