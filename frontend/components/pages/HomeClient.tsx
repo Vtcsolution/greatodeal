@@ -152,7 +152,7 @@ export default function HomeClient({ projectImages = {} }: { projectImages?: Rec
       {/* ═══ HERO: the whole message in one screen ═══ */}
       <section className="relative min-h-screen flex items-start overflow-hidden">
         <div className="absolute inset-0 z-0"><div className="absolute inset-0 bg-gradient-to-b from-[#090909]/60 via-transparent to-[#090909]" /></div>
-        <div className="container max-w-[1920px] relative z-10 pt-24 sm:pt-28 pb-20 px-4 sm:px-6 lg:px-9">
+        <div className="container max-w-[1920px] relative z-10 pt-24 sm:pt-28 pb-20 px-4 sm:px-6 lg:px-[31px]">
           <div className="grid lg:grid-cols-2 gap-14 lg:gap-20 items-center">
             <div className="space-y-8">
               <motion.div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#6EE7B7]/20 bg-[#6EE7B7]/[0.06]" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.1, ease }}>
@@ -213,7 +213,7 @@ export default function HomeClient({ projectImages = {} }: { projectImages?: Rec
 
       {/* ═══ PROBLEM → FIX ═══ */}
       <section className="py-20 sm:py-28 bg-[#090909]">
-        <div className="container max-w-[1920px] px-4 sm:px-6 lg:px-9">
+        <div className="container max-w-[1920px] px-4 sm:px-6 lg:px-[31px]">
           <SectionHeading eyebrow="Sound familiar?" title="Most businesses don’t need more people. They need fewer manual steps." subtitle="These are the problems we solve every week with AI automation and custom software." />
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
             {painPoints.map(({ icon: Icon, pain, fix }, i) => (
@@ -229,7 +229,7 @@ export default function HomeClient({ projectImages = {} }: { projectImages?: Rec
 
       {/* ═══ SERVICES ═══ */}
       <section className="py-20 sm:py-28 bg-[#060606] border-y border-white/[0.04]">
-        <div className="container max-w-[1920px] px-4 sm:px-6 lg:px-9">
+        <div className="container max-w-[1920px] px-4 sm:px-6 lg:px-[31px]">
           <SectionHeading eyebrow="AI automation & software services" title={content.whatWeBuildTitle} subtitle={content.whatWeBuildSubtitle} />
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
             {servicePages.map((p, i) => {
@@ -251,7 +251,7 @@ export default function HomeClient({ projectImages = {} }: { projectImages?: Rec
 
       {/* ═══ PROOF ═══ */}
       <section id="work" className="py-20 sm:py-28 bg-[#090909] scroll-mt-24">
-        <div className="container max-w-[1920px] px-4 sm:px-6 lg:px-9">
+        <div className="container max-w-[1920px] px-4 sm:px-6 lg:px-[31px]">
           <SectionHeading eyebrow="Client work" title={content.workTitle} subtitle="AI systems we have built and shipped for clients in the USA, the Middle East, Europe and beyond." />
           <div className="grid sm:grid-cols-2 xl:grid-cols-4 gap-5">
             {caseStudies.map((c, i) => (
@@ -283,7 +283,7 @@ export default function HomeClient({ projectImages = {} }: { projectImages?: Rec
 
       {/* ═══ MID-PAGE CTA ═══ */}
       <section className="py-14 sm:py-16 bg-[#6EE7B7]/[0.04] border-y border-[#6EE7B7]/10">
-        <div className="container max-w-[1920px] px-4 sm:px-6 lg:px-9 flex flex-col lg:flex-row items-center justify-between gap-6 text-center lg:text-left">
+        <div className="container max-w-[1920px] px-4 sm:px-6 lg:px-[31px] flex flex-col lg:flex-row items-center justify-between gap-6 text-center lg:text-left">
           <div>
             <h2 className="text-2xl sm:text-3xl font-bold text-white mb-2">Want results like these for your business?</h2>
             <p className="text-white/75 text-base">Book a free consultation. We reply within 24 hours.</p>
@@ -294,7 +294,7 @@ export default function HomeClient({ projectImages = {} }: { projectImages?: Rec
 
       {/* ═══ PROCESS ═══ */}
       <section className="py-20 sm:py-28 bg-[#090909]">
-        <div className="container max-w-[1920px] px-4 sm:px-6 lg:px-9">
+        <div className="container max-w-[1920px] px-4 sm:px-6 lg:px-[31px]">
           <SectionHeading eyebrow="Our process" title={content.processTitle} subtitle="We don’t start with code. We start with your business." />
           <ol className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
             {processSteps.map(({ icon: Icon, title, desc }, i) => (
@@ -313,7 +313,7 @@ export default function HomeClient({ projectImages = {} }: { projectImages?: Rec
 
       {/* ═══ INDUSTRIES ═══ */}
       <section className="py-20 sm:py-28 bg-[#060606] border-y border-white/[0.04]">
-        <div className="container max-w-[1920px] px-4 sm:px-6 lg:px-9">
+        <div className="container max-w-[1920px] px-4 sm:px-6 lg:px-[31px]">
           <SectionHeading eyebrow="Industries" title={content.industriesTitle} subtitle={<>AI automation built around how your industry works. <Link href="/industries" className="text-[#6EE7B7] hover:underline">See all industries</Link>.</>} />
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
             {industries.map(({ name, icon: Icon, color, desc, path }) => (
@@ -329,7 +329,7 @@ export default function HomeClient({ projectImages = {} }: { projectImages?: Rec
 
       {/* ═══ FOUNDER + WHY US ═══ */}
       <section className="py-20 sm:py-28 bg-[#090909]">
-        <div className="container max-w-[1920px] px-4 sm:px-6 lg:px-9">
+        <div className="container max-w-[1920px] px-4 sm:px-6 lg:px-[31px]">
           <SectionHeading eyebrow="Why Greatodeal" title={content.whyUsTitle} />
           <div className="grid lg:grid-cols-[380px_1fr] gap-10 lg:gap-16 items-start">
             <RevealText className="bg-white/[0.02] rounded-2xl border border-white/[0.06] overflow-hidden">
@@ -370,7 +370,7 @@ export default function HomeClient({ projectImages = {} }: { projectImages?: Rec
       {/* ═══ FINAL CTA: repeat the whole message ═══ */}
       <section className="relative py-24 sm:py-32 overflow-hidden border-t border-white/[0.04]">
         <div className="absolute inset-0"><div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[450px] bg-[#6EE7B7]/[0.05] rounded-full blur-[180px]" /></div>
-        <div className="container max-w-[1920px] px-4 sm:px-6 lg:px-9 relative z-10">
+        <div className="container max-w-[1920px] px-4 sm:px-6 lg:px-[31px] relative z-10">
           <motion.div className="text-center max-w-3xl mx-auto" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8, ease }}>
             <Lightbulb className="w-10 h-10 text-[#6EE7B7] mx-auto mb-6" />
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 leading-[1.15] tracking-tight text-white">{content.finalCtaTitle}</h2>
